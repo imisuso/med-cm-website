@@ -1,0 +1,230 @@
+<template>
+<AdminAppLayout>
+  <div class="flex flex-wrap justify-center">
+    <div class="w-full lg:w-11/12">
+        <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
+            <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
+            <select v-model="Form.division_selected" @change="showBranchMainMenu" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <template v-for="(option, index) in divisions" :key="index">
+                    <option v-if="option.division_id < 19" :value="option.division_id">
+                    {{ option.name_th }}
+                    </option>
+                </template>              
+            </select>
+        </div>
+        <div class="flex items-center justify-between mt-2 mb-2 ml-2 text-2xl text-orange-800 font-bold">
+            <div>{{ getDivisionNameFromId() }}</div> 
+            <!-- <div> สาขาวิชา{{ $page.props.auth.division_name_th }} </div> -->
+            <div class="flex space-x-4 mx-5">
+                <svg @click="allTabExpandOrCollapse(true)" class="h-6 w-6 text-emerald-500 cursor-pointer"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+                <svg @click="allTabExpandOrCollapse(false)" class="h-6 w-6 text-emerald-500 cursor-pointer"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                </svg>
+            </div>
+        </div>
+        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-col ">
+            <template v-for="(menu, index) in branchMainMenu" :key="menu.main_header_id" :index="index">
+                <!-- {{ getBranchSubMenu( menu.main_header_id ) }} -->
+                <li class="mb-2 mx-2 last:mr-0 flex-auto text-left">
+                    <div class="flex justify-between flex-wrap sm:flex-nowrap">
+                        <a class="w-full mr-2 transition duration-400 ease-in-out transform hover:-translate-y-1 hover:scale-104 text-lg font-bold uppercase px-5 py-2 shadow-lg rounded leading-normal flex items-center cursor-pointer" v-on:click="toggleTabs(menu.main_header_id, index)" v-bind:class="{'text-blue-600 bg-white': openTab !== menu.main_header_id, 'text-white bg-blue-600': openTab === menu.main_header_id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
+                            </svg>
+                            {{ menu.main_header_name_th }}
+                        </a>
+                        <div class="flex items-center my-2 sm:my-0">
+                            <div class="text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                </svg>
+                            </div>
+                            <ToggleSwitch :status="menu.status" @button-is-toggle="switchButtonToggle(menu)"/>
+                            <!-- <ToggleSwitch v-model:status="menu.status" @button-is-toggle="switchButtonToggle(menu)"/> -->
+                            <div class="text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded" v-bind:class="[menu.is_active ? 'block' : 'hidden']">
+                        <div class="px-4 py-5 flex-auto ">
+                            <div class="">
+                                <div >
+                                    <!-- Hi {{ menu.component_name }} -->
+                                    <!-- <component :is='menu.component_name' /> -->
+                                    <!-- <component :is="dynamicComponents[menu.component_name]" :user_branch_id="user_branch_id" />    -->
+                                    <BtAbout :division_id="Form.division_selected" :branchSubMenu="getBranchSubMenu( menu.main_header_id )" v-if="menu.component_name === 'BtAbout' && menu.status"/>
+                                    <BtEdu :division_id="Form.division_selected" :branchSubMenu="getBranchSubMenu( menu.main_header_id )" display_content="template" v-if="menu.component_name === 'BtEdu' && menu.status"/>
+                                    <BtProfessor :division_id="Form.division_selected" v-if="menu.component_name === 'BtProfessor' && menu.status"/>
+                                    <BtDoctor :division_id="Form.division_selected" v-if="menu.component_name === 'BtDoctor' && menu.status"/>
+                                    <BtOfficer :division_id="Form.division_selected" v-if="menu.component_name === 'BtOfficer' && menu.status"/>
+                                    <BtResearch :division_id="Form.division_selected" :branchSubMenu="getOneBranchSubMenu( menu.main_header_id )" display_content="template" v-if="menu.component_name === 'BtResearch' && menu.status"/>
+                                    <BtBranchService :division_id="Form.division_selected" :branchSubMenu="getOneBranchSubMenu( menu.main_header_id )" display_content="template" v-if="menu.component_name === 'BtBranchService' && menu.status"/>
+                                    <BtAcademicService :division_id="Form.division_selected" :branchSubMenu="getOneBranchSubMenu( menu.main_header_id )" display_content="template" v-if="menu.component_name === 'BtAcademicService' && menu.status"/>
+                                    <BtLink :division_id="Form.division_selected" :branchSubMenu="getOneBranchSubMenu( menu.main_header_id )" display_content="template" v-if="menu.component_name === 'BtLink' && menu.status"/>
+                                    <BtContact :division_id="Form.division_selected" :branchSubMenu="getOneBranchSubMenu( menu.main_header_id )" display_content="template" v-if="menu.component_name === 'BtContact' && menu.status"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </template>
+        </ul>
+    </div>
+  </div>
+</AdminAppLayout>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { usePage, useForm } from '@inertiajs/inertia-vue3'
+import ToggleSwitch from '@/Components/ToggleSwitch'
+import BtAbout from '@/Components/BranchTemplate/BtAbout'
+import BtResearch from '@/Components/BranchTemplate/BtResearch'
+import BtEdu from '@/Components/BranchTemplate/BtEdu'
+import BtProfessor from '@/Components/BranchTemplate/BtProfessor'
+import BtDoctor from '@/Components/BranchTemplate/BtDoctor'
+import BtOfficer from '@/Components/BranchTemplate/BtOfficer'
+import BtLink from '@/Components/BranchTemplate/BtLink'
+import BtContact from '@/Components/BranchTemplate/BtContact'
+import BtBranchService from '@/Components/BranchTemplate/BtBranchService'
+import BtAcademicService from '@/Components/BranchTemplate/BtAcademicService'
+
+// API Service
+import DivisionService from '@/Services/DivisionService'
+//import { BranchMainMenuService, BranchSubMenuService } from '@/Services/BranchMenuService'
+
+import { createToast } from 'mosha-vue-toastify'
+import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
+
+const props = defineProps({
+    division_id: { type: Number, required: true },
+    branch_main_menu: { type: Array, required: true },
+    branch_sub_menu: { type: Array, required: true },
+})
+
+onMounted(() => {
+    divisionService.value.listAll().then(data => {
+        divisions.value = data
+    });
+
+    branchMainMenu.value = props.branch_main_menu
+    branchSubMenu.value =  props.branch_sub_menu
+
+    // branchMainMenuService.value.listBranchMainMenuByDivision(props.division_id).then(data => {
+    //     branchMainMenu.value = data
+    // });
+
+    // branchSubMenuService.value.listBranchSubMenuByDivision(props.division_id).then(data => {
+    //     branchSubMenu.value = data
+    // });
+})
+
+const divisionService = ref(new DivisionService())
+//const branchMainMenuService = ref(new BranchMainMenuService())
+//const branchSubMenuService = ref(new BranchSubMenuService())
+
+const divisions = ref([])
+const branchMainMenu = ref([])
+const branchSubMenu = ref([])
+
+const Form = useForm({
+  division_selected: props.division_id
+});
+
+const openTab = ref()
+
+const toggleTabs = (tabNumber, index) => {
+    openTab.value = tabNumber
+    branchMainMenu.value[index].is_active = !branchMainMenu.value[index].is_active
+    
+}
+
+const toast = (severity, summary, detail) => {
+    createToast({
+      title: summary,
+      description: detail
+    },
+    {
+      showIcon: true,
+      transition: 'zoom',  // Can bounce, zoom, slide
+      position: 'top-right', // Can top-left, top-right, top-center, bottom-left, bottom-right, bottom-center
+      type: severity,    // Can default, info, warning, success, danger
+      timeout: 3000,
+      //toastBackgroundColor: bg_color,
+    })
+}
+
+const switchButtonToggle = (menu) => {
+    // console.log(menu.id);
+    Inertia.patch(route('admin.change_status_branch_main_menu', menu.id), {}, {
+        onBefore: () => {
+            if( menu.status ) { 
+                return confirm('คุณต้องการปิดการแสดงผลเมนูนี้ ใช่ หรือ ไม่ ?')
+            } else {
+                return confirm('คุณต้องการเปิดการแสดงผลเมนูนี้ ใช่ หรือ ไม่ ?')
+            }
+        },
+        onSuccess: () => {
+            //console.log("onSuccess state")
+            menu.status = ! menu.status
+            toast('success', 'สำเร็จ', 'เปลี่ยนสถานะการแสดงผลเมนูเรียบร้อย')
+        },
+        onError: (errors) => {
+            //console.log("onError state")
+            toast('danger', errors.msg, errors.sysmsg)
+        },
+        onFinish: () => {
+            //console.log("onFinish state")
+        }
+    })
+    //console.log(menu.status)
+}
+
+const allTabExpandOrCollapse = ( flag ) => {
+    branchMainMenu.value.forEach(element => {
+        element.is_active = flag
+    });
+}
+
+const showBranchMainMenu = () => {
+    Inertia.post(route('admin.show_branch_main_menu', Form.division_selected), {}, {
+        preserveState: false,
+        onSuccess: () => {},
+        onError: (errors) => {},
+        onFinish: () => {}
+    })
+}
+
+const getDivisionNameFromId = () => {
+    let division = divisions.value.filter( (elm) => { return elm.division_id === Form.division_selected });
+    //console.log(division)
+    if(division.length > 0) {
+        return `${division[0].division_type}${division[0].name_th}`
+    } else {
+        return ""
+    }
+}
+
+const getBranchSubMenu = ( main_header_id ) => {
+    return branchSubMenu.value.filter( item => item.main_header_id === main_header_id ) // เอาทุกค่าที่ match
+}
+
+const getOneBranchSubMenu = ( main_header_id ) => {
+    let subMenu = {}
+    subMenu = branchSubMenu.value.find( item => item.main_header_id === main_header_id) // เอาค่าแรกที่เจอค่าเดียว
+    //console.log(subMenu.detail_delta)
+    return subMenu
+}
+
+</script>
+
+<style scoped>
+
+</style>

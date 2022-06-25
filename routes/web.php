@@ -1,0 +1,380 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+// CONTROLLER
+use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\AnnounceController;
+use App\Http\Controllers\BranchRichTextContentController;
+use App\Http\Controllers\BranchEduContentController;
+use App\Http\Controllers\BranchMainMenuTemplateController;
+use App\Http\Controllers\BranchSubMenuTemplateController;
+use App\Http\Controllers\BranchMainMenuController;
+use App\Http\Controllers\BranchSubMenuController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\PosterController;
+use App\Http\Controllers\PageDownloadController;
+
+// API
+use App\Http\Controllers\API\FileUploadController;
+use App\Http\Controllers\API\TraceLogController;
+use App\Http\Controllers\InfomedMonitorController;
+
+// MODEL
+use App\Models\Announce;
+use App\Models\BranchMainMenu;
+use App\Models\BranchSubMenu;
+use App\Models\Division;
+use App\Models\Person;
+use App\Models\User;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// Route::post('/webmed_api', [InfomedMonitorController::class, 'index']);
+
+Route::get('/', function () {
+    return Inertia::render('Index');
+})->name('index');
+
+Route::get('/executive_director', function () {
+    return Inertia::render('ExecutiveDirector');
+})->name('executive_director');
+
+Route::get('/history', function () {
+    return Inertia::render('History');
+})->name('history');
+
+Route::get('/department_leader', function () {
+    return Inertia::render('DepartmentLeader');
+})->name('department_leader');
+
+Route::get('/consultant', function () {
+    $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division')
+                        ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1, 2, 3, 4])
+                        ->orderBy('display_order', 'asc')->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
+    
+    //Log::channel('single')->info($listConsultant);
+    return Inertia::render('Consultant', compact('listConsultant'));
+})->name('consultant');
+
+Route::get('/org_chart', function () {
+    return Inertia::render('OrgChart');
+})->name('org_chart');
+
+Route::get('/contact_us', function () {
+    return Inertia::render('ContactUs');
+})->name('contact_us');
+
+Route::get('/officer', function () {
+    $secretary_sap_id = env('SECRETARY_SAP_ID', '00000000');
+
+    $units = Division::select('slug', 'name_th', 'division_id', 'type')
+                        ->where('type', 'u')->orderBy('division_id', 'asc')->get();
+
+    $secretary = Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type')
+                        ->where('sap_id', $secretary_sap_id)->where('status', true)->first();
+
+    return Inertia::render('Officer', compact('units', 'secretary'));
+})->name('officer');
+
+Route::get('/post_graduate', function () {
+    return Inertia::render('PostGraduate');
+})->name('post_graduate');
+
+Route::get('/under_construction', function () {
+    return Inertia::render('UnderConstruction');
+})->name('under_construction');
+
+Route::get('/branch', function () {
+    return Inertia::render('Branch');
+})->name('branch');
+
+Route::get('/image_preview', function () {
+    return Inertia::render('ImagePreview');
+})->name('image_preview');
+
+// ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
+Route::get('/admin', function () {
+    return Inertia::render('Admin/Index');
+})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
+
+//LoginController =>
+Route::controller(LoginController::class)
+    ->group(function () {
+        Route::get('/login', 'index')->name('login');
+        Route::post('/login-authen', 'login_authen')->name('login_authen');
+        Route::get('/logout', 'destroy')->name('logout');
+        //Route::get('/login-as/{name}','loginAs')->name('login_as');
+    });
+
+
+//DivisionController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ สาขา และ แผนก
+Route::group(['middleware' => ['auth', 'can:manage_divisions'] ], function () {
+    Route::get('/admin/division', [DivisionController::class, 'index'])->name('admin.division');
+    Route::post('/admin/add_division', [DivisionController::class, 'store'])->name('admin.add_division');
+    Route::post('/admin/{id}/update_division', [DivisionController::class, 'update'])->name('admin.update_division');
+    Route::delete('/admin/{id}/delete_division', [DivisionController::class, 'destroy'])->name('admin.delete_division');
+});
+Route::get('/admin/list_branch_only', [DivisionController::class, 'listBranchOnly'])->name('admin.list_branch_only');
+Route::get('/admin/list_division_all', [DivisionController::class, 'listAll'])->name('admin.list_division_all');
+
+//PosterController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ รูปภาพ poster ต่างๆ
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_posters'])
+    ->controller(PosterController::class)
+    ->group(function () {
+        Route::get('/poster', 'index')->name('admin.poster');
+        Route::post('/add_poster', 'store')->name('admin.add_poster');
+        Route::patch('/update_poster_display_status/{Poster}', 'updatePosterDisplayStatus')->name('admin.update_poster_display_status');
+        Route::delete('/delete_poster/{Poster}', 'destroy')->name('admin.delete_poster');
+    });
+Route::get('/list_enabled_poster', [PosterController::class, 'showListEnabledPoster'])->name('list_enabled_poster');
+
+//GalleryController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ รูปภาพกิจกรรม ต่างๆ
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_galleries'])
+    ->controller(GalleryController::class)
+    ->group(function () {
+        Route::get('/gallery', 'index_admin')->name('admin.gallery');
+        Route::get('/check_gallery_empty/{event_date}', 'checkGalleryEmpty')->name('admin.check_gallery_empty');
+        Route::post('/add_gallery', 'store')->name('admin.add_gallery');
+        Route::post('/update_gallery/{Gallery}', 'update')->name('admin.update_gallery');
+        Route::patch('/update_gallery_display_status/{Gallery}', 'updateGalleryDisplayStatus')->name('admin.update_gallery_display_status');
+        Route::delete('/delete_gallery/{Gallery}', 'destroy')->name('admin.delete_gallery');
+
+        Route::get('/manage_gallery/{Gallery}', 'manageGallery')->name('admin.manage_gallery');
+        Route::post('/upload_image_to_gallery/{event_date}', 'uploadImageToGallery')->name('admin.upload_image_to_gallery');
+        Route::delete('/delete_gallery_image', 'destroyGalleryImage')->name('admin.delete_gallery_image');
+    });
+Route::get('/list_enabled_gallery', [GalleryController::class, 'showListEnabledGallery'])->name('list_enabled_gallery');
+Route::get('/show_gallery/{event_date}', [GalleryController::class, 'show'])->name('show_gallery');
+
+//PersonController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ บุคคลากรในภาควิชา
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_person'])
+    ->controller(PersonController::class)
+    ->group(function () {
+        Route::match(['get', 'post'], '/person', 'index')->name('admin.person');
+        Route::get('/person_order/{division_slug}', 'index_order')->name('admin.person_order');
+        Route::post('/add_person', 'store')->name('admin.add_person');
+        Route::post('/update_person/{Person}', 'update')->name('admin.update_person');
+        Route::patch('/update_person_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.update_person_display_status');
+        Route::delete('/delete_person', 'destroy')->name('admin.delete_person');
+        Route::post('/update_person_display_order', 'updatePersonDisplayOrder')->name('admin.update_person_display_order');
+        Route::get('/list_person_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('admin.list_person_by_division_and_type');
+    });
+//Route::get('/list_person_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('list_person_by_division_and_type');
+Route::get('/person/show/{id}', [PersonController::class, 'show'])->name('person.show');
+Route::get('/admin/list_person_display_by_division_id/{id}', [PersonController::class, 'listPersonDisplayByDivisionId'])->name('admin.list_person_display_by_division_id');
+Route::get('/list_professor_by_division_id/{id}', [PersonController::class, 'listProfessorByDivisionId'])->name('list_professor_by_division_id');
+Route::get('/list_doctor_by_division_id/{id}', [PersonController::class, 'listDoctorByDivisionId'])->name('list_doctor_by_division_id');
+Route::get('/list_officer_by_division_id/{id}', [PersonController::class, 'listOfficerByDivisionId'])->name('list_officer_by_division_id');
+
+//AnnounceController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ ข่าวประกาศในภาควิชา
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_announce'])
+    ->controller(AnnounceController::class)
+    ->group(function () {
+        Route::get('/announce', 'index')->name('admin.announce');
+        Route::post('/announce', 'index')->name('admin.announce');
+        Route::post('/add_announce', 'store')->name('admin.add_announce');
+        Route::post('/update_announce/{id}', 'update')->name('admin.update_announce');
+        Route::post('/delete_announce/{id}', 'destroy')->name('admin.delete_announce');
+    });
+Route::get('/admin/list_announce_all', [AnnounceController::class, 'listAll'])->name('admin.list_announce_all');
+Route::get('/list_announce_show/{record}', [AnnounceController::class, 'listShow'])->name('list_announce_show');
+Route::get('/announce_details/{slug}', [AnnounceController::class, 'listMe'])->name('announce_details');
+Route::get('/announce_all_publish', function () {
+    return Inertia::render('AnnounceAllPublish');
+})->name('announce_all_publish');
+Route::get('/announce_download_pdf', [AnnounceController::class, 'downloadPdf'])->name('announce_download_pdf');
+Route::post('/admin/toggle_publish_announce/{id}', [AnnounceController::class, 'togglePublish'])->name('admin.toggle_publish_announce')
+        ->middleware('auth', 'can:publish_unpublish_announce');
+Route::post('/admin/toggle_pin_announce/{id}', [AnnounceController::class, 'togglePin'])->name('admin.toggle_pin_announce')
+        ->middleware('auth', 'can:pin_unpin_announce');
+
+//BranchMainMenuTemplateController
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_division_content'])
+    ->controller(BranchMainMenuTemplateController::class)
+    ->group(function () {
+        Route::get('/branch_template_editor', 'index')->name('admin.branch_template_editor');
+        Route::post('/show_branch_main_menu/{division_id}', 'show')->name('admin.show_branch_main_menu');
+        Route::patch('/change_status_branch_main_menu/{BranchMainMenu}', 'changeStatusMenu')->name('admin.change_status_branch_main_menu');
+    });
+Route::post('/admin/list_branch_main_menu_by_division/{division_id}', [BranchMainMenuTemplateController::class, 'listMainMenuByDivision'])->name('admin.list_branch_main_menu_by_division');
+
+//BranchSubMenuTemplateController => จัดการ การแก้ไข content ของสาขาวิชา
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_division_content'])
+    ->controller(BranchSubMenuTemplateController::class)
+    ->group(function () {
+        Route::patch('/update_content_branch_sub_menu/{BranchSubMenu}', 'update')->name('admin.update_content_branch_sub_menu');
+        Route::patch('/change_status_branch_sub_menu/{BranchSubMenu}', 'changeStatusMenu')->name('admin.change_status_branch_sub_menu');
+    });
+Route::post('/admin/list_branch_sub_menu_by_division/{division_id}', [BranchSubMenuTemplateController::class, 'listSubMenuByDivision'])->name('admin.list_branch_sub_menu_by_division');
+Route::get('/branch_details/{slug}', [BranchSubMenuTemplateController::class, 'show'])->name('branch_details');
+
+//BranchMainMenuController
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_division_content'])
+    ->controller(BranchMainMenuController::class)
+    ->group(function () {
+        //
+    });
+
+//BranchSubMenuController => จัดการ เมนูย่อย ของการจัดการเนื้อหาสาขาวิชา
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_division_content'])
+    ->controller(BranchSubMenuController::class)
+    ->group(function () {
+    });
+
+//BranchRichTextContentController => จัดการเนื้อหาของ sub_menu ต่างๆที่เป็น rich text เช่น
+//ในส่วนของ About (เกี่ยวกับสาขา) และ Edu (งานการเรียนการสอน ที่เป็น rich text)
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_division_content'])
+    ->controller(BranchRichTextContentController::class)
+    ->group(function () {
+        Route::get('/richtext_content_edit/{slug}', 'edit')->name('admin.richtext_content_edit');
+        Route::patch('/richtext_content_update/{BranchSubMenu}', 'update')->name('admin.richtext_content_update');
+    });
+// Route::post('/branch_about_details_edit', function () {
+//         return Inertia::render('AboutContentEditor', ['sub_header' => Request::input('sub_header')]);
+//     })->name('branch_about_details_edit');
+
+//BranchEduContentController => จัดการเนื้อหาย่อยในส่วนของ Edu (งานการเรียนการสอน)
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_division_content'])
+    ->controller(BranchEduContentController::class)
+    ->group(function () {
+        Route::post('/update_edu_branch_content/{BranchSubMenu}', 'update')->name('admin.update_edu_branch_content');
+        Route::get('/edu_content_edit/{slug}', 'edit')->name('admin.edu_content_edit');
+        //Route::patch('/about_content_update/{BranchSubMenu}', 'update')->name('admin.about_content_update');
+    });
+Route::get('/edu_content_download_pdf', [BranchEduContentController::class, 'downloadPdf'])->name('edu_content_download_pdf');
+
+//PageDownloadController => จัดการเนื้อหาในส่วนของ download ที่หน้าแรก
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_download'])
+    ->controller(PageDownloadController::class)
+    ->group(function () {
+        //Route::post('/update_edu_branch_content/{BranchSubMenu}', 'update')->name('admin.update_edu_branch_content');
+        Route::get('/download', 'index')->name('admin.download');
+        Route::get('/download/create', 'create')->name('admin.download.create');
+        Route::post('/download/store', 'store')->name('admin.download.store');
+        Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
+        Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
+        Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
+    });
+Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
+
+Route::get('/admin/ability_role', function () {
+    $users = User::paginate(5);
+    //logger($users);
+    //dd($users);
+    return Inertia::render('Admin/AbilityRole/Index', compact('users'));
+})->name('admin.ability_role');
+
+//TraceLogController => จัดการ log ต่างๆ ผ่าน UI
+Route::prefix('admin')
+    ->middleware(['auth', 'can:view_log'])
+    ->controller(TraceLogController::class)
+    ->group(function () {
+        Route::get('/log_info', 'index')->name('admin.log.index');
+        // Route::get('/download/create', 'create')->name('admin.download.create');
+        // Route::post('/download/store', 'store')->name('admin.download.store');
+        // Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
+        // Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
+        // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
+    });
+
+//TraceLogController => จัดการเก็บ log ต่างๆ API
+Route::controller(TraceLogController::class)
+    ->group(function () {
+        Route::post('/log', 'store')->name('log.store');
+    });
+
+Route::post('/uploading_file_api', [FileUploadController::class, 'upload'])->name('uploading_file_api');
+Route::post('/delete_file_api', [FileUploadController::class, 'delete'])->name('delete_file_api');
+
+// Test VueQuill
+// Route::get('test-vuequill', function () {
+//     //$deltaContent = Announce::find(1)->detail_delta;
+//     $deltaContent = BranchSubMenu::find(164)->detail_delta;
+//     //\Log::info($deltaContent);
+
+//     $deltaStr = '{ "ops": [ { "attributes": { "bold": true }, "insert": "hello" }, { "insert": "\n" }, { "attributes": { "italic": true }, "insert": "world" }, { "insert": "\n" }, { "attributes": { "underline": true }, "insert": "test" }, { "insert": "\n" }, { "attributes": { "strike": true }, "insert": "vuequill" }, { "insert": "\n" } ] }';
+//     // return Inertia::render('TestVueQuill', ['deltaContent' => []]);
+//     // return Inertia::render('TestVueQuill', ['deltaContent' => json_decode($deltaStr, true)]);
+//     return Inertia::render('TestVueQuill', ['deltaContent' => json_decode($deltaContent, true)]);
+// });
+
+
+// Route::get('/test-query', function () {
+//     $divisionId = request()->fdivision_selected ?? request()->user()->person->division_id;
+//     $queryStr = App\Models\Person::query()->where('division_id', '>', 0);
+//     if ($search = request()->search) {
+//         $queryStr->where(function ($query) use ($search) {
+//             $query->where('fname_th', 'like', "%{$search}%")
+//                 ->orWhere('lname_th', 'like', "%{$search}%")
+//                 ->orWhere('sap_id', 'like', "%{$search}%");
+//         });
+//     }
+
+//     return $queryStr->with('division')
+//     ->orderBy('type')
+//     ->orderBy('profiles->leader', 'desc')
+//     ->orderBy('display_order', 'asc')
+//     ->orderBy('fname_th', 'asc')
+//     ->get();
+
+
+//     return App\Models\Person::query()
+//         ->when(
+//             request()->fdivision_selected ?? request()->user()->person->division_id,
+//             function ($query, $divisionId) {
+//                 $search = 'ชัยรัตน์';
+//                 $query->where('division_id', $divisionId)
+//                     ->where(function ($query) use ($search) {
+//                         $query->where('fname_th', 'like', "%{$search}%")
+//                             ->orWhere('lname_th', 'like', "%{$search}%")
+//                             ->orWhere('sap_id', 'like', "%{$search}%");
+//                     });
+//             }
+//         )->get();
+    
+//     return App\Models\Person::query()
+//     ->when(\Request::input('fdivision_selected'), function ($query, $division) {
+//         $query->where('division_id', $division);
+//     }, function ($query) {
+//         $user = Auth::user();
+//         $query->where('division_id', $user->person->division_id);
+//     })
+//     ->when(\Request::input('search'), function ($query, $search) {
+//         $query->where('fname_th', 'like', "%{$search}%")
+//               ->orWhere('lname_th', 'like', "%{$search}%")
+//               ->orWhere('sap_id', 'like', "%{$search}%");
+//     })
+//     ->with('division')
+//     ->orderBy('type')
+//     ->orderBy('profiles->leader', 'desc')
+//     ->orderBy('display_order', 'asc')
+//     ->orderBy('fname_th', 'asc')
+//     ->get();
+// });

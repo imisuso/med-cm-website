@@ -1,0 +1,339 @@
+<?php
+
+namespace App\APIs;
+
+use App\Models\Person;
+
+class InfomedAPI
+{
+    public function checkToken($secret, $token)
+    {
+        if (strcmp($secret, config('app.INFOMED_API_SERVICE_SECRET') == 0) && strcmp($token, config('app.INFOMED_API_SERVICE_TOKEN') == 0)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function insertEmp($data)
+    {
+        // return response()->json([
+        //     'status' => false,
+        //     'message' => 'Not Allow emp insert yet'
+        //     ], 405);
+        
+        logger("Insert Employee data");
+        logger($data['sap']);
+        logger(iconv('TIS-620', 'UTF-8', $data['title_th']));
+        logger($data['title_en']);
+        logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']));
+        logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']));
+        logger($data['rname_short_en']);
+        logger(iconv('TIS-620', 'UTF-8', $data['fname_th']));
+        logger(iconv('TIS-620', 'UTF-8', $data['lname_th']));
+        logger($data['fname_en']);
+        logger($data['lname_en']);
+        //logger(iconv('TIS-620', 'UTF-8', $data['positiondesc']));
+
+        // ข้อมูลที่มาจาก infomed ส่งมาให้
+        $sap = $data['sap'];
+        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-";
+        $title_en = $data['title_en'];
+        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: "-";
+        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: "-";
+        $rname_short_en = $data['rname_short_en'];
+        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-";
+        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-";
+        $fname_en = $data['fname_en'];
+        $lname_en = $data['lname_en'];
+        $emp_flag = $data['empflag'];
+
+        // ข้อมูลที่ประกาศขึ้นมาเองใน API
+        $group = 1; // default ให้เป็นกลุ่มของ วิชาการ ก่อน
+        $type = '-';
+        $position_academic = 0;
+
+        // ตรวจสอบว่าเป็น วิชาการสาย ก. หรือ สนับสนุนสาย ข. ที่เป็นวิชาชีพเฉพาะ (แพทย์) หรือไม่ พร้อมระบุตำแหน่งให้
+        // ตำแหน่งทางวิชาการ 0 (ไม่ระบุตำแหน่ง), 1 (ศาสตราจารย์), 2 (รองศาสตราจารย์), 3 (ผู้ช่วยศาสตราจารย์), 4 (อาจารย์), 5 (แพทย์ (ผู้ช่วยอาจารย์คลินิก)), 6 (แพทย์ (ประจำโรงพยาบาล))
+        if (str_starts_with($rname_full_th, 'ศาสตราจารย์')) {
+            $type = 'a';
+            $position_academic = 1;
+        } elseif (str_starts_with($rname_full_th, 'รองศาสตราจารย์')) {
+            $type = 'a';
+            $position_academic = 2;
+        } elseif (str_starts_with($rname_full_th, 'ผู้ช่วยศาสตราจารย์')) {
+            $type = 'a';
+            $position_academic = 3;
+        } elseif (str_starts_with($rname_full_th, 'อาจารย์')) {
+            $type = 'a';
+            $position_academic = 4;
+        } elseif (str_starts_with($rname_full_th, 'แพทย์')) {
+            $type = 'b';
+            // ต้องไปตรวจสอบเองอีกทีด้วย เพราะจะไม่รู้ว่าเป็น แพทย์ผู้ช่วยอาจารย์คลินิก  หรือ แพทย์ประจำโรงพยาบาล ซึ่งจะมี check อีกทีตอนที่มีการ update work เข้ามา
+            // default เลยใส่เป็น แพทย์ผู้ช่วยอาจารย์คลินิก ไปก่อน
+            // group จะต้องเป็น วิชาชีพเฉพาะ
+            $position_academic = 5;
+            $group = 2;
+        }
+
+        // ตรวจสอบว่าเป็นที่ปรึกษาหรือไม่ (จะถูกระบุตำแหน่งทางวิชาการมาจากเงื่อนไขด้านบนแล้ว)
+        // ถ้าเป็นที่ปรึกษาที่ไม่ใช่วิชาการสาย ก. จะได้ตำแหน่งทางวิชาการ 0 (ไม่ระบุตำแหน่ง) ตามค่า default ที่ประกาศไว้
+        if ($emp_flag === 6) {
+            $type = 'z';
+            // ถ้า ตำแหน่งทางวิชาการเป็น 0 (ไม่ระบุตำแหน่ง) แสดงว่าไม่ได้อยู่ใน group ของวิชาการ กำหนดให้เป็น 0 ไปเป็น default แล้วให้ไป verify data อีกครั้ง
+            if ($position_academic === 0) {
+                $group = 0;
+            }
+        }
+
+        // ตรวจสอบแล้วไม่ใช่ทั้ง วิชาการสาย ก. หรือ สนับสนุนสาย ข. ที่เป็นวิชาชีพเฉพาะ (แพทย์) และที่ปรึกษาที่เป็น วิชาการสาย ก. ก็ต้องเป็นสนับสนุนสาย ข ทั้งหมดที่ไม่ใช่แพทย์.
+        // จะได้ตำแหน่งทางวิชาการ 0 (ไม่ระบุตำแหน่ง) ตามค่า default ที่ประกาศไว้
+        // และกำหนดให้ group เป็น 0 โดย default แล้วให้ไป verify data อีกครั้ง
+        if (strcmp($type, '-') === 0) {
+            $type = 'b';
+            $group = 0;
+        }
+
+        // ตรวจสอบการเปิดแสดงผลข้อมูลบน website
+        // 1=ปฏิบัติงาน,2=ลาออก,3=เกษียณอายุ,4=หน่วยงาน,5=ยืมตัว,6=ที่ปรึกษา
+        // if ($emp_flag === 2 || $emp_flag === 3 || $emp_flag === 5) {
+        //     $status = false;
+        // } else {
+        //     $status = true;
+        // }
+        $status = false;  // default ให้ปิดแล้วให้ admin เป็นคนดำเนินการเปิดเองเมื่อ verify ข้อมูลบุคคลากรเรียบร้อยแล้ว
+            
+
+        try {
+            Person::create([
+                'division_id'=> 18,  // ให้ default ไปไว้ที่สาขา Gen Med เพราะถ้าเป็น 0 จะไม่สามารถดูข้อมูลได้เลยเพราะไม่ได้อยู่สาขาไหนเลย
+                'sap_id'=>$sap,
+                'title_th'=>$title_th,
+                'title_en'=>$title_en,
+                'fname_th'=>$fname_th,
+                'fname_en'=>$fname_en,
+                'lname_th'=>$lname_th,
+                'lname_en'=>$lname_en,
+                'rname_full_th'=>$rname_full_th,
+                'rname_full_en'=>"-",
+                'rname_short_th'=>$rname_short_th,
+                'rname_short_en'=>$rname_short_en,
+                'group'=>$group,
+                'type'=>$type,
+                'position_academic'=> $position_academic,
+                'status'=>$status,
+                'user_previous_act'=>'api',
+                'user_last_act'=>'api'
+            ]);
+        } catch (\Exception  $e) {
+            logger("เกิดข้อผิดพลาดไม่สามารถเพิ่มข้อมูลบุคคลากรใหม่ได้");
+            logger($e);
+            return response()->json([
+                'status' => false,
+                'message' => 'Insert emp fail => '. $sap
+                ], 500);
+        }
+
+        logger("มีการเพิ่มข้อมูลบุคคลากรใหม่ SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        return response()->json([
+            'status' => true,
+            'message' => 'Insert emp success => '. $sap
+            ], 200);
+    }
+
+    public function updateEmp($data)
+    {
+        //logger($data);
+        
+        logger("Update Employee data");
+        logger($data['sap']);
+        logger(iconv('TIS-620', 'UTF-8', $data['title_th']));
+        logger($data['title_en']);
+        logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']));
+        logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']));
+        logger($data['rname_short_en']);
+        logger(iconv('TIS-620', 'UTF-8', $data['fname_th']));
+        logger(iconv('TIS-620', 'UTF-8', $data['lname_th']));
+        logger($data['fname_en']);
+        logger($data['lname_en']);
+
+        $sap = $data['sap'];
+        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']);
+        $title_en = $data['title_en'];
+        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th']));
+        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th']));
+        $rname_short_en = $data['rname_short_en'];
+        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']);
+        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']);
+        $fname_en = $data['fname_en'];
+        $lname_en = $data['lname_en'];
+        $emp_flag = $data['empflag'];
+
+        // Query data with sap_id condition
+        $person = Person::where('sap_id', $sap)->first();
+
+        // ตรวจสอบว่าพบข้อมูลบุคคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
+        if (! $person) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found emp => '. $sap
+                ], 404);
+        }
+
+        // ตรวจสอบว่าเป็น วิชาการสาย ก. หรือ สนับสนุนสาย ข. ที่เป็นวิชาชีพเฉพาะ (แพทย์) หรือไม่ พร้อมระบุตำแหน่งให้
+        // ตำแหน่งทางวิชาการ 0 (ไม่ระบุตำแหน่ง), 1 (ศาสตราจารย์), 2 (รองศาสตราจารย์), 3 (ผู้ช่วยศาสตราจารย์), 4 (อาจารย์), 5 (แพทย์ (ผู้ช่วยอาจารย์คลินิก)), 6 (แพทย์ (ประจำโรงพยาบาล))
+        if (str_starts_with($rname_full_th, 'ศาสตราจารย์')) {
+            $person->type = 'a';
+            $person->position_academic = 1;
+            $person->group = 1;
+        } elseif (str_starts_with($rname_full_th, 'รองศาสตราจารย์')) {
+            $person->type = 'a';
+            $person->position_academic = 2;
+            $person->group = 1;
+        } elseif (str_starts_with($rname_full_th, 'ผู้ช่วยศาสตราจารย์')) {
+            $person->type = 'a';
+            $person->position_academic = 3;
+            $person->group = 1;
+        } elseif (str_starts_with($rname_full_th, 'อาจารย์')) {
+            $person->type = 'a';
+            $person->position_academic = 4;
+            $person->group = 1;
+        } elseif (str_starts_with($rname_full_th, 'แพทย์')) {
+            $person->type = 'b';
+            // ต้องไปตรวจสอบเองอีกทีด้วย เพราะจะไม่รู้ว่าเป็น แพทย์ผู้ช่วยอาจารย์คลินิก  หรือ แพทย์ประจำโรงพยาบาล ซึ่งจะมี check อีกทีตอนที่มีการ update work เข้ามา
+            // default เลยใส่เป็น แพทย์ผู้ช่วยอาจารย์คลินิก ไปก่อน
+            // group จะต้องเป็น วิชาชีพเฉพาะ
+            $person->position_academic = 5;
+            $person->group = 2;
+        }
+
+        // ตรวจสอบว่าข้อมูลที่ส่งมา update ส่งมาเป็นที่ปรึกษา และข้อมูลใน db ยังไม่ใช่ที่ปรึกษา ให้เปลี่ยนเป็นที่ปรึกษาด้วย
+        // แล้วให้ไป verify data ที่หน้า website อีกครั้ง ก่อนเปิดใช้งาน
+        if ($emp_flag === 6 && (strcmp($person->type, "z") !== 0)) {
+            $person->type = "z";
+        }
+
+        
+
+        //1=ปฏิบัติงาน,2=ลาออก,3=เกษียณอายุ,4=หน่วยงาน,5=ยืมตัว,6=ที่ปรึกษา
+        // if ($emp_flag === 2 || $emp_flag === 3 || $emp_flag === 5) {
+        //     $person->status = false;
+        // } else {
+        //     $person->status = true;
+        // }
+    
+        // Update to Object is get from DB query if can convert charset else use old data
+        $person->title_th = $title_th ?: $person->title_th;
+        $person->title_en = $title_en;
+        $person->rname_short_th = $rname_short_th ?: $person->rname_short_th;
+        $person->rname_full_th = $rname_full_th ?: $person->rname_full_th;
+        $person->rname_short_en = $rname_short_en;
+        $person->fname_th = $fname_th ?: $person->fname_th;
+        $person->lname_th = $lname_th ?: $person->lname_th;
+        $person->fname_en = $fname_en;
+        $person->lname_en = $lname_en;
+        $person->user_previous_act = $person->user_last_act;
+        $person->user_last_act = 'api';
+
+        try {
+            $person->save();
+        } catch (\Exception  $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Update emp fail => '. $sap
+                ], 500);
+        }
+
+        logger("มีการแก้ไขข้อมูลบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        return response()->json([
+            'status' => true,
+            'message' => 'Update emp success => '. $sap
+            ], 200);
+    }
+
+    public function updateWork($data)
+    {
+        // return response()->json([
+        //         'status' => false,
+        //         'message' => 'Not Allow work update yet'
+        //         ], 405);
+
+        //logger($data);
+        
+        logger($data['sap']);
+        logger($data['division_id']);
+        logger($data['type']);
+        logger($data['group']);
+        logger(iconv('TIS-620', 'UTF-8', $data['position_division']));
+        logger(iconv('TIS-620', 'UTF-8', $data['technic_name']));
+        logger($data['manager_flag']);
+
+        $sap = $data['sap'];
+        // $division_id = $data['division_id'];
+        // $type = $data['type'];
+        // $group = $data['group'];
+        //$position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division'])) ?: "-";
+        $position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division']));
+        $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name']));
+        $manager_flag = $data['manager_flag'];
+
+        // Query data with sap_id condition
+        $person = Person::where('sap_id', $sap)->first();
+
+        // ตรวจสอบว่าพบข้อมูลบุคคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
+        if (! $person) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found emp => '. $sap
+                ], 404);
+        }
+        
+        // Update to DB
+        $person->division_id = $data['division_id'] ?: $person->division_id;
+        $person->type = $data['type'] ?: $person->type;
+        $person->group = $data['group'] ?: $person->group;
+        $person->position_division = $position_division ?: $person->position_division;
+        $person->reward = $reward ?: $person->reward;
+        if ($manager_flag) {
+            $person->profiles->leader = true;
+        } else {
+            $person->profiles->leader = false;
+        }
+
+        $person->user_previous_act = $person->user_last_act;
+        $person->user_last_act = 'api';
+
+        try {
+            $person->save();
+        } catch (\Exception  $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Update work fail => '. $sap
+                ], 500);
+        }
+
+        logger("มีการแก้ไขข้อมูลงานของบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        return response()->json([
+            'status' => true,
+            'message' => 'Update work success=> '. $sap
+            ], 200);
+    }
+
+    public function monitor($sap, $secret, $token)
+    {
+        // $headers = ['app' => config('app.INFOMED_API_SERVICE_SECRET'), 'token' => config('app.INFOMED_API_SERVICE_TOKEN')];
+        // $options = ['timeout' => 8.0, 'verify' => false];
+
+        if (strcmp($secret, config('app.INFOMED_API_SERVICE_SECRET') == 0) && strcmp($token, config('app.INFOMED_API_SERVICE_TOKEN') == 0)) {
+            logger($sap);
+
+            return response()->json([
+                'status' => true
+                ], 200);
+        }
+
+        return response()->json([
+            'status' => false
+            ], 401);
+    }
+}
