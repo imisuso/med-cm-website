@@ -252,6 +252,9 @@ class InfomedAPI
         
 
         //1=ปฏิบัติงาน,2=ลาออก,3=เกษียณอายุ,4=หน่วยงาน,5=ยืมตัว,6=ที่ปรึกษา
+        if ($emp_flag === 2 || $emp_flag === 3 || $emp_flag === 5) {
+            $person->status = false;
+        }
         // if ($emp_flag === 2 || $emp_flag === 3 || $emp_flag === 5) {
         //     $person->status = false;
         // } else {
