@@ -94,7 +94,7 @@
                 /> -->
                 <img
                     class="absolute inset-0 lg:-inset-y-4 object-cover lg:object-contain w-full h-full"
-                    src="images/login_logo.jpg"
+                    :src="`${baseUrl}/images/login_logo.jpg`"
                     alt=""
                 />
             </div>
@@ -110,6 +110,8 @@ import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
 const showPass = ref(false)
+const baseUrl = ref(base_url)
+
 const form = useForm({
     username: '',
     password: ''
