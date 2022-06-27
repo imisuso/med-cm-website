@@ -23,30 +23,53 @@ class InfomedAPI
         //     ], 405);
         
         logger("Insert Employee data");
-        logger($data['sap']);
-        logger(iconv('TIS-620', 'UTF-8', $data['title_th']));
-        logger($data['title_en']);
-        logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']));
-        logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']));
-        logger($data['rname_short_en']);
-        logger(iconv('TIS-620', 'UTF-8', $data['fname_th']));
-        logger(iconv('TIS-620', 'UTF-8', $data['lname_th']));
-        logger($data['fname_en']);
-        logger($data['lname_en']);
-        //logger(iconv('TIS-620', 'UTF-8', $data['positiondesc']));
+        // logger($data['sap']);
+        // logger(iconv('TIS-620', 'UTF-8', $data['title_th']));
+        // logger($data['title_en']);
+        // logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']));
+        // logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']));
+        // logger($data['rname_short_en']);
+        // logger(iconv('TIS-620', 'UTF-8', $data['fname_th']));
+        // logger(iconv('TIS-620', 'UTF-8', $data['lname_th']));
+        // logger($data['fname_en']);
+        // logger($data['lname_en']);
 
         // ข้อมูลที่มาจาก infomed ส่งมาให้
+        // $sap = $data['sap'];
+        // $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-";
+        // $title_en = $data['title_en'];
+        // $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: "-";
+        // $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: "-";
+        // $rname_short_en = $data['rname_short_en'];
+        // $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-";
+        // $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-";
+        // $fname_en = $data['fname_en'];
+        // $lname_en = $data['lname_en'];
+        // $emp_flag = $data['empflag'];
+
         $sap = $data['sap'];
         $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-";
         $title_en = $data['title_en'];
-        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: "-";
-        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: "-";
+        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
+        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
         $rname_short_en = $data['rname_short_en'];
         $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-";
         $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-";
         $fname_en = $data['fname_en'];
         $lname_en = $data['lname_en'];
         $emp_flag = $data['empflag'];
+
+        logger($sap);
+        logger($title_th);
+        logger($title_en);
+        logger($rname_short_th);
+        logger($rname_full_th);
+        logger($rname_short_en);
+        logger($fname_th);
+        logger($lname_th);
+        logger($fname_en);
+        logger($lname_en);
+        logger($emp_flag);
 
         // ข้อมูลที่ประกาศขึ้นมาเองใน API
         $group = 1; // default ให้เป็นกลุ่มของ วิชาการ ก่อน
@@ -146,28 +169,41 @@ class InfomedAPI
         //logger($data);
         
         logger("Update Employee data");
-        logger($data['sap']);
-        logger(iconv('TIS-620', 'UTF-8', $data['title_th']));
-        logger($data['title_en']);
-        logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']));
-        logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']));
-        logger($data['rname_short_en']);
-        logger(iconv('TIS-620', 'UTF-8', $data['fname_th']));
-        logger(iconv('TIS-620', 'UTF-8', $data['lname_th']));
-        logger($data['fname_en']);
-        logger($data['lname_en']);
+        // logger($data['sap']);
+        // logger(iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-");
+        // logger($data['title_en']);
+        // logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']) ?: "-");
+        // logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']) ?: "-");
+        // logger($data['rname_short_en']);
+        // logger(iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-");
+        // logger(iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-");
+        // logger($data['fname_en']);
+        // logger($data['lname_en']);
 
         $sap = $data['sap'];
-        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']);
+        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
         $title_en = $data['title_en'];
-        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th']));
-        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th']));
+        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
+        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
         $rname_short_en = $data['rname_short_en'];
-        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']);
-        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']);
+        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: null;
+        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: null;
         $fname_en = $data['fname_en'];
         $lname_en = $data['lname_en'];
         $emp_flag = $data['empflag'];
+
+        logger($sap);
+        logger($title_th);
+        logger($title_en);
+        logger($rname_short_th);
+        logger($rname_full_th);
+        logger($rname_short_en);
+        logger($fname_th);
+        logger($lname_th);
+        logger($fname_en);
+        logger($lname_en);
+        logger($emp_flag);
+        
 
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
