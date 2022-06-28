@@ -3,6 +3,7 @@
 namespace App\APIs;
 
 use App\Models\Person;
+use App\Managers\LogManager;
 
 class InfomedAPI
 {
@@ -21,18 +22,6 @@ class InfomedAPI
         //     'status' => false,
         //     'message' => 'Not Allow emp insert yet'
         //     ], 405);
-        
-        logger("Insert Employee data");
-        // logger($data['sap']);
-        // logger(iconv('TIS-620', 'UTF-8', $data['title_th']));
-        // logger($data['title_en']);
-        // logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']));
-        // logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']));
-        // logger($data['rname_short_en']);
-        // logger(iconv('TIS-620', 'UTF-8', $data['fname_th']));
-        // logger(iconv('TIS-620', 'UTF-8', $data['lname_th']));
-        // logger($data['fname_en']);
-        // logger($data['lname_en']);
 
         // ข้อมูลที่มาจาก infomed ส่งมาให้
         // $sap = $data['sap'];
@@ -59,6 +48,7 @@ class InfomedAPI
         $lname_en = $data['lname_en'];
         $emp_flag = $data['empflag'];
 
+        logger("Insert Employee data from api");
         logger($sap);
         logger($title_th);
         logger($title_en);
@@ -126,6 +116,7 @@ class InfomedAPI
         // }
         $status = false;  // default ให้ปิดแล้วให้ admin เป็นคนดำเนินการเปิดเองเมื่อ verify ข้อมูลบุคคลากรเรียบร้อยแล้ว
             
+        $resp = (new LogManager);
 
         try {
             Person::create([
@@ -144,13 +135,23 @@ class InfomedAPI
                 'group'=>$group,
                 'type'=>$type,
                 'position_academic'=> $position_academic,
+                'profiles'=>['leader'=> false],
                 'status'=>$status,
                 'user_previous_act'=>'api',
                 'user_last_act'=>'api'
             ]);
         } catch (\Exception  $e) {
-            logger("เกิดข้อผิดพลาดไม่สามารถเพิ่มข้อมูลบุคคลากรใหม่ได้");
+            logger("เกิดข้อผิดพลาดไม่สามารถเพิ่มข้อมูลบุคคลากรใหม่ได้ SAP-ID [".$sap."]");
             logger($e);
+
+            $resp->store(
+                'infomed', // มาจาก api infomed
+                'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+                'insert',  // action
+                'Insert new person data SAP-ID ['.$sap.'] failed: '.$e, // details
+                'api' // type
+            );
+
             return response()->json([
                 'status' => false,
                 'message' => 'Insert emp fail => '. $sap
@@ -158,6 +159,30 @@ class InfomedAPI
         }
 
         logger("มีการเพิ่มข้อมูลบุคคลากรใหม่ SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        
+        $logdata = '[{"sap":"'.$sap.'",
+            "title_th":"'.$title_th.'",
+            "title_en":"'.$title_en.'",
+            "fname_th":"'.$fname_th.'",
+            "fname_en":"'.$fname_en.'",
+            "lname_th":"'.$lname_th.'",
+            "lname_en":"'.$lname_en.'",
+            "rname_full_th":"'.$rname_full_th.'",
+            "rname_short_th":"'.$rname_short_th.'",
+            "rname_short_en":"'.$rname_short_en.'",
+            "group":"'.$group.'",
+            "type":"'.$type.'",
+            "position_academic":"'.$position_academic.'",
+        }]';
+        
+        $resp->store(
+            'infomed', // มาจาก api infomed
+            'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+            'insert',  // action
+            'Insert new person data (ข้อมูลส่วนตัว): '.$logdata, // details
+            'api' // type
+        );
+        
         return response()->json([
             'status' => true,
             'message' => 'Insert emp success => '. $sap
@@ -168,18 +193,6 @@ class InfomedAPI
     {
         //logger($data);
         
-        logger("Update Employee data");
-        // logger($data['sap']);
-        // logger(iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-");
-        // logger($data['title_en']);
-        // logger(iconv('TIS-620', 'UTF-8', $data['rname_short_th']) ?: "-");
-        // logger(iconv('TIS-620', 'UTF-8', $data['rname_full_th']) ?: "-");
-        // logger($data['rname_short_en']);
-        // logger(iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-");
-        // logger(iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-");
-        // logger($data['fname_en']);
-        // logger($data['lname_en']);
-
         $sap = $data['sap'];
         $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
         $title_en = $data['title_en'];
@@ -192,6 +205,7 @@ class InfomedAPI
         $lname_en = $data['lname_en'];
         $emp_flag = $data['empflag'];
 
+        logger("Update Employee data from api");
         logger($sap);
         logger($title_th);
         logger($title_en);
@@ -274,9 +288,22 @@ class InfomedAPI
         $person->user_previous_act = $person->user_last_act;
         $person->user_last_act = 'api';
 
+        $resp = (new LogManager);
+
         try {
             $person->save();
         } catch (\Exception  $e) {
+            logger("เกิดข้อผิดพลาดไม่สามารถแก้ไขข้อมูลบุคคลากรได้ SAP-ID [".$sap."]");
+            logger($e);
+
+            $resp->store(
+                'infomed', // มาจาก api infomed
+                'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+                'update',  // action
+                'Update person data SAP-ID ['.$sap.'] failed: '.$e, // details
+                'api' // type
+            );
+
             return response()->json([
                 'status' => false,
                 'message' => 'Update emp fail => '. $sap
@@ -284,6 +311,28 @@ class InfomedAPI
         }
 
         logger("มีการแก้ไขข้อมูลบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        
+        $logdata = '[{"sap":"'.$sap.'",
+            "title_th":"'.$title_th.'",
+            "title_en":"'.$title_en.'",
+            "fname_th":"'.$fname_th.'",
+            "fname_en":"'.$fname_en.'",
+            "lname_th":"'.$lname_th.'",
+            "lname_en":"'.$lname_en.'",
+            "rname_full_th":"'.$rname_full_th.'",
+            "rname_short_th":"'.$rname_short_th.'",
+            "rname_short_en":"'.$rname_short_en.'",
+            "emp_flag":"'.$emp_flag.'",
+        }]';
+        
+        $resp->store(
+            'infomed', // มาจาก api infomed
+            'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+            'update',  // action
+            'Update person data (ข้อมูลส่วนตัว): '.$logdata, // details
+            'api' // type
+        );
+        
         return response()->json([
             'status' => true,
             'message' => 'Update emp success => '. $sap
@@ -298,29 +347,39 @@ class InfomedAPI
         //         ], 405);
 
         //logger($data);
-        
-        logger($data['sap']);
-        logger($data['division_id']);
-        logger($data['type']);
-        logger($data['group']);
-        logger(iconv('TIS-620', 'UTF-8', $data['position_division']));
-        logger(iconv('TIS-620', 'UTF-8', $data['technic_name']));
-        logger($data['manager_flag']);
 
         $sap = $data['sap'];
-        // $division_id = $data['division_id'];
-        // $type = $data['type'];
-        // $group = $data['group'];
-        //$position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division'])) ?: "-";
-        $position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division']));
-        $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name']));
-        $manager_flag = $data['manager_flag'];
+        $division_id = (int)$data['division_id'];
+        $type = $data['type'];
+        $group = $data['group'];
+        $position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division'])) ?: null;
+        $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name'])) ?: null;
+        $manager_flag = (bool)$data['manager_flag'];
+
+        logger("Update Employee work data from api");
+        logger($sap);
+        logger($division_id);
+        logger($type);
+        logger($group);
+        logger($position_division);
+        logger($reward);
+        logger($manager_flag);
 
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
 
+        $resp = (new LogManager);
+
         // ตรวจสอบว่าพบข้อมูลบุคคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
         if (! $person) {
+            $resp->store(
+                'infomed', // มาจาก api infomed
+                'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+                'update',  // action
+                'ไม่พบบุคคลากรที่ต้องการ update SAP-ID ['.$sap.']', // details
+                'api' // type
+            );
+
             return response()->json([
                 'status' => false,
                 'message' => 'Not Found emp => '. $sap
@@ -328,9 +387,9 @@ class InfomedAPI
         }
         
         // Update to DB
-        $person->division_id = $data['division_id'] ?: $person->division_id;
-        $person->type = $data['type'] ?: $person->type;
-        $person->group = $data['group'] ?: $person->group;
+        $person->division_id = $division_id ?: $person->division_id;
+        $person->type = $type ?: $person->type;
+        $person->group = $group ?: $person->group;
         $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
         if ($manager_flag) {
@@ -345,6 +404,17 @@ class InfomedAPI
         try {
             $person->save();
         } catch (\Exception  $e) {
+            logger("เกิดข้อผิดพลาดไม่สามารถแก้ไขข้อมูลงานของบุคคลากรได้ SAP-ID [".$sap."]");
+            logger($e);
+
+            $resp->store(
+                'infomed', // มาจาก api infomed
+                'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+                'update',  // action
+                'Update person data (ข้อมูลการทำงาน) SAP-ID ['.$sap.'] failed: '.$e, // details
+                'api' // type
+            );
+
             return response()->json([
                 'status' => false,
                 'message' => 'Update work fail => '. $sap
@@ -352,6 +422,24 @@ class InfomedAPI
         }
 
         logger("มีการแก้ไขข้อมูลงานของบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        
+        $logdata = '[{"sap":"'.$sap.'",
+            "division_id":"'.$division_id.'",
+            "$type":"'.$type.'",
+            "group":"'.$group.'",
+            "position_division":"'.$position_division.'",
+            "reward":"'.$reward.'",
+            "manager_flag":"'.$manager_flag.'"
+        }]';
+
+        $resp->store(
+            'infomed', // มาจาก api infomed
+            'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+            'update',  // action
+            'Update person data (ข้อมูลการทำงาน): '.$logdata, // details
+            'api' // type
+        );
+
         return response()->json([
             'status' => true,
             'message' => 'Update work success=> '. $sap
