@@ -356,14 +356,25 @@ class InfomedAPI
         $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name'])) ?: null;
         $manager_flag = (bool)$data['manager_flag'];
 
+        $logdata = '[{"sap":"'.$sap.'",
+            "division_id":"'.$division_id.'",
+            "$type":"'.$type.'",
+            "group":"'.$group.'",
+            "position_division":"'.$position_division.'",
+            "reward":"'.$reward.'",
+            "manager_flag":"'.$manager_flag.'"
+        }]';
+
         logger("Update Employee work data from api");
-        logger($sap);
-        logger($division_id);
-        logger($type);
-        logger($group);
-        logger($position_division);
-        logger($reward);
-        logger($manager_flag);
+        logger('sap :'.$sap);
+        logger('division_id :'.$division_id);
+        logger('type :'.$type);
+        logger('group :'.$group);
+        logger('position_division :'.$position_division);
+        logger('reward :'.$reward);
+        logger('manager_flag :'.$manager_flag);
+
+        logger($logdata);
 
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
@@ -423,14 +434,14 @@ class InfomedAPI
 
         logger("มีการแก้ไขข้อมูลงานของบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
         
-        $logdata = '[{"sap":"'.$sap.'",
-            "division_id":"'.$division_id.'",
-            "$type":"'.$type.'",
-            "group":"'.$group.'",
-            "position_division":"'.$position_division.'",
-            "reward":"'.$reward.'",
-            "manager_flag":"'.$manager_flag.'"
-        }]';
+        // $logdata = '[{"sap":"'.$sap.'",
+        //     "division_id":"'.$division_id.'",
+        //     "$type":"'.$type.'",
+        //     "group":"'.$group.'",
+        //     "position_division":"'.$position_division.'",
+        //     "reward":"'.$reward.'",
+        //     "manager_flag":"'.$manager_flag.'"
+        // }]';
 
         $resp->store(
             'infomed', // มาจาก api infomed
