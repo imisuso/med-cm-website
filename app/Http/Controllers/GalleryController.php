@@ -50,7 +50,7 @@ class GalleryController extends Controller
 
     public function manageGallery(Gallery $Gallery)
     {
-        $limit = env('PHOTO_LIMIT_PER_GALLERY', 15);
+        $limit = (int)env('PHOTO_LIMIT_PER_GALLERY', 15);
         //logger($Gallery);
         $event_date = date("Ymd", strtotime($Gallery->event_date));
         $image_path = "public/images/gallery/".$event_date."/photo";
@@ -192,9 +192,7 @@ class GalleryController extends Controller
         }
         return Inertia::render(
             'Gallery',
-            [
-                                    'images' => $file_storage
-                                ]
+            ['images' => $file_storage]
         );
     }
 

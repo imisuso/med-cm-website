@@ -4,16 +4,22 @@
         <!-- <div class="images" v-viewer>
             <img v-for="src in images" :key="src" :src="src">
         </div> -->
+
+        <!-- <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in images" :key="src" :src="src">
+        </div> -->
+        
         <!-- component -->
         <VueViewer
-            :images="props.images"
+            :images="images"
         >
             <template #default="scope">
                 <div class=" grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                    <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${baseUrl}/${src}`">
+                    <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`">
                 </div>
             </template>
         </VueViewer>
+        
         <!-- api -->
         <!-- <button type="button" @click="show">Click to show</button> -->
     </div>
