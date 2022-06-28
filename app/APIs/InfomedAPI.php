@@ -393,9 +393,9 @@ class InfomedAPI
         $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
         if ($manager_flag) {
-            $person->profiles->leader = true;
+            $person->profiles['leader'] = true;
         } else {
-            $person->profiles->leader = false;
+            $person->profiles['leader'] = false;
         }
 
         $person->user_previous_act = $person->user_last_act;
