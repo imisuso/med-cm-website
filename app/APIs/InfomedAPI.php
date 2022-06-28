@@ -48,18 +48,32 @@ class InfomedAPI
         $lname_en = $data['lname_en'];
         $emp_flag = $data['empflag'];
 
+        $showlogdata = '[{"sap":"'.$sap.'",
+            "title_th":"'.$title_th.'",
+            "title_en":"'.$title_en.'",
+            "fname_th":"'.$fname_th.'",
+            "fname_en":"'.$fname_en.'",
+            "lname_th":"'.$lname_th.'",
+            "lname_en":"'.$lname_en.'",
+            "rname_full_th":"'.$rname_full_th.'",
+            "rname_short_th":"'.$rname_short_th.'",
+            "rname_short_en":"'.$rname_short_en.'",
+            "emp_flag":"'.$emp_flag.'"
+        }]';
+
         logger("Insert Employee data from api");
-        logger($sap);
-        logger($title_th);
-        logger($title_en);
-        logger($rname_short_th);
-        logger($rname_full_th);
-        logger($rname_short_en);
-        logger($fname_th);
-        logger($lname_th);
-        logger($fname_en);
-        logger($lname_en);
-        logger($emp_flag);
+        logger($showlogdata);
+        // logger($sap);
+        // logger($title_th);
+        // logger($title_en);
+        // logger($rname_short_th);
+        // logger($rname_full_th);
+        // logger($rname_short_en);
+        // logger($fname_th);
+        // logger($lname_th);
+        // logger($fname_en);
+        // logger($lname_en);
+        // logger($emp_flag);
 
         // ข้อมูลที่ประกาศขึ้นมาเองใน API
         $group = 1; // default ให้เป็นกลุ่มของ วิชาการ ก่อน
@@ -205,18 +219,32 @@ class InfomedAPI
         $lname_en = $data['lname_en'];
         $emp_flag = $data['empflag'];
 
+        $logdata = '[{"sap":"'.$sap.'",
+            "title_th":"'.$title_th.'",
+            "title_en":"'.$title_en.'",
+            "fname_th":"'.$fname_th.'",
+            "fname_en":"'.$fname_en.'",
+            "lname_th":"'.$lname_th.'",
+            "lname_en":"'.$lname_en.'",
+            "rname_full_th":"'.$rname_full_th.'",
+            "rname_short_th":"'.$rname_short_th.'",
+            "rname_short_en":"'.$rname_short_en.'",
+            "emp_flag":"'.$emp_flag.'",
+        }]';
+
         logger("Update Employee data from api");
-        logger($sap);
-        logger($title_th);
-        logger($title_en);
-        logger($rname_short_th);
-        logger($rname_full_th);
-        logger($rname_short_en);
-        logger($fname_th);
-        logger($lname_th);
-        logger($fname_en);
-        logger($lname_en);
-        logger($emp_flag);
+        logger($logdata);
+        // logger($sap);
+        // logger($title_th);
+        // logger($title_en);
+        // logger($rname_short_th);
+        // logger($rname_full_th);
+        // logger($rname_short_en);
+        // logger($fname_th);
+        // logger($lname_th);
+        // logger($fname_en);
+        // logger($lname_en);
+        // logger($emp_flag);
         
 
         // Query data with sap_id condition
@@ -312,19 +340,6 @@ class InfomedAPI
 
         logger("มีการแก้ไขข้อมูลบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
         
-        $logdata = '[{"sap":"'.$sap.'",
-            "title_th":"'.$title_th.'",
-            "title_en":"'.$title_en.'",
-            "fname_th":"'.$fname_th.'",
-            "fname_en":"'.$fname_en.'",
-            "lname_th":"'.$lname_th.'",
-            "lname_en":"'.$lname_en.'",
-            "rname_full_th":"'.$rname_full_th.'",
-            "rname_short_th":"'.$rname_short_th.'",
-            "rname_short_en":"'.$rname_short_en.'",
-            "emp_flag":"'.$emp_flag.'",
-        }]';
-        
         $resp->store(
             'infomed', // มาจาก api infomed
             'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
@@ -354,11 +369,13 @@ class InfomedAPI
         $group = $data['group'];
         $position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division'])) ?: null;
         $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name'])) ?: null;
+        // $position_division = "นักวิชาการคอมพิวเตอร์";  // ใช้สำหรับทดสอบ เวลายิงข้อมูลผ่าน postman เพราะติดปัญหาเรื่อง TIS-620
+        // $reward = null; // ใช้สำหรับทดสอบ เวลายิงข้อมูลผ่าน postman เพราะติดปัญหาเรื่อง TIS-620
         $manager_flag = (bool)$data['manager_flag'];
 
         $logdata = '[{"sap":"'.$sap.'",
             "division_id":"'.$division_id.'",
-            "$type":"'.$type.'",
+            "type":"'.$type.'",
             "group":"'.$group.'",
             "position_division":"'.$position_division.'",
             "reward":"'.$reward.'",
@@ -366,15 +383,15 @@ class InfomedAPI
         }]';
 
         logger("Update Employee work data from api");
-        logger('sap :'.$sap);
-        logger('division_id :'.$division_id);
-        logger('type :'.$type);
-        logger('group :'.$group);
-        logger('position_division :'.$position_division);
-        logger('reward :'.$reward);
-        logger('manager_flag :'.$manager_flag);
-
         logger($logdata);
+        
+        // logger('sap :'.$sap);
+        // logger('division_id :'.$division_id);
+        // logger('type :'.$type);
+        // logger('group :'.$group);
+        // logger('position_division :'.$position_division);
+        // logger('reward :'.$reward);
+        // logger('manager_flag :'.$manager_flag);
 
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
@@ -403,12 +420,15 @@ class InfomedAPI
         $person->group = $group ?: $person->group;
         $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
+        $profiles = $person->profiles;
+
         if ($manager_flag) {
-            $person->profiles['leader'] = true;
+            $profiles['leader'] = true;
         } else {
-            $person->profiles['leader'] = false;
+            $profiles['leader'] = false;
         }
 
+        $person->profiles = $profiles;
         $person->user_previous_act = $person->user_last_act;
         $person->user_last_act = 'api';
 
