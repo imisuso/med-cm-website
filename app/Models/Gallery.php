@@ -41,7 +41,7 @@ class Gallery extends Model
 
     public function getCoverUrlAttribute()
     {
-        return Storage::url($this->cover);
+        //return Storage::url($this->cover);
+        return $this->cover ? Storage::url($this->cover) : url('fallbackimage/default-blank-image.jpg');
     }
-
 }
