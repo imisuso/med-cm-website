@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Managers\UploadManager;
 use App\Models\Gallery;
+use Aws\Multipart\UploadState;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,6 +25,7 @@ class GalleryController extends Controller
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('desc', 'like', "%{$search}%");
                 })
+                ->orderBy('event_date', 'desc')
                 ->paginate(5)
                 ->withQueryString()
                 ->through(fn ($gallery) => [
@@ -31,6 +33,7 @@ class GalleryController extends Controller
                     'cover' => $gallery->cover,
                     'cover_url' => $gallery->cover_url,
                     'desc' => $gallery->desc,
+                    'event_date' => $gallery->event_date,
                     'status' => $gallery->status,
                     'created_at' => $gallery->created_at
                 ]),
@@ -248,7 +251,9 @@ class GalleryController extends Controller
             $old_event_date = date("Ymd", strtotime($Gallery->event_date));
             $old_dir = "public/images/gallery/".$old_event_date;
             try {
+                //Storage::move('old/file.jpg', 'new/file.jpg');
                 Storage::deleteDirectory($old_dir);
+                //$delete_dir = (new UploadManager)->delete_dir(true, $old_dir);
                 $Gallery->cover = '';
                 $Gallery->event_date = Request::input('event_date');
             } catch (\Exception  $e) {
@@ -303,13 +308,15 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $Gallery)
     {
-        // ลบรูปปกของ gallery
+        // ลบรูปปก และ รูปทั้งหมดภายในของ gallery แต่จะมีการ verify มาก่อนแล้วว่าจะให้ลบรูปใน gallery ก่อนถ้ามีรูปใน gallery แล้ว
         try {
-            if (! is_null($Gallery->cover)) {
-                Storage::delete($Gallery->cover);
-            }
+            $gallery_dir = "public/images/gallery/".date("Ymd", strtotime($Gallery->event_date));
+            Storage::deleteDirectory($gallery_dir);
+            // if (! is_null($Gallery->cover)) {
+            //     Storage::delete($Gallery->cover);
+            // }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปปกแกลลอรี่ได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปทั้งหมดของแกลลอรี่ได้', 'sysmsg' => $e->getMessage()]);
         }
 
         try {

@@ -20,7 +20,7 @@
                 ไม่พบข้อมูล Galleries รูปกิจกรรม ในระบบ
             </div>
 
-            <div class="flex flex-col w-full">
+            <div class="flex flex-col w-full mb-4">
                 <GalleryInteractiveCardList 
                     v-for="(item, index) in galleries.data" 
                     :key="index" 
@@ -29,6 +29,8 @@
                     @delete-gallery="confirmDeleteGallery(item)"
                 />
             </div>
+
+            <Paginations :pagination="galleries"/>
         
             <!-- Modal สำหรับ จัดเก็บ หรือ แก้ไข ข้อมูล Gallery รูปกิจกกรรม -->
             <Modal modalSize="large" :isModalOpen="galleryModal" >
@@ -141,7 +143,7 @@ import { Inertia } from '@inertiajs/inertia'
 import { useForm } from '@inertiajs/inertia-vue3'
 import Modal from '@/Components/Modal'
 import GalleryInteractiveCardList from '@/Components/GalleryInteractiveCardList'
-import Pagination from '@/Components/Paginations'
+import Paginations from '@/Components/Paginations'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
