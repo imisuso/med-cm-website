@@ -53,17 +53,6 @@ class InfomedAPI
 
         logger("Insert Employee data from api");
         logger($logslack);
-        // logger($sap);
-        // logger($title_th);
-        // logger($title_en);
-        // logger($rname_short_th);
-        // logger($rname_full_th);
-        // logger($rname_short_en);
-        // logger($fname_th);
-        // logger($lname_th);
-        // logger($fname_en);
-        // logger($lname_en);
-        // logger($emp_flag);
 
         // ข้อมูลที่ประกาศขึ้นมาเองใน API
         $group = 1; // default ให้เป็นกลุ่มของ วิชาการ ก่อน
@@ -141,6 +130,7 @@ class InfomedAPI
                 'position_academic'=> $position_academic,
                 'profiles'=>['leader'=> false],
                 'status'=>$status,
+                'cert' => '[]',
                 'user_previous_act'=>'api',
                 'user_last_act'=>'api'
             ]);
@@ -395,14 +385,6 @@ class InfomedAPI
         logger("Update Employee work data from api");
         logger($logslack);
         
-        // logger('sap :'.$sap);
-        // logger('division_id :'.$division_id);
-        // logger('type :'.$type);
-        // logger('group :'.$group);
-        // logger('position_division :'.$position_division);
-        // logger('reward :'.$reward);
-        // logger('manager_flag :'.$manager_flag);
-
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
 

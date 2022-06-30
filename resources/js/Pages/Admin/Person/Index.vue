@@ -54,6 +54,7 @@
     </div>
 
     <!-- Modal สำหรับ ดู จัดเก็บ หรือ แก้ไข ข้อมูลบุคคลากร -->
+    <teleport to="body">
     <Modal modalSize="large" :isModalOpen="personModal" >
       <template v-slot:header>
         <div class="text-gray-900 text-xl font-medium dark:text-white">
@@ -345,6 +346,7 @@
         </button>
       </template>
     </Modal>
+    </teleport>
 
     <!-- Modal สำหรับ confirm การลบ ข้อมูลบุคคลากร  -->
     <Modal :isModalOpen="deletePersonModal" >
@@ -375,7 +377,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, watch } from 'vue'
+import { ref, onMounted, reactive, watch, nextTick } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
 import Modal from '@/Components/Modal'
@@ -483,12 +485,13 @@ const deleteCertificate = (index, fieldType) => {
 const openPersonModal = (isopen) => {
   personModal.value = isopen
   if( !isopen ) {
-    personForm.reset()
     url.value = null
     oldimage.value = null
     submitted.value = false
     viewDataInfomation.value = false
     pdpa_protect.value = true
+    nextTick(() => personForm.reset())
+    // setTimeout(() => personForm.reset(), 3000)
   }
 }
 
@@ -654,7 +657,9 @@ const viewPerson = ( personData ) => {
       "มีการเปิดดูข้อมูลบุคคลากรของ sap_id:" + personData.sap_id, 
       "info"
   )
-  openPersonModal(true)
+
+  nextTick(() => openPersonModal(true));
+  // setTimeout(() => openPersonModal(true), 1000)
 }
 
 const editPerson = ( personData ) => {
@@ -708,14 +713,16 @@ const addPersonDataToForm = ( personData ) => {
   personForm.rname_full_en = personData.rname_full_en
   personForm.rname_short_th = personData.rname_short_th
   personForm.rname_short_en = personData.rname_short_en
+  
   personForm.image = personData.image
+  personForm.position_academic = personData.position_academic
+  
   url.value = `${personData.image_url}`
   oldimage.value = personData.image
   personForm.type = personData.type
   personForm.group = personData.group
   personForm.position_mgnt = personData.position_mgnt
   personForm.position_division = personData.position_division
-  personForm.position_academic = personData.position_academic
   personForm.reward = personData.reward
   personForm.leader = personData.profiles.leader
   personForm.certificateList = personData.cert ? JSON.parse(personData.cert) : []

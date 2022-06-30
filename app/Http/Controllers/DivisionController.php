@@ -20,7 +20,7 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/Division', [
+        return Inertia::render('Admin/Division/Index', [
             'divisions' => Division::query()
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name_th', 'like', "%{$search}%");
@@ -37,21 +37,6 @@ class DivisionController extends Controller
                 // ]),
             'filters' => Request::only(['search'])
         ]);
-
-        // $divisions = Division::orderBy('division_id', 'asc')
-        //             ->paginate(5);
-
-        // if(! count($divisions)) {
-        //     $divisions = [];     //Not found divisions
-        //     //\Log::info(count($divisions));
-        // }
-
-        // //\Log::info($divisions);
-        // return Inertia::render('Admin/Division',
-        //                         [
-        //                             'divisions' => $divisions
-        //                         ]
-        //                       );
     }
 
     /**
@@ -61,7 +46,7 @@ class DivisionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Division/DataForm');
     }
 
     /**
@@ -79,6 +64,10 @@ class DivisionController extends Controller
         $type = Request::input('type');
         $name_th = Request::input('name_th');
         $name_en = Request::input('name_en');
+
+        if (Division::where('division_id', $division_id)->first()) {
+            return Redirect::back()->withErrors(['msg' => 'Error', 'sysmsg' => 'ไม่สามารถเพิ่ม สาขา/หน่วย ได้เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
+        }
 
         try {
             if (Request::hasFile('image')) {
@@ -128,9 +117,9 @@ class DivisionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Division $Division)
     {
-        //
+        return Inertia::render('Admin/Division/DataForm', ['action' => 'edit', 'division' => $Division]);
     }
 
     /**
