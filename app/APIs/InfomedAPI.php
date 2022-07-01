@@ -408,7 +408,12 @@ class InfomedAPI
         
         // Update to DB
         $person->division_id = $division_id ?: $person->division_id;
+
+        if (strcmp($person->type, "z") === 0) {
+            $type = 'z';
+        }
         $person->type = $type ?: $person->type;
+        
         $person->group = $group ?: $person->group;
         $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
