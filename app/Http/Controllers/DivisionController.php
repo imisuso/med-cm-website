@@ -59,6 +59,18 @@ class DivisionController extends Controller
     {
         $user = Auth::user();
         $sap_id = $user->sap_id;
+        $has_image = false;
+
+        request()->validate([
+            'division_id' => ['required', 'integer', 'min:1'],
+            'name_th' => ['required'],
+            'type' => ['required']
+        ], [
+            'division_id.required' => 'ต้องใส่หมายเลข สาขา/หน่วยงาน ทุกครั้ง',
+            'division_id.min' => 'ต้องใส่หมายเลข สาขา/หน่วยงาน 1 เป็นอย่างน้อย และต้องไม่ซ้ำกับที่มีใช้อยู่ในระบบ',
+            'name_th.required' => 'ต้องใส่ชื่อภาษาไทยของ สาขา/หน่วยงาน ทุกครั้ง',
+            'type.required' => 'ต้องระบุประเภทของ สาขา/หน่วยงาน ทุกครั้ง',
+        ]);
 
         $division_id = (int) Request::input('division_id');
         $type = Request::input('type');
@@ -66,18 +78,19 @@ class DivisionController extends Controller
         $name_en = Request::input('name_en');
 
         if (Division::where('division_id', $division_id)->first()) {
-            return Redirect::back()->withErrors(['msg' => 'Error', 'sysmsg' => 'ไม่สามารถเพิ่ม สาขา/หน่วย ได้เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่ม สาขา/หน่วย ได้เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
         }
 
         try {
             if (Request::hasFile('image')) {
+                $has_image = true;
                 $storePath = 'images/divisions';
                 $imgDB = (new UploadManager)->store(Request::file('image'), true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
             } else {
-                $imgDB = "";
+                $imgDB = null;
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพ สาขา/หน่วย ได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพ สาขา/หน่วย ได้เนื่องจาก ' . $e->getMessage()]);
         }
 
         try {
@@ -92,9 +105,11 @@ class DivisionController extends Controller
             ]);
         } catch (\Exception  $e) {
 
-            // ลบรูปที่เพิ่ง upload ถ้า insert ลงฐานข้อมูลไม่สำเร็จ
-            Storage::delete($imgDB);
-            return Redirect::back()->withErrors(['msg' => 'fail', 'sysmsg' => $e->getMessage()]);
+            // หากมีรูปที่ทำการ upload มาให้ลบรูปที่เพิ่ง upload ถ้า insert ลงฐานข้อมูลไม่สำเร็จ
+            if ($has_image) {
+                Storage::delete($imgDB);
+            }
+            return Redirect::back()->withErrors(['msg' => 'เนื่องจาก ' . $e->getMessage()]);
         }
         
         return Redirect::route('admin.division');
@@ -117,9 +132,9 @@ class DivisionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Division $Division)
+    public function edit(Division $division)
     {
-        return Inertia::render('Admin/Division/DataForm', ['action' => 'edit', 'division' => $Division]);
+        return Inertia::render('Admin/Division/DataForm', ['action' => 'edit', 'division' => $division]);
     }
 
     /**
@@ -129,7 +144,7 @@ class DivisionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Division $division)
     {
         $user = Auth::user();
         $sap_id = $user->sap_id;
@@ -152,16 +167,19 @@ class DivisionController extends Controller
                 if (Request::input('oldimage')) {
                     $imgDB = Request::input('oldimage');
                 } else {
-                    $imgDB = "";
+                    $imgDB = null;
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคคลากรได้เนื่องจาก ' . $e->getMessage()]);
+        }
+
+        // ถ้า division_id ไม่เท่ากับเลขเดิม และ พบเลขนี้ในระบบแล้ว ให้ return error กลับไป
+        if (($division_id !== $division->division_id) && Division::where('division_id', $division_id)->first()) {
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงานได้ เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
         }
 
         try {
-            $division = Division::find((int)$id);
-
             $division->image = $imgDB;
             $division->division_id = $division_id;
             $division->type = $type;
@@ -182,13 +200,15 @@ class DivisionController extends Controller
             //             'user_last_act'=>$user_last_act
             //         ]);
         } catch (\Exception  $e) {
-            // ลบรูปใหม่ที่เพิ่ง upload ถ้า update ฐานข้อมูลไม่สำเร็จ
-            Storage::delete($imgDB);
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงานได้', 'sysmsg' => $e->getMessage()]);
+            // ถ้ามีการเปลี่ยนรูปใหม่ ให้ลบรูปใหม่ที่เพิ่ง upload ถ้า update ฐานข้อมูลไม่สำเร็จ
+            if ($has_update_image) {
+                Storage::delete($imgDB);
+            }
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงานได้ เนื่องจาก '. $e->getMessage()]);
         }
         
-        // ลบรูปเก่าหลังจาก update ข้อมูลทุกอย่างเรียบร้อยแล้ว
-        if ($has_update_image) {
+        // หากมีการ update รูป และเคยมีรูปเก่าแล้ว จึงจะทำการลบรูปเก่าหลังจาก update ข้อมูลทุกอย่างเรียบร้อยแล้ว
+        if ($has_update_image && $oldimage) {
             Storage::delete($oldimage);
         }
         return Redirect::route('admin.division');
@@ -203,21 +223,23 @@ class DivisionController extends Controller
     public function destroy($id)
     {
         $data = Division::select('image')->whereId((int)$id)->first();
-        //\Log::info($data['image']);
         try {
             Division::whereId((int)$id)->delete();
-            Storage::delete($data['image']);
         } catch (\Exception  $e) {
             //\Log::info($e->getMessage());
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูล สาขา/หน่วยงานได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูล สาขา/หน่วยงานได้ เนื่องจาก '. $e->getMessage()]);
         }
         
+        // ถ้าเคยมีการเก็บรูปมาแล้ว
+        if ($data['image']) {
+            Storage::delete($data['image']);
+        }
         return Redirect::route('admin.division');
     }
 
     public function listBranchOnly()
     {
-        return Division::where('division_id', '<', 19)->orderBy('division_id', 'asc')->get();
+        return Division::where('type', 'b')->orderBy('division_id', 'asc')->get();
     }
 
     public function listAll()

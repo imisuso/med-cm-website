@@ -49,10 +49,12 @@ class InfomedMonitorController extends Controller
                 $resp = $infomed->updateEmp(Request::input('data_person'));
             } elseif (strcmp(Request::header('action'), 'updwork') === 0) {
                 $resp = $infomed->updateWork(Request::input('data_person'));
+            } elseif (strcmp(Request::header('action'), 'delemp') === 0) {
+                $resp = $infomed->deleteEmp(Request::input('data_person'));
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Not Allow Any Insert or Update'
+                    'message' => 'Not Allow Others Method'
                     ], 405);
             }
         } else {

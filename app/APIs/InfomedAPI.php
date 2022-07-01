@@ -469,6 +469,34 @@ class InfomedAPI
             ], 200);
     }
 
+    public function deleteEmp($data)
+    {
+        $sap = $data['sap'];
+        $user_in = $data['userin'];
+
+        $resp = (new LogManager);
+
+        $logslack = '[{"sap":"'.$sap.'",
+            "user_in":"'.$user_in.'"
+        }]';
+
+        logger("Delete Employee from api (Notify Only)");
+        logger($logslack);
+
+        $resp->store(
+            $user_in, // มาจากใคร
+            'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+            'notify',  // action
+            'Delete person data (ข้อมูลบุคคลากร): '.$logslack, // details
+            'api' // type
+        );
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Notify success'
+            ], 200);
+    }
+
     public function monitor($sap, $secret, $token)
     {
         // $headers = ['app' => config('app.INFOMED_API_SERVICE_SECRET'), 'token' => config('app.INFOMED_API_SERVICE_TOKEN')];

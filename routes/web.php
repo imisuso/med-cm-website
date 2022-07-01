@@ -128,12 +128,12 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:manage_divisions'])
     ->controller(DivisionController::class)
     ->group(function () {
-        Route::get('/admin/division', 'index')->name('admin.division');
-        Route::get('/admin/division/create', 'create')->name('admin.division.create');
-        Route::get('/admin/division/edit/{Division}', 'edit')->name('admin.division.edit');
-        Route::post('/admin/division/store', 'store')->name('admin.division.store');
-        Route::post('/admin/{id}/update_division', 'update')->name('admin.update_division');
-        Route::delete('/admin/{id}/delete_division', 'destroy')->name('admin.delete_division');
+        Route::get('/division', 'index')->name('admin.division');
+        Route::get('/division/create', 'create')->name('admin.division.create');
+        Route::get('/division/edit/{division}', 'edit')->name('admin.division.edit');
+        Route::post('/division/store', 'store')->name('admin.division.store');
+        Route::post('/division/update/{division}', 'update')->name('admin.division.update');
+        Route::delete('/division/delete/{id}', 'destroy')->name('admin.division.delete');
     });
 Route::get('/admin/list_branch_only', [DivisionController::class, 'listBranchOnly'])->name('admin.list_branch_only');
 Route::get('/admin/list_division_all', [DivisionController::class, 'listAll'])->name('admin.list_division_all');
