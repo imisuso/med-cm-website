@@ -124,12 +124,17 @@ Route::controller(LoginController::class)
 
 
 //DivisionController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ สาขา และ แผนก
-Route::group(['middleware' => ['auth', 'can:manage_divisions'] ], function () {
-    Route::get('/admin/division', [DivisionController::class, 'index'])->name('admin.division');
-    Route::post('/admin/add_division', [DivisionController::class, 'store'])->name('admin.add_division');
-    Route::post('/admin/{id}/update_division', [DivisionController::class, 'update'])->name('admin.update_division');
-    Route::delete('/admin/{id}/delete_division', [DivisionController::class, 'destroy'])->name('admin.delete_division');
-});
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_divisions'])
+    ->controller(DivisionController::class)
+    ->group(function () {
+        Route::get('/division', 'index')->name('admin.division');
+        Route::get('/division/create', 'create')->name('admin.division.create');
+        Route::get('/division/edit/{division}', 'edit')->name('admin.division.edit');
+        Route::post('/division/store', 'store')->name('admin.division.store');
+        Route::post('/division/update/{division}', 'update')->name('admin.division.update');
+        Route::delete('/division/delete/{id}', 'destroy')->name('admin.division.delete');
+    });
 Route::get('/admin/list_branch_only', [DivisionController::class, 'listBranchOnly'])->name('admin.list_branch_only');
 Route::get('/admin/list_division_all', [DivisionController::class, 'listAll'])->name('admin.list_division_all');
 
