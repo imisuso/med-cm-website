@@ -1,7 +1,7 @@
 <template>
   <AdminAppLayout>
   <div class="flex flex-col px-2 py-1 w-full">
-    <div class="mb-2 text-2xl font-bold">จัดการบุคคลากร</div>
+    <div class="mb-2 text-2xl font-bold">จัดการบุคลากร</div>
     <!-- Toolbar -->
     <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
       <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
@@ -18,14 +18,24 @@
         <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล หรือ รหัส SAP" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
       </div>
       <div class="flex space-x-2">
-        <button @click="addPerson" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+        <Link :href="route('admin.person.create')" method="get" as="button" type="button"
+            class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+        >
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
           </div>
           <div>เพิ่ม</div>
-        </button>
+        </Link>
+        <!-- <button @click="addPerson" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <div>เพิ่ม</div>
+        </button> -->
   
         <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
           <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
@@ -53,12 +63,12 @@
         />
     </div>
 
-    <!-- Modal สำหรับ ดู จัดเก็บ หรือ แก้ไข ข้อมูลบุคคลากร -->
+    <!-- Modal สำหรับ ดู จัดเก็บ หรือ แก้ไข ข้อมูลบุคลากร -->
     <teleport to="body">
     <Modal modalSize="large" :isModalOpen="personModal" >
       <template v-slot:header>
         <div class="text-gray-900 text-xl font-medium dark:text-white">
-            รายละเอียดข้อมูลบุคคลากร
+            รายละเอียดข้อมูลบุคลากร
         </div>
         <svg @click="openPersonModal(false)" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -71,7 +81,7 @@
             <fieldset :disabled="viewDataInfomation">
               <div class="gap-6 mb-6">
                 <label class="block text-sm font-medium text-gray-700">
-                  รูปบุคคลากร
+                  รูปบุคลากร
                 </label>
                 <div class="mt-1 flex items-center">
                   <span class="inline-block h-32 w-28 rounded-md overflow-hidden bg-gray-100">
@@ -171,7 +181,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-2">
-                  <label for="type" class="block text-sm font-medium text-gray-700">ประเภทบุคคลากร</label>
+                  <label for="type" class="block text-sm font-medium text-gray-700">ประเภทบุคลากร</label>
                   <select v-model="personForm.type" id="type" @change="personForm.group=99" class=" block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="z">ที่ปรึกษา</option>
                     <option value="a">สายวิชาการ</option>
@@ -235,7 +245,7 @@
                   <div class="p-error" v-if="submitted && (personForm.position_academic === 99)">จำเป็นต้องระบุตำแหน่งงาน</div>
                 </div>
 
-                <!-- แสดงข้อมูลส่วนนี้เมื่อบุคคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
+                <!-- แสดงข้อมูลส่วนนี้เมื่อบุคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
                 <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
                   <div class="flex">
                     <label for="rname_full_th" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
@@ -348,12 +358,12 @@
     </Modal>
     </teleport>
 
-    <!-- Modal สำหรับ confirm การลบ ข้อมูลบุคคลากร  -->
+    <!-- Modal สำหรับ confirm การลบ ข้อมูลบุคลากร  -->
     <Modal :isModalOpen="deletePersonModal" >
 
       <template v-slot:header>
         <div class="text-gray-900 text-xl font-medium dark:text-white">
-            คุณต้องการลบข้อมูลบุคคลากร
+            คุณต้องการลบข้อมูลบุคลากร
         </div>
       </template>
 
@@ -405,7 +415,7 @@ onMounted(() => {
   });
 })
 
-const section = "Person Management (ดูข้อมูลทั้งหมดของบุคคลากรเป็นรายคน)"
+const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"
 const divisionService = ref(new DivisionService())
 const traceLogService = ref(new TraceLogService())
 const personModal = ref(false)
@@ -444,7 +454,7 @@ const personForm = useForm({
   title_en:  'Mr.',
   fname_th: 'ทดสอบ',
   fname_en: '',
-  lname_th: 'เพิ่มบุคคลากร',
+  lname_th: 'เพิ่มบุคลากร',
   lname_en: '',
   rname_full_th: null,
   rname_full_en: null,
@@ -556,7 +566,7 @@ const checkRequireData = () => {
 const savePerson = () => {
   submitted.value = true;
   if(! checkRequireData() ) {
-      toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของบุคคลากรไม่ครบถ้วน');
+      toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของบุคลากรไม่ครบถ้วน');
   } else { 
     if(personForm.id) {  // Update
       //console.log("Update")
@@ -571,8 +581,8 @@ const savePerson = () => {
         preserveState: false,
         //preserveScroll: true,
         onSuccess: () => {
-          //swalAlert('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลบุคคลากร เรียบร้อย')
-          toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลบุคคลากร เรียบร้อย')
+          //swalAlert('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')
+          toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')
           personForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
         },
         onError: (errors) => {
@@ -594,7 +604,7 @@ const savePerson = () => {
       })).post(route('admin.add_person'), {
         preserveState: true,
         onSuccess: () => {
-          toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลบุคคลากร เรียบร้อย')
+          toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลบุคลากร เรียบร้อย')
           personForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
         },
         onError: (errors) => {
@@ -619,7 +629,7 @@ const deletePerson = () => {
   })).delete(route('admin.delete_person'), {
     preserveState: true,
     onSuccess: () => {
-        toast('success', 'สำเร็จ', 'ลบข้อมูลบุคคลากร เรียบร้อย')
+        toast('success', 'สำเร็จ', 'ลบข้อมูลบุคลากร เรียบร้อย')
     },
     onError: (errors) => {
         console.log(errors)
@@ -654,7 +664,7 @@ const viewPerson = ( personData ) => {
   traceLogService.value.storeLog(
       section, 
       "view",
-      "มีการเปิดดูข้อมูลบุคคลากรของ sap_id:" + personData.sap_id, 
+      "มีการเปิดดูข้อมูลบุคลากรของ sap_id:" + personData.sap_id, 
       "info"
   )
 
@@ -669,7 +679,7 @@ const editPerson = ( personData ) => {
   traceLogService.value.storeLog(
       section, 
       "edit",
-      "มีการเปิดแก้ไขข้อมูลบุคคลากรของ sap_id:" + personData.sap_id, 
+      "มีการเปิดแก้ไขข้อมูลบุคลากรของ sap_id:" + personData.sap_id, 
       "pdpa"
   )
   openPersonModal(true)

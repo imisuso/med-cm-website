@@ -176,6 +176,7 @@ Route::prefix('admin')
     ->group(function () {
         Route::match(['get', 'post'], '/person', 'index')->name('admin.person');
         Route::get('/person_order/{division_slug}', 'index_order')->name('admin.person_order');
+        Route::get('/person/create', 'create')->name('admin.person.create');
         Route::post('/add_person', 'store')->name('admin.add_person');
         Route::post('/update_person/{Person}', 'update')->name('admin.update_person');
         Route::patch('/update_person_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.update_person_display_status');

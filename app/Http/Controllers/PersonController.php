@@ -98,7 +98,8 @@ class PersonController extends Controller
      */
     public function create()
     {
-        return 'create';
+        $divisions = Division::all();
+        return Inertia::render('Admin/Person/DataForm', compact('divisions'));
     }
 
     /**
