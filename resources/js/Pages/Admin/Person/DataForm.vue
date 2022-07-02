@@ -4,7 +4,7 @@
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลบุคลากร</div>
-                <Link :href="route('admin.person')" method="get" as="button" type="button"
+                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"
                     class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
@@ -26,9 +26,10 @@
                                     </label>
                                     <div class="mt-1 flex items-center">
                                         <span class="inline-block h-32 w-28 rounded-md overflow-hidden bg-gray-100">
-                                            <svg v-if="! personForm.image" class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <!-- <svg v-if="! personForm.image" class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                            </svg>
+                                            </svg> -->
+                                            <img v-if="! url" :src="`${baseUrl}/fallbackimage/default-blank-image.jpg`" class="h-full w-full rounded-md"/>
                                             <img v-else :src="url" />
                                         </span>
                                         <label class="flex flex-col w-24 items-center mx-2 px-2 bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer hover:bg-blue-400 hover:text-white">
@@ -289,9 +290,9 @@
                     >
                     ดู/ปิด ข้อมูลส่วนบุคคล
                 </button>
-                <button v-if="action === 'insert'" type="button" @click="true" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
+                <button v-if="action === 'insert'" type="button" @click="savePerson" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
                 <button v-if="action === 'edit'" type="button" @click="true" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
-                <Link :href="route('admin.person')" method="get" as="button" type="button"
+                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                 >
                     ยกเลิก
@@ -304,7 +305,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
 
 import { createToast } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast
@@ -313,6 +314,7 @@ const props = defineProps({
     action: { type: String, require: true, default: "insert" },
     person: { type: Object },
     divisions: { type: Array },
+    fdivision_selected: { type: Number},
 })
 
 const actionWord = ref(null)
@@ -324,28 +326,28 @@ const pdpa_protect = ref(true)
 const submitted = ref(false)
 
 const personForm = useForm({
-  id: null,
-  //division_selected: usePage().props.value.auth.division_id,
-  sap_id: '99999999',
-  title_th: 'นาย',
-  title_en:  'Mr.',
-  fname_th: 'ทดสอบ',
-  fname_en: '',
-  lname_th: 'เพิ่มบุคลากร',
-  lname_en: '',
-  rname_full_th: null,
-  rname_full_en: null,
-  rname_short_th: null,
-  rname_short_en: null,
-  image: '',
-  type: 'b',
-  group: 99,
-  position_mgnt: null,
-  position_division: null,
-  position_academic: 99,
-  reward: null,
-  leader: false,
-  certificateList: []
+  id: props.person ? props.person.id : null,
+  division_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id,
+  sap_id: props.person ? props.person.sap_id : '99999999',
+  title_th: props.person ? props.person.title_th : 'นาย',
+  title_en: props.person ? props.person.title_en :  'Mr.',
+  fname_th: props.person ? props.person.fname_th : 'ทดสอบ',
+  fname_en: props.person ? props.person.fname_en : null,
+  lname_th: props.person ? props.person.lname_th : 'เพิ่มบุคลากร',
+  lname_en: props.person ? props.person.lname_en : null,
+  rname_full_th: props.person ? props.person.rname_full_th : null,
+  rname_full_en: props.person ? props.person.rname_full_en : null,
+  rname_short_th: props.person ? props.person.rname_short_th : null,
+  rname_short_en: props.person ? props.person.rname_short_en : null,
+  image: props.person ? props.person.image : null,
+  type: props.person ? props.person.type : 'b',
+  group: props.person ? props.person.group : 99,
+  position_mgnt: props.person ? props.person.position_mgnt : null,
+  position_division: props.person ? props.person.position_division : null,
+  position_academic: props.person ? props.person.position_academic : 99,
+  reward: props.person ? props.person.reward : null,
+  leader: props.person ? props.person.profiles.leader : false,
+  certificateList: props.person ? JSON.parse(props.person.cert) : []
 });
 
 const group_list = ref([
@@ -368,9 +370,11 @@ const position_academic_list = ref([
 switch(props.action) {
     case 'insert':
         actionWord.value = "เพิ่ม"
+        pdpa_protect.value = false
         break;
     case 'edit':
         actionWord.value = "แก้ไข"
+        pdpa_protect.value = false
         break;
     case 'view':
         actionWord.value = "ดู"
@@ -405,7 +409,6 @@ const deleteCertificate = (index, fieldType) => {
 
 const previewImage = (e) => {
     const file = e.target.files[0];
-    //console.log(file)
     if( file ) {
         url.value = URL.createObjectURL(file);
     } else {
@@ -442,6 +445,78 @@ const togglePdpaData = () => {
             "pdpa"
         )
     }
+}
+
+const checkRequireData = () => {
+  // ตรวจสอบ กลุ่มงานและ ตำแหน่งงานต้องถูกเลือก ห้ามว่าง
+  if( (personForm.group === 99) || (personForm.position_academic === 99) ) {
+    return false
+  }
+  // ถ้ามีตำแหน่งทางวิชาการ ต้องระบุให้ครบทั้งชื่อ นามสกุล คำนำหน้าชื่อแบบเต็ม คำนำหน้าชื่อแบบย่อ 
+  else if(personForm.position_academic !== 0) {
+    if( personForm.fname_th && personForm.lname_th && personForm.rname_full_th && personForm.rname_short_th ) {
+      return true
+    } else {
+      return false
+    }
+  }
+  // ที่เหลืออย่างน้อยต้องใส่ ชื่อ นามสกุล
+  else {
+    if( personForm.fname_th && personForm.lname_th ) {
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+const savePerson = () => {
+  submitted.value = true;
+  if(! checkRequireData() ) {
+      toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของบุคลากรไม่ครบถ้วน');
+  } else { 
+    if(personForm.id) {  // Update
+      personForm.transform(data => ({
+          ...data,
+          certificateList: JSON.stringify(data.certificateList),
+          oldimage: oldimage.value,
+          fdivision_selected: fdivision_selected.value   
+      })).post( route('admin.update_person', personForm.id), {
+        _method: 'patch',
+        preserveState: true,
+        onSuccess: () => {
+          toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')    
+        },
+        onError: (errors) => {
+          toast('danger', errors.msg, errors.sysmsg)
+        },
+        onFinish: () => {
+          personForm.processing = false
+        }
+      })
+    } else { // Insert
+      // console.log(personForm.certificateList)
+      //personForm.certificateList = JSON.stringify(personForm.certificateList)
+      // console.log(personForm.certificateList)
+      personForm.transform(data => ({
+          ...data,
+          certificateList: JSON.stringify(data.certificateList)
+      })).post(route('admin.person.store'), {
+        preserveState: true,
+        onSuccess: () => {
+          toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลบุคลากร เรียบร้อย')
+        },
+        onError: (errors) => {
+          toast('danger', errors.msg, errors.sysmsg)
+        },
+        onFinish: () => {
+          personForm.processing = false
+          
+        }
+      });
+    }
+    pdpa_protect.value = true
+  }
 }
 
 

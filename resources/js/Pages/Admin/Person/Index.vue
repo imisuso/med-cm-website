@@ -1,5 +1,9 @@
 <template>
   <AdminAppLayout>
+  <!-- <div v-if="$page.props.auth.abilities.includes('view_all_content') || 
+       ($page.props.auth.abilities.includes('view_division_content') && (fdivision_selected == $page.props.auth.division_id))" 
+       class="flex flex-col px-2 py-1 w-full"
+  > -->
   <div class="flex flex-col px-2 py-1 w-full">
     <div class="mb-2 text-2xl font-bold">จัดการบุคลากร</div>
     <!-- Toolbar -->
@@ -18,7 +22,7 @@
         <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล หรือ รหัส SAP" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
       </div>
       <div class="flex space-x-2">
-        <Link :href="route('admin.person.create')" method="get" as="button" type="button"
+        <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
             class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
         >
           <div>
@@ -378,11 +382,15 @@
         <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
       </template>
     </Modal>
+
+    <div class="flex justify-center md:justify-end mt-2 px-4">
+      <Pagination :pagination="persons"/>
+    </div>
   </div>
 
-  <div class="flex justify-center md:justify-end mt-2 px-4">
-      <Pagination :pagination="persons"/>
-  </div>
+  <!-- <div v-else class="flex justify-center px-2 py-2 mb-2 text-2xl text-red-500 font-bold border rounded-lg shadow-lg">คุณไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ</div> -->
+
+  
 </AdminAppLayout>
 </template>
 
@@ -401,9 +409,6 @@ import TraceLogService from '@/Services/TraceLogService'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
-// import Swal from 'sweetalert2'
-// import 'sweetalert2/dist/sweetalert2.min.css';
-
 const props = defineProps({
     persons: { type: Object, required: true, default: {} },
     filters: { type: Object },
@@ -420,31 +425,31 @@ const divisionService = ref(new DivisionService())
 const traceLogService = ref(new TraceLogService())
 const personModal = ref(false)
 const deletePersonModal = ref(false)
-const url = ref(null)
-const oldimage = ref(null)
-const submitted = ref(false)
-const viewDataInfomation = ref(false)
-const add_person_without_filter = ref(true)
+// const url = ref(null)
+// const oldimage = ref(null)
+// const submitted = ref(false)
+// const viewDataInfomation = ref(false)
+//const add_person_without_filter = ref(true)
 const divisions = ref([])
 const filter_key = ref()
 const check_doctor = ref()
 const pdpa_protect = ref(true)
-const group_list = ref([
-                        { value: 1, desc: "วิชาการ" },
-                        { value: 2, desc: "วิชาชีพเฉพาะ" },
-                        { value: 3, desc: "สนับสนุนวิชาการ" },
-                        { value: 4, desc: "สนับสนุนทั่วไป(ปฏิบัติการ)" },
-                        { value: 5, desc: "สนับสนุนทั่วไป(ช่วยปฏิบัติการ)" }
-                      ])
-const position_academic_list = ref([
-                                    { value: 0, desc: "ไม่ระบุตำแหน่ง" },
-                                    { value: 1, desc: "ศาสตราจารย์" },
-                                    { value: 2, desc: "รองศาสตราจารย์" },
-                                    { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
-                                    { value: 4, desc: "อาจารย์" },
-                                    { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
-                                    { value: 6, desc: "แพทย์" }
-                                  ])
+// const group_list = ref([
+//                         { value: 1, desc: "วิชาการ" },
+//                         { value: 2, desc: "วิชาชีพเฉพาะ" },
+//                         { value: 3, desc: "สนับสนุนวิชาการ" },
+//                         { value: 4, desc: "สนับสนุนทั่วไป(ปฏิบัติการ)" },
+//                         { value: 5, desc: "สนับสนุนทั่วไป(ช่วยปฏิบัติการ)" }
+//                       ])
+// const position_academic_list = ref([
+//                                     { value: 0, desc: "ไม่ระบุตำแหน่ง" },
+//                                     { value: 1, desc: "ศาสตราจารย์" },
+//                                     { value: 2, desc: "รองศาสตราจารย์" },
+//                                     { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
+//                                     { value: 4, desc: "อาจารย์" },
+//                                     { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
+//                                     { value: 6, desc: "แพทย์" }
+//                                   ])
 
 const personForm = useForm({
   id: null,
@@ -482,15 +487,15 @@ watch( search, value => {
     })
 })
 
-const createCertificate = (fieldType) => {
-  fieldType.push({ cert: '' });
-  //console.log(personForm.certificateList)
-}
+// const createCertificate = (fieldType) => {
+//   fieldType.push({ cert: '' });
+//   //console.log(personForm.certificateList)
+// }
 
-const deleteCertificate = (index, fieldType) => {
-  fieldType.splice(index, 1);
-  //console.log(personForm.certificateList)
-}
+// const deleteCertificate = (index, fieldType) => {
+//   fieldType.splice(index, 1);
+//   //console.log(personForm.certificateList)
+// }
 
 const openPersonModal = (isopen) => {
   personModal.value = isopen
@@ -526,18 +531,6 @@ const toast = (severity, summary, detail) => {
       timeout: 3000,
       //toastBackgroundColor: bg_color,
     })
-}
-
-const swalAlert = (severity, summary, detail ) => {
-  Swal.fire({
-              icon: severity,   // Can success, warning, error, info, question
-              //toast: true,
-              position: 'center', // Can 'top', 'top-start', 'top-end', 'center', 'center-start', 'center-end', 'bottom', 'bottom-start', or 'bottom-end'
-              title: summary,
-              html: detail,
-              //timer: 3000,
-              //timerProgressBar: true,
-            })
 }
 
 const checkRequireData = () => {
@@ -651,38 +644,47 @@ const getPersonList = () => {
 }
 
 // Click ปุ่ม เพิ่ม 
-const addPerson = () => {
-  personForm.reset()
-  pdpa_protect.value = false
-  openPersonModal(true)
-}
+// const addPerson = () => {
+//   personForm.reset()
+//   pdpa_protect.value = false
+//   openPersonModal(true)
+// }
 
 const viewPerson = ( personData ) => {
-  addPersonDataToForm( personData )
-  viewDataInfomation.value = true
-  // เก็บ Log เมื่อมีการเปิดดูข้อมูล
-  traceLogService.value.storeLog(
-      section, 
-      "view",
-      "มีการเปิดดูข้อมูลบุคลากรของ sap_id:" + personData.sap_id, 
-      "info"
-  )
+  Inertia.get(route('admin.person.view', personData.id), {}, {
+    preserveState: true,
+    replace: true
+  })
+  // addPersonDataToForm( personData )
+  // viewDataInfomation.value = true
+  // // เก็บ Log เมื่อมีการเปิดดูข้อมูล
+  // traceLogService.value.storeLog(
+  //     section, 
+  //     "view",
+  //     "มีการเปิดดูข้อมูลบุคลากรของ sap_id:" + personData.sap_id, 
+  //     "info"
+  // )
 
-  nextTick(() => openPersonModal(true));
-  // setTimeout(() => openPersonModal(true), 1000)
+  // nextTick(() => openPersonModal(true));
+  // // setTimeout(() => openPersonModal(true), 1000)
 }
 
 const editPerson = ( personData ) => {
-  addPersonDataToForm( personData )
-  pdpa_protect.value = false
-  // เก็บ Log เมื่อมีการแก้ไขข้อมูล
-  traceLogService.value.storeLog(
-      section, 
-      "edit",
-      "มีการเปิดแก้ไขข้อมูลบุคลากรของ sap_id:" + personData.sap_id, 
-      "pdpa"
-  )
-  openPersonModal(true)
+  Inertia.get(route('admin.person.edit', personData.id), {}, {
+    preserveState: true,
+    replace: true
+  })
+
+  // addPersonDataToForm( personData )
+  // pdpa_protect.value = false
+  // // เก็บ Log เมื่อมีการแก้ไขข้อมูล
+  // traceLogService.value.storeLog(
+  //     section, 
+  //     "edit",
+  //     "มีการเปิดแก้ไขข้อมูลบุคลากรของ sap_id:" + personData.sap_id, 
+  //     "pdpa"
+  // )
+  // openPersonModal(true)
 }
 
 const confirmDeletePerson = ( personData ) => {

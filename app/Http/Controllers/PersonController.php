@@ -50,6 +50,12 @@ class PersonController extends Controller
 
         $divisionId = request()->fdivision_selected ?? request()->user()->person->division_id;
 
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $divisionId)) {
+            // allowed statement will be here
+            //return Redirect::back()->withErrors(['msg' => 'คุณไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ']);
+            return Inertia::render('Admin/Errors/ErrorPermission');
+        }
+
         //logger($divisionId);
         if (strcmp($divisionId, "0") !== 0) {
             $query = Person::query()->where('division_id', $divisionId)->filterBySearch(request()->search);
@@ -98,8 +104,14 @@ class PersonController extends Controller
      */
     public function create()
     {
+        $fdivision_selected = (int)request()->fdivision_selected ?? (int)request()->user()->person->division_id;
+
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission');
+        }
+
         $divisions = Division::all();
-        return Inertia::render('Admin/Person/DataForm', compact('divisions'));
+        return Inertia::render('Admin/Person/DataForm', compact('divisions', 'fdivision_selected'));
     }
 
     /**
@@ -110,11 +122,13 @@ class PersonController extends Controller
     {
         $user = Auth::user();
         $sap_id = $user->sap_id;
-        $fdivision_selected = Request::input('fdivision_selected');
+        //$fdivision_selected = Request::input('fdivision_selected');
+
+        $division_id = Request::input('division_selected');
 
         try {
             if (Request::hasFile('image')) {
-                $division_id = Request::input('division_selected');
+                //$division_id = Request::input('division_selected');
                 $storePath = 'images/person/' . $division_id;
                 $imgDB = (new UploadManager)->store(Request::file('image'), true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
             } else {
@@ -131,7 +145,7 @@ class PersonController extends Controller
 
             Person::create([
                 'image'=> $imgDB,
-                'division_id'=> (int) Request::input('division_selected'),
+                'division_id'=> (int) $division_id,
                 'sap_id'=>Request::input('sap_id'),
                 'title_th'=>Request::input('title_th'),
                 'title_en'=>Request::input('title_en'),
@@ -168,7 +182,30 @@ class PersonController extends Controller
         );
 
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
-        return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
+        // กลับไปยังหน้าของ สาขา/หน่วย ที่ได้ทำการเพิ่มคนเข้าไปใหม่
+        return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function view(Person $person)
+    {
+        $divisions = Division::all();
+        $fdivision_selected = $person->division_id;
+        $action = "view";
+
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission');
+        }
+
+        return Inertia::render('Admin/Person/DataForm', compact('action', 'divisions', 'person', 'fdivision_selected'));
+
+        //return Inertia::render('Admin/Person/DataForm', ['action' => 'view', 'person' => $person]);
+        //return Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type', 'status')->where('sap_id', $id);
     }
 
     /**
@@ -188,9 +225,17 @@ class PersonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Person $person)
     {
-        //
+        $divisions = Division::all();
+        $fdivision_selected = $person->division_id;
+        $action = "edit";
+
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission');
+        }
+        
+        return Inertia::render('Admin/Person/DataForm', compact('action', 'divisions', 'person', 'fdivision_selected'));
     }
 
     /**

@@ -177,7 +177,9 @@ Route::prefix('admin')
         Route::match(['get', 'post'], '/person', 'index')->name('admin.person');
         Route::get('/person_order/{division_slug}', 'index_order')->name('admin.person_order');
         Route::get('/person/create', 'create')->name('admin.person.create');
-        Route::post('/add_person', 'store')->name('admin.add_person');
+        Route::get('/person/view/{person}', 'view')->name('admin.person.view');
+        Route::get('/person/edit/{person}', 'edit')->name('admin.person.edit');
+        Route::post('/person/store', 'store')->name('admin.person.store');
         Route::post('/update_person/{Person}', 'update')->name('admin.update_person');
         Route::patch('/update_person_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.update_person_display_status');
         Route::delete('/delete_person', 'destroy')->name('admin.delete_person');
