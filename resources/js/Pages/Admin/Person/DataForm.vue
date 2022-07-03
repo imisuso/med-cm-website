@@ -291,7 +291,7 @@
                     ดู/ปิด ข้อมูลส่วนบุคคล
                 </button>
                 <button v-if="action === 'insert'" type="button" @click="savePerson" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
-                <button v-if="action === 'edit'" type="button" @click="true" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
+                <button v-if="action === 'edit'" type="button" @click="savePerson" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
                 <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                 >
@@ -307,6 +307,9 @@
 import { ref } from 'vue'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
 
+// API Service
+import TraceLogService from '@/Services/TraceLogService'
+
 import { createToast } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast
 
@@ -317,6 +320,7 @@ const props = defineProps({
     fdivision_selected: { type: Number},
 })
 
+const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"
 const actionWord = ref(null)
 const baseUrl = ref(base_url) 
 const url = props.person ? ref(props.person.image_url) : ref(null)
@@ -324,6 +328,7 @@ const oldimage = props.person ? ref(props.person.image) : ref(null)
 const viewDataInfomation = ref(false)
 const pdpa_protect = ref(true)
 const submitted = ref(false)
+const traceLogService = ref(new TraceLogService())
 
 const personForm = useForm({
   id: props.person ? props.person.id : null,
@@ -471,52 +476,59 @@ const checkRequireData = () => {
 }
 
 const savePerson = () => {
-  submitted.value = true;
-  if(! checkRequireData() ) {
-      toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของบุคลากรไม่ครบถ้วน');
-  } else { 
-    if(personForm.id) {  // Update
-      personForm.transform(data => ({
-          ...data,
-          certificateList: JSON.stringify(data.certificateList),
-          oldimage: oldimage.value,
-          fdivision_selected: fdivision_selected.value   
-      })).post( route('admin.update_person', personForm.id), {
-        _method: 'patch',
-        preserveState: true,
-        onSuccess: () => {
-          toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')    
-        },
-        onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-          personForm.processing = false
+    let error_display = ''
+    submitted.value = true;
+    if(! checkRequireData() ) {
+        toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของบุคลากรไม่ครบถ้วน');
+    } else { 
+        if(personForm.id) {  // Update
+            personForm.transform(data => ({
+                ...data,
+                certificateList: JSON.stringify(data.certificateList),
+                oldimage: oldimage.value,
+                //fdivision_selected: fdivision_selected.value   
+            })).post( route('admin.person.update', personForm.id), {
+                    _method: 'patch',
+                    preserveState: true,
+                onSuccess: () => {
+                    toast('success', 'สำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')    
+                },
+                onError: (errors) => {
+                    for ( let p in errors ) {
+                        error_display = error_display + `- ${errors[p]}<br/>`
+                    }
+                    toast('danger', 'พบข้อผิดพลาด', error_display);
+                    pdpa_protect.value = false
+                },
+                onFinish: () => {
+                    personForm.processing = false
+                }
+            })
+        } else { // Insert
+        // console.log(personForm.certificateList)
+        //personForm.certificateList = JSON.stringify(personForm.certificateList)
+        // console.log(personForm.certificateList)
+            personForm.transform(data => ({
+                ...data,
+                certificateList: JSON.stringify(data.certificateList)
+            })).post(route('admin.person.store'), {
+                    preserveState: true,
+                onSuccess: () => {
+                    toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลบุคลากร เรียบร้อย')
+                },
+                onError: (errors) => {
+                    for ( let p in errors ) {
+                        error_display = error_display + `- ${errors[p]}<br/>`
+                    }
+                    toast('danger', 'พบข้อผิดพลาด', error_display);
+                },
+                onFinish: () => {
+                    personForm.processing = false 
+                }
+            });
         }
-      })
-    } else { // Insert
-      // console.log(personForm.certificateList)
-      //personForm.certificateList = JSON.stringify(personForm.certificateList)
-      // console.log(personForm.certificateList)
-      personForm.transform(data => ({
-          ...data,
-          certificateList: JSON.stringify(data.certificateList)
-      })).post(route('admin.person.store'), {
-        preserveState: true,
-        onSuccess: () => {
-          toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลบุคลากร เรียบร้อย')
-        },
-        onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-          personForm.processing = false
-          
-        }
-      });
+        pdpa_protect.value = true
     }
-    pdpa_protect.value = true
-  }
 }
 
 

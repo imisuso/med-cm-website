@@ -177,12 +177,12 @@ Route::prefix('admin')
         Route::match(['get', 'post'], '/person', 'index')->name('admin.person');
         Route::get('/person_order/{division_slug}', 'index_order')->name('admin.person_order');
         Route::get('/person/create', 'create')->name('admin.person.create');
-        Route::get('/person/view/{person}', 'view')->name('admin.person.view');
-        Route::get('/person/edit/{person}', 'edit')->name('admin.person.edit');
+        Route::get('/person/view/{Person}', 'view')->name('admin.person.view');
+        Route::get('/person/edit/{Person}', 'edit')->name('admin.person.edit');
         Route::post('/person/store', 'store')->name('admin.person.store');
-        Route::post('/update_person/{Person}', 'update')->name('admin.update_person');
+        Route::post('/person/update/{Person}', 'update')->name('admin.person.update');
         Route::patch('/update_person_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.update_person_display_status');
-        Route::delete('/delete_person', 'destroy')->name('admin.delete_person');
+        Route::delete('/person/delete/{id}', 'destroy')->name('admin.person.delete');
         Route::post('/update_person_display_order', 'updatePersonDisplayOrder')->name('admin.update_person_display_order');
         Route::get('/list_person_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('admin.list_person_by_division_and_type');
     });

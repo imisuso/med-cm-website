@@ -78,7 +78,7 @@ class DivisionController extends Controller
         $name_en = Request::input('name_en');
 
         if (Division::where('division_id', $division_id)->first()) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่ม สาขา/หน่วย ได้เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่ม สาขา/หน่วยงาน ได้เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
         }
 
         try {
@@ -90,7 +90,7 @@ class DivisionController extends Controller
                 $imgDB = null;
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพ สาขา/หน่วย ได้เนื่องจาก ' . $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพ สาขา/หน่วยงาน ได้เนื่องจาก ' . $e->getMessage()]);
         }
 
         try {
@@ -171,12 +171,12 @@ class DivisionController extends Controller
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคคลากรได้เนื่องจาก ' . $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพ สาขา/หน่วยงาน ได้เนื่องจาก ' . $e->getMessage()]);
         }
 
         // ถ้า division_id ไม่เท่ากับเลขเดิม และ พบเลขนี้ในระบบแล้ว ให้ return error กลับไป
         if (($division_id !== $division->division_id) && Division::where('division_id', $division_id)->first()) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงานได้ เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงาน ได้เนื่องจากพบหมายเลข ' .$division_id.' นี้ถูกใช้งานในระบบแล้ว']);
         }
 
         try {
@@ -204,7 +204,7 @@ class DivisionController extends Controller
             if ($has_update_image) {
                 Storage::delete($imgDB);
             }
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงานได้ เนื่องจาก '. $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงาน ได้เนื่องจาก '. $e->getMessage()]);
         }
         
         // หากมีการ update รูป และเคยมีรูปเก่าแล้ว จึงจะทำการลบรูปเก่าหลังจาก update ข้อมูลทุกอย่างเรียบร้อยแล้ว
@@ -226,8 +226,7 @@ class DivisionController extends Controller
         try {
             Division::whereId((int)$id)->delete();
         } catch (\Exception  $e) {
-            //\Log::info($e->getMessage());
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูล สาขา/หน่วยงานได้ เนื่องจาก '. $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูล สาขา/หน่วยงาน ได้เนื่องจาก '. $e->getMessage()]);
         }
         
         // ถ้าเคยมีการเก็บรูปมาแล้ว
