@@ -4,12 +4,22 @@
     <!-- Toolbar -->
     <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
       <div class=" text-2xl font-bold">จัดการข่าวประกาศ</div>
-      <button @click="addAnnounce" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+      <Link :href="route('admin.announce.create')" :data="{ 'fdivision_selected': filterForm.fdivision_selected }" method="get" as="button" type="button"
+          class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+      >
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <div>เพิ่ม</div>
+      </Link>
+      <!-- <button @click="addAnnounce" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
         เพิ่ม
-      </button>
+      </button> -->
     </div>
   
     <div class="mt-0 mb-2 md:col-span-2">
@@ -196,12 +206,14 @@
         </div>
         <div class="">
           <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">เนื้อหา</label>
-          <QuillEditor  ref="quill_e" 
-                        theme="snow" 
-                        v-model:content="announceForm.detail_delta" 
-                        contentType="delta" 
-                        :toolbar="quill_options_full" 
-                        @ready="initialQuill" 
+          <QuillEditor
+            id="quill_e"  
+            ref="quill_e" 
+            theme="snow" 
+            v-model:content="announceForm.detail_delta" 
+            contentType="delta" 
+            :toolbar="quill_options_full" 
+            @ready="initialQuill" 
           />
         </div>
       </template>
@@ -254,8 +266,8 @@ import AnnounceService from '@/Services/AnnounceService'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
+// import { QuillEditor } from '@vueup/vue-quill'
+// import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 onMounted(() => {
   divisionService.value.listAll().then(data => {
@@ -270,6 +282,7 @@ onMounted(() => {
 
 const props = defineProps({
     announces: { type: Object, required: true, default: {} },
+    fdivision_selected: { type: Number}
     //filters: { type: Object },
 })
 
@@ -331,7 +344,7 @@ const filterForm = useForm({
   ftopic: null,
   //fexpire_only: 0,
   fexpire_type: 'all',
-  fdivision_selected: usePage().props.value.auth.division_id
+  fdivision_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id
 });
 
 const dateFormat = (date) => {
@@ -382,7 +395,10 @@ const initialQuill = () => {
 
 const openAnnounceModal = (isopen) => {
   announceModal.value = isopen
-  quill_e.value.reinit() // ทำการ Reinit ตัว Editor หลังจากที่มีการเปลี่ยน content เพื่อให้แสดงผลได้
+  nextTick(() => {
+      quill_e.value.reinit() // ทำการ Reinit ตัว Editor หลังจากที่มีการเปลี่ยน content เพื่อให้แสดงผลได้
+  }); 
+  
   if( !isopen ) {
     announceForm.reset()
     // submitted.value = false
@@ -473,11 +489,15 @@ const saveAnnounce = () => {
 }
 
 const filterAnnounce = () => {
-  filterForm.get(route('admin.announce'), {
+  filterForm.post(route('admin.announce'), {
     preserveState: true,
     replace: true,
     onError: (errors) => {
-      toast('info', errors.msg, errors.sysmsg)
+      let error_display = ''
+      for ( let p in errors ) {
+        error_display = error_display + `- ${errors[p]}<br/>`
+      }
+      toast('info', 'ข้อแนะนำ', error_display);
     },
     onFinish: () => {
       filterForm.processing = false 
@@ -488,7 +508,11 @@ const filterAnnounce = () => {
 // Click ปุ่ม เพิ่ม 
 const addAnnounce = () => {
   announceForm.reset()
-  quill_e.value.getQuill().enable(true) // ทำการ enable Editor ให้ใส่เนื้อหาได้
+  nextTick(() => {
+      console.log(quill_e.value)
+  });  
+  
+  //quill_e.value.getQuill().enable(true) // ทำการ enable Editor ให้ใส่เนื้อหาได้
   openAnnounceModal(true)
 }
 
@@ -511,7 +535,7 @@ const addAnnounceDataToForm = ( announceData ) => {
   announceForm.old_attachments = announceData.attach_files.length > 0 ? announceData.attach_files : []
 };
 
-filterAnnounce()
+//filterAnnounce()
 </script>
 
 <style scoped>
