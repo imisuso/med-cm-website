@@ -50,7 +50,11 @@ class PersonController extends Controller
 
         $divisionId = request()->fdivision_selected ?? request()->user()->person->division_id;
 
-        //logger($divisionId);
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($divisionId)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
         if (strcmp($divisionId, "0") !== 0) {
             $query = Person::query()->where('division_id', $divisionId)->filterBySearch(request()->search);
         } else {
@@ -84,11 +88,16 @@ class PersonController extends Controller
         //$user = Auth::user();
         $division_select = Division::select('division_id', 'type')->where('slug', $division_slug)->first();
         $division_id = $division_select->division_id;
-        $person_type = Person::select('type')->where('division_id', $division_id)->groupBy('type')->orderBy('type', 'asc')->get();
-        // \Log::info($division_slug);
-        // \Log::info($division_id);
 
-        return Inertia::render('Admin/Person/PersonOrder', ['person_types' => $person_type, 'division_id' => $division_id, 'division_slug' => $division_slug]);
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($division_id)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
+        $person_types = Person::select('type')->where('division_id', $division_id)->groupBy('type')->orderBy('type', 'asc')->get();
+
+        return Inertia::render('Admin/Person/PersonOrder', compact('person_types', 'division_id', 'division_slug'));
+        //return Inertia::render('Admin/Person/PersonOrder', ['person_types' => $person_types, 'division_id' => $division_id, 'division_slug' => $division_slug]);
     }
 
     /**
@@ -98,7 +107,15 @@ class PersonController extends Controller
      */
     public function create()
     {
-        return 'create';
+        $fdivision_selected = (int)request()->fdivision_selected ?? (int)request()->user()->person->division_id;
+        
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
+        $divisions = Division::all();
+        return Inertia::render('Admin/Person/DataForm', compact('divisions', 'fdivision_selected'));
     }
 
     /**
@@ -108,19 +125,27 @@ class PersonController extends Controller
     public function store()
     {
         $user = Auth::user();
-        $sap_id = $user->sap_id;
-        $fdivision_selected = Request::input('fdivision_selected');
+        $userin = $user->sap_id;
+        //$fdivision_selected = Request::input('fdivision_selected');
+
+        $division_id = Request::input('division_selected');
+        $sap_id = Request::input('sap_id');
 
         try {
             if (Request::hasFile('image')) {
-                $division_id = Request::input('division_selected');
+                //$division_id = Request::input('division_selected');
                 $storePath = 'images/person/' . $division_id;
                 $imgDB = (new UploadManager)->store(Request::file('image'), true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
             } else {
                 $imgDB = "";
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพบุคคลากร ได้เนื่องจาก ' .$e->getMessage()]);
+        }
+
+        // ถ้าพบ sap_id เลขนี้ในระบบแล้ว ให้ return error กลับไป
+        if (Person::where('sap_id', $sap_id)->first()) {
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคลากร ได้เนื่องจากพบหมายเลข sap_id ' .$sap_id.' นี้ถูกใช้งานในระบบแล้ว']);
         }
 
         try {
@@ -130,8 +155,8 @@ class PersonController extends Controller
 
             Person::create([
                 'image'=> $imgDB,
-                'division_id'=> (int) Request::input('division_selected'),
-                'sap_id'=>Request::input('sap_id'),
+                'division_id'=> (int) $division_id,
+                'sap_id'=>$sap_id,
                 'title_th'=>Request::input('title_th'),
                 'title_en'=>Request::input('title_en'),
                 'fname_th'=>Request::input('fname_th'),
@@ -150,24 +175,60 @@ class PersonController extends Controller
                 'reward'=>Request::input('reward'),
                 'profiles'=>['leader'=> Request::input('leader')],
                 'cert'=>Request::input('certificateList'),
-                'user_previous_act'=>$sap_id,
-                'user_last_act'=>$sap_id
+                'user_previous_act'=>$userin,
+                'user_last_act'=>$userin
             ]);
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลบุคคลากรไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลบุคคลากรไม่สำเร็จ เนื่องจาก ' .$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
-            $sap_id,
+            $userin,
             'Person Management (จัดการบุคคลากร)',
             'insert',
-            'มีการเพิ่มข้อมูลบุคคลากรใหม่ของ sap_id:'.Request::input('sap_id'),
+            'มีการเพิ่มข้อมูลบุคคลากรใหม่ของ sap_id:'.$sap_id,
             'info'
         );
 
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
-        return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
+        // กลับไปยังหน้าของ สาขา/หน่วย ที่ได้ทำการเพิ่มคนเข้าไปใหม่
+        return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function view(Person $Person)
+    {
+        $divisions = Division::all();
+        $fdivision_selected = $Person->division_id;
+        $action = "view";
+
+        // เก็บ Log หลังจากมีการเปิดดูข้อมูลบุคลากร
+        $resp = (new LogManager)->store(
+            request()->user()->sap_id,
+            'Person Management (จัดการบุคคลากร)',
+            'view',
+            'มีการเปิดดูข้อมูลบุคลากรของ sap_id:' . $Person->sap_id,
+            'info'
+        );
+
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
+        return Inertia::render('Admin/Person/DataForm', ['action' => $action,
+                                                        'divisions' => $divisions,
+                                                        'person' => $Person,
+                                                        'fdivision_selected' => $fdivision_selected
+                                                    ]);
+        //return Inertia::render('Admin/Person/DataForm', compact('action', 'divisions', 'person', 'fdivision_selected'));
+        //return Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type', 'status')->where('sap_id', $id);
     }
 
     /**
@@ -187,9 +248,23 @@ class PersonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Person $Person)
     {
-        //
+        $divisions = Division::all();
+        $fdivision_selected = $Person->division_id;
+        $action = "edit";
+
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+        
+        return Inertia::render('Admin/Person/DataForm', ['action' => $action,
+                                                        'divisions' => $divisions,
+                                                        'person' => $Person,
+                                                        'fdivision_selected' => $fdivision_selected
+                                                    ]);
+        //return Inertia::render('Admin/Person/DataForm', compact('action', 'divisions', 'person', 'fdivision_selected'));
     }
 
     /**
@@ -202,39 +277,46 @@ class PersonController extends Controller
     public function update(Person $Person)
     {
         $user = Auth::user();
-        $sap_id = $user->sap_id;
+        $userin = $user->sap_id;
+
+        $person_sap_id = Request::input('sap_id');
         $has_update_image = false;
-        $fdivision_selected = Request::input('fdivision_selected');
+        $division_id = Request::input('division_selected');
+        //$fdivision_selected = Request::input('fdivision_selected');
 
         try {
             if (Request::hasFile('image')) {
                 $has_update_image = true;
                 $oldimage = Request::input('oldimage');
-                $division_id = Request::input('division_selected');
+                
                 $storePath = 'images/person/' . $division_id;
                 $imgDB = (new UploadManager)->store(Request::file('image'), true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
             } else {
                 if (Request::input('oldimage')) {
                     $imgDB = Request::input('oldimage');
                 } else {
-                    $imgDB = "";
+                    $imgDB = null;
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคคลากรได้ เนื่องจาก '. $e->getMessage()]);
+        }
+
+        // ถ้า sap_id ไม่เท่ากับเลขเดิม และ พบเลขนี้ในระบบแล้ว ให้ return error กลับไป
+        if (($person_sap_id !== $Person->sap_id) && Person::where('sap_id', $person_sap_id)->first()) {
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคลากร ได้เนื่องจากพบหมายเลข sap_id ' .$person_sap_id.' นี้ถูกใช้งานในระบบแล้ว']);
         }
 
         try {
             //$certificateList = Request::input('certificateList');
             //  \Log::info($certificateList);
             //  \Log::info(json_encode($certificateList));
-            //logger(Request::input('leader'));
             $profiles = $Person->profiles;
             $profiles['leader'] = (bool)Request::input('leader');
 
             $Person->image = $imgDB;
             $Person->division_id = (int)Request::input('division_selected');
-            $Person->sap_id = Request::input('sap_id');
+            $Person->sap_id = $person_sap_id;
             $Person->title_th = Request::input('title_th');
             $Person->title_en = Request::input('title_en');
             $Person->fname_th = Request::input('fname_th');
@@ -254,31 +336,33 @@ class PersonController extends Controller
             $Person->profiles = $profiles;
             $Person->cert = Request::input('certificateList');
             $Person->user_previous_act = $Person->user_last_act;
-            $Person->user_last_act = $sap_id;
+            $Person->user_last_act = $userin;
 
             $Person->save();
         } catch (\Exception  $e) {
-            // ลบรูปใหม่ที่เพิ่ง upload ถ้า update ฐานข้อมูลไม่สำเร็จ
-            Storage::delete($imgDB);
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+            // ถ้ามีการเปลี่ยนรูปใหม่ ให้ลบรูปใหม่ที่เพิ่ง upload ถ้า update ฐานข้อมูลไม่สำเร็จ
+            if ($has_update_image) {
+                Storage::delete($imgDB);
+            }
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคคลากร ได้เนื่องจาก '. $e->getMessage()]);
         }
 
         // ลบรูปเก่าหลังจาก update ข้อมูลทุกอย่างเรียบร้อยแล้ว (ถ้ามีการ update รูป)
-        if ($has_update_image) {
+        if ($has_update_image && $oldimage) {
             Storage::delete($oldimage);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
-            $sap_id,
+            $userin,
             'Person Management (ดูข้อมูลทั้งหมดของบุคคลากรเป็นรายคน)',
             'update',
-            'มีการอัพเดทข้อมูลบุคคลากรของ sap_id:'.Request::input('sap_id'),
+            'มีการอัพเดทข้อมูลบุคคลากรของ sap_id:'.$person_sap_id,
             'pdpa'
         );
         ////Session::put('fdivision_selected', $fdivision_selected);
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
-        return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
+        return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
     }
 
     public function updatePersonDisplayOrder()
@@ -286,18 +370,17 @@ class PersonController extends Controller
         $PersonList = Request::input('person_list');
         $division_slug = Request::input('division_slug');
         $unit_name = Division::select('name_th', 'type')->where('slug', $division_slug)->first();
-        //\Log::info($PersonList);
+
         try {
             foreach ($PersonList as $person) {
                 $db_person = Person::select('id', 'display_order', 'type')->find($person['id']);
                 if ($db_person->display_order !== $person['display_order']) {
-                    //\Log::info($person['id']);
                     $db_person->display_order = $person['display_order'];
                     $db_person->save();
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
@@ -324,7 +407,7 @@ class PersonController extends Controller
             $Person->status = ! $Person->status;
             $Person->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
@@ -348,41 +431,63 @@ class PersonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
         //\Log::info(Request::all());
-        $fdivision_selected = Request::input('fdivision_selected');
+        //$fdivision_selected = Request::input('fdivision_selected');
         //logger($fdivision_selected);
+        $data = Person::select('image', 'sap_id', 'division_id')->whereId((int)$id)->first();
 
         try {
-            $image = Request::input('image');
-            if (! is_null($image)) {
-                Storage::delete($image);
-            }
-        } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปภาพของบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
-        }
-
-        try {
-            $id = Request::input('id');
-            $target = Person::select('sap_id')->whereId((int)$id)->first();
             Person::whereId((int)$id)->delete();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคคลากร ได้เนื่องจาก '. $e->getMessage()]);
         }
         
-        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
-        //$status = $Person->status ? 'เปิด' : 'ปิด';
+        // ถ้าเคยมีการเก็บรูปมาแล้ว
+        if ($data['image']) {
+            Storage::delete($data['image']);
+        }
+
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
             'Person Management (ลบข้อมูลบุคคลากร)',
             'delete',
-            'มีการลบข้อมูลของบุคคลากร sap_id:'.$target->sap_id,
+            'มีการลบข้อมูลของบุคคลากร sap_id:'.$data['sap_id'],
             'info'
         );
 
-        //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
-        return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
+        return Redirect::route('admin.person', ['fdivision_selected' => $data['division_id']]);
+
+        // try {
+        //     $image = Request::input('image');
+        //     if (! is_null($image)) {
+        //         Storage::delete($image);
+        //     }
+        // } catch (\Exception  $e) {
+        //     return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปภาพของบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+        // }
+
+        // try {
+        //     $id = Request::input('id');
+        //     $target = Person::select('sap_id')->whereId((int)$id)->first();
+        //     Person::whereId((int)$id)->delete();
+        // } catch (\Exception  $e) {
+        //     return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
+        // }
+        
+        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
+        //$status = $Person->status ? 'เปิด' : 'ปิด';
+        // $resp = (new LogManager)->store(
+        //     Auth::user()->sap_id,
+        //     'Person Management (ลบข้อมูลบุคคลากร)',
+        //     'delete',
+        //     'มีการลบข้อมูลของบุคคลากร sap_id:'.$target->sap_id,
+        //     'info'
+        // );
+
+        // //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
+        // return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
     }
 
     public function listProfessorByDivisionId($id)
@@ -421,12 +526,27 @@ class PersonController extends Controller
         $division_id = Request::input('division_id');
         $type = Request::input('type');
 
-        // \Log::info($division_id);
-        // \Log::info($type);
         $listPerson = Person::with('division')->where('division_id', $division_id)->where('type', $type)
                             ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')
                             ->orderBy('fname_th', 'asc')->get();
-        // \Log::info($listPerson);
+
         return $listPerson;
+    }
+
+    // ใช้ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+    private function checkBranchAdminCanAccessContent($division_id)
+    {
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $division_id)) {
+            $resp = (new LogManager)->store(
+                Auth::user()->sap_id,
+                'Person Management (จัดการบุคคลากร)',
+                'access',
+                'มีการพยายามเข้าถึงข้อมูลบุคลากรที่ไม่ใช่ สาขา/หน่วย ของตนเอง หมายเลข:'.$division_id,
+                'security'
+            );
+            return false;
+        }
+
+        return true;
     }
 }

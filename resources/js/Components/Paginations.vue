@@ -76,7 +76,8 @@ const loadPage = (page) => {
     //console.log(props.pagination.links[page].url)
 
     Inertia.get(props.pagination.links[page].url, {page: page}, {
-        preserveState: true
+        preserveState: true,
+        preserveScroll: true
     });
 }
 

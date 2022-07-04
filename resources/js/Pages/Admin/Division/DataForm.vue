@@ -151,7 +151,7 @@ const saveDivision = () => {
                 for ( let p in errors ) {
                     error_display = error_display + `- ${errors[p]}<br/>`
                 }
-                toast('danger', 'พบปัญหา', error_display);
+                toast('danger', 'พบข้อผิดพลาด', error_display);
             },
             onFinish: () => {
                 divisionForm.processing = false 
@@ -172,7 +172,7 @@ const saveDivision = () => {
                 for ( let p in errors ) {
                     error_display = error_display + `- ${errors[p]}<br/>`
                 }
-                toast('danger', 'พบปัญหา', error_display);
+                toast('danger', 'พบข้อผิดพลาด', error_display);
                 //toast('danger', 'Error', `- ${errors.division_id} <br /> - ${errors.name_th} <br /> - ${errors.type} <br /> - ${errors.msg} <br /> - ${errors.sysmsg}`);
             },
             onFinish: () => {
