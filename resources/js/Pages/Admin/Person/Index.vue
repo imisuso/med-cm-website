@@ -1,104 +1,89 @@
 <template>
   <AdminAppLayout>
-  <!-- <div v-if="$page.props.auth.abilities.includes('view_all_content') || 
-       ($page.props.auth.abilities.includes('view_division_content') && (fdivision_selected == $page.props.auth.division_id))" 
-       class="flex flex-col px-2 py-1 w-full"
-  > -->
-  <div class="flex flex-col px-2 py-1 w-full">
-    <div class="mb-2 text-2xl font-bold">จัดการบุคลากร</div>
-    <!-- Toolbar -->
-    <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
-      <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
-      <select v-model="fdivision_selected" @change="getPersonList" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        <!-- <option value="0">ทุกสาขา/หน่วยงาน</option> -->
-        <option v-for="(option, index) in divisions" :key="index" :value="option.division_id">
-          {{ option.name_th }}
-        </option>
-      </select>
-    </div>
-    <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
-      <div class="flex space-x-2 w-full place-self-center">
-        <!-- <input @keyup="person_filter" v-model="filter_key" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล หรือ รหัส SAP" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> -->
-        <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล หรือ รหัส SAP" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+    <div class="flex flex-col px-2 py-1 w-full">
+      <div class="mb-2 text-2xl font-bold">จัดการบุคลากร</div>
+      <!-- Toolbar -->
+      <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
+        <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
+        <select v-model="fdivision_selected" @change="getPersonList" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <!-- <option value="0">ทุกสาขา/หน่วยงาน</option> -->
+          <option v-for="(option, index) in divisions" :key="index" :value="option.division_id">
+            {{ option.name_th }}
+          </option>
+        </select>
       </div>
-      <div class="flex space-x-2">
-        <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
-            class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-        >
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-          </div>
-          <div>เพิ่ม</div>
-        </Link>
-        <!-- <button @click="addPerson" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-          </div>
-          <div>เพิ่ม</div>
-        </button> -->
-  
-        <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
-          <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+      <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+        <div class="flex space-x-2 w-full place-self-center">
+          <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล หรือ รหัส SAP" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+        </div>
+        <div class="flex space-x-2">
+          <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
+              class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+          >
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </div>
-            <div>เรียงลำดับ</div> 
-          </button>
-        </Link>
+            <div>เพิ่ม</div>
+          </Link>
+    
+          <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
+            <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                </svg>
+              </div>
+              <div>เรียงลำดับ</div> 
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      <div class="flex flex-col w-full mb-4">
+          <PersonInteractiveCardList 
+            v-for="(item, index) in persons.data" 
+            :key="index" 
+            :personDetails="item"
+            :order-input="false"
+            @edit-person="editPerson(item)" 
+            @view-person="viewPerson(item)"
+            @order-person="orderPerson(item)"
+            @delete-person="confirmDeletePerson(item)"
+          />
+      </div>
+
+      <!-- Modal สำหรับ confirm การลบ ข้อมูลบุคลากร  -->
+      <teleport to="body">
+      <Modal :isModalOpen="deletePersonModal" >
+
+        <template v-slot:header>
+          <div class="text-gray-900 text-xl font-medium dark:text-white">
+              คุณต้องการลบข้อมูลบุคลากร
+          </div>
+        </template>
+
+        <template v-slot:body>
+          <div class="flex flex-row justify-start items-center">
+            <img :src="url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
+            <div class="text-gray-900 text-md font-medium dark:text-white">
+                {{ personForm.fullname }}
+            </div>
+          </div>
+        </template>
+
+        <template v-slot:footer>
+          <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
+          <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
+        </template>
+      </Modal>
+      </teleport>
+
+      <div class="flex justify-center md:justify-end mt-2 px-4">
+        <Pagination :pagination="persons"/>
       </div>
     </div>
-
-    <div class="flex flex-col w-full mb-4">
-        <PersonInteractiveCardList 
-          v-for="(item, index) in persons.data" 
-          :key="index" 
-          :personDetails="item"
-          :order-input="false"
-          @edit-person="editPerson(item)" 
-          @view-person="viewPerson(item)"
-          @order-person="orderPerson(item)"
-          @delete-person="confirmDeletePerson(item)"
-        />
-    </div>
-
-    <!-- Modal สำหรับ confirm การลบ ข้อมูลบุคลากร  -->
-    <Modal :isModalOpen="deletePersonModal" >
-
-      <template v-slot:header>
-        <div class="text-gray-900 text-xl font-medium dark:text-white">
-            คุณต้องการลบข้อมูลบุคลากร
-        </div>
-      </template>
-
-      <template v-slot:body>
-        <div class="flex flex-row justify-start items-center">
-          <img :src="url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
-          <div class="text-gray-900 text-md font-medium dark:text-white">
-              {{ personForm.fullname }}
-          </div>
-        </div>
-        <!-- <div class="text-gray-900 text-md font-medium dark:text-white">
-            {{ personForm.title_th }}{{ personForm.fname_th}} {{personForm.lname_th}}
-        </div> -->
-      </template>
-
-      <template v-slot:footer>
-        <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
-        <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
-      </template>
-    </Modal>
-
-    <div class="flex justify-center md:justify-end mt-2 px-4">
-      <Pagination :pagination="persons"/>
-    </div>
-  </div>
-
 </AdminAppLayout>
 </template>
 
@@ -243,8 +228,6 @@ const getDivisionSlugFromId = (id) => {
   } else {
     return ""
   }
-  //console.log(division[0].slug)
-  //console.log(division)
 }
 
 // const person_filter = () => {

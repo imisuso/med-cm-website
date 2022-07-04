@@ -21,7 +21,7 @@ export default class PersonService {
     listPersonByDivisionAndType(division_id, type) {
         // console.log(division_id)
         // console.log(type)
-        return axios.get(route('admin.list_person_by_division_and_type'), { 
+        return axios.get(route('admin.person.list_by_division_and_type'), { 
             params: {
                 division_id: division_id,
                 type: type

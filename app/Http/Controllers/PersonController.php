@@ -50,13 +50,11 @@ class PersonController extends Controller
 
         $divisionId = request()->fdivision_selected ?? request()->user()->person->division_id;
 
-        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $divisionId)) {
-            // allowed statement will be here
-            //return Redirect::back()->withErrors(['msg' => 'คุณไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ']);
-            return Inertia::render('Admin/Errors/ErrorPermission');
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($divisionId)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
 
-        //logger($divisionId);
         if (strcmp($divisionId, "0") !== 0) {
             $query = Person::query()->where('division_id', $divisionId)->filterBySearch(request()->search);
         } else {
@@ -90,9 +88,16 @@ class PersonController extends Controller
         //$user = Auth::user();
         $division_select = Division::select('division_id', 'type')->where('slug', $division_slug)->first();
         $division_id = $division_select->division_id;
-        $person_type = Person::select('type')->where('division_id', $division_id)->groupBy('type')->orderBy('type', 'asc')->get();
 
-        return Inertia::render('Admin/Person/PersonOrder', ['person_types' => $person_type, 'division_id' => $division_id, 'division_slug' => $division_slug]);
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($division_id)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
+        $person_types = Person::select('type')->where('division_id', $division_id)->groupBy('type')->orderBy('type', 'asc')->get();
+
+        return Inertia::render('Admin/Person/PersonOrder', compact('person_types', 'division_id', 'division_slug'));
+        //return Inertia::render('Admin/Person/PersonOrder', ['person_types' => $person_types, 'division_id' => $division_id, 'division_slug' => $division_slug]);
     }
 
     /**
@@ -103,9 +108,10 @@ class PersonController extends Controller
     public function create()
     {
         $fdivision_selected = (int)request()->fdivision_selected ?? (int)request()->user()->person->division_id;
-
-        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $fdivision_selected)) {
-            return Inertia::render('Admin/Errors/ErrorPermission');
+        
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
 
         $divisions = Division::all();
@@ -211,8 +217,9 @@ class PersonController extends Controller
             'info'
         );
 
-        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $fdivision_selected)) {
-            return Inertia::render('Admin/Errors/ErrorPermission');
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
 
         return Inertia::render('Admin/Person/DataForm', ['action' => $action,
@@ -247,8 +254,9 @@ class PersonController extends Controller
         $fdivision_selected = $Person->division_id;
         $action = "edit";
 
-        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $fdivision_selected)) {
-            return Inertia::render('Admin/Errors/ErrorPermission');
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
         
         return Inertia::render('Admin/Person/DataForm', ['action' => $action,
@@ -362,18 +370,17 @@ class PersonController extends Controller
         $PersonList = Request::input('person_list');
         $division_slug = Request::input('division_slug');
         $unit_name = Division::select('name_th', 'type')->where('slug', $division_slug)->first();
-        //\Log::info($PersonList);
+
         try {
             foreach ($PersonList as $person) {
                 $db_person = Person::select('id', 'display_order', 'type')->find($person['id']);
                 if ($db_person->display_order !== $person['display_order']) {
-                    //\Log::info($person['id']);
                     $db_person->display_order = $person['display_order'];
                     $db_person->save();
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
@@ -400,7 +407,7 @@ class PersonController extends Controller
             $Person->status = ! $Person->status;
             $Person->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
@@ -519,12 +526,27 @@ class PersonController extends Controller
         $division_id = Request::input('division_id');
         $type = Request::input('type');
 
-        // \Log::info($division_id);
-        // \Log::info($type);
         $listPerson = Person::with('division')->where('division_id', $division_id)->where('type', $type)
                             ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')
                             ->orderBy('fname_th', 'asc')->get();
-        // \Log::info($listPerson);
+
         return $listPerson;
+    }
+
+    // ใช้ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+    private function checkBranchAdminCanAccessContent($division_id)
+    {
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $division_id)) {
+            $resp = (new LogManager)->store(
+                Auth::user()->sap_id,
+                'Person Management (จัดการบุคคลากร)',
+                'access',
+                'มีการพยายามเข้าถึงข้อมูลบุคลากรที่ไม่ใช่ สาขา/หน่วย ของตนเอง หมายเลข:'.$division_id,
+                'security'
+            );
+            return false;
+        }
+
+        return true;
     }
 }

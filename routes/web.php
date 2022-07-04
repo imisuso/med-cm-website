@@ -183,8 +183,8 @@ Route::prefix('admin')
         Route::post('/person/update/{Person}', 'update')->name('admin.person.update');
         Route::patch('/update_person_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.update_person_display_status');
         Route::delete('/person/delete/{id}', 'destroy')->name('admin.person.delete');
-        Route::post('/update_person_display_order', 'updatePersonDisplayOrder')->name('admin.update_person_display_order');
-        Route::get('/list_person_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('admin.list_person_by_division_and_type');
+        Route::post('/person/update_display_order', 'updatePersonDisplayOrder')->name('admin.person.update_display_order');
+        Route::get('/person/list_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('admin.person.list_by_division_and_type');
     });
 //Route::get('/list_person_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('list_person_by_division_and_type');
 Route::get('/person/show/{id}', [PersonController::class, 'show'])->name('person.show');
