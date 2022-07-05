@@ -148,7 +148,7 @@
 
             <div class="flex flex-row mt-4 space-x-4">
                 <button v-if="action === 'insert'" type="button" @click="saveAnnounce" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
-                <button v-if="action === 'edit'" type="button" @click="true" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
+                <button v-if="action === 'edit'" type="button" @click="saveAnnounce" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
                 <Link :href="route('admin.announce')" :data="{ 'fdivision_selected': announceForm.division_id }" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                 >
@@ -160,7 +160,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
+import { ref, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
 
 import dayjs from 'dayjs'
@@ -208,7 +208,6 @@ const viewDataInfomation = ref(false)
 const thaiMonth = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ]
 const current_date = ref( dayjs().startOf('day').toDate() )
 const attachments = reactive([])
-const submitted = ref(false)
 
 const announceForm = useForm({
   id: props.announce ? props.announce.id : null,
@@ -225,15 +224,12 @@ const announceForm = useForm({
 switch(props.action) {
     case 'insert':
         actionWord.value = "เพิ่ม"
-        //pdpa_protect.value = false
         break;
     case 'edit':
         actionWord.value = "แก้ไข"
-        //pdpa_protect.value = false
         break;
     case 'view':
         actionWord.value = "ดู"
-        //viewDataInfomation.value = true
         break;
 }
 
@@ -275,7 +271,6 @@ const checkRequireData = () => {
 const uploadFile = (index, file, e) => {
   let f = e.target.files[0];
 
-  //console.log(f)
   file.File = f;
   file.name = f.name;
   file.size = f.size;
@@ -293,33 +288,31 @@ const uploadFile = (index, file, e) => {
 }
 
 const saveAnnounce = () => {
-    //submitted.value = true;
     let error_display = ''
     if(announceForm.id) {  // Edit
-        announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
         announceForm.transform(data => ({
             ...data,
             expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
+            detail_delta: JSON.stringify(data.detail_delta), 
             detail_html: quill_e.value.getHTML(),
             atFiles: attachments.map(file => file.File)     
-        })).post( route('admin.update_announce', announceForm.id), {
-        _method: 'patch',
-        //preserveState: false,
-        onSuccess: () => {
-            toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')
-            announceForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
-        },
-        onError: (errors) => {
-            toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-            announceForm.processing = false
-            //filterAnnounce()
-        }
+        })).post( route('admin.announce.update', announceForm.id), {
+            _method: 'patch',
+            preserveState: false,
+            onSuccess: () => {
+                toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')      
+            },
+            onError: (errors) => {
+                for ( let p in errors ) {
+                    error_display = error_display + `- ${errors[p]}<br/>`
+                }
+                toast('danger', 'พบข้อผิดพลาด', error_display);
+            },
+            onFinish: () => {
+                announceForm.processing = false
+            }
         })
     } else { // Add
-        //console.log(announceForm.detail_delta)
-        //announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
         announceForm.transform(data => ({
             ...data,
             expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
@@ -327,77 +320,22 @@ const saveAnnounce = () => {
             detail_html: quill_e.value.getHTML(),
             atFiles: attachments.map(file => file.File)
         })).post(route('admin.announce.store'), {
-        //preserveState: false,
-        onSuccess: () => {
-            toast('success', 'สำเร็จ', 'จัดเก็บประกาศเรียบร้อย')
-            announceForm.reset()  // ทำการ reset announce form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
-        },
-        onError: (errors) => {
-            for ( let p in errors ) {
-                error_display = error_display + `- ${errors[p]}<br/>`
+            preserveState: false,
+            onSuccess: () => {
+                toast('success', 'สำเร็จ', 'จัดเก็บประกาศเรียบร้อย')
+            },
+            onError: (errors) => {
+                for ( let p in errors ) {
+                    error_display = error_display + `- ${errors[p]}<br/>`
+                }
+                toast('danger', 'พบข้อผิดพลาด', error_display);
+            },
+            onFinish: () => {
+                announceForm.processing = false
             }
-            toast('danger', 'พบข้อผิดพลาด', error_display);
-            //toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-            announceForm.processing = false
-            //filterAnnounce()
-        }
         });
     }
     attachments.splice(0) // clear ไฟล์แนบทั้งหมดก่อนหน้านี้
-//   if(! checkRequireData() ) {
-//       toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของประกาศไม่ครบถ้วน');
-//   } else { 
-//     if(announceForm.id) {  // Edit
-//       announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
-//       announceForm.transform(data => ({
-//           ...data,
-//           expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-//           detail_html: quill_e.value.getHTML(),
-//           atFiles: attachments.map(file => file.File)     
-//       })).post( route('admin.update_announce', announceForm.id), {
-//         _method: 'patch',
-//         //preserveState: false,
-//         onSuccess: () => {
-//           toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')
-//           announceForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
-//         },
-//         onError: (errors) => {
-//           toast('danger', errors.msg, errors.sysmsg)
-//         },
-//         onFinish: () => {
-//           announceForm.processing = false
-//           //filterAnnounce()
-//         }
-//       })
-//     } else { // Add
-//       //console.log(announceForm.detail_delta)
-//       //announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
-//       announceForm.transform(data => ({
-//           ...data,
-//           expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-//           detail_delta: JSON.stringify(data.detail_delta), 
-//           detail_html: quill_e.value.getHTML(),
-//           atFiles: attachments.map(file => file.File)
-//       })).post(route('admin.announce.store'), {
-//         //preserveState: false,
-//         onSuccess: () => {
-//           toast('success', 'สำเร็จ', 'จัดเก็บประกาศเรียบร้อย')
-//           announceForm.reset()  // ทำการ reset announce form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
-//         },
-//         onError: (errors) => {
-//           toast('danger', errors.msg, errors.sysmsg)
-//         },
-//         onFinish: () => {
-//           announceForm.processing = false
-//           //filterAnnounce()
-//         }
-//       });
-//     }
-//     attachments.splice(0) // clear ไฟล์แนบทั้งหมดก่อนหน้านี้
-//     //openAnnounceModal(false) // ปิด Modal
-//   }
 }
 
 const toast = (severity, summary, detail) => {

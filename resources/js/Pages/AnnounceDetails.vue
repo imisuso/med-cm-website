@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import AnnounceCard from '@/Components/AnnounceCard'
+import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList'
 
 const props = defineProps({
     announceItem: { type: Object, required: true  },
