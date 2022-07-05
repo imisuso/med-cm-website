@@ -4,12 +4,22 @@
     <!-- Toolbar -->
     <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
       <div class=" text-2xl font-bold">จัดการข่าวประกาศ</div>
-      <button @click="addAnnounce" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+      <Link :href="route('admin.announce.create')" :data="{ 'fdivision_selected': filterForm.fdivision_selected }" method="get" as="button" type="button"
+          class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+      >
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <div>เพิ่ม</div>
+      </Link>
+      <!-- <button @click="addAnnounce" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
         เพิ่ม
-      </button>
+      </button> -->
     </div>
   
     <div class="mt-0 mb-2 md:col-span-2">
@@ -65,7 +75,7 @@
     </div>
 
     <!-- Modal สำหรับ จัดเก็บ หรือ แก้ไข ข้อมูลข่าวประกาศ -->
-    <Modal modalSize="large" :isModalOpen="announceModal" >
+    <!-- <Modal modalSize="large" :isModalOpen="announceModal" >
       <template v-slot:header>
         <div class="text-gray-900 text-xl font-medium dark:text-white">
             รายละเอียดข้อมูลข่าวประกาศ
@@ -116,21 +126,6 @@
                 <div class="col-span-6">
                   <div class="flex items-center justify-between">
                     <label for="topic" class="block text-sm font-medium text-gray-700">หัวข้อข่าว</label>
-                    <!-- ส่วนของการปักหมุด ตอนนี้เอาออกก่อน ให้ใช้ที่ตัว component เป็นหลักจะได้ไม่ต้อง check หลายที่ -->
-                    <!-- <div class="flex items-center space-x-2">     
-                      <input type="checkbox" v-model="announceForm.pinned" id="pinned" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                      
-                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" 
-                        class="h-5 w-5 text-red-500" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve"
-                      >
-                        <g transform="translate(128 128) scale(0.72 0.72)" style="">
-                          <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
-                          <path d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(175,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                          </g>
-                        </g>
-                      </svg>
-                      <label for="pinned" class="ml-2 text-sm font-medium text-gray-700">ปักหมุด</label>
-                    </div> -->
                   </div>
                   <input type="text" id="topic" v-model.trim="announceForm.topic" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                 
@@ -143,7 +138,6 @@
                         <div class="flex items-center flex-col sm:flex-row justify-between border border-indigo-500 rounded-md">
                           <div class="flex flex-col ">
                             <div class="p-2"><strong>ชื่อไฟล์ : </strong>{{file.orig_name}}</div>
-                            <!-- <div class="p-2"><p><strong>ขนาด : </strong>{{file.size}} kb</p></div> -->
                           </div>
                           <div class="flex items-center m-2 sm:m-0">
                             <a href="#" @click="deleteFile(announceForm.old_attachments, index)" class="flex items-center text-sm text-red-600 px-2 py-2">
@@ -165,12 +159,10 @@
                         <div class="flex items-center flex-col sm:flex-row justify-between border border-indigo-500 rounded-md">
                           <div class="flex flex-col ">
                             <div class="p-2"><strong>ชื่อไฟล์ : </strong>{{file.name}}</div>
-                            <!-- <div class="p-2"><p><strong>ขนาด : </strong>{{file.size}} kb</p></div> -->
                           </div>
                           <div class="flex items-center m-2 sm:m-0">
                             <label>
                               <span class="p-2 mt-2 text-sm cursor-pointer rounded-lg shadow-lg border text-white border-indigo-500 bg-blue-700 hover:bg-blue-800 hover:text-white">เลือกไฟล์</span>
-                              <!-- <input :id="'file-'+index" type="file" accept="image/*" @change="uploadFile(index, file, $event)" style="display:none"> -->
                               <input :id="'file-'+index" type="file" accept=".pdf" @change="uploadFile(index, file, $event)" style="display:none">
                             </label>
                             <a href="#" @click="deleteFile(attachments , index)" class="flex items-center text-sm text-red-600 px-2 py-2">
@@ -196,12 +188,14 @@
         </div>
         <div class="">
           <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">เนื้อหา</label>
-          <QuillEditor  ref="quill_e" 
-                        theme="snow" 
-                        v-model:content="announceForm.detail_delta" 
-                        contentType="delta" 
-                        :toolbar="quill_options_full" 
-                        @ready="initialQuill" 
+          <QuillEditor
+            id="quill_e"  
+            ref="quill_e" 
+            theme="snow" 
+            v-model:content="announceForm.detail_delta" 
+            contentType="delta" 
+            :toolbar="quill_options_full" 
+            @ready="initialQuill" 
           />
         </div>
       </template>
@@ -215,7 +209,7 @@
         </button>
         <button @click="openAnnounceModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
       </template>
-    </Modal>
+    </Modal> -->
 
     <!-- typeDetail สามารถใช้ได้แบบ list (ใช้สำหรับดูเฉพาะหัวห้อที่หน้า admin) และ full (ใช้เพื่อดูรายละเอียดแบบเต็ม) -->
     <AnnounceCard 
@@ -244,83 +238,43 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 
 import Modal from '@/Components/Modal'
-import AnnounceCard from '@/Components/AnnounceCard'
+import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList'
 import Pagination from '@/Components/Paginations'
 
 // API Service
 import DivisionService from '@/Services/DivisionService'
-import AnnounceService from '@/Services/AnnounceService'
+//import AnnounceService from '@/Services/AnnounceService'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
+// import { QuillEditor } from '@vueup/vue-quill'
+// import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 onMounted(() => {
   divisionService.value.listAll().then(data => {
     divisions.value = data
   });
-
-  // announceService.value.listAll().then(data => {
-  //   announces.value = data
-  // });
-  //announces.value = usePage().props.value.announces
 })
 
 const props = defineProps({
     announces: { type: Object, required: true, default: {} },
-    //filters: { type: Object },
+    fdivision_selected: { type: Number}
 })
 
-// let ftopic = ref(props.filters.ftopic)
-// let fexpire_type = ref(props.filters.fexpire_type)
-// let fdivision_selected = ref(usePage().props.value.auth.division_id)
-
-const MonthYear = defineAsyncComponent(() => import('@/Components/MonthYearCustom.vue'));
-const monthYear = computed(() => MonthYear);
-
-const quill_e = ref()
-const quill_options_full = ref([
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    //['blockquote', 'code-block'],
-    ['blockquote'],
-    //[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [{ 'header': [1, 2, 3, 4, false] }],
-    //[{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }, { 'header': 4 }],               // custom button values
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    //[{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
-    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
-    //[{ 'direction': 'rtl' }],                         // text direction
-    //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    //[{ 'font': [] }],
-    //[{ 'align': [] }],
-    //['link', 'video', 'image'],
-    ['link'],
-    ['clean']                                         // remove formatting button
-])
-
 const divisionService = ref(new DivisionService())
-const announceService = ref(new AnnounceService())
 const divisions = ref([])
-//const announces = ref([])
 const baseUrl = ref(base_url)
 const announceModal = ref(false)
 const deletePersonModal = ref(false)
-const submitted = ref(false)
 const viewDataInfomation = ref(false)
-const add_person_without_filter = ref(true)
-const thaiMonth = ref(['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ])
-const current_date = ref( dayjs().startOf('day').toDate() )
-const attachments = reactive([])
 
 const announceForm = useForm({
   id: null,
   pinned: false,
   topic: null,
   detail_delta: {},
-  expire_date: ref(dayjs(current_date.value).add(30, 'day').toDate()),
+  //expire_date: ref(dayjs(current_date.value).add(30, 'day').toDate()),
   division_id: 0,
   type: 1,
   old_attachments: []
@@ -331,58 +285,15 @@ const filterForm = useForm({
   ftopic: null,
   //fexpire_only: 0,
   fexpire_type: 'all',
-  fdivision_selected: usePage().props.value.auth.division_id
+  fdivision_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id
 });
-
-const dateFormat = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-
-    return `วันที่ ${day} ${thaiMonth.value.at(month)} ${year+543}`;
-}
-
-const addFile = () => {
-  attachments.push({ name: "กรุณาเลือกไฟล์", size: 0})
-  // Click ปุ่ม Brows File ให้เลยหลังจากที่ DOM สร้างเสร็จแล้วจากการ push array เข้าไปใหม่
-  nextTick(() => {
-      var inputId = "file-" + (attachments.length - 1);
-      document.getElementById(inputId).click();
-  });  
-}
-
-const deleteFile = ( itemArray, index ) => {
-  itemArray.splice(index, 1)
-}
-
-const uploadFile = (index, file, e) => {
-  let f = e.target.files[0];
-
-  //console.log(f)
-  file.File = f;
-  file.name = f.name;
-  file.size = f.size;
-
-  if (file.size > 1024 * 1024 * 5) {
-    deleteFile(attachments, index)
-    toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'ไฟล์ของคุณใหญ่เกินไป (> 5MB)')
-  }
-
-  //if(!file.type.match('image/jp.*')) {
-  if(!f.type.match('application/pdf')) {
-    deleteFile(attachments, index)
-    toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'อนุญาตให้แนบไฟล์เฉพาะ PDF เท่านั้น')
-  }
-}
-
-const initialQuill = () => {
-  //quill_e.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
-  quill_e.value.getQuill().enable(true)
-}
 
 const openAnnounceModal = (isopen) => {
   announceModal.value = isopen
-  quill_e.value.reinit() // ทำการ Reinit ตัว Editor หลังจากที่มีการเปลี่ยน content เพื่อให้แสดงผลได้
+  nextTick(() => {
+      quill_e.value.reinit() // ทำการ Reinit ตัว Editor หลังจากที่มีการเปลี่ยน content เพื่อให้แสดงผลได้
+  }); 
+  
   if( !isopen ) {
     announceForm.reset()
     // submitted.value = false
@@ -405,79 +316,16 @@ const toast = (severity, summary, detail) => {
     })
 }
 
-const checkRequireData = () => {
-  //return true
-    if( announceForm.topic ) {
-      return true
-    } else {
-      return false
-    }
-}
-
-const saveAnnounce = () => {
-  submitted.value = true;
-  if(! checkRequireData() ) {
-      toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของประกาศไม่ครบถ้วน');
-  } else { 
-    if(announceForm.id) {  // Edit
-      //console.log("Edit")
-      announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
-      announceForm.transform(data => ({
-          ...data,
-          expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-          detail_html: quill_e.value.getHTML(),
-          atFiles: attachments.map(file => file.File)     
-      })).post( route('admin.update_announce', announceForm.id), {
-        _method: 'patch',
-        //preserveState: false,
-        onSuccess: () => {
-          toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')
-          announceForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
-        },
-        onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-          announceForm.processing = false
-          filterAnnounce()
-        }
-      })
-    } else { // Add
-      //console.log("Add")
-      //console.log(announceForm.detail_delta)
-      announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
-      //console.log(announceForm.detail_delta)
-      announceForm.transform(data => ({
-          ...data,
-          expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-          detail_html: quill_e.value.getHTML(),
-          atFiles: attachments.map(file => file.File)
-      })).post(route('admin.add_announce'), {
-        //preserveState: false,
-        onSuccess: () => {
-          toast('success', 'สำเร็จ', 'จัดเก็บประกาศ เรียบร้อย')
-          announceForm.reset()  // ทำการ reset announce form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
-        },
-        onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-          announceForm.processing = false
-          filterAnnounce()
-        }
-      });
-    }
-    attachments.splice(0) // clear ไฟล์แนบทั้งหมดก่อนหน้านี้
-    openAnnounceModal(false) // ปิด Modal
-  }
-}
-
 const filterAnnounce = () => {
-  filterForm.get(route('admin.announce'), {
+  filterForm.post(route('admin.announce'), {
     preserveState: true,
     replace: true,
     onError: (errors) => {
-      toast('info', errors.msg, errors.sysmsg)
+      let error_display = ''
+      for ( let p in errors ) {
+        error_display = error_display + `- ${errors[p]}<br/>`
+      }
+      toast('info', 'ข้อแนะนำ', error_display);
     },
     onFinish: () => {
       filterForm.processing = false 
@@ -485,33 +333,24 @@ const filterAnnounce = () => {
   })
 }
 
-// Click ปุ่ม เพิ่ม 
-const addAnnounce = () => {
-  announceForm.reset()
-  quill_e.value.getQuill().enable(true) // ทำการ enable Editor ให้ใส่เนื้อหาได้
-  openAnnounceModal(true)
-}
-
 const editAnnounce = ( announceData ) => {
-  addAnnounceDataToForm( announceData )
-  openAnnounceModal(true)
+  Inertia.get(route('admin.announce.edit', announceData.id), {}, {
+    preserveState: true,
+    replace: true
+  })
 }
 
 const addAnnounceDataToForm = ( announceData ) => {
-  //console.log(announceData)
   announceForm.id = announceData.id
   announceForm.pinned = announceData.pinned ? true : false
   announceForm.topic = announceData.topic
   announceForm.detail_delta = JSON.parse(announceData.detail_delta) 
-  
-  announceForm.expire_date = dayjs(announceData.expire_date).toDate()
+  //announceForm.expire_date = dayjs(announceData.expire_date).toDate()
   announceForm.type = announceData.type
   announceForm.division_id = announceData.division_id
-  //console.log(announceData.attach_files.length)
   announceForm.old_attachments = announceData.attach_files.length > 0 ? announceData.attach_files : []
 };
 
-filterAnnounce()
 </script>
 
 <style scoped>

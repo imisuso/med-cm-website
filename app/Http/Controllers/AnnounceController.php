@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Managers\LogManager;
 use App\Managers\UploadManager;
+
 use App\Models\Announce;
+use App\Models\Division;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class AnnounceController extends Controller
 {
@@ -34,12 +37,17 @@ class AnnounceController extends Controller
             $fdivision_selected = (int)Request::input('fdivision_selected');
         }
 
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
         if ($fdivision_selected !== 0) { // Case ค้นหาแบบระบุแผนก
             $announces = $announces->where('division_id', $fdivision_selected);
         } else { // Case ค้นหาทุกแผนก
             $ftopic = Request::input('ftopic');
             if (is_null($ftopic)) {  // Case ที่ไม่ได้ใส่ filter หัวข้อข่าวประกาศ กรณีค้นหาทุกแผนก
-                return Redirect::back()->withErrors(['msg' => 'คำแนะนำ', 'sysmsg' => 'กรุณาระบุ หัวข้อข่าว กรณีต้องการค้นจากทุก สาขา/หน่วยงาน']);
+                return Redirect::back()->withErrors(['msg' => 'กรุณาระบุ "หัวข้อข่าว" กรณีต้องการค้นจากทุก สาขา/หน่วยงาน']);
             } else {
                 $announces = $announces->where('division_id', '>', $fdivision_selected);
             }
@@ -61,7 +69,7 @@ class AnnounceController extends Controller
         ->paginate(5)
         ->withQueryString();
 
-        return Inertia::render('Admin/Announcement', [ 'announces' => $announces ]);
+        return Inertia::render('Admin/Announcement/Index', [ 'announces' => $announces, 'fdivision_selected' => $fdivision_selected ]);
     }
 
     /**
@@ -71,7 +79,15 @@ class AnnounceController extends Controller
      */
     public function create()
     {
-        //
+        $fdivision_selected = (int)request()->fdivision_selected ?? (int)request()->user()->person->division_id;
+        
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+
+        $divisions = Division::all();
+        return Inertia::render('Admin/Announcement/DataForm', compact('divisions', 'fdivision_selected'));
     }
 
     /**
@@ -85,6 +101,20 @@ class AnnounceController extends Controller
         $attach_files = [];
         $user = Auth::user();
         $sap_id = $user->sap_id;
+
+        logger(Request::input('detail_delta'));
+
+        request()->validate([
+            'division_id' => ['required', 'integer', 'min:0'],
+            'expire_date' => ['required'],
+            'topic' => ['required'],
+            // 'detail_delta' => ['required', 'string'],
+        ], [
+            'division_id.required' => 'ต้องเลือก สาขา/หน่วยงาน ทุกครั้ง',
+            'expire_date.required' => 'ต้องเลือกวันหมดอายุของข่าวประกาศ ทุกครั้ง',
+            'topic.required' => 'ต้องระบุหัวข้อข่าวประกาศ ทุกครั้ง',
+            // 'detail_delta.string' => 'ต้องระบุเนื้อหาข่าวประกาศ ทุกครั้ง',
+        ]);
  
         if ((int)Request::input('division_id') === 0) {
             // default ถ้าไม่มีให้เลือก ที่หน้า web จะส่งมาเป็น 0 (option ตามสาขาหรือหน่วยงานผู้ประกาศ)
@@ -111,7 +141,7 @@ class AnnounceController extends Controller
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มไฟล์แนบได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มไฟล์แนบได้เนื่องจาก '.$e->getMessage()]);
         }
 
         //\Log::info($attach_files);
@@ -130,10 +160,10 @@ class AnnounceController extends Controller
                 'pinned'=>Request::input('pinned')
             ]);
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลประกาศไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลประกาศไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
-        return Redirect::route('admin.announce');
+        return Redirect::route('admin.announce', ['fdivision_selected' => $division_id]);
     }
 
     /**
@@ -153,9 +183,22 @@ class AnnounceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Announce $Announce)
     {
-        //
+        $divisions = Division::all();
+        $fdivision_selected = $Announce->division_id;
+        $action = "edit";
+
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+        }
+        
+        return Inertia::render('Admin/Announcement/DataForm', ['action' => $action,
+                                                        'divisions' => $divisions,
+                                                        'announce' => $Announce,
+                                                        'fdivision_selected' => $fdivision_selected
+                                                    ]);
     }
 
     /**
@@ -165,10 +208,14 @@ class AnnounceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Announce $Announce)
     {
+        // logger($Announce);
+        // dd($Announce);
+
         $user = Auth::user();
         $sap_id = $user->sap_id;
+        //$has_attach_file = false;
 
         if ((int)Request::input('division_id') === 0) {
             // default ถ้าไม่มีให้เลือก ที่หน้า web จะส่งมาเป็น 0 (option ตามสาขาหรือหน่วยงานผู้ประกาศ)
@@ -178,20 +225,17 @@ class AnnounceController extends Controller
             $division_id = Request::input('division_id');
         }
 
-        $announce = Announce::find((int)$id);
         $old_attachments = Request::input('old_attachments') ? Request::input('old_attachments') : [];
         //\Log::info("Old Attach Files to Keep");
         //\Log::info($old_attachments);
         $count_old_attachments = count($old_attachments);
-        $count_db_attach_files = count($announce->attach_files);
+        $count_db_attach_files = count($Announce->attach_files);
         $attach_files = [];
         $delete_files = [];
         $new_attach_files = [];
 
         $old_orig_name = array_column($old_attachments, 'orig_name');
-        //\Log::info("Array Column");
-        //\Log::info($old_orig_name);
-        foreach ($announce->attach_files as $item) {
+        foreach ($Announce->attach_files as $item) {
             if (! in_array($item['orig_name'], $old_orig_name, true)) {
                 $delete_files[] = $item;
             } else {
@@ -199,54 +243,43 @@ class AnnounceController extends Controller
             }
         } // ได้ List ไฟล์ที่จะทำการลบ และไฟล์เก่าที่จะคงเอาไว้เรียบร้อยแล้ว
 
-        // \Log::info("delete");
-        // \Log::info($delete_files);
-        // \Log::info("keep");
-        // \Log::info($attach_files);
-        //return Redirect::route('admin.announce');
-
         // ถ้ามีไฟล์ใหม่ ให้ทำการเก็บไฟล์ก่อน update database
         try {
             if (Request::hasFile('atFiles')) {
                 foreach (Request::file('atFiles') as $attach) {
                     //$fileName = uniqid().'.pdf';
                     $storePath = 'pdf/announce_attach_file/' . $division_id;
-                    // $filePath = $attach->storePubliclyAs($storePath, $fileName);
-                    // $uniqueFileName = 'pdf/announce_attach_file/'. $division_id .'/'.$fileName;
                     $origFileName = $attach->getClientOriginalName();
-
                     $uniqueFileName = (new UploadManager)->store($attach, true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
-
                     $attach_files[] = ['orig_name'=> $origFileName, 'unique_name'=> $uniqueFileName];
                     $new_attach_files = ['orig_name'=> $origFileName, 'unique_name'=> $uniqueFileName];
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มไฟล์แนบใหม่ได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มไฟล์แนบใหม่ได้ เนื่องจาก '.$e->getMessage()]);
         }
 
         try {
-            $announce->topic = Request::input('topic');
-            $announce->detail_delta = Request::input('detail_delta');
-            $announce->detail_html = Request::input('detail_html');
-            $announce->attach_files = $attach_files;
-            $announce->expire_date = Request::input('expire_date');
-            $announce->user_sap_id = $sap_id;
-            $announce->division_id = $division_id;
-            $announce->save();
-            //$ok = true;
+            $Announce->topic = Request::input('topic');
+            $Announce->detail_delta = Request::input('detail_delta');
+            $Announce->detail_html = Request::input('detail_html');
+            $Announce->attach_files = $attach_files;
+            $Announce->expire_date = Request::input('expire_date');
+            $Announce->user_sap_id = $sap_id;
+            $Announce->division_id = $division_id;
+            $Announce->save();
         } catch (\Exception  $e) {
             // ถ้า update db ไม่สำเร็จ ให้ลบไฟล์แนบใหม่ที่เก็บไปแล้วออกด้วย
-            //\Log::info('Delete new attach files');
             if (count($new_attach_files) > 0) {
                 foreach ($new_attach_files as $delete_file) {
                     Storage::delete($delete_file['unique_name']);
                     //\Log::info($delete_file['unique_name']);
                 }
             }
-            return Redirect::back()->withErrors(['msg' => 'ทำการแก้ไขข่าวประกาศไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ทำการแก้ไขข่าวประกาศไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
+        // ลบไฟล์แนบเก่าที่เคยเก็บไว้แล้ว ถ้ามีการลบไฟล์ออกจากการ update
         if (count($delete_files) > 0) {
             //\Log::info('Delete old attach files');
             foreach ($delete_files as $delete_file) {
@@ -397,5 +430,22 @@ class AnnounceController extends Controller
         }
 
         return Redirect::route('admin.announce');
+    }
+
+    // ใช้ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+    private function checkBranchAdminCanAccessContent($division_id)
+    {
+        if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $division_id)) {
+            $resp = (new LogManager)->store(
+                Auth::user()->sap_id,
+                'Person Management (จัดการบุคคลากร)',
+                'access',
+                'มีการพยายามเข้าถึงข้อมูลบุคลากรที่ไม่ใช่ สาขา/หน่วย ของตนเอง หมายเลข:'.$division_id,
+                'security'
+            );
+            return false;
+        }
+
+        return true;
     }
 }

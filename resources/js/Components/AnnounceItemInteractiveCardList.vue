@@ -297,7 +297,7 @@ const process_announce = () => {
         routeName = "admin.toggle_pin_announce"
         msgProcess = "ยกเลิกปักหมุดข่าวประกาศ"
     } else if( confirmType.value === "delete" ) {
-        routeName = "admin.delete_announce"
+        routeName = "admin.announce.delete"
         msgProcess = "ลบข่าวประกาศ"
     }
 

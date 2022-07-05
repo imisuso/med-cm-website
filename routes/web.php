@@ -198,11 +198,12 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:manage_announce'])
     ->controller(AnnounceController::class)
     ->group(function () {
-        Route::get('/announce', 'index')->name('admin.announce');
-        Route::post('/announce', 'index')->name('admin.announce');
-        Route::post('/add_announce', 'store')->name('admin.add_announce');
-        Route::post('/update_announce/{id}', 'update')->name('admin.update_announce');
-        Route::post('/delete_announce/{id}', 'destroy')->name('admin.delete_announce');
+        Route::match(['get', 'post'], '/announce', 'index')->name('admin.announce');
+        Route::get('/announce/create', 'create')->name('admin.announce.create');
+        Route::get('/announce/edit/{Announce}', 'edit')->name('admin.announce.edit');
+        Route::post('/announce/store', 'store')->name('admin.announce.store');
+        Route::post('/announce/update/{Announce}', 'update')->name('admin.announce.update');
+        Route::post('/announce/delete/{id}', 'destroy')->name('admin.announce.delete');
     });
 Route::get('/admin/list_announce_all', [AnnounceController::class, 'listAll'])->name('admin.list_announce_all');
 Route::get('/list_announce_show/{record}', [AnnounceController::class, 'listShow'])->name('list_announce_show');
