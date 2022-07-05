@@ -6,11 +6,16 @@
         <div class=" text-2xl font-bold">จัดการสาขา / หน่วยงาน</div>
         <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นหาจากชื่อหน่วย/สาขา">  
       </div>
-      <div class="">
+      <div class="flex space-x-2">
         <Link :href="route('admin.division.create')" method="get" as="button" type="button"
-            class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+            class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
         >
-            เพิ่ม
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <div>เพิ่ม</div>
         </Link>
       </div>
 

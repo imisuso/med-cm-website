@@ -102,8 +102,6 @@ class AnnounceController extends Controller
         $user = Auth::user();
         $sap_id = $user->sap_id;
 
-        logger(Request::input('detail_delta'));
-
         request()->validate([
             'division_id' => ['required', 'integer', 'min:0'],
             'expire_date' => ['required'],
@@ -162,6 +160,15 @@ class AnnounceController extends Controller
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลประกาศไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
+
+        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            $sap_id,
+            'Announce Management (จัดการข่าวประกาศ)',
+            'insert',
+            'มีการเพิ่มข้อมูลข่าวประกาศใหม่ เรื่อง:'.Request::input('topic'),
+            'info'
+        );
 
         return Redirect::route('admin.announce', ['fdivision_selected' => $division_id]);
     }
@@ -288,7 +295,16 @@ class AnnounceController extends Controller
             }
         }
         
-        return Redirect::route('admin.announce');
+        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            $sap_id,
+            'Announce Management (จัดการข่าวประกาศ)',
+            'update',
+            'มีการแก้ไขข้อมูลข่าวประกาศ ID:'.$Announce->id.' เรื่อง:'.Request::input('topic'),
+            'info'
+        );
+
+        return Redirect::route('admin.announce', ['fdivision_selected' => $division_id]);
     }
 
     /**
@@ -308,7 +324,7 @@ class AnnounceController extends Controller
             // ลบข้อมูลใน db
             $announce->delete();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ทำการลบข่าวประกาศไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ทำการลบข่าวประกาศไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
         // ลบไฟล์แนบหลังจากลบข้อมูลใน db
@@ -318,19 +334,23 @@ class AnnounceController extends Controller
             }
         }
        
+        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Announce Management (จัดการข่าวประกาศ)',
+            'delete',
+            'มีการลบข้อมูลข่าวประกาศ ID:'.$id.' เรื่อง:'.Request::input('topic'),
+            'info'
+        );
 
-        return Redirect::route('admin.announce');
+        return Redirect::route('admin.announce', ['fdivision_selected' => $announce->division_id]);
     }
 
     public function listAll()
     {
         $user = Auth::user();
-        //\Log::info($user->person->division);
         $user_division = $user->person->division->division_id;
         $sap_id = $user->sap_id;
-
-        // \Log::info($user_division);
-        // \Log::info($sap_id);
         
         if ($user->abilities->contains("view_all_content") || $user->abilities->contains("view_division_content")) {
             // list ครั้งแรกให้แสดง เฉพาะของสาขา ของผู้ใช้เท่านั้น และยังไม่หมดอายุ
@@ -354,12 +374,7 @@ class AnnounceController extends Controller
     public function listMe($slug)
     {
         $me =  Announce::with('division')->with('person')->whereSlug($slug)->first();
-        return Inertia::render(
-            'AnnounceDetails',
-            [
-                                    'announceItem' => $me
-                                ]
-        );
+        return Inertia::render('AnnounceDetails', ['announceItem' => $me]);
     }
 
     public function downloadPdf()
@@ -371,65 +386,60 @@ class AnnounceController extends Controller
         return Storage::download($file);
     }
 
-    public function togglePublish($id)
+    public function togglePublish(Announce $Announce)
     {
-        // \Log::info($id);
-        // \Log::info(Request::all());
-
-        if (Request::input('publish_status') === 0) {
-            $error_msg = "เผยแพร่ข่าวประกาศไม่สำเร็จ";
-            $update_publish_status = true;
-        } else {
-            $error_msg = "ยกเลิกการเผยแพร่ข่าวประกาศไม่สำเร็จ";
-            $update_publish_status = false;
-        }
-
+        $publish_status = $Announce->publish_status ? 'ยกเลิกเผยแพร่' : 'เผยแพร่';
         try {
-            $announce = Announce::find((int)$id);
-            //\Log::info($announce);
-            if ($update_publish_status) {
-                date_default_timezone_set("Asia/Bangkok");
-                $announce->publish_date = date('Y-m-d H:i:s');
-                $announce->publish_status = $update_publish_status;
+            if (! $Announce->publish_status) {
+                $error_msg = "เผยแพร่ข่าวประกาศไม่สำเร็จ";
+                //date_default_timezone_set("Asia/Bangkok");  // ต้องไม่ set timezone ไม่งั้น เวลาในระบบจะไม่ตรงกัน
+                $Announce->publish_date = date('Y-m-d H:i:s');
             } else {
-                $announce->publish_status = $update_publish_status;
+                $error_msg = "ยกเลิกการเผยแพร่ข่าวประกาศไม่สำเร็จ";
             }
-
-            $announce->save();
-            // Announce::whereId((int)$id)
-            //     ->update([
-            //     'publish_status'=> $update_publish_status,
-            // ]);
+            $Announce->publish_status = ! $Announce->publish_status;
+            $Announce->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => $error_msg, 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => $error_msg.' เนื่องจาก '.$e->getMessage()]);
         }
 
-        return Redirect::route('admin.announce');
+        // เก็บ Log หลังจาก togglePublish เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Announce Management (จัดการข่าวประกาศ)',
+            'publish',
+            'มีการเปลี่ยนแปลงการเผยแพร่ข่าวประกาศ ID:'.$Announce->id.' เรื่อง:'.$Announce->topic.' เป็น '.$publish_status,
+            'info'
+        );
+
+        return Redirect::route('admin.announce', ['fdivision_selected' => $Announce->division_id]);
     }
 
-    public function togglePin($id)
+    public function togglePin(Announce $Announce)
     {
-        // \Log::info($id);
-        // \Log::info(Request::all());
-
-        if (Request::input('pinned') === 0) {
-            $error_msg = "ปักหมุดข่าวประกาศไม่สำเร็จ";
-            $update_pinned = true;
-        } else {
-            $error_msg = "ยกเลิกการปักหมุดข่าวประกาศไม่สำเร็จ";
-            $update_pinned = false;
-        }
-
+        $pin_status = $Announce->pinned ? 'ยกเลิกปักหมุด' : 'ปักหมุด';
         try {
-            Announce::whereId((int)$id)
-                ->update([
-                'pinned'=> $update_pinned,
-            ]);
+            if (! $Announce->pinned) {
+                $error_msg = "ปักหมุดข่าวประกาศไม่สำเร็จ";
+            } else {
+                $error_msg = "ยกเลิกการปักหมุดข่าวประกาศไม่สำเร็จ";
+            }
+            $Announce->pinned = ! $Announce->pinned;
+            $Announce->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => $error_msg, 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => $error_msg.' เนื่องจาก '.$e->getMessage()]);
         }
 
-        return Redirect::route('admin.announce');
+        // เก็บ Log หลังจาก togglePin เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Announce Management (จัดการข่าวประกาศ)',
+            'pinned',
+            'มีการเปลี่ยนแปลงการปักหมุดข่าวประกาศ ID:'.$Announce->id.' เรื่อง:'.$Announce->topic.' เป็น '.$pin_status,
+            'info'
+        );
+
+        return Redirect::route('admin.announce', ['fdivision_selected' => $Announce->division_id]);
     }
 
     // ใช้ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
@@ -438,9 +448,9 @@ class AnnounceController extends Controller
         if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $division_id)) {
             $resp = (new LogManager)->store(
                 Auth::user()->sap_id,
-                'Person Management (จัดการบุคคลากร)',
+                'Announce Management (จัดการข่าวประกาศ)',
                 'access',
-                'มีการพยายามเข้าถึงข้อมูลบุคลากรที่ไม่ใช่ สาขา/หน่วย ของตนเอง หมายเลข:'.$division_id,
+                'มีการพยายามเข้าถึงข้อมูลข่าวประกาศที่ไม่ใช่ สาขา/หน่วย ของตนเอง หมายเลข:'.$division_id,
                 'security'
             );
             return false;

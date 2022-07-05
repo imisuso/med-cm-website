@@ -205,6 +205,12 @@ Route::prefix('admin')
         Route::post('/announce/update/{Announce}', 'update')->name('admin.announce.update');
         Route::post('/announce/delete/{id}', 'destroy')->name('admin.announce.delete');
     });
+
+Route::post('/admin/announce/toggle_publish/{Announce}', [AnnounceController::class, 'togglePublish'])->name('admin.announce.toggle_publish')
+        ->middleware('auth', 'can:publish_unpublish_announce');
+Route::post('/admin/announce/toggle_pin/{Announce}', [AnnounceController::class, 'togglePin'])->name('admin.announce.toggle_pin')
+        ->middleware('auth', 'can:pin_unpin_announce');
+
 Route::get('/admin/list_announce_all', [AnnounceController::class, 'listAll'])->name('admin.list_announce_all');
 Route::get('/list_announce_show/{record}', [AnnounceController::class, 'listShow'])->name('list_announce_show');
 Route::get('/announce_details/{slug}', [AnnounceController::class, 'listMe'])->name('announce_details');
@@ -212,10 +218,7 @@ Route::get('/announce_all_publish', function () {
     return Inertia::render('AnnounceAllPublish');
 })->name('announce_all_publish');
 Route::get('/announce_download_pdf', [AnnounceController::class, 'downloadPdf'])->name('announce_download_pdf');
-Route::post('/admin/toggle_publish_announce/{id}', [AnnounceController::class, 'togglePublish'])->name('admin.toggle_publish_announce')
-        ->middleware('auth', 'can:publish_unpublish_announce');
-Route::post('/admin/toggle_pin_announce/{id}', [AnnounceController::class, 'togglePin'])->name('admin.toggle_pin_announce')
-        ->middleware('auth', 'can:pin_unpin_announce');
+
 
 //BranchMainMenuTemplateController
 Route::prefix('admin')

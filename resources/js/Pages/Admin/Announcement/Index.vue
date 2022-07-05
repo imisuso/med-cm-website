@@ -74,143 +74,6 @@
       </div>
     </div>
 
-    <!-- Modal สำหรับ จัดเก็บ หรือ แก้ไข ข้อมูลข่าวประกาศ -->
-    <!-- <Modal modalSize="large" :isModalOpen="announceModal" >
-      <template v-slot:header>
-        <div class="text-gray-900 text-xl font-medium dark:text-white">
-            รายละเอียดข้อมูลข่าวประกาศ
-        </div>
-        <svg @click="openAnnounceModal(false)" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </template>
-      <template v-slot:body>
-        <div class="mt-5 md:mt-0 md:col-span-2">
-          <div class="shadow overflow-hidden sm:rounded-md">
-            <div class="px-4 py-5 bg-white sm:p-6">
-            <fieldset :disabled="viewDataInfomation">
-              <div class="grid grid-cols-6 gap-6 mb-6">
-
-                <div class="col-span-6">
-                  <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">วันที่ประกาศหมดอายุ</label>
-                  <Datepicker 
-                    inputClassName="dp-custom-input"
-                    placeholder="default 30 วัน"
-                    v-model="announceForm.expire_date" 
-                    locale="th"
-                    cancelText="ยกเลิก"
-                    selectText="เลือก"
-                    :month-year-component="monthYear"
-                    :yearRange="[new Date().getFullYear() - 2, new Date().getFullYear() + 5]"
-                    :enableTimePicker="false"
-                    :format="dateFormat"
-                    :previewFormat="dateFormat"
-                    :minDate="new Date()"
-                    :clearable="false"
-                    autoApply
-                  />
-                </div>
-
-                <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="col-span-6">
-                  <label for="division_selected" class="block text-sm font-medium text-gray-700">สาขา/หน่วยงาน</label>
-                  <select v-model="announceForm.division_id" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value=0>ตามสาขา/หน่วยงานผู้ประกาศ</option>
-                    <template v-for="(option, index) in divisions" :key="index">
-                      <option :value="option.division_id">
-                        {{ option.name_th }}
-                      </option>
-                    </template>                 
-                  </select>
-                </div>
-
-                <div class="col-span-6">
-                  <div class="flex items-center justify-between">
-                    <label for="topic" class="block text-sm font-medium text-gray-700">หัวข้อข่าว</label>
-                  </div>
-                  <input type="text" id="topic" v-model.trim="announceForm.topic" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                
-                </div>
-
-                <div v-if="announceForm.old_attachments" class="col-span-6">
-                  <ul>
-                    <li v-for="(file, index) in announceForm.old_attachments" :key="index">
-                      <div class="my-1">
-                        <div class="flex items-center flex-col sm:flex-row justify-between border border-indigo-500 rounded-md">
-                          <div class="flex flex-col ">
-                            <div class="p-2"><strong>ชื่อไฟล์ : </strong>{{file.orig_name}}</div>
-                          </div>
-                          <div class="flex items-center m-2 sm:m-0">
-                            <a href="#" @click="deleteFile(announceForm.old_attachments, index)" class="flex items-center text-sm text-red-600 px-2 py-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:fill-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
-                            </a>
-                          </div>       
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="col-span-6">
-                  <ul>
-                    <li v-for="(file, index) in attachments" :key="index">
-                      <div class="my-1">
-                        <div class="flex items-center flex-col sm:flex-row justify-between border border-indigo-500 rounded-md">
-                          <div class="flex flex-col ">
-                            <div class="p-2"><strong>ชื่อไฟล์ : </strong>{{file.name}}</div>
-                          </div>
-                          <div class="flex items-center m-2 sm:m-0">
-                            <label>
-                              <span class="p-2 mt-2 text-sm cursor-pointer rounded-lg shadow-lg border text-white border-indigo-500 bg-blue-700 hover:bg-blue-800 hover:text-white">เลือกไฟล์</span>
-                              <input :id="'file-'+index" type="file" accept=".pdf" @change="uploadFile(index, file, $event)" style="display:none">
-                            </label>
-                            <a href="#" @click="deleteFile(attachments , index)" class="flex items-center text-sm text-red-600 px-2 py-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:fill-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
-                            </a>
-                          </div>       
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <a href="#" @click="addFile" class="add">
-                    <div class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                      เพิ่มไฟล์แนบ
-                    </div>
-                  </a>
-                </div>
-              </div>             
-            </fieldset>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">เนื้อหา</label>
-          <QuillEditor
-            id="quill_e"  
-            ref="quill_e" 
-            theme="snow" 
-            v-model:content="announceForm.detail_delta" 
-            contentType="delta" 
-            :toolbar="quill_options_full" 
-            @ready="initialQuill" 
-          />
-        </div>
-      </template>
-  
-      <template v-slot:footer>
-        <button
-          v-show="!viewDataInfomation" 
-          @click="saveAnnounce" 
-          type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          จัดเก็บ
-        </button>
-        <button @click="openAnnounceModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
-      </template>
-    </Modal> -->
-
     <!-- typeDetail สามารถใช้ได้แบบ list (ใช้สำหรับดูเฉพาะหัวห้อที่หน้า admin) และ full (ใช้เพื่อดูรายละเอียดแบบเต็ม) -->
     <AnnounceCard 
       v-for="(item) in announces.data" 
@@ -230,7 +93,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, Link, usePage } from '@inertiajs/inertia-vue3'
 
@@ -243,13 +106,9 @@ import Pagination from '@/Components/Paginations'
 
 // API Service
 import DivisionService from '@/Services/DivisionService'
-//import AnnounceService from '@/Services/AnnounceService'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
-
-// import { QuillEditor } from '@vueup/vue-quill'
-// import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 onMounted(() => {
   divisionService.value.listAll().then(data => {
@@ -264,42 +123,12 @@ const props = defineProps({
 
 const divisionService = ref(new DivisionService())
 const divisions = ref([])
-const baseUrl = ref(base_url)
-const announceModal = ref(false)
-const deletePersonModal = ref(false)
-const viewDataInfomation = ref(false)
-
-const announceForm = useForm({
-  id: null,
-  pinned: false,
-  topic: null,
-  detail_delta: {},
-  //expire_date: ref(dayjs(current_date.value).add(30, 'day').toDate()),
-  division_id: 0,
-  type: 1,
-  old_attachments: []
-});
 
 const filterForm = useForm({
-  //fclick: 1,
   ftopic: null,
-  //fexpire_only: 0,
   fexpire_type: 'all',
   fdivision_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id
 });
-
-const openAnnounceModal = (isopen) => {
-  announceModal.value = isopen
-  nextTick(() => {
-      quill_e.value.reinit() // ทำการ Reinit ตัว Editor หลังจากที่มีการเปลี่ยน content เพื่อให้แสดงผลได้
-  }); 
-  
-  if( !isopen ) {
-    announceForm.reset()
-    // submitted.value = false
-    // viewDataInfomation.value = false
-  }
-}
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -339,17 +168,6 @@ const editAnnounce = ( announceData ) => {
     replace: true
   })
 }
-
-const addAnnounceDataToForm = ( announceData ) => {
-  announceForm.id = announceData.id
-  announceForm.pinned = announceData.pinned ? true : false
-  announceForm.topic = announceData.topic
-  announceForm.detail_delta = JSON.parse(announceData.detail_delta) 
-  //announceForm.expire_date = dayjs(announceData.expire_date).toDate()
-  announceForm.type = announceData.type
-  announceForm.division_id = announceData.division_id
-  announceForm.old_attachments = announceData.attach_files.length > 0 ? announceData.attach_files : []
-};
 
 </script>
 
