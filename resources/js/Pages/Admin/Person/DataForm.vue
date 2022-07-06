@@ -45,9 +45,12 @@
                                 <div class="grid grid-cols-6 gap-6 mb-6">
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="sap_id" class="block text-sm font-medium text-gray-700">รหัส SAP-ID</label>
-                                        <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id" 
+                                        <!-- <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id" 
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']" 
+                                        /> -->
+                                        <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id" 
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
@@ -75,9 +78,12 @@
                                             <label for="fname_th" class="block text-sm font-medium text-gray-700">ชื่อ (TH)</label>
                                             <div class="text-red-500 px-2">*</div>
                                         </div>
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true" 
                                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"        
+                                        /> -->
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true" 
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                         />
                                         <div class="p-error" v-if="submitted && !personForm.fname_th">จำเป็นต้องใส่ ชื่อภาษาไทย</div>
                                     </div>
@@ -87,9 +93,12 @@
                                             <label for="lname_th" class="block text-sm font-medium text-gray-700">นามสกุล (TH)</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th" 
                                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
+                                        /> -->
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th" 
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                         />
                                         <div class="p-error" v-if="submitted && !personForm.lname_th">จำเป็นต้องใส่ นามสกุลภาษาไทย</div>
                                     </div>
@@ -105,17 +114,23 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="fname_en" class="block text-sm font-medium text-gray-700">ชื่อ (EN)</label>
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en" 
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
+                                        /> -->
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en" 
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="lname_en" class="block text-sm font-medium text-gray-700">นามสกุล (EN)</label>
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en" 
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
+                                        /> -->
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en" 
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                         />
                                     </div>
 
@@ -284,12 +299,12 @@
             </div>
 
             <div class="flex flex-row mt-2 space-x-4">
-                <button v-if="action === 'view' && viewDataInfomation" @click="togglePdpaData" type="button" 
+                <!-- <button v-if="action === 'view' && viewDataInfomation" @click="togglePdpaData" type="button" 
                     class="bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600"
                     :class="[pdpa_protect ? 'text-green-700' : 'text-red-700']"
                     >
                     ดู/ปิด ข้อมูลส่วนบุคคล
-                </button>
+                </button> -->
                 <button v-if="action === 'insert'" type="button" @click="savePerson" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
                 <button v-if="action === 'edit'" type="button" @click="savePerson" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
                 <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"
@@ -326,7 +341,7 @@ const baseUrl = ref(base_url)
 const url = props.person ? ref(props.person.image_url) : ref(null)
 const oldimage = props.person ? ref(props.person.image) : ref(null)
 const viewDataInfomation = ref(false)
-const pdpa_protect = ref(true)
+const pdpa_protect = ref(false)
 const submitted = ref(false)
 const traceLogService = ref(new TraceLogService())
 

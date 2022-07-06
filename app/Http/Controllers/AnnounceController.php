@@ -393,7 +393,8 @@ class AnnounceController extends Controller
             if (! $Announce->publish_status) {
                 $error_msg = "เผยแพร่ข่าวประกาศไม่สำเร็จ";
                 //date_default_timezone_set("Asia/Bangkok");  // ต้องไม่ set timezone ไม่งั้น เวลาในระบบจะไม่ตรงกัน
-                $Announce->publish_date = date('Y-m-d H:i:s');
+                //$Announce->publish_date = date('Y-m-d H:i:s');
+                $Announce->publish_date = now();
             } else {
                 $error_msg = "ยกเลิกการเผยแพร่ข่าวประกาศไม่สำเร็จ";
             }
