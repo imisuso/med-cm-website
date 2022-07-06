@@ -81,13 +81,17 @@ Route::get('/contact_us', function () {
 })->name('contact_us');
 
 Route::get('/officer', function () {
-    $secretary_sap_id = env('SECRETARY_SAP_ID', '00000000');
+    #$secretary_sap_id = env('SECRETARY_SAP_ID', '00000000');
 
     $units = Division::select('slug', 'name_th', 'division_id', 'type')
                         ->where('type', 'u')->orderBy('division_id', 'asc')->get();
 
+    // $secretary = Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type')
+    //                     ->where('sap_id', $secretary_sap_id)->where('status', true)->first();
+
     $secretary = Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type')
-                        ->where('sap_id', $secretary_sap_id)->where('status', true)->first();
+                        ->where('division_id', 19)
+                        ->where('profiles->leader', true)->where('status', true)->first();
 
     return Inertia::render('Officer', compact('units', 'secretary'));
 })->name('officer');

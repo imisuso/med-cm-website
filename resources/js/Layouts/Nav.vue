@@ -118,7 +118,7 @@
 
         <!-- Mobile Side nav -->
           <!-- <div id="mobile-nav" class="visible lg:hidden flex items-center overflow-scroll"> -->
-          <div id="mobile-nav" class="visible lg:hidden flex items-center overflow-scroll z-50 bg-gray-800 bg-opacity-25">
+          <div id="mobile-nav" class="visible lg:hidden flex items-center z-50 bg-gray-800 bg-opacity-25">
             <div v-show="isMenuOpen" id="mobile-overlay" class=" flex overflow-x-hidden overflow-y-auto fixed top-0 left-0 right-0 inset-0 z-50 justify-center sm:h-full bg-gray-800 bg-opacity-25">
               <ul v-show="isMenuOpen" class="z-40 w-10/12 md:w-2/5 max-h-screen p-4 border-r bg-green-800 absolute rounded -top-16 left-0 right-0 shadow mt-16 md:mt-16 hidden overflow-scroll">
                 <!-- <div class="visible lg:hidden flex overflow-x-hidden overflow-y-auto fixed top-0 left-0 right-0 md:inset-0 z-50 justify-center sm:h-full bg-gray-800 bg-opacity-25"> -->
@@ -159,7 +159,7 @@
                       </a>
                     </div>
                     <div>
-                      <div class="hidden close-m-menu" @click="SideMenuHandler($event, false)">
+                      <div class="hidden close-m-menu cursor-pointer" @click="SideMenuHandler($event, false)">
                           <svg aria-label="Close" v-bind:xmlns="xmlns" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z" />
                               <line x1="18" y1="6" x2="6" y2="18" />
@@ -219,11 +219,19 @@
                 </Link>
               </ul>
             </div>
-            <svg @click="MenuHandler($event, true)" aria-haspopup="true" aria-label="Main Menu" v-bind:xmlns="xmlns" class="show-m-menu icon icon-tabler icon-tabler-menu dropsidemenu" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            
+            <!-- <svg @click="MenuHandler($event, true)" aria-haspopup="true" aria-label="Main Menu" v-bind:xmlns="xmlns" class="show-m-menu icon icon-tabler icon-tabler-menu dropsidemenu " width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z"></path>
                 <line x1="4" y1="8" x2="20" y2="8"></line>
                 <line x1="4" y1="16" x2="20" y2="16"></line>
+            </svg> -->
+
+            <svg @click="MenuHandler($event, true)" aria-haspopup="true" aria-label="Main Menu" v-bind:xmlns="xmlns" class="w-7 text-emerald-400 show-m-menu icon icon-tabler icon-tabler-menu dropsidemenu cursor-pointer" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M23,13H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,13,23,13z"></path>
+              <path fill="currentColor" d="M23,6H1C0.4,6,0,5.6,0,5s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,6,23,6z"></path>
+              <path fill="currentColor" d="M23,20H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,20,23,20z"></path>
             </svg>
+
             
             <!-- <div class="hidden close-m-menu" @click="MenuHandler($event, false)">
                 <svg aria-label="Close" v-bind:xmlns="xmlns" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000" fill="none" stroke-linecap="round" stroke-linejoin="round">

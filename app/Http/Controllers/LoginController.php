@@ -33,7 +33,7 @@ class LoginController extends Controller
                 '00000000', // ไม่พบ user ใน AD หรือ password ไม่ถูกต้อง
                 'login',
                 'login',
-                'Attemp login with username:'.$request->username,
+                'พยายาม login เข้าใช้งานด้วย username:'.$request->username,
                 'security'
             );
 
@@ -48,7 +48,7 @@ class LoginController extends Controller
                 $getUserFromAPI['org_id'],
                 'login',
                 'login',
-                'This user login to website',
+                'ทำการ login เข้าใช้งาน website',
                 'security'
             );
         } else {
@@ -56,7 +56,7 @@ class LoginController extends Controller
                 $getUserFromAPI['org_id'],
                 'login',
                 'login',
-                'This user dose not permission to login for manage website',
+                'ไม่มีสิทธิในการเข้าจัดการเนื้อหาของ website',
                 'security'
             );
         }
@@ -162,7 +162,8 @@ class LoginController extends Controller
                 $request->user()->sap_id,
                 'logout',
                 'logout',
-                'This user has click logout from website'
+                'ทำการ logout จาก website',
+                'info'
             );
         }
 
