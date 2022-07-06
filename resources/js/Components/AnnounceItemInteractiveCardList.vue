@@ -233,6 +233,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 
 import Modal from '@/Components/Modal'
 import DownloadPdfFile from '@/Components/DownloadPdfFile'
@@ -257,6 +259,11 @@ const props = defineProps({
 })
 
 dayjs.extend(buddhistEra)
+dayjs.extend(utc)
+dayjs.extend(timezone)
+//dayjs.tz.setDefault("Asia/Bangkok")
+
+
 const isDropDownOpen = ref(false)
 
 const confirmMsg = ref('')

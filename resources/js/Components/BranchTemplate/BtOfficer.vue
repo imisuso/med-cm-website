@@ -21,7 +21,7 @@
           <div v-else class="text-sm text-gray-600 italic">ไม่พบข้อมูลตำแหน่งงาน</div>
           <div v-for="(cert, index) in sortCertificate(person.cert)" :key="index" class="py-1 flex items-center text-sm">
             <div class="px-2">-</div>
-            <div>{{ cert.cert }} {{cert.cert_year}}</div>
+            <div>{{ cert.cert }}</div>
           </div>
         </div>
         <!-- <div class="w-full border ">3</div> -->

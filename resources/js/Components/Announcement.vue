@@ -12,6 +12,7 @@
             <div v-for="item in announcements" :key="item.id" class="flex flex-wrap md:flex-nowrap w-full">
                 <div v-if="item.publish_status" class="w-full mb-2 bg-white rounded-md border border-gray-400 border-l-4 border-l-teal-600">
                     <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs(item.publish_date).locale('th').format('D MMMM BBBB เวลา H:mm') }}</a>
+                    <!-- <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs.tz(dayjs(item.publish_date), 'Asia/Bangkok').locale('th').format('D MMMM BBBB เวลา H:mm') }}</a> -->
                     <div class="flex items-center shadow-md rounded-md">
                         <svg v-if="item.pinned" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="h-5 w-5 text-red-500 shrink-0" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                             <g transform="translate(128 128) scale(0.72 0.72)" style="">
@@ -50,6 +51,8 @@ import { Link } from '@inertiajs/inertia-vue3'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
+import * as utc from 'dayjs/plugin/utc'
+import * as timezone from 'dayjs/plugin/timezone'
 
 // API Service
 import AnnounceService from '@/Services/AnnounceService'
@@ -68,6 +71,10 @@ onMounted(() => {
 })
 
 dayjs.extend(buddhistEra)
+dayjs.extend(utc)
+dayjs.extend(timezone)
+// dayjs.tz.setDefault("Asia/Bangkok")
+
 const announceService = ref(new AnnounceService())
 const announcements = ref([])
 
