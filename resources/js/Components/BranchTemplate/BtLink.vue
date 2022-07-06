@@ -2,7 +2,7 @@
   <div v-if="display_content === 'template'">
     <div class="col-span-6 sm:col-span-4 mb-2">
       <div class="flex items-center justify-start">
-        <div class="text-md font-bold text-green-700"> เพิ่มลิ้งก์ : </div>
+        <div class="text-md font-bold text-green-700"> เพิ่มลิงก์ : </div>
         <svg
           v-show="editButton"
           xmlns="http://www.w3.org/2000/svg" @click="createLink(form.linkList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
@@ -18,11 +18,11 @@
         class="flex items-center shrink-0 mb-2"
         > 
         <div class="w-full mr-1">
-          <label for="link_detail" class="block text-sm font-medium text-gray-700">หัวข้อลิ้งก์</label>
+          <label for="link_detail" class="block text-sm font-medium text-gray-700">หัวข้อลิงก์</label>
           <input v-model="input.name" type="text" :readonly="!editButton" name="" id="link_detail" placeholder="ใส่หัวข้อลิ้งก์ที่ต้องการ" class="w-full border rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300">
         </div>
         <div class="w-full">
-          <label for="link_url" class="block text-sm font-medium text-gray-700">URL ของลิ้งก์</label>
+          <label for="link_url" class="block text-sm font-medium text-gray-700">URL ของลิงก์</label>
           <input v-model="input.url" type="text" :readonly="!editButton" name="" id="link_url" placeholder="https://simed.mahidol.ac.th" class="w-full border rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300">
         </div>
         <svg

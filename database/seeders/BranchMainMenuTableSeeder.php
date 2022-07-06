@@ -24,7 +24,7 @@ class BranchMainMenuTableSeeder extends Seeder
             { "main_header_id": 7, "main_header_name_th": "แพทย์ประจำสาขา", "menu_order_id": 7, "component_name": "BtDoctor", "status": false, "isActive": true},
             { "main_header_id": 8, "main_header_name_th": "เจ้าหน้าที่ประจำสาขา", "menu_order_id": 8, "component_name": "BtOfficer", "status": false, "isActive": true},
             { "main_header_id": 9, "main_header_name_th": "ติดต่อสอบถาม", "menu_order_id": 9, "component_name": "BtContact", "status": false, "isActive": true},
-            { "main_header_id": 10, "main_header_name_th": "ลิ้งค์ต่างๆที่เกี่ยวข้อง", "menu_order_id": 10, "component_name": "BtLink", "status": false, "isActive": true}
+            { "main_header_id": 10, "main_header_name_th": "ลิงค์ที่เกี่ยวข้อง", "menu_order_id": 10, "component_name": "BtLink", "status": false, "isActive": true}
         ]';
 
         $bmms = json_decode($bmmJSON, true);

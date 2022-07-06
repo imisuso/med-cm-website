@@ -213,7 +213,7 @@ class PersonController extends Controller
             request()->user()->sap_id,
             'Person Management (จัดการบุคคลากร)',
             'view',
-            'มีการเปิดดูข้อมูลบุคลากรของ sap_id:' . $Person->sap_id,
+            'มีการเปิดดูข้อมูลบุคลากรของ sap_id:'.$Person->sap_id,
             'info'
         );
 
@@ -355,9 +355,9 @@ class PersonController extends Controller
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
             $userin,
-            'Person Management (ดูข้อมูลทั้งหมดของบุคคลากรเป็นรายคน)',
+            'Person Management (จัดการบุคคลากร)',
             'update',
-            'มีการอัพเดทข้อมูลบุคคลากรของ sap_id:'.$person_sap_id,
+            'มีการอัพเดทข้อมูลบุคคลากรของ ID:'.$Person->id.' sap_id:'.$person_sap_id,
             'pdpa'
         );
         ////Session::put('fdivision_selected', $fdivision_selected);
@@ -386,7 +386,7 @@ class PersonController extends Controller
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
-            'Person Order Display (เรียงลำดับการแสดงผลของบุคคลากร)',
+            'Person Management (จัดการบุคคลากร)',
             'order',
             'มีการเรียงลำดับการแสดงผลของบุคคลากร:'.$unit_name->division_type.$unit_name->name_th,
             'info'
@@ -414,9 +414,9 @@ class PersonController extends Controller
         $status = $Person->status ? 'เปิด' : 'ปิด';
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
-            'Person Display Status (เปิด/ปิด การแสดงผลของบุคคลากร)',
+            'Person Management (จัดการบุคคลากร)',
             'update',
-            'มีการเปลี่ยนสถานะการแสดงผลของบุคคลากร sap_id:'.$Person->sap_id . ' เป็น ' . $status,
+            'มีการเปลี่ยนสถานะการแสดงผลของบุคคลากร ID:'.$Person->id.' sap_id:'.$Person->sap_id.' เป็น '.$status,
             'info'
         );
         
@@ -434,8 +434,6 @@ class PersonController extends Controller
     public function destroy($id)
     {
         //\Log::info(Request::all());
-        //$fdivision_selected = Request::input('fdivision_selected');
-        //logger($fdivision_selected);
         $data = Person::select('image', 'sap_id', 'division_id')->whereId((int)$id)->first();
 
         try {
@@ -451,43 +449,13 @@ class PersonController extends Controller
 
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
-            'Person Management (ลบข้อมูลบุคคลากร)',
+            'Person Management (จัดการบุคคลากร)',
             'delete',
-            'มีการลบข้อมูลของบุคคลากร sap_id:'.$data['sap_id'],
+            'มีการลบข้อมูลของบุคคลากร ID:'.$id.' sap_id:'.$data['sap_id'],
             'info'
         );
 
         return Redirect::route('admin.person', ['fdivision_selected' => $data['division_id']]);
-
-        // try {
-        //     $image = Request::input('image');
-        //     if (! is_null($image)) {
-        //         Storage::delete($image);
-        //     }
-        // } catch (\Exception  $e) {
-        //     return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปภาพของบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
-        // }
-
-        // try {
-        //     $id = Request::input('id');
-        //     $target = Person::select('sap_id')->whereId((int)$id)->first();
-        //     Person::whereId((int)$id)->delete();
-        // } catch (\Exception  $e) {
-        //     return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคคลากรได้', 'sysmsg' => $e->getMessage()]);
-        // }
-        
-        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
-        //$status = $Person->status ? 'เปิด' : 'ปิด';
-        // $resp = (new LogManager)->store(
-        //     Auth::user()->sap_id,
-        //     'Person Management (ลบข้อมูลบุคคลากร)',
-        //     'delete',
-        //     'มีการลบข้อมูลของบุคคลากร sap_id:'.$target->sap_id,
-        //     'info'
-        // );
-
-        // //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
-        // return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
     }
 
     public function listProfessorByDivisionId($id)

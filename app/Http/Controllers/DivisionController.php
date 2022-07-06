@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Managers\LogManager;
 use App\Managers\UploadManager;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -112,6 +114,15 @@ class DivisionController extends Controller
             return Redirect::back()->withErrors(['msg' => 'เนื่องจาก ' . $e->getMessage()]);
         }
         
+        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            $sap_id,
+            'Division Management (จัดการ สาขา/หน่วย)',
+            'insert',
+            'มีการเพิ่มข้อมูล สาขา/หน่วย ใหม่ ชื่อ:'.$name_th,
+            'info'
+        );
+
         return Redirect::route('admin.division');
     }
 
@@ -211,6 +222,16 @@ class DivisionController extends Controller
         if ($has_update_image && $oldimage) {
             Storage::delete($oldimage);
         }
+
+        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            $sap_id,
+            'Division Management (จัดการ สาขา/หน่วย)',
+            'update',
+            'มีการแก้ไขข้อมูล สาขา/หน่วย ID:'.$division->id.' ชื่อ:'.$name_th,
+            'info'
+        );
+
         return Redirect::route('admin.division');
     }
 
@@ -222,7 +243,10 @@ class DivisionController extends Controller
      */
     public function destroy($id)
     {
-        $data = Division::select('image')->whereId((int)$id)->first();
+        $user = Auth::user();
+        $sap_id = $user->sap_id;
+
+        $data = Division::select('image', 'name_th')->whereId((int)$id)->first();
         try {
             Division::whereId((int)$id)->delete();
         } catch (\Exception  $e) {
@@ -233,6 +257,16 @@ class DivisionController extends Controller
         if ($data['image']) {
             Storage::delete($data['image']);
         }
+
+        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            $sap_id,
+            'Division Management (จัดการ สาขา/หน่วย)',
+            'delete',
+            'มีการลบข้อมูล สาขา/หน่วย ID:'.$id.' ชื่อ:'.$data['name_th'],
+            'info'
+        );
+
         return Redirect::route('admin.division');
     }
 

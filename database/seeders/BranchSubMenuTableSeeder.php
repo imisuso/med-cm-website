@@ -33,7 +33,7 @@ class BranchSubMenuTableSeeder extends Seeder
             {"sub_header_id":1,  "main_header_id": 4, "menu_order_id": 1, "sub_header_name_th":"งานวิจัย", "status": false, "delta_content": "{\"ops\":[{\"insert\":\"Template\"}]}", "html_content": "<p>Template</p>" },
             {"sub_header_id":1,  "main_header_id": 5, "menu_order_id": 1, "sub_header_name_th":"งานบริการวิชาการ", "status": false, "delta_content": "{\"ops\":[{\"insert\":\"Template\"}]}", "html_content": "<p>Template</p>" },
             {"sub_header_id":1,  "main_header_id": 9, "menu_order_id": 1, "sub_header_name_th":"ติดต่อสอบถาม", "status": false, "delta_content": "{\"ops\":[{\"insert\":\"Template\"}]}", "html_content": "<p>Template</p>" },
-            {"sub_header_id":1,  "main_header_id": 10, "menu_order_id": 1, "sub_header_name_th":"ลิ้งก์ต่างๆที่เกี่ยวข้อง", "status": false, "delta_content": "[{\"name\":\"Template\",\"url\":\"#\"}]", "html_content": "Template Link" }
+            {"sub_header_id":1,  "main_header_id": 10, "menu_order_id": 1, "sub_header_name_th":"ลิงก์ที่เกี่ยวข้อง", "status": false, "delta_content": "[{\"name\":\"Template\",\"url\":\"#\"}]", "html_content": "Template Link" }
         ]';
 
         $bsms = json_decode($bsmJSON, true);

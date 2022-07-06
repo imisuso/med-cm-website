@@ -166,11 +166,9 @@
                 <div class=" col-span-6 sm:col-span-5 ql-editor" v-html="announceDetails.detail_html"></div>
                 
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ส่วนงาน :</div>
-                <!-- <div v-if="announceDetails.division_id > 18" class=" col-span-6 sm:col-span-5 ml-3 font-bold">หน่วย{{ announceDetails.division.name_th }}</div>
-                <div v-else class=" col-span-6 sm:col-span-5 ml-3 font-bold">สาขา{{ announceDetails.division.name_th }}</div> -->
                 <div class=" col-span-6 sm:col-span-5 ml-3 font-bold">{{announceDetails.division.division_type}}{{ announceDetails.division.name_th }}</div>
 
-                <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ผู้ประกาศ :</div>
+                <div v-if="$page.props.auth" class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ผู้ประกาศ :</div>
                 <div v-if="$page.props.auth && !pdpa_protect"
                             @click="pdpa_protect = !pdpa_protect"
                             @mouseleave="pdpa_protect = !pdpa_protect"
@@ -180,7 +178,7 @@
                             @click="pdpa_protect = !pdpa_protect"
                             class=" col-span-6 sm:col-span-5 ml-3 font-bold cursor-pointer">**********
                 </div>
-                <div v-else class=" col-span-6 sm:col-span-5 ml-3 font-bold">**********</div>
+                <!-- <div v-else class=" col-span-6 sm:col-span-5 ml-3 font-bold">**********</div> -->
 
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ไฟล์แนบ :</div>
                 <div v-if="announceDetails.attach_files.length > 0" class=" col-span-6 sm:col-span-5 ml-3">   
@@ -219,8 +217,12 @@
       </template>
 
       <template v-slot:footer>
-        <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
-        <button @click="process_announce()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">ตกลง</button>
+        <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
+        <button @click="process_announce()" type="button" 
+            :class="[confirmType === 'delete' ? 'bg-red-700 hover:bg-red-800 focus:ring-red-300' : 'bg-blue-700 hover:bg-blue-800 focus:ring-blue-300']"
+            class="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            ตกลง
+        </button>
       </template>
     </Modal>
 </template>
@@ -285,35 +287,38 @@ const process_announce = () => {
     let routeName = ""
     let msgProcess =""
     if( confirmType.value === "publish" ) {
-        routeName = "admin.toggle_publish_announce"
+        routeName = "admin.announce.toggle_publish"
         msgProcess = "เผยแพร่ข่าวประกาศ"
     } else if( confirmType.value === "unpublish" ) {
-        routeName = "admin.toggle_publish_announce"
+        routeName = "admin.announce.toggle_publish"
         msgProcess = "ยกเลิกเผยแพร่ข่าวประกาศ"
     } else if( confirmType.value === "pin" ) {
-        routeName = "admin.toggle_pin_announce"
+        routeName = "admin.announce.toggle_pin"
         msgProcess = "ปักหมุดข่าวประกาศ"
     } else if( confirmType.value === "unpin" ) {
-        routeName = "admin.toggle_pin_announce"
+        routeName = "admin.announce.toggle_pin"
         msgProcess = "ยกเลิกปักหมุดข่าวประกาศ"
     } else if( confirmType.value === "delete" ) {
         routeName = "admin.announce.delete"
         msgProcess = "ลบข่าวประกาศ"
     }
 
-    Inertia.visit(route(routeName, props.announceDetails.id), {
-        method: 'post',
-        //only: ['announces'],
-        data: {    
-            publish_status: props.announceDetails.publish_status,
-            pinned: props.announceDetails.pinned,
-        },  
+    Inertia.post(route(routeName, props.announceDetails.id), {}, {
+        // data: {    
+        //     publish_status: props.announceDetails.publish_status,
+        //     pinned: props.announceDetails.pinned,
+        // },  
         //preserveState: true,
         onSuccess: () => {
-          toast('success', 'สำเร็จ', `ดำเนินการ${msgProcess}เรียบร้อย`)
+            toast('success', 'สำเร็จ', `ดำเนินการ${msgProcess}เรียบร้อย`)
         },
         onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
+            //toast('danger', errors.msg, errors.sysmsg)
         },
         onFinish: () => {
             confirmType.value = ''
