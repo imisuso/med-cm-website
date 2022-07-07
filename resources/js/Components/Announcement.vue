@@ -51,8 +51,8 @@ import { Link } from '@inertiajs/inertia-vue3'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
-import * as utc from 'dayjs/plugin/utc'
-import * as timezone from 'dayjs/plugin/timezone'
+//import * as utc from 'dayjs/plugin/utc'
+// import * as timezone from 'dayjs/plugin/timezone'
 
 // API Service
 import AnnounceService from '@/Services/AnnounceService'
@@ -71,21 +71,12 @@ onMounted(() => {
 })
 
 dayjs.extend(buddhistEra)
-dayjs.extend(utc)
-dayjs.extend(timezone)
+//dayjs.extend(utc)
+// dayjs.extend(timezone)
 // dayjs.tz.setDefault("Asia/Bangkok")
 
 const announceService = ref(new AnnounceService())
 const announcements = ref([])
-
-// const announcements = ref([
-//     {id:1, detail_html:'ประกาศรับสมัครเรียนหลักสูตรการฝึกอบรมแพทย์ประจำบ้านต่อยอดเพื่อวุฒิบัตรแสดงความรู้ความชํานาญในการประกอบวิชาชีพเวชกรรมอนุสาขาอายุรศาสตร์ผู้สูงอายุ ประจำปีการศึกษา 2565', post_date:'14/10/2021'},
-//     {id:2, detail_html:'รับสมัคร ตำแหน่งพยาบาล สาขาวิชาความดันโลหิตสูง ภาควิชาอายุรศาสตร์', post_date:'3/9/2021'},
-//     {id:3, detail_html:'ประกาศรับสมัครแพทย์ประจำบ้านและแพทย์ประจำบ้านต่อยอด ปีการศึกษา 2565 สาขาวิชาประสาทวิทยา คณะแพทยศาสตร์ศิริราชพยาบาล', post_date:'10/8/2021'},
-//     {id:4, detail_html:'ประกาศรับสมัคร การยื่นแบบฟอร์มขอคำรับรองผู้สมัครแพทย์ประจำบ้าน สาขาอายุรศาสตร์ ประจำปีการศึกษา 2565', post_date:'2/7/2021'},   
-//     {id:5, detail_html:'ประกาศรับสมัครแพทย์ประจำบ้านต่อยอด(Fellow Allergy) สาขาวิชาโรคภูมิแพ้และภูมิคุ้มกันคลินิก อายุรศาสตร์ ศิริราช ประจำปีการศึกษา 2565 จำนวน 1 ตำแหน่ง', post_date:'24/6/2021'},
-    
-// ])
         
 </script>
 

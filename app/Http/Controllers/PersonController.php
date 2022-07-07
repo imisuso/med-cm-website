@@ -17,6 +17,11 @@ use Illuminate\Support\Str;
 
 class PersonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('remember')->only('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -362,7 +367,8 @@ class PersonController extends Controller
         );
         ////Session::put('fdivision_selected', $fdivision_selected);
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
-        return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
+        //return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
+        return Redirect::route('admin.person');
     }
 
     public function updatePersonDisplayOrder()
