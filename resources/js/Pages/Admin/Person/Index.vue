@@ -122,7 +122,7 @@ const deletePersonModal = ref(false)
 const divisions = ref([])
 const filter_key = ref()
 const check_doctor = ref()
-const pdpa_protect = ref(true)
+const pdpa_protect = ref(false)
 const url = ref(null)
 const baseUrl = ref(base_url)
 

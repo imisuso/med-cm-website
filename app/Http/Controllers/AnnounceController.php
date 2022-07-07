@@ -316,8 +316,6 @@ class AnnounceController extends Controller
      */
     public function destroy($id)
     {
-        //\Log::info($id);
-         
         $announce = Announce::find((int)$id);
         $delete_attach_files = $announce->attach_files;
 
@@ -389,20 +387,11 @@ class AnnounceController extends Controller
 
     public function togglePublish(Announce $Announce)
     {
-        // logger($Announce->publish_date);
-        // logger($Announce->expire_date);
-        // logger($Announce->created_at);
-        // logger($Announce->updated_at);
         $publish_status = $Announce->publish_status ? 'ยกเลิกเผยแพร่' : 'เผยแพร่';
         try {
             if (! $Announce->publish_status) {
                 $error_msg = "เผยแพร่ข่าวประกาศไม่สำเร็จ";
-                //date_default_timezone_set("Asia/Bangkok");  // ต้องไม่ set timezone ไม่งั้น เวลาในระบบจะไม่ตรงกัน
-                //date_default_timezone_set('UTC');
-                //$Announce->publish_date = date('Y-m-d H:i:s');
                 $Announce->publish_date = Carbon::now();
-            //$Announce->publish_date = new DateTime()->format('Y-m-d H:i:s');
-            //$Announce->publish_date = now();
             } else {
                 $error_msg = "ยกเลิกการเผยแพร่ข่าวประกาศไม่สำเร็จ";
             }

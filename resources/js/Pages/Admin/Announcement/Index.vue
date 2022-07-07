@@ -14,24 +14,12 @@
         </div>
         <div>เพิ่ม</div>
       </Link>
-      <!-- <button @click="addAnnounce" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        เพิ่ม
-      </button> -->
     </div>
   
     <div class="mt-0 mb-2 md:col-span-2">
       <div class="shadow overflow-hidden sm:rounded-md">
         <div class="px-4 py-5 bg-white sm:p-6">
-          <!-- <div class="mb-4 text-sm">* หมายเหตุ : (ถ้าไม่ใส่หัวข้อข่าวจะค้นหาทั้งหมด)</div> -->
           <div class="grid grid-cols-6 gap-2">
-            <!-- <div class="col-span-6 sm:col-span-3">
-              <label for="filter_topic" class="block text-sm font-medium text-gray-700">หัวข้อข่าว</label>
-              <input type="text" v-model="filterForm.ftopic" id="filter_topic" placeholder="ใส่หัวข้อข่าวที่ต้องการค้นหา" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-            </div> -->
-
             <div class="col-span-6">
               <label for="filter_topic" class="block text-sm font-medium text-gray-700">หัวข้อข่าว</label>
               <input type="text" v-model="filterForm.ftopic" id="filter_topic" placeholder="ค้นหาจากหัวข้อข่าว" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
@@ -55,12 +43,6 @@
                 <option value="expire">ประกาศที่หมดอายุเท่านั้น</option>
               </select>
             </div>
-
-            <!-- <div class="col-span-6 sm:col-span-6 justify-items-end place-self-stretch">     
-              <input type="checkbox" v-model="filterForm.fexpire_only" id="filter_expire" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-              <label for="filter_expire" class="ml-2 text-md font-medium text-gray-700">เฉพาะประกาศที่หมดอายุ</label>
-            </div> -->
-
           </div>
         </div>
         <div class="px-4 py-1 bg-gray-50 text-left sm:px-6">

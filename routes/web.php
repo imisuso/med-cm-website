@@ -66,7 +66,7 @@ Route::get('/department_leader', function () {
 Route::get('/consultant', function () {
     $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division')
                         ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1, 2, 3, 4])
-                        ->orderBy('display_order', 'asc')->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
+                        ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
     
     //Log::channel('single')->info($listConsultant);
     return Inertia::render('Consultant', compact('listConsultant'));
@@ -148,9 +148,10 @@ Route::prefix('admin')
     ->controller(PosterController::class)
     ->group(function () {
         Route::get('/poster', 'index')->name('admin.poster');
-        Route::post('/add_poster', 'store')->name('admin.add_poster');
+        Route::get('/poster/create', 'create')->name('admin.poster.create');
+        Route::post('/poster/store', 'store')->name('admin.poster.store');
         Route::patch('/update_poster_display_status/{Poster}', 'updatePosterDisplayStatus')->name('admin.update_poster_display_status');
-        Route::delete('/delete_poster/{Poster}', 'destroy')->name('admin.delete_poster');
+        Route::delete('/poster/delete/{Poster}', 'destroy')->name('admin.poster.delete');
     });
 Route::get('/list_enabled_poster', [PosterController::class, 'showListEnabledPoster'])->name('list_enabled_poster');
 

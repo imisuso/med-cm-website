@@ -135,6 +135,8 @@ class PersonController extends Controller
 
         $division_id = Request::input('division_selected');
         $sap_id = Request::input('sap_id');
+        $profiles['leader'] = (bool)Request::input('leader');
+        $profiles['teacher'] = (bool)Request::input('teacher');
 
         try {
             if (Request::hasFile('image')) {
@@ -178,7 +180,7 @@ class PersonController extends Controller
                 'position_division'=>Request::input('position_division'),
                 'position_academic'=>(int)Request::input('position_academic'),
                 'reward'=>Request::input('reward'),
-                'profiles'=>['leader'=> Request::input('leader')],
+                'profiles'=>$profiles,
                 'cert'=>Request::input('certificateList'),
                 'user_previous_act'=>$userin,
                 'user_last_act'=>$userin
@@ -197,8 +199,11 @@ class PersonController extends Controller
         );
 
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
+        // ใช้ remember middleware
+        return Redirect::route('admin.person');
+
         // กลับไปยังหน้าของ สาขา/หน่วย ที่ได้ทำการเพิ่มคนเข้าไปใหม่
-        return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
+        //return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
     }
 
     /**
@@ -318,6 +323,7 @@ class PersonController extends Controller
             //  \Log::info(json_encode($certificateList));
             $profiles = $Person->profiles;
             $profiles['leader'] = (bool)Request::input('leader');
+            $profiles['teacher'] = (bool)Request::input('teacher');
 
             $Person->image = $imgDB;
             $Person->division_id = (int)Request::input('division_selected');
@@ -368,6 +374,7 @@ class PersonController extends Controller
         ////Session::put('fdivision_selected', $fdivision_selected);
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
         //return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
+        // ใช้ remember middleware
         return Redirect::route('admin.person');
     }
 
@@ -427,8 +434,9 @@ class PersonController extends Controller
         );
         
         //return Redirect::back()->with('fdivision_selected', $fdivision_selected);
-        return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
-        //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
+        // ใช้ remember middleware
+        return Redirect::route('admin.person');
+        //return Redirect::route('admin.person', ['fdivision_selected' => $fdivision_selected]);
     }
 
     /**
@@ -461,13 +469,16 @@ class PersonController extends Controller
             'info'
         );
 
-        return Redirect::route('admin.person', ['fdivision_selected' => $data['division_id']]);
+        // ใช้ remember middleware
+        return Redirect::route('admin.person');
+        //return Redirect::route('admin.person', ['fdivision_selected' => $data['division_id']]);
     }
 
     public function listProfessorByDivisionId($id)
     {
         $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
                         ->where('division_id', $id)->where('status', true)->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
+                        ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true)
                         ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
