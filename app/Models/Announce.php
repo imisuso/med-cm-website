@@ -29,6 +29,8 @@ class Announce extends Model
     protected $casts = [
         //'detail_delta' => 'array',
         'attach_files' => 'array',
+        'expire_date' => 'datetime',
+        'publish_date' => 'datetime',
     ];
 
     protected static function booted()
@@ -40,12 +42,11 @@ class Announce extends Model
 
     public function division()
     {
-        return $this->belongsTo(Division::class, 'division_id', 'division_id' );
+        return $this->belongsTo(Division::class, 'division_id', 'division_id');
     }
 
     public function person()
     {
-        return $this->belongsTo(Person::class, 'user_sap_id', 'sap_id' );
+        return $this->belongsTo(Person::class, 'user_sap_id', 'sap_id');
     }
-
 }
