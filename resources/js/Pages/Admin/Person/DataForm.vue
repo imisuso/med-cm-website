@@ -260,7 +260,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-span-6 sm:col-span-4">
+                                    <div v-if="personForm.type == 'z'" class="col-span-6 sm:col-span-2">
+                                        <div class="flex items-center space-x-2">
+                                            <label for="teacher" class="block text-sm font-medium text-gray-700">เป็นอาจารย์ประจำสาขา</label>
+                                            <input type="checkbox" v-model="personForm.teacher" id="teacher" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center justify-start">
                                             <div class="text-sm"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>
                                             <svg
@@ -373,6 +380,7 @@ const personForm = useForm({
   position_academic: props.person ? props.person.position_academic : 99,
   reward: props.person ? props.person.reward : null,
   leader: props.person ? props.person.profiles.leader : false,
+  teacher: props.person ? props.person.profiles.teacher : false,
   certificateList: props.person ? JSON.parse(props.person.cert) : []
 });
 
@@ -548,7 +556,7 @@ const savePerson = () => {
                 }
             });
         }
-        pdpa_protect.value = true
+        //pdpa_protect.value = true
     }
 }
 

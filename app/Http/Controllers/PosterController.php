@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
-
+use App\Managers\LogManager;
 use App\Managers\UploadManager;
+
 use App\Models\Poster;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -22,7 +22,7 @@ class PosterController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/Poster', [
+        return Inertia::render('Admin/Poster/Index', [
             'posters' => Poster::query()
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('desc', 'like', "%{$search}%");
@@ -40,11 +40,6 @@ class PosterController extends Controller
                 ]),
             'filters' => Request::only(['search'])
         ]);
-
-        // // return Inertia::render('Admin/Person', ['persons' => $persons, 'fdivision' => (int)$fdivision_selected] );
-        // $posters = Poster::all();
-        // //return $posters;
-        // return Inertia::render('Admin/Poster', compact('posters'));
     }
 
     /**
@@ -54,7 +49,7 @@ class PosterController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Poster/DataForm');
     }
 
     /**
@@ -65,48 +60,73 @@ class PosterController extends Controller
      */
     public function store()
     {
-        //\Log::info(Request::all());
-
-        $validator = Validator::make(Request::all(), [
-            //'file' => 'required|mimes:doc,docx,pdf,txt,csv|max:2048',
-            'cover'  => 'required|mimes:jpg,jpeg|max:2305',
-            'content' => 'required|mimes:jpg,jpeg,pdf|max:2305',
+        request()->validate([
+            'cover' => ['required', 'mimes:jpg,jpeg', 'max:2305'],
+            'content' => ['required','mimes:jpg,jpeg,pdf','max:2305'],
+            'desc' => ['required'],
+        ], [
+            'cover.required' => 'ต้องใส่รูปหน้าปก ทุกครั้ง',
+            'cover.mimes' => 'ต้องใส่รูปหน้าปกที่เป็น jpg หรือ jpeg เท่านั้น',
+            'cover.max' => 'ต้องใส่รูปหน้าปกขนาดไม่เกิน 2 MB เท่านั้น',
+            'content.required' => 'ต้องใส่เนื้อหาไฟล์ ทุกครั้ง',
+            'content.mimes' => 'ต้องใส่เนื้อหาไฟล์ที่เป็น jpg, jpeg หรือ pdf เท่านั้น',
+            'contentr.max' => 'ต้องใส่เนื้อหาไฟล์ขนาดไม่เกิน 2 MB เท่านั้น',
+            'desc.required' => 'ต้องใส่รายละเอียดของโปสเตอร์ ทุกครั้ง',
         ]);
-  
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors(['msg' => 'Error File Type', 'sysmsg' => '']);
 
-            // return response()->json([
-            //     'success' => false,
-            //     'error'=>$validator->errors()
-            //     ], 401);
-        }
+        // $validator = Validator::make(Request::all(), [
+        //     //'file' => 'required|mimes:doc,docx,pdf,txt,csv|max:2048',
+        //     'cover'  => 'required|mimes:jpg,jpeg|max:2305',
+        //     'content' => 'required|mimes:jpg,jpeg,pdf|max:2305',
+        // ]);
+  
+        // if ($validator->fails()) {
+        //     return Redirect::back()->withErrors(['msg' => 'Error File Type', 'sysmsg' => '']);
+
+        //     // return response()->json([
+        //     //     'success' => false,
+        //     //     'error'=>$validator->errors()
+        //     //     ], 401);
+        // }
 
         //Store Cover File
         $cover_store_path = "med_con/cover";
-        $cover_file = Request::file('cover');
-        $cover_file_name = $cover_file->hashName();
-        //$cover_file_name = $cover_file->getClientOriginalName();
-        //$path = $cover_file->storePubliclyAs($cover_store_path, $cover_file_name, 'public');  // แบบเก่าที่ใช้งาน
-        $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
-
+        try {
+            $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+        } catch (\Exception  $e) {
+            return Redirect::back()->withErrors(['msg' => 'ทำการเพิ่มรูปหน้าปกโปสเตอร์ไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
+        }
 
         //Store Content File
         $content_store_path = "med_con/content";
-        $content_file = Request::file('content');
-        $content_file_name = $content_file->hashName();
-        //$content_file_name = $content_file->getClientOriginalName();
-        //$path = $content_file->storePubliclyAs($content_store_path, $content_file_name, 'public'); // แบบเก่าที่ใช้งาน
-        $content_path = (new UploadManager)->store(Request::file('content'), true, $content_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+        try {
+            $content_path = (new UploadManager)->store(Request::file('content'), true, $content_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+        } catch (\Exception  $e) {
+            Storage::delete($cover_path);
+            return Redirect::back()->withErrors(['msg' => 'ทำการเพิ่มไฟล์เนื้อหาโปสเตอร์ไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
+        }
 
         //Store data into DB
         $poster = new Poster;
         $poster->desc = Request::input('desc');
-        // $poster->cover = $cover_store_path.'/'.$cover_file_name;
-        // $poster->content = $content_store_path.'/'.$content_file_name;
         $poster->cover = $cover_path;
         $poster->content = $content_path;
-        $poster->save();
+        try {
+            $poster->save();
+        } catch (\Exception  $e) {
+            Storage::delete($cover_path);
+            Storage::delete($content_path);
+            return Redirect::back()->withErrors(['msg' => 'ทำการเพิ่มข้อมูลโปสเตอร์ใหม่ไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
+        }
+
+        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Poster Management (จัดการโปสเตอร์)',
+            'insert',
+            'มีการเพิ่มข้อมูลโปสเตอร์ใหม่ เรื่อง:'.Request::input('desc'),
+            'info'
+        );
 
         return Redirect::route('admin.poster');
     }
@@ -174,33 +194,43 @@ class PosterController extends Controller
      */
     public function destroy(Poster $Poster)
     {
-        // $cover_file = $Poster->cover;
-        // $content_file = $Poster->content;
+        $desc = $Poster->desc;
+        $cover_file = $Poster->cover;
+        $content_file = $Poster->content;
 
-        // ลบรูปปกของ poster
-        try {
-            if (! is_null($Poster->cover)) {
-                Storage::delete($Poster->cover);
-            }
-        } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปปกโปสเตอร์ได้', 'sysmsg' => $e->getMessage()]);
-        }
-
-        // ลบไฟล์เนื้อหาของ poster
-        try {
-            if (! is_null($Poster->content)) {
-                Storage::delete($Poster->content);
-            }
-        } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบเนื้อหาโปสเตอร์ได้', 'sysmsg' => $e->getMessage()]);
-        }
-
+        // ทำการลบข้อมูล poster ใน DB ก่อน เพราะถ้าลบรูปไปแล้ว แต่ลบ DB ไม่ได้จะทำให้เปิดดูข้อมูลไม่ได้ เพราะหารูปไม่เจอ
         try {
             Poster::whereId($Poster->id)->delete();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลโปสเตอร์ได้', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลโปสเตอร์ได้ เนื่องจาก '.$e->getMessage()]);
         }
 
+        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Poster Management (จัดการโปสเตอร์)',
+            'delete',
+            'มีการลบข้อมูลโปสเตอร์ เรื่อง:'.$desc,
+            'info'
+        );
+
+        
+        try {
+            // ลบรูปปกของ poster
+            if (! is_null($cover_file)) {
+                Storage::delete($cover_file);
+            }
+
+            // ลบไฟล์เนื้อหาของ poster
+            if (! is_null($content_file)) {
+                Storage::delete($content_file);
+            }
+        } catch (\Exception  $e) {
+            logger("กรุณาลบรูปปกโปสเตอร์ ".$cover_file." อีกครั้ง เนื่องจากได้มีการลบข้อมูล db ไปแล้วแต่ไม่สามารถลบรูปปกได้");
+            logger("กรุณาลบไฟล์เนื้อหาโปสเตอร์ ".$content_file." อีกครั้ง เนื่องจากได้มีการลบข้อมูล db ไปแล้วแต่ไม่สามารถลบไฟล์เนื้อหาได้");
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปปก หรือ ไฟล์เนื้อหา ของโปสเตอร์ได้ เนื่องจาก '.$e->getMessage()]);
+        }
+        
         return Redirect::route('admin.poster');
     }
 }

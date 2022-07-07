@@ -191,7 +191,19 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a 
+                                    <Link
+                                        v-if="$page.props.auth.abilities.includes('manage_person')" 
+                                        :href="route('admin.person')" :data="{ 'remember': 'forget' }" method="get" as="button" type="button"
+                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
+                                    >
+                                        <svg class="w-5 h-5 text-emerald-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+
+                                        <span class="mx-4 font-medium">บุคลากร</span>
+                                    </Link>
+                                    <!-- <a 
                                         v-if="$page.props.auth.abilities.includes('manage_person')"
                                         :href="route('admin.person')"
                                         class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -202,7 +214,7 @@
                                         </svg>
 
                                         <span class="mx-4 font-medium">บุคลากร</span>
-                                    </a>
+                                    </a> -->
                                 </li>
                                 <li>
                                     <a
