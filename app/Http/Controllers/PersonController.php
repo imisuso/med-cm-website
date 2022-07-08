@@ -476,9 +476,24 @@ class PersonController extends Controller
 
     public function listProfessorByDivisionId($id)
     {
+        // $users = User::where(function ($query) {
+        //     $query->select('type')
+        //         ->from('membership')
+        //         ->whereColumn('membership.user_id', 'users.id')
+        //         ->orderByDesc('membership.start_date')
+        //         ->limit(1);
+        // }, 'Pro')->get();
+
+        // $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
+        //                 ->where('division_id', $id)->where('status', true)->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
+        //                 ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true)
+        //                 ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
-                        ->where('division_id', $id)->where('status', true)->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
-                        ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true)
+                        ->where('division_id', $id)->where('status', true)
+                        ->where(function ($query) {
+                            $query->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
+                                ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true);
+                        })
                         ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
