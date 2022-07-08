@@ -178,10 +178,21 @@ class PosterController extends Controller
     {
         try {
             $Poster->status = ! $Poster->status;
+            $status = $Poster->status ? 'เปิดแสดงผล' : 'ปิดแสดงผล';
+            $desc = $Poster->desc;
             $Poster->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลโปสเตอร์ ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลโปสเตอร์ไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
+
+        // เก็บ Log หลังจาก Update สถานะเรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Poster Management (จัดการโปสเตอร์)',
+            'update',
+            'มีการเปลี่ยนการแสดงผลโปสเตอร์ เรื่อง:'.$desc.' เป็น '.$status,
+            'info'
+        );
         
         return Redirect::route('admin.poster');
     }

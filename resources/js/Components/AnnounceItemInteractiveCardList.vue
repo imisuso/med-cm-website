@@ -202,8 +202,8 @@
     </div>
 
     <!-- Modal สำหรับ confirm การ pin, unpin, publish, unpublish and delete  -->
+    <teleport to="body">
     <Modal :isModalOpen="confirmModal" >
-
       <template v-slot:header>
         <div class="text-gray-900 text-xl font-medium dark:text-white">
             {{ announceDetails.topic }}
@@ -225,6 +225,7 @@
         </button>
       </template>
     </Modal>
+    </teleport>
 </template>
 
 <script setup>
