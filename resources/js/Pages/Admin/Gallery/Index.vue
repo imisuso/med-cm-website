@@ -7,14 +7,26 @@
                 <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นหาจากรายละเอียด">
             </div>
 
-            <div>
+            <div class="flex space-x-2">
+                <Link :href="route('admin.gallery.create')" method="get" as="button" type="button"
+                    class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                >
+                    <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    </div>
+                    <div>เพิ่ม</div>
+                </Link>
+            </div>
+            <!-- <div>
                 <button @click="openGalleryModal(true)" class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     เพิ่ม
                 </button>
-            </div>
+            </div> -->
 
             <div v-if="galleries.data.length === 0" class="flex flex-col justify-center  mt-10 p-2 text-2xl text-white text-center border rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500">
                 ไม่พบข้อมูล Galleries รูปกิจกรรม ในระบบ
@@ -33,7 +45,7 @@
             <Paginations :pagination="galleries"/>
         
             <!-- Modal สำหรับ จัดเก็บ หรือ แก้ไข ข้อมูล Gallery รูปกิจกกรรม -->
-            <Modal modalSize="large" :isModalOpen="galleryModal" >
+            <!-- <Modal modalSize="large" :isModalOpen="galleryModal" >
                 <template v-slot:header>
                     <div class="text-gray-900 text-xl font-medium dark:text-white">
                         รายละเอียดการสร้าง Gallery รูปกิจกรรม
@@ -82,12 +94,10 @@
                                                 <div class="flex items-center flex-col sm:flex-row justify-between border border-indigo-500 rounded-md">
                                                 <div class="flex flex-col ">
                                                     <div class="p-2"><strong>ชื่อไฟล์ : </strong>{{file.name}}</div>
-                                                    <!-- <div class="p-2"><p><strong>ขนาด : </strong>{{file.size}} kb</p></div> -->
                                                 </div>
                                                 <div class="flex items-center m-2 sm:m-1">
                                                     <label>
                                                     <span class="p-2 mt-2 text-sm cursor-pointer rounded-lg shadow-lg border text-white border-indigo-500 bg-blue-700 hover:bg-blue-800 hover:text-white">{{file.label}}</span>
-                                                    <!-- <input :id="'file-'+index" type="file" accept="image/*" @change="uploadFile(index, file, $event)" style="display:none"> -->
                                                     <input :id="'file-'+index" type="file" :accept="file.accept" @change="uploadFile(index, file, $event)" style="display:none">
                                                     </label>
                                                 </div>       
@@ -110,7 +120,7 @@
                     </button>
                     <button @click="openGalleryModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
                 </template>
-            </Modal>
+            </Modal> -->
 
             <!-- Modal สำหรับ confirm การลบ ข้อมูลแกลลอรี่  -->
             <Modal :isModalOpen="deleteGalleryModal" >
@@ -140,7 +150,7 @@
 <script setup>
 import { ref, reactive, computed, defineAsyncComponent, watch } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm, Link } from '@inertiajs/inertia-vue3'
 import Modal from '@/Components/Modal'
 import GalleryInteractiveCardList from '@/Components/GalleryInteractiveCardList'
 import Paginations from '@/Components/Paginations'
@@ -168,10 +178,10 @@ watch( search, value => {
     })
 })
 
-const MonthYear = defineAsyncComponent(() => import('@/Components/MonthYearCustom.vue'));
-const monthYear = computed(() => MonthYear);
+// const MonthYear = defineAsyncComponent(() => import('@/Components/MonthYearCustom.vue'));
+// const monthYear = computed(() => MonthYear);
 
-dayjs.extend(buddhistEra)
+// dayjs.extend(buddhistEra)
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -198,17 +208,17 @@ const galleryForm = useForm({
 const galleryModal = ref(false)
 const addDeleteImageGalleryModal = ref(false)
 const deleteGalleryModal = ref(false)
-const checkFileSize = ref(false)
-const checkCoverFile = ref(false)
-const checkContentFile = ref(false)
-const attachments = reactive([
-                        { name: "", size: 0, label: "รูปหน้าปก", accept: ".jpg,.jpeg"}
-                        // { name: "", size: 0, label: "เพิ่มไฟล์เนื้อหา", accept: ".jpg,.jpeg,.pdf"}
-                    ])
+// const checkFileSize = ref(false)
+// const checkCoverFile = ref(false)
+// const checkContentFile = ref(false)
+// const attachments = reactive([
+//                         { name: "", size: 0, label: "รูปหน้าปก", accept: ".jpg,.jpeg"}
+//                         // { name: "", size: 0, label: "เพิ่มไฟล์เนื้อหา", accept: ".jpg,.jpeg,.pdf"}
+//                     ])
 
-const dateFormat = (date) => {
-    return dayjs(date).locale('th').format('วันddddที่ D MMMM BBBB')
-}
+// const dateFormat = (date) => {
+//     return dayjs(date).locale('th').format('วันddddที่ D MMMM BBBB')
+// }
 
 const openGalleryModal = (isopen) => {
     galleryModal.value = isopen
@@ -252,107 +262,114 @@ const confirmDeleteGallery = ( galleryData ) => {
     
 }
 
-const uploadFile = (index, file, e) => {
-  let f = e.target.files[0];
+// const uploadFile = (index, file, e) => {
+//   let f = e.target.files[0];
 
-  //console.log(f)
-  file.File = f;
-  file.name = f.name;
-  file.size = f.size;
+//   //console.log(f)
+//   file.File = f;
+//   file.name = f.name;
+//   file.size = f.size;
 
-  if (file.size > 1024 * 1024 * 2) {
-    checkFileSize.value = false
-    toast('warning', 'เพิ่มไฟล์ไม่ได้', 'เนื่องจากไฟล์ของคุณใหญ่เกินไป (> 2MB)')
-  } else {
-      checkFileSize.value = true
-  }
-
-  if( index === 0 ) {
-      if( !f.type.match('image/jp.*') ) {
-          checkCoverFile.value = false
-          toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'อนุญาตให้แนบไฟล์เฉพาะ .jpg เท่านั้น')
-      } else {
-          checkCoverFile.value = true
-      }
-  } 
-//   else {
-//       if( ! (f.type.match('image/jp.*') || f.type.match('application/pdf')) ) {
-//           checkContentFile.value = false
-//           toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'อนุญาตให้แนบไฟล์เฉพาะ .jpg หรือ PDF เท่านั้น')
-//       } else {
-//           checkContentFile.value = true
-//       }
+//   if (file.size > 1024 * 1024 * 2) {
+//     checkFileSize.value = false
+//     toast('warning', 'เพิ่มไฟล์ไม่ได้', 'เนื่องจากไฟล์ของคุณใหญ่เกินไป (> 2MB)')
+//   } else {
+//       checkFileSize.value = true
 //   }
+
+//   if( index === 0 ) {
+//       if( !f.type.match('image/jp.*') ) {
+//           checkCoverFile.value = false
+//           toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'อนุญาตให้แนบไฟล์เฉพาะ .jpg เท่านั้น')
+//       } else {
+//           checkCoverFile.value = true
+//       }
+//   } 
+// //   else {
+// //       if( ! (f.type.match('image/jp.*') || f.type.match('application/pdf')) ) {
+// //           checkContentFile.value = false
+// //           toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'อนุญาตให้แนบไฟล์เฉพาะ .jpg หรือ PDF เท่านั้น')
+// //       } else {
+// //           checkContentFile.value = true
+// //       }
+// //   }
+// }
+
+// const checkRequireData = () => {
+//     //return true
+//     //if( galleryForm.desc && checkFileSize.value && (checkCoverFile.value || checkContentFile.value) ) {
+//     if( galleryForm.desc && galleryForm.event_date ) {
+//       return true
+//     } else {
+//       return false
+//     }
+// }
+
+// const saveGallery = () => {
+// //   submitted.value = true;
+//   if(! checkRequireData() ) {
+//       toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของแกลลอรี่ ไม่ครบถ้วน');
+//   } else { 
+//     if(galleryForm.id) {  // Update
+//       //console.log("Update")
+//       galleryForm.transform(data => ({
+//           ...data,
+//           event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"),
+//           cover: attachments[0].File
+//       })).post( route('admin.update_gallery', galleryForm.id), {
+//         _method: 'patch',
+//         preserveState: false,
+//         //preserveScroll: true,
+//         onSuccess: () => {
+//           toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลแกลลอรี่ เรียบร้อย')
+//           galleryForm.reset()  // ทำการ reset poster form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+//         },
+//         onError: (errors) => {
+//           toast('danger', errors.msg, errors.sysmsg)
+//         },
+//         onFinish: () => {
+//           galleryForm.processing = false
+//         }
+//       })
+//     } else { // Insert
+//       //console.log("Insert")
+//       galleryForm.transform(data => ({
+//         ...data,
+//         //   atFiles: attachments.map(file => file.File)
+//         event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"),
+//         cover: attachments[0].File   
+//       })).post(route('admin.add_gallery'), {
+//         preserveState: false,
+//         onSuccess: () => {
+//           toast('success', 'สำเร็จ', 'สร้างแกลลอรี่รูปกิจกรรม เรียบร้อย')
+//           galleryForm.reset()  // ทำการ reset gallery form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
+//         },
+//         onError: (errors) => {
+//           toast('danger', errors.msg, errors.sysmsg)
+//         },
+//         onFinish: () => {
+//           galleryForm.processing = false
+//         }
+//       });
+//     }
+
+//     openGalleryModal(false) // ปิด Modal
+//   }
+// }
+
+const editGallery = ( item ) => {
+  Inertia.get(route('admin.gallery.edit', item.id), {}, {
+    preserveState: true,
+    replace: true
+  })
 }
 
-const checkRequireData = () => {
-    //return true
-    //if( galleryForm.desc && checkFileSize.value && (checkCoverFile.value || checkContentFile.value) ) {
-    if( galleryForm.desc && galleryForm.event_date ) {
-      return true
-    } else {
-      return false
-    }
-}
-
-const saveGallery = () => {
-//   submitted.value = true;
-  if(! checkRequireData() ) {
-      toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของแกลลอรี่ ไม่ครบถ้วน');
-  } else { 
-    if(galleryForm.id) {  // Update
-      //console.log("Update")
-      galleryForm.transform(data => ({
-          ...data,
-          event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"),
-          cover: attachments[0].File
-      })).post( route('admin.update_gallery', galleryForm.id), {
-        _method: 'patch',
-        preserveState: false,
-        //preserveScroll: true,
-        onSuccess: () => {
-          toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลแกลลอรี่ เรียบร้อย')
-          galleryForm.reset()  // ทำการ reset poster form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
-        },
-        onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-          galleryForm.processing = false
-        }
-      })
-    } else { // Insert
-      //console.log("Insert")
-      galleryForm.transform(data => ({
-        ...data,
-        //   atFiles: attachments.map(file => file.File)
-        event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"),
-        cover: attachments[0].File   
-      })).post(route('admin.add_gallery'), {
-        preserveState: false,
-        onSuccess: () => {
-          toast('success', 'สำเร็จ', 'สร้างแกลลอรี่รูปกิจกรรม เรียบร้อย')
-          galleryForm.reset()  // ทำการ reset gallery form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
-        },
-        onError: (errors) => {
-          toast('danger', errors.msg, errors.sysmsg)
-        },
-        onFinish: () => {
-          galleryForm.processing = false
-        }
-      });
-    }
-
-    openGalleryModal(false) // ปิด Modal
-  }
-}
-
-const editGallery = (item) => {
-    galleryForm.id = item.id
-    galleryForm.desc = item.desc
-    galleryForm.event_date = dayjs(item.event_date).startOf('day').toDate()
-    openGalleryModal(true)
-}
+// const editGallery = (item) => {
+//     galleryForm.id = item.id
+//     galleryForm.desc = item.desc
+//     galleryForm.event_date = dayjs(item.event_date).startOf('day').toDate()
+//     openGalleryModal(true)
+// }
 
 const deleteGallery = () => {
     galleryForm.delete(route('admin.delete_gallery', galleryForm.id), {

@@ -117,7 +117,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                             </svg>
                         </div>
-                        <ToggleSwitch v-model:status="personDetails.status" @button-is-toggle="switchButtonToggle(personDetails)" />
+                        <!-- <ToggleSwitch v-model:status="personDetails.status" @button-is-toggle="switchButtonToggle(personDetails)" /> -->
+                        <ToggleSwitch v-model:status="personDetails.status" @button-is-toggle="confirmModal = ! confirmModal" />
                         <div class="text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -182,16 +183,43 @@
                         </ul>
                     </div>
                 </div>
-            </div>  
-           
+            </div>           
         </div>
     </div>
+
+    <!-- Modal สำหรับ confirm publish, unpublish  -->
+    <teleport to="body">
+    <Modal :isModalOpen="confirmModal" >
+        <template v-slot:header>
+            <div v-if="personDetails.status" class="text-gray-900 text-xl font-medium dark:text-white">คุณต้องการ ปิด การแสดงผลบุคลากร</div>
+            <div v-else class="text-gray-900 text-xl font-medium dark:text-white">คุณต้องการ เปิด การแสดงผลบุคลากร</div>
+        </template>
+
+        <template v-slot:body>
+            <div class="flex flex-row justify-start items-center">
+                <img :src="personDetails.image_url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
+                <div class="text-gray-900 text-md font-medium dark:text-white">
+                    {{ personDetails.fname_th }} {{ personDetails.lname_th }}
+                </div>
+            </div>
+        </template>
+
+        <template v-slot:footer>
+            <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
+            <button @click="switchButtonToggle(personDetails)" type="button" 
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                ตกลง
+            </button>
+        </template>
+    </Modal>
+    </teleport>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import ToggleSwitch from '@/Components/ToggleSwitch'
+import Modal from '@/Components/Modal'
 
 // API Service
 import TraceLogService from '@/Services/TraceLogService'
@@ -220,6 +248,7 @@ const baseUrl = ref(base_url)
 const isDropDownOpen = ref(false)
 const pdpa_protect = ref(false)
 const section = "Person Management (จัดการบุคคลากร)"
+const confirmModal = ref(false)
 
 const toggleDropDown = () => {
     isDropDownOpen.value = !isDropDownOpen.value
@@ -254,36 +283,36 @@ const toast = (severity, summary, detail) => {
 }
 
 const switchButtonToggle = (person) => {
-    //console.log(menu);
-    Inertia.patch(route('admin.update_person_display_status', person.id), { fdivision: props.personDetails.division_id }, {
-        onBefore: () => {
-            let display = ''
-            if( person.type === 'b' && person.position_academic === 0 ) { 
-                display = `${person.title_th}${person.fname_th} ${person.lname_th}`
-            } else {
-                display = `${person.rname_short_th}${person.fname_th} ${person.lname_th}`
-            }
+    Inertia.patch(route('admin.person.update_display_status', person.id), { fdivision: props.personDetails.division_id }, {
+        // onBefore: () => {
+        //     let display = ''
+        //     if( person.type === 'b' && person.position_academic === 0 ) { 
+        //         display = `${person.title_th}${person.fname_th} ${person.lname_th}`
+        //     } else {
+        //         display = `${person.rname_short_th}${person.fname_th} ${person.lname_th}`
+        //     }
            
-            if( person.status ) { 
-                return confirm(`คุณต้องการปิดการแสดงผล ${display} ใช่ หรือ ไม่ ?`)
-            } else {
-                return confirm(`คุณต้องการเปิดการแสดงผล ${display} ใช่ หรือ ไม่ ?`)
-            }
-        },
+        //     if( person.status ) { 
+        //         return confirm(`คุณต้องการปิดการแสดงผล ${display} ใช่ หรือ ไม่ ?`)
+        //     } else {
+        //         return confirm(`คุณต้องการเปิดการแสดงผล ${display} ใช่ หรือ ไม่ ?`)
+        //     }
+        // },
         onSuccess: () => {
-            //console.log("onSuccess state")
             person.status = ! person.status
             toast('success', 'สำเร็จ', 'เปลี่ยนสถานะการแสดงผลบนหน้า website เรียบร้อย')
         },
         onError: (errors) => {
-            //console.log("onError state")
-            toast('danger', errors.msg, errors.sysmsg)
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
-            //console.log("onFinish state")
+            confirmModal.value = false
         }
     })
-    //console.log(menu.status)
 }
 
 const togglePdpaData = () => {

@@ -20,7 +20,7 @@ class GalleryController extends Controller
      */
     public function index_admin()
     {
-        return Inertia::render('Admin/Gallery', [
+        return Inertia::render('Admin/Gallery/Index', [
             'galleries' => Gallery::query()
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('desc', 'like', "%{$search}%");
@@ -67,7 +67,7 @@ class GalleryController extends Controller
             }
         }
         return Inertia::render(
-            'Admin/ManageGallery',
+            'Admin/Gallery/ManageGallery',
             [
                                     'id' => $Gallery->id,
                                     'desc' => $Gallery->desc,
@@ -131,7 +131,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Gallery/DataForm');
     }
 
     /**
@@ -142,35 +142,37 @@ class GalleryController extends Controller
      */
     public function store()
     {
-        $validator = Validator::make(Request::all(), [
-            //'file' => 'required|mimes:doc,docx,pdf,txt,csv|max:2048',
-            'cover'  => 'required|mimes:jpg,jpeg|max:2305',
+        request()->validate([
+            'cover' => ['required', 'mimes:jpg,jpeg', 'max:2305'],
+            'desc' => ['required'],
+        ], [
+            'cover.required' => 'ต้องใส่รูปหน้าปก ทุกครั้ง',
+            'cover.mimes' => 'ต้องใส่รูปหน้าปกที่เป็น jpg หรือ jpeg เท่านั้น',
+            'cover.max' => 'ต้องใส่รูปหน้าปกขนาดไม่เกิน 2 MB เท่านั้น',
+            'desc.required' => 'ต้องใส่รายละเอียดแกลลอรี่รูปกิจกรรม ทุกครั้ง',
         ]);
-  
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors(['msg' => 'กรุณาเลือกไฟล์รูปหน้าปก ประเภทไฟล์ .jpg ที่มีขนาดไม่เกิน 2 MB ก่อนทำการเพิ่ม gallery', 'sysmsg' => '']);
-
-            // return response()->json([
-            //     'success' => false,
-            //     'error'=>$validator->errors()
-            //     ], 401);
-        }
 
         //Store Cover File
         $event_date = date("Ymd", strtotime(Request::input('event_date')));
         $cover_store_path = "images/gallery/".$event_date;
-        $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+        try {
+            $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+        } catch (\Exception  $e) {
+            return Redirect::back()->withErrors(['msg' => 'เพิ่มรูปหน้าปกแกลลอรี่รูปกิจกรรมไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
+        }
 
         //Store data into DB
         $gallery = new Gallery;
         $gallery->desc = Request::input('desc');
         $gallery->cover = $cover_path;
         $gallery->event_date = Request::input('event_date');
+        try {
+            $gallery->save();
+        } catch (\Exception  $e) {
+            Storage::delete($cover_path);
+            return Redirect::back()->withErrors(['msg' => 'เพิ่มแกลลอรี่รูปกิจกรรมไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
+        }
 
-        $gallery->save();
-
-        // logger(Request::all());
-        // logger($event_date);
         return Redirect::route('admin.gallery');
     }
 
@@ -223,9 +225,9 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Gallery $Gallery)
     {
-        //
+        return Inertia::render('Admin/Gallery/DataForm', ['action' => 'edit', 'gallery' => $Gallery]);
     }
 
     /**
@@ -237,36 +239,30 @@ class GalleryController extends Controller
      */
     public function update(Gallery $Gallery)
     {
-        // logger(Request::all());
-        // logger($Gallery);
-
         $change_event_date = 0;
         $old_cover = $Gallery->cover;
 
         // ตรวจสอบว่ามีการเปลี่ยนวันที่ของรูปกิจกรรมหรือไม่
-        if (Request::input('event_date') !== $Gallery->event_date) {
-            //logger("Changed Event date");
+        $db_event_date = date("Ymd", strtotime($Gallery->event_date));
+        $form_event_date = date("Ymd", strtotime(Request::input('event_date')));
+        if ($form_event_date !== $db_event_date) {
             $change_event_date = 1;
-
-            $old_event_date = date("Ymd", strtotime($Gallery->event_date));
-            $old_dir = "public/images/gallery/".$old_event_date;
+            // $old_event_date = date("Ymd", strtotime($Gallery->event_date));
+            $old_dir = "public/images/gallery/".$db_event_date;
             try {
-                //Storage::move('old/file.jpg', 'new/file.jpg');
                 Storage::deleteDirectory($old_dir);
-                //$delete_dir = (new UploadManager)->delete_dir(true, $old_dir);
                 $Gallery->cover = '';
                 $Gallery->event_date = Request::input('event_date');
             } catch (\Exception  $e) {
-                return Redirect::back()->withErrors(['msg' => 'เปลี่ยนวันที่ของรูปกิจกรรม ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+                return Redirect::back()->withErrors(['msg' => 'เปลี่ยนวันที่ของรูปกิจกรรมไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
             }
         }
 
         // ตรวจสอบว่ามีการเปลี่ยนรูปหน้าปกของแกลลอรี่หรือไม่
         if (Request::hasFile('cover')) {
-            //logger("Changed cover gallery");
 
             //Store Cover File
-            $event_date = date("Ymd", strtotime(Request::input('event_date')));
+            $event_date = $form_event_date;
             $cover_store_path = "images/gallery/".$event_date;
             $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
 
@@ -282,7 +278,7 @@ class GalleryController extends Controller
             $Gallery->desc = Request::input('desc');
             $Gallery->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'การแก้ไขข้อมูลแกลลอรี่ลงฐานข้อมูล ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'แก้ไขข้อมูลแกลลอรี่ลงฐานข้อมูลไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
         return Redirect::route('admin.gallery');

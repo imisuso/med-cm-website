@@ -150,7 +150,7 @@ Route::prefix('admin')
         Route::get('/poster', 'index')->name('admin.poster');
         Route::get('/poster/create', 'create')->name('admin.poster.create');
         Route::post('/poster/store', 'store')->name('admin.poster.store');
-        Route::patch('/update_poster_display_status/{Poster}', 'updatePosterDisplayStatus')->name('admin.update_poster_display_status');
+        Route::patch('/poster/update_display_status/{Poster}', 'updatePosterDisplayStatus')->name('admin.poster.update_display_status');
         Route::delete('/poster/delete/{Poster}', 'destroy')->name('admin.poster.delete');
     });
 Route::get('/list_enabled_poster', [PosterController::class, 'showListEnabledPoster'])->name('list_enabled_poster');
@@ -161,13 +161,15 @@ Route::prefix('admin')
     ->controller(GalleryController::class)
     ->group(function () {
         Route::get('/gallery', 'index_admin')->name('admin.gallery');
+        Route::get('/gallery/create', 'create')->name('admin.gallery.create');
+        Route::get('/gallery/edit/{Gallery}', 'edit')->name('admin.gallery.edit');
         Route::get('/check_gallery_empty/{event_date}', 'checkGalleryEmpty')->name('admin.check_gallery_empty');
         Route::post('/add_gallery', 'store')->name('admin.add_gallery');
         Route::post('/update_gallery/{Gallery}', 'update')->name('admin.update_gallery');
         Route::patch('/update_gallery_display_status/{Gallery}', 'updateGalleryDisplayStatus')->name('admin.update_gallery_display_status');
         Route::delete('/delete_gallery/{Gallery}', 'destroy')->name('admin.delete_gallery');
 
-        Route::get('/manage_gallery/{Gallery}', 'manageGallery')->name('admin.manage_gallery');
+        Route::get('/gallery/manage/{Gallery}', 'manageGallery')->name('admin.gallery.manage');
         Route::post('/upload_image_to_gallery/{event_date}', 'uploadImageToGallery')->name('admin.upload_image_to_gallery');
         Route::delete('/delete_gallery_image', 'destroyGalleryImage')->name('admin.delete_gallery_image');
     });
@@ -186,7 +188,7 @@ Route::prefix('admin')
         Route::get('/person/edit/{Person}', 'edit')->name('admin.person.edit');
         Route::post('/person/store', 'store')->name('admin.person.store');
         Route::post('/person/update/{Person}', 'update')->name('admin.person.update');
-        Route::patch('/update_person_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.update_person_display_status');
+        Route::patch('/person/update_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.person.update_display_status');
         Route::delete('/person/delete/{id}', 'destroy')->name('admin.person.delete');
         Route::post('/person/update_display_order', 'updatePersonDisplayOrder')->name('admin.person.update_display_order');
         Route::get('/person/list_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('admin.person.list_by_division_and_type');
