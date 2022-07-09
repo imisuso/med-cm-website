@@ -68,7 +68,7 @@
                                 </Link>
                             </li>
                             <li>
-                                <a href="#" @click="deleteItem(downloadItem)" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
+                                <a href="#" @click="confirmModal = true" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
@@ -79,15 +79,40 @@
                     </div>
                 </div>
             </div>  
-           
         </div>
     </div>
+
+    <!-- Modal สำหรับ confirm การลบ ข้อมูลดาวน์โหลด  -->
+    <teleport to="body">
+    <Modal :isModalOpen="confirmModal" >
+        <template v-slot:header>
+            <div class="text-gray-900 text-xl font-medium dark:text-white">
+                คุณต้องการลบข้อมูลดาวน์โหลด
+            </div>
+        </template>
+
+        <template v-slot:body>
+            <div class="flex flex-row justify-start items-center">
+                <!-- <img class="shadow-lg rounded-md h-20 w-16 mb-1 mt-1 mr-4" :src="`${downloadItem.cover}`" alt=""/> -->
+                <div class="text-gray-900 text-md font-medium dark:text-white truncate">
+                    {{ downloadItem.title }}
+                </div>
+            </div>
+        </template>
+
+        <template v-slot:footer>   
+            <button @click="deleteItem(downloadItem)" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
+            <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
+        </template>
+    </Modal>
+    </teleport>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
+import Modal from '@/Components/Modal.vue'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
@@ -112,8 +137,10 @@ onUnmounted(() => {
 })
 
 dayjs.extend(buddhistEra)
+
 const baseUrl = ref(base_url)
 const isDropDownOpen = ref(false)
+const confirmModal = ref(false)
 
 const toggleDropDown = () => {
     isDropDownOpen.value = !isDropDownOpen.value
@@ -125,7 +152,6 @@ const closeDropdownWhenClickOutSide = (event) => {
             isDropDownOpen.value = false
         }
     }
-  
 }
 
 const toast = (severity, summary, detail) => {
@@ -145,9 +171,15 @@ const toast = (severity, summary, detail) => {
 
 const deleteItem = ( item ) => {
     Inertia.delete(route('admin.download.delete', item.id), {
-        onBefore: () => { return confirm('คุณต้องการลบรายการนี้ ใช่ หรือ ไม่ ?') },
+        // onBefore: () => { return confirm('คุณต้องการลบรายการนี้ ใช่ หรือ ไม่ ?') },
         onSuccess: () => { toast('success', 'สำเร็จ', 'ลบข้อมูลดาวน์โหลด เรียบร้อย') },
-        onError: (errors) => { console.log(errors) },
+        onError: (errors) => { 
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display); 
+        },
         onFinish: () => {}
     });
 }

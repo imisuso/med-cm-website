@@ -64,7 +64,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import OfficerDetail from '@/Components/OfficerDetail'
+import OfficerDetail from '@/Components/OfficerDetail.vue'
 
 const props = defineProps({
     units: { type: Array, default: [] },

@@ -218,8 +218,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
-import ToggleSwitch from '@/Components/ToggleSwitch'
-import Modal from '@/Components/Modal'
+import ToggleSwitch from '@/Components/ToggleSwitch.vue'
+import Modal from '@/Components/Modal.vue'
 
 // API Service
 import TraceLogService from '@/Services/TraceLogService'

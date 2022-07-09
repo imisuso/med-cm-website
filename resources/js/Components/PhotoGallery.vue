@@ -47,20 +47,10 @@ onMounted(() => {
     });
 })
 
-// const gelleries = ref(
-//             [
-//               {"id": 1, "description": "พิธีมอบรางวัลการประกวดผลงานวิจัยแพทย์ประจำบ้าน ภาควิชาอายุรศาสตร์1", "cover":"storage/images/gallery/25640303/op.jpg", "event_date": "2021-03-03"},
-//               {"id": 2, "description": "พิธีทำบุญตักบาตรเนื่องในโอกาสวันคล้ายวันพระบรมราชสมภพของพระบาทสมเด็จพระมหาภูมิพลอดุลยเดชมหาราชบรมนาถบพิตร วันชาติ และวันพ่อแห่งชาติ(4/12/2563)", "cover":"storage/images/gallery/25641204/op.jpg", "event_date": "2021-12-04"},
-//               {"id": 3, "description": "งานทำบุญตึกอัษฎางค์ ประจำปี 2563 ณ ห้องประชุม นพ. เล็ก - นางสมพร ศฤงคไพบูลย์ ตึกอัษฎางค์ชั้น 4", "cover":"storage/images/gallery/25631105/op.jpg", "event_date": "2020-11-05"},
-//               {"id": 4, "description": "งานอายุรศาสตร์..ด้วยรัก..และผูกพัน ณ ห้องประชุม นพ. เล็ก - นางสมพร ศฤงคไพบูลย์ ตึกอัษฎางค์ชั้น 4", "cover":"storage/images/gallery/25630921/op.jpg", "event_date": "2020-09-21"},
-//             ]
-// )
-
 const gelleries = ref([])
 
 const date_tranform = ( event_date ) => {
   return dayjs(event_date).locale('th').format('YYYYMMDD')
-  //return dayjs(event_date).locale('th').format('BBBBMMDD')
 }
 </script>
 

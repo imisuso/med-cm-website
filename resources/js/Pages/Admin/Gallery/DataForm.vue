@@ -74,7 +74,6 @@
             <div class="flex flex-row mt-2 space-x-4">
                 <button v-if="action === 'create'" type="button" @click="saveGallery" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
                 <button v-if="action === 'edit'" type="button" @click="saveGallery" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
-                <!-- <button v-if="action === 'delete'" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">ลบ</button> -->
                 <Link :href="route('admin.gallery')" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                 >
@@ -120,9 +119,6 @@ switch(props.action) {
         break;
     case 'edit':
         actionWord.value = "แก้ไข"
-        break;
-    case 'delete':
-        actionWord.value = "ลบ"
         break;
 }
 
@@ -182,7 +178,7 @@ const saveGallery = () => {
           ...data,
           event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"),
           cover: attachments[0].File
-      })).post( route('admin.update_gallery', galleryForm.id), {
+      })).post( route('admin.gallery.update', galleryForm.id), {
         _method: 'patch',
         preserveState: true,
         onSuccess: () => {
@@ -204,7 +200,7 @@ const saveGallery = () => {
         //   atFiles: attachments.map(file => file.File)
         event_date: dayjs(data.event_date).format("YYYY-MM-DD HH:mm:ss"),
         cover: attachments[0].File   
-      })).post(route('admin.add_gallery'), {
+      })).post(route('admin.gallery.store'), {
         preserveState: true,
         onSuccess: () => {
           toast('success', 'สำเร็จ', 'สร้างแกลลอรี่รูปกิจกรรม เรียบร้อย')

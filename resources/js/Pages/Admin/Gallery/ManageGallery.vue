@@ -69,10 +69,10 @@
 
 <script setup>
 
-import { ref, reactive, computed, defineAsyncComponent } from 'vue'
+import { ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm } from '@inertiajs/inertia-vue3'
-import ToggleSwitch from '@/Components/ToggleSwitch'
+import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
@@ -115,13 +115,13 @@ const onFileChange = (e) => {
 
     // ตรวจสอบขาดไฟล์ว่าใหญ่เกิน 2 MB หรือไม่
     if (files[0].size > 1024 * 1024 * 2) {
-        toast('warning', 'เพิ่มไฟล์ไม่ได้', 'เนื่องจากไฟล์ของคุณใหญ่เกินไป (> 2MB)')
+        toast('warning', 'คำเตือน', 'เพิ่มไฟล์รูปไม่ได้ เนื่องจากไฟล์ของคุณมีขนาดใหญ่กว่า 2MB')
         return
     }
 
     // ตรวจสอบว่าเป็นไฟล์ .jpg หรือ .jpeg หรือไม่
     if( !files[0].type.match('image/jp.*') ) {
-        toast('warning', 'เพิ่มไฟล์แนบไม่ได้', 'อนุญาตให้แนบไฟล์เฉพาะ .jpg เท่านั้น')
+        toast('warning', 'คำเตือน', 'เพิ่มไฟล์รูปไม่ได้ อนุญาตให้แนบไฟล์เฉพาะ .jpg เท่านั้น')
         return
     }
 
@@ -144,23 +144,25 @@ const removeImage = (index) => {
     images_url.value.splice(index, 1)
 }
 
-
-
 const uploadImage = () => {
     //console.log(images_url.value)
     form.transform(data => ({
         ...data,
         imageFiles: images_url.value.map(file => file.File)     
-    })).post(route('admin.upload_image_to_gallery', form.event_date), {
+    })).post(route('admin.gallery.upload_image_to_gallery', form.event_date), {
         _method: 'patch',
         preserveState: true,
         only: ['images'],
         onSuccess: () => {
-            toast('success', 'อัพโหลดสำเร็จ', 'อัพโหลดรูปเข้าแกลลอรี่ เรียบร้อย')
-            form.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+            toast('success', 'สำเร็จ', 'อัพโหลดรูปเข้าแกลลอรี่ เรียบร้อย')
+            form.reset()  // ทำการ reset form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
         },
         onError: (errors) => {
-            toast('danger', errors.msg, errors.sysmsg)
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
             form.processing = false
@@ -173,15 +175,19 @@ const deleteImage = (file_path) => {
     form.transform(data => ({
         ...data,
         file_path: file_path     
-    })).delete(route('admin.delete_gallery_image'), {
+    })).delete(route('admin.gallery.delete_image'), {
         preserveState: true,
         only: ['images'],
         onSuccess: () => {
-            toast('success', 'ลบรูปสำเร็จ', 'ทำการลบรูปจากแกลลอรี่ เรียบร้อย')
-            form.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+            toast('success', 'สำเร็จ', 'ทำการลบรูปจากแกลลอรี่ เรียบร้อย')
+            form.reset()  // ทำการ reset form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
         },
         onError: (errors) => {
-            toast('danger', errors.msg, errors.sysmsg)
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
             form.processing = false

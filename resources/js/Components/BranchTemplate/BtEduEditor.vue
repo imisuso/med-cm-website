@@ -53,7 +53,7 @@ import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } fro
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
-import ComingSoon from '@/Components/ComingSoon'
+import ComingSoon from '@/Components/ComingSoon.vue'
 
 class CustomImageSpec extends ImageSpec {
     getActions() {

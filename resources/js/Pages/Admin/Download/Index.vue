@@ -32,6 +32,7 @@
         <div class="flex justify-center md:justify-end mt-2 px-4">
             <Pagination :pagination="items"/>
         </div>
+
     </AdminAppLayout>
 </template>
 
@@ -40,8 +41,8 @@ import { ref, watch } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 
-import DownloadItemInteractiveCardList from '@/Components/DownloadItemInteractiveCardList'
-import Pagination from '@/Components/Paginations'
+import DownloadItemInteractiveCardList from '@/Components/DownloadItemInteractiveCardList.vue'
+import Pagination from '@/Components/Paginations.vue'
 
 import { createToast } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast
@@ -80,14 +81,14 @@ const toast = (severity, summary, detail) => {
 //     return text ? 'เปิด' : 'ปิด'
 // }
 
- const deleteItem = ( item ) => {
-    Inertia.delete(route('admin.download.delete', item.id), {
-        onBefore: () => { return confirm('คุณต้องการลบรายการนี้ ใช่ หรือ ไม่ ?') },
-        onSuccess: () => { toast('success', 'สำเร็จ', 'ลบข้อมูลดาวน์โหลด เรียบร้อย') },
-        onError: (errors) => { console.log(errors) },
-        onFinish: () => {}
-    });
-}
+// const deleteItem = ( item ) => {
+//     Inertia.delete(route('admin.download.delete', item.id), {
+//         onBefore: () => { return confirm('คุณต้องการลบรายการนี้ ใช่ หรือ ไม่ ?') },
+//         onSuccess: () => { toast('success', 'สำเร็จ', 'ลบข้อมูลดาวน์โหลด เรียบร้อย') },
+//         onError: (errors) => { console.log(errors) },
+//         onFinish: () => {}
+//     });
+// }
 
 </script>
 

@@ -58,14 +58,14 @@
 <script setup>
 
 //import { ref } from 'vue';
-import WhoWeAre from '@/Components/PostGraduate/WhoWeAre'
-import VisionMission from '@/Components/PostGraduate/VisionMission'
-import CourseDetail from '@/Components/PostGraduate/CourseDetail'
-import CourseResult from '@/Components/PostGraduate/CourseResult'
-import Committee from '@/Components/PostGraduate/Committee'
-import Officer from '@/Components/PostGraduate/Officer'
-import CriteriaDetail from '@/Components/PostGraduate/CriteriaDetail'
-import ContactUs from '@/Components/PostGraduate/ContactUs'
+import WhoWeAre from '@/Components/PostGraduate/WhoWeAre.vue'
+import VisionMission from '@/Components/PostGraduate/VisionMission.vue'
+import CourseDetail from '@/Components/PostGraduate/CourseDetail.vue'
+import CourseResult from '@/Components/PostGraduate/CourseResult.vue'
+import Committee from '@/Components/PostGraduate/Committee.vue'
+import Officer from '@/Components/PostGraduate/Officer.vue'
+import CriteriaDetail from '@/Components/PostGraduate/CriteriaDetail.vue'
+import ContactUs from '@/Components/PostGraduate/ContactUs.vue'
 
 </script>
 
