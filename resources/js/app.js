@@ -1,12 +1,16 @@
-window._ = require('lodash')
+//window._ = require('lodash')
 
-window.axios = require('axios')
+//window.axios = require('axios')
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+//window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest' 
 
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { InertiaProgress } from '@inertiajs/progress'
+import axios, { AxiosInstance } from 'axios'
+
+import '../css/app.css';
 
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -17,7 +21,11 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import AdminAppLayout from '@/Layouts/Admin/AdminAppLayout.vue'
 
 import { QuillEditor } from '@vueup/vue-quill'
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
 //import '@vueup/vue-quill/dist/vue-quill.snow.css'
+
+import 'viewerjs/dist/viewer.css';
 
 const globalOptions = {
   // debug: 'info',
@@ -45,7 +53,7 @@ const globalOptions = {
 QuillEditor.props.globalOptions.default = () => globalOptions
 
 createInertiaApp({
-    resolve: name => require(`./Pages/${name}`),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
       createApp({ render: () => h(App, props) })
         // .config.compilerOptions.isCustomElement = tag => tag.startsWith('trix-')

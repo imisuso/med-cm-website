@@ -65,5 +65,6 @@ const baseUrl = ref(base_url)
 </script>
 
 <style scoped>
-@import 'viewerjs/dist/viewer.css';
+/* @import 'viewerjs/dist/viewer.css'; */
+
 </style>

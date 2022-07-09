@@ -57,6 +57,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import axios, { AxiosInstance } from 'axios'
 
 onMounted(() => {
     axios.get(route('download.all_enable')).then(res => {
