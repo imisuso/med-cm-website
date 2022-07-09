@@ -51,7 +51,7 @@
 import { ref, } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
-import ToggleSwitch from '@/Components/ToggleSwitch'
+import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast

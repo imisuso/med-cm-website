@@ -82,9 +82,9 @@ import { useForm, Link, usePage } from '@inertiajs/inertia-vue3'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 
-import Modal from '@/Components/Modal'
-import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList'
-import Pagination from '@/Components/Paginations'
+import Modal from '@/Components/Modal.vue'
+import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList.vue'
+import Pagination from '@/Components/Paginations.vue'
 
 // API Service
 import DivisionService from '@/Services/DivisionService'

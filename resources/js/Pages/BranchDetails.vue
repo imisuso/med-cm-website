@@ -123,16 +123,16 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import EduContentPdfViewer from '@/Components/PdfViewer/EduContentPdfViewer'
-import BtProfessor from '@/Components/BranchTemplate/BtProfessor'
-import BtDoctor from '@/Components/BranchTemplate/BtDoctor'
-import BtOfficer from '@/Components/BranchTemplate/BtOfficer'
-import BtResearch from '@/Components/BranchTemplate/BtResearch'
-import BtBranchService from '@/Components/BranchTemplate/BtBranchService'
-import BtAcademicService from '@/Components/BranchTemplate/BtAcademicService'
-import BtLink from '@/Components/BranchTemplate/BtLink'
-import BtContact from '@/Components/BranchTemplate/BtContact'
-import BtEduEditor from '@/Components/BranchTemplate/BtEduEditor'
+import EduContentPdfViewer from '@/Components/PdfViewer/EduContentPdfViewer.vue'
+import BtProfessor from '@/Components/BranchTemplate/BtProfessor.vue'
+import BtDoctor from '@/Components/BranchTemplate/BtDoctor.vue'
+import BtOfficer from '@/Components/BranchTemplate/BtOfficer.vue'
+import BtResearch from '@/Components/BranchTemplate/BtResearch.vue'
+import BtBranchService from '@/Components/BranchTemplate/BtBranchService.vue'
+import BtAcademicService from '@/Components/BranchTemplate/BtAcademicService.vue'
+import BtLink from '@/Components/BranchTemplate/BtLink.vue'
+import BtContact from '@/Components/BranchTemplate/BtContact.vue'
+import BtEduEditor from '@/Components/BranchTemplate/BtEduEditor.vue'
 
 const props = defineProps({
     branch: { type: Object, required: true },

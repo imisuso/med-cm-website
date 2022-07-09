@@ -9,22 +9,6 @@
             
             <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                 <ul class="py-1" aria-labelledby="dropdownButton">
-                <!-- <li>
-                    <a href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                        </svg>
-                        ดูข้อมูล
-                    </a>
-                </li>
-                <li>
-                    <a href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                        แก้ไข
-                    </a>
-                </li> -->
                 <li>
                     <a href="#" @click="$emit('delete-poster')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,10 +28,6 @@
                 </svg>
                 <img v-else class="shadow-lg rounded-md h-20 w-16 mb-1 mt-1" :src="`${posterDetails.cover_url}`" :alt="posterDetails.desc"/>
             </div>
-            <!-- <div class="flex flex-col w-full px-2 items-center sm:items-start">
-                <h3 class="text-md text-indigo-500 font-bold mb-1">ID:</h3>
-                <span class="text-sm text-gray-500 break-words">{{ posterDetails.id }}</span>
-            </div> -->
             <div class="flex flex-col w-full px-2 items-center sm:items-start">
                 <h3 class="text-md text-indigo-500 font-bold mb-1">รายละเอียด:</h3>
                 <span class="text-sm text-gray-500 break-words">{{ posterDetails.desc }}</span>
@@ -76,7 +56,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                             </svg>
                         </div>
-                        <ToggleSwitch v-model:status="posterDetails.status" @button-is-toggle="switchButtonToggle(posterDetails)" />
+                        <ToggleSwitch v-model:status="posterDetails.status" @button-is-toggle="confirmModal = !confirmModal" />
                         <div class="text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -98,22 +78,6 @@
                     <!-- <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 -top-38 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44"> -->
                     <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                         <ul class="py-1" aria-labelledby="dropdownButton">
-                        <!-- <li>
-                            <a href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                                </svg>
-                                ดูข้อมูล
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                แก้ไข
-                            </a>
-                        </li> -->
                         <li>
                             <a href="#" @click="$emit('delete-poster')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -129,12 +93,40 @@
            
         </div>
     </div>
+
+    <!-- Modal สำหรับ confirm publish, unpublish  -->
+    <teleport to="body">
+    <Modal :isModalOpen="confirmModal" >
+        <template v-slot:header>
+            <div v-if="posterDetails.status" class="text-gray-900 text-xl font-medium dark:text-white">คุณต้องการ ปิด การแสดงผลโปสเตอร์</div>
+            <div v-else class="text-gray-900 text-xl font-medium dark:text-white">คุณต้องการ เปิด การแสดงผลโปสเตอร์</div>
+        </template>
+
+        <template v-slot:body>
+            <div class="flex flex-row justify-start items-center">
+                <img class="shadow-lg rounded-md h-20 w-16 mb-1 mt-1 mr-4" :src="`${posterDetails.cover_url}`" alt=""/>
+                <div class="text-gray-900 text-md font-medium dark:text-white truncate">
+                    {{ posterDetails.desc }} 
+                </div>
+            </div>
+        </template>
+
+        <template v-slot:footer>
+            <button @click="switchButtonToggle(posterDetails)" type="button" 
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                ตกลง
+            </button>
+            <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
+        </template>
+    </Modal>
+    </teleport>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
-import ToggleSwitch from '@/Components/ToggleSwitch'
+import ToggleSwitch from '@/Components/ToggleSwitch.vue'
+import Modal from '@/Components/Modal.vue'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
@@ -160,6 +152,7 @@ onUnmounted(() => {
 dayjs.extend(buddhistEra)
 const baseUrl = ref(base_url)
 const isDropDownOpen = ref(false)
+const confirmModal = ref(false)
 
 const toggleDropDown = () => {
     isDropDownOpen.value = !isDropDownOpen.value
@@ -190,32 +183,22 @@ const toast = (severity, summary, detail) => {
 }
 
 const switchButtonToggle = (poster) => {
-    //console.log(menu);
-    Inertia.patch(route('admin.update_poster_display_status', poster.id), {}, {
-        onBefore: () => {
-            
-            let display = `${poster.id}`
-
-            if( poster.status ) { 
-                return confirm(`คุณต้องการปิดการแสดงผลโปสเตอร์หมายเลข ${display} ใช่ หรือ ไม่ ?`)
-            } else {
-                return confirm(`คุณต้องการเปิดการแสดงผลโปสเตอร์หมายเลข ${display} ใช่ หรือ ไม่ ?`)
-            }
-        },
+    Inertia.patch(route('admin.poster.update_display_status', poster.id), {}, {
         onSuccess: () => {
-            //console.log("onSuccess state")
             poster.status = ! poster.status
             toast('success', 'สำเร็จ', 'เปลี่ยนสถานะการแสดงผลบนหน้า website เรียบร้อย')
         },
         onError: (errors) => {
-            //console.log("onError state")
-            toast('danger', errors.msg, errors.sysmsg)
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
-            //console.log("onFinish state")
+            confirmModal.value = false
         }
     })
-    //console.log(menu.status)
 }
 
 </script>

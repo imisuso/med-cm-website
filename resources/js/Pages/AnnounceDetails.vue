@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList'
+import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList.vue'
 
 const props = defineProps({
     announceItem: { type: Object, required: true  },

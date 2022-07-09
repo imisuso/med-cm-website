@@ -217,12 +217,12 @@
       </template>
 
       <template v-slot:footer>
-        <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
         <button @click="process_announce()" type="button" 
             :class="[confirmType === 'delete' ? 'bg-red-700 hover:bg-red-800 focus:ring-red-300' : 'bg-blue-700 hover:bg-blue-800 focus:ring-blue-300']"
             class="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             ตกลง
         </button>
+        <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
       </template>
     </Modal>
     </teleport>
@@ -234,11 +234,11 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
+// import utc from 'dayjs/plugin/utc'
+// import timezone from 'dayjs/plugin/timezone'
 
-import Modal from '@/Components/Modal'
-import DownloadPdfFile from '@/Components/DownloadPdfFile'
+import Modal from '@/Components/Modal.vue'
+import DownloadPdfFile from '@/Components/DownloadPdfFile.vue'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
@@ -260,8 +260,8 @@ const props = defineProps({
 })
 
 dayjs.extend(buddhistEra)
-dayjs.extend(utc)
-dayjs.extend(timezone)
+// dayjs.extend(utc)
+// dayjs.extend(timezone)
 //dayjs.tz.setDefault("Asia/Bangkok")
 
 

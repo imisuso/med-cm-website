@@ -25,6 +25,7 @@ class Gallery extends Model
     protected $casts = [
         'status' => 'boolean',
         'other' => 'array',
+        'event_date' => 'datetime',
     ];
 
     protected static function booted()

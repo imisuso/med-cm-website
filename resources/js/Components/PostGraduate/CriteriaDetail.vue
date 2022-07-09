@@ -124,7 +124,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Modal from '@/Components/Modal'
+import Modal from '@/Components/Modal.vue'
 
 const criteriaModal = ref(false)
 const selectMethodModal = ref(false)

@@ -60,14 +60,14 @@
 <script setup>
 
 import { ref, onMounted, onUnmounted } from 'vue';
-import TempLogin from '@/Components/TemporaryLogin'
-import KnowledgeForPeople from '@/Components/KnowledgeForPeople'
-import MedPoster from '@/Components/MedPoster'
-import PhotoGallery from '@/Components/PhotoGallery'
-import Cov19Service from '@/Components/Cov19Service'
-import Download from '@/Components/Download'
-import Announcement from '@/Components/Announcement'
-import Links from '@/Components/Links'
+import TempLogin from '@/Components/TemporaryLogin.vue'
+import KnowledgeForPeople from '@/Components/KnowledgeForPeople.vue'
+import MedPoster from '@/Components/MedPoster.vue'
+import PhotoGallery from '@/Components/PhotoGallery.vue'
+import Cov19Service from '@/Components/Cov19Service.vue'
+import Download from '@/Components/Download.vue'
+import Announcement from '@/Components/Announcement.vue'
+import Links from '@/Components/Links.vue'
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';

@@ -74,8 +74,8 @@
         </template>
 
         <template v-slot:footer>
-          <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
           <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
+          <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
         </template>
       </Modal>
       </teleport>
@@ -91,9 +91,9 @@
 import { ref, onMounted, reactive, watch, nextTick } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
-import Modal from '@/Components/Modal'
-import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList'
-import Pagination from '@/Components/Paginations'
+import Modal from '@/Components/Modal.vue'
+import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList.vue'
+import Pagination from '@/Components/Paginations.vue'
 
 // API Service
 import DivisionService from '@/Services/DivisionService'

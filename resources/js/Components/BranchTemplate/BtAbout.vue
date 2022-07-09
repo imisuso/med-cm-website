@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import RichTextContentShow from '@/Components/ShowSubMenu/RichTextContentShow'
+import RichTextContentShow from '@/Components/ShowSubMenu/RichTextContentShow.vue'
 
 const props = defineProps({
   division_id: { type: Number, required: true},

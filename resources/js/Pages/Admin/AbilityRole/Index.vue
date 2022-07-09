@@ -82,7 +82,7 @@ import { ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 
-import Pagination from '@/Components/Paginations'
+import Pagination from '@/Components/Paginations.vue'
 
 const props = defineProps({
     users: { type: Object, required: true, default: {} },

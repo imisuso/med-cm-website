@@ -38,7 +38,7 @@
 
 <script setup>
 import { ref, onMounted, } from 'vue'
-import ComingSoon from '@/Components/ComingSoon'
+import ComingSoon from '@/Components/ComingSoon.vue'
 import PersonService from '@/Services/PersonService';
 
 // ถูกส่งเป็น props เข้ามาจากหน้า BranchTemplateEditor หรือ BranchDetails เพราะใช้หน้านี้ในการแสดงผลร่วมกัน

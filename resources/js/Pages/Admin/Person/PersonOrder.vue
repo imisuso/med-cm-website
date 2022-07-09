@@ -86,8 +86,8 @@
 import { ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, Link } from '@inertiajs/inertia-vue3'
-import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList'
-import Modal from '@/Components/Modal'
+import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList.vue'
+import Modal from '@/Components/Modal.vue'
 
 // API Service
 import PersonService from '@/Services/PersonService'

@@ -50,13 +50,11 @@
 <script setup>
 import { ref, onUnmounted, nextTick, reactive } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
-// import { QuillEditor } from '@vueup/vue-quill'
-// import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
-import ComingSoon from '@/Components/ComingSoon'
+import ComingSoon from '@/Components/ComingSoon.vue'
 
 // ถูกส่งเป็น props เข้ามาจากหน้า BranchTemplateEditor หรือ BranchDetails เพราะใช้หน้านี้ในการแสดงผลร่วมกัน
 const props = defineProps({

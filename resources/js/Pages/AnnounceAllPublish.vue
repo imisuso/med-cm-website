@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import Announcement from '@/Components/Announcement'
+import Announcement from '@/Components/Announcement.vue'
 
 </script>
 

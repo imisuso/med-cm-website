@@ -104,7 +104,7 @@ import { ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
 
-import Pagination from '@/Components/Paginations'
+import Pagination from '@/Components/Paginations.vue'
 
 const props = defineProps({
     logs: { type: Object, required: true, default: {} },
