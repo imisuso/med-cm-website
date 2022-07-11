@@ -1,6 +1,7 @@
 <template>
   <div class="mt-20 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
-    <img class="object-fit w-full h-full" :src="`${baseUrl}/images/map.jpg`" alt="map">
+    <!-- <img class="object-fit w-full h-full" :src="`${baseUrl}/images/map.jpg`" alt="map" /> -->
+    <img class="object-fit w-full h-full" src="../../asset/images/map.jpg" alt="map" />
     
     <!-- <div class="py-5 text-center">
         <a href="#" class="block text-2xl font-bold text-gray-800 dark:text-white">John Doe</a>

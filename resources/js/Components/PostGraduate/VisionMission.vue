@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="mt-10 lg:mt-0 lg:col-start-1 lg:row-start-1">
-                    <img :src="`${baseUrl}/images/post_graduate/mission.jpg`" alt="" class="mx-auto rounded-lg shadow-lg bg-gray-500 sm:max-w-xs md:max-w-sm">
+                    <img src="../../../asset/images/post_graduate/mission.jpg" alt="" class="mx-auto rounded-lg shadow-lg bg-gray-500 sm:max-w-xs md:max-w-sm">
                 </div>
             </div>
         </div>

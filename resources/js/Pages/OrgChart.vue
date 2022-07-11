@@ -12,7 +12,8 @@
             </div>
         </div>
         <div class="flex flex-col justify-center container px-6 py-10 mx-auto">
-            <img :src="`${baseUrl}/images/medicine_org_chart.jpg`" alt="">
+            <!-- <img :src="`${baseUrl}/images/medicine_org_chart.jpg`" alt="" /> -->
+            <img src="../../asset/images/medicine_org_chart.jpg" alt="" />
         </div>
     </AppLayout>
 </template>

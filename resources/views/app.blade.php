@@ -15,7 +15,8 @@
     <style>
         @font-face {
             font-family: 'DBLim';
-            src: url("{{ asset('/fonts/mahidol/DB_Lim_X_v3.2.ttf') }}");
+            src: '../asset/fonts/mahidol/DB_Lim_X_v3.2.ttf';
+            /* src: url("{{ asset('/fonts/mahidol/DB_Lim_X_v3.2.ttf') }}"); */
         }
     </style>
     @routes

@@ -4,11 +4,14 @@
 
 //window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest' 
 
+import axios from 'axios';
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { InertiaProgress } from '@inertiajs/progress'
-import axios, { AxiosInstance } from 'axios'
 
 import '../css/app.css';
 
@@ -24,8 +27,6 @@ import { QuillEditor } from '@vueup/vue-quill'
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 //import '@vueup/vue-quill/dist/vue-quill.snow.css'
-
-import 'viewerjs/dist/viewer.css';
 
 const globalOptions = {
   // debug: 'info',

@@ -92,9 +92,14 @@
                     src="https://www.hyperui.dev/photos/team-1.jpeg"
                     alt=""
                 /> -->
-                <img
+                <!-- <img
                     class="absolute inset-0 lg:-inset-y-4 object-cover lg:object-contain w-full h-full"
                     :src="`${baseUrl}/images/login_logo.jpg`"
+                    alt=""
+                /> -->
+                <img
+                    class="absolute inset-0 lg:-inset-y-4 object-cover lg:object-contain w-full h-full"
+                    src="../../asset/images/login_logo.jpg"
                     alt=""
                 />
             </div>

@@ -6,10 +6,11 @@
   <div v-else class="flex flex-col border-green-200 gap-2 p-2 rounded-md mt-5">
     <div v-for="person in personList" :key="person.id" class="flex flex-col sm:flex-row gap-4">
       <div class="flex shrink-0 justify-center">
-        <svg v-if="! person.image" class="h-36 w-28 object-cover rounded-sm text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+        <!-- <svg v-if="! person.image" class="h-36 w-28 object-cover rounded-sm text-gray-300" fill="currentColor" viewBox="0 0 24 24">
           <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
-        <img v-else :src="`${person.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm">
+        <img v-else :src="`${person.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm"> -->
+        <img :src="`${person.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm" />
       </div>
       <div class="flex flex-col w-full space-y-2 mb-2 items-center">
         <div class="w-full p-2 border rounded-md sm:border-0">

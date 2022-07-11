@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div>
-                <img class="object-cover w-full h-56 rounded shadow-lg sm:h-96" :src="`${baseUrl}/images/post_graduate/criteria.jpg`" alt="" />
+                <img class="object-cover w-full h-56 rounded shadow-lg sm:h-96" src="../../../asset/images/post_graduate/criteria.jpg" alt="" />
             </div>
         </div>
     </div>

@@ -28,7 +28,7 @@
           <div class=" font-sans tracking-wide text-emerald-400">แผนที่ภายในศิริราช</div>
           <div class="relative">
             <a :href="route('image_preview')" target="_blank">
-              <img :src="`${baseUrl}/images/map.jpg`" alt="">
+              <img src="../../asset/images/map.jpg" alt="">
             </a>
           </div>
           <div class="absolute mt-6 px-6 py-6 transition-opacity duration-200 bg-black bg-opacity-75 opacity-0 hover:opacity-100 cursor-pointer">

@@ -26,8 +26,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { component as VueViewer } from 'v-viewer'
+import 'viewerjs/dist/viewer.css';
 
 // const options = reactive({
 //         inline: true,
@@ -52,19 +53,8 @@ const props = defineProps({
 
 const baseUrl = ref(base_url)
 
-//console.log(props.images)
-
-// const images =  ref([
-//           "storage/images/gallery/25640101/photo/01.jpg",
-//           "storage/images/gallery/25640101/photo/02.jpg",
-//           "storage/images/gallery/25640101/photo/03.jpg",
-//           "storage/images/gallery/25640101/photo/04.jpg",
-//           "storage/images/gallery/25640101/photo/05.jpg",
-//           "storage/images/gallery/25640101/photo/09.jpg"
-//         ])
 </script>
 
 <style scoped>
-/* @import 'viewerjs/dist/viewer.css'; */
 
 </style>

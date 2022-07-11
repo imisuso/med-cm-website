@@ -98,8 +98,8 @@ class Person extends Model
     {
         $query->where(function ($query) use ($search) {
             $query->where('fname_th', 'like', "%{$search}%")
-                ->orWhere('lname_th', 'like', "%{$search}%")
-                ->orWhere('sap_id', 'like', "%{$search}%");
+                ->orWhere('lname_th', 'like', "%{$search}%");
+                // ->orWhere('sap_id', 'like', "%{$search}%");
         });
     }
 }
