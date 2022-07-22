@@ -33,6 +33,7 @@ use App\Models\BranchSubMenu;
 use App\Models\Division;
 use App\Models\Person;
 use App\Models\User;
+use App\Models\Agreement;
 
 /*
 |--------------------------------------------------------------------------
@@ -329,8 +330,33 @@ Route::controller(TraceLogController::class)
         Route::post('/log', 'store')->name('log.store');
     });
 
+// Agreement Accept Page
+Route::get('/admin/agreement', function () {
+    return Inertia::render('Admin/Agreement/Index', ['agreement' => Agreement::orderByDesc('date_effected')->first()]);
+})->middleware(['auth'])->name('admin.agreement');
+
+// Agreement Click Accept
+Route::post('/admin/accept-agreement', function () {
+    request()->user()->agreements()->attach([request()->agreement_id]);
+
+    return redirect()->intended(route('admin.index'));
+    //return redirect()->intended('admin.index');
+})->middleware(['auth'])->name('admin.accept-agreement');
+
 Route::post('/uploading_file_api', [FileUploadController::class, 'upload'])->name('uploading_file_api');
 Route::post('/delete_file_api', [FileUploadController::class, 'delete'])->name('delete_file_api');
+
+// Test Agreement Editor
+Route::get('/admin/agreement-editor', function () {
+    $agreement = Agreement::find(1);
+
+    //$deltaStr = '{ "ops": [ { "attributes": { "bold": true }, "insert": "hello" }, { "insert": "\n" }, { "attributes": { "italic": true }, "insert": "world" }, { "insert": "\n" }, { "attributes": { "underline": true }, "insert": "test" }, { "insert": "\n" }, { "attributes": { "strike": true }, "insert": "vuequill" }, { "insert": "\n" } ] }';
+    // return Inertia::render('TestVueQuill', ['deltaContent' => []]);
+    // return Inertia::render('TestVueQuill', ['deltaContent' => json_decode($deltaStr, true)]);
+    //return Inertia::render('Admin/Agreement/RichTextEditor', ['deltaContent' => json_decode($deltaContent, true)]);
+
+    return Inertia::render('Admin/Agreement/RichTextEditor', compact('agreement'));
+});
 
 // Test VueQuill
 // Route::get('test-vuequill', function () {

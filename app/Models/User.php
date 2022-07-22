@@ -84,4 +84,20 @@ class User extends Authenticatable
     {
         return $this->roles->map->abilities->flatten()->pluck('name')->unique()->flatten();
     }
+
+    public function agreements()
+    {
+        return $this->belongsToMany(Agreement::class)->withTimestamps();
+    }
+
+    public function needAcceptAgreement()
+    {
+        $latestAgreement = Agreement::orderByDesc('date_effected')->first();
+
+        if (! $latestAgreement || $this->agreements()->where('id', $latestAgreement->id)->count()) {
+            return false;
+        }
+
+        return true;
+    }
 }

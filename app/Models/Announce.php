@@ -25,7 +25,7 @@ class Announce extends Model
         'pinned'
     ];
 
-    // สำหรับ column ที่ประกาศเอาไว้ว่าเป็นชนิด json
+    // สำหรับ column ที่ประกาศเอาไว้ว่าเป็นชนิด json หรือ datetime
     protected $casts = [
         //'detail_delta' => 'array',
         'attach_files' => 'array',
