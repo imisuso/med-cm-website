@@ -175,7 +175,7 @@ Route::prefix('admin')
         Route::delete('/gallery/delete_image', 'destroyGalleryImage')->name('admin.gallery.delete_image');
     });
 Route::get('/list_enabled_gallery', [GalleryController::class, 'showListEnabledGallery'])->name('list_enabled_gallery');
-Route::get('/show_gallery/{event_date}', [GalleryController::class, 'show'])->name('show_gallery');
+Route::get('/show_gallery/{Gallery}', [GalleryController::class, 'show'])->name('show_gallery');
 
 //PersonController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ บุคคลากรในภาควิชา
 Route::prefix('admin')

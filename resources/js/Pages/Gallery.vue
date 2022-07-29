@@ -9,6 +9,9 @@
             <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in images" :key="src" :src="src">
         </div> -->
         
+        <div class="p-2 mb-2 border text-lg font-bold text-indigo-500 shadow-lg rounded-lg bg-gray-200">
+            {{ desc }}
+        </div>
         <!-- component -->
         <VueViewer
             :images="images"
@@ -48,7 +51,8 @@ import 'viewerjs/dist/viewer.css';
 //       })
 
 const props = defineProps({
-    images: { type: Array, default: [] }
+    images: { type: Array, default: [] },
+    desc: { type: String, default: ''}
 })
 
 const baseUrl = ref(base_url)

@@ -30,8 +30,8 @@ class CreatePostersTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('posters');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('posters');
+    // }
 }

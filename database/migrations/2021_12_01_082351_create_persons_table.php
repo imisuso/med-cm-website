@@ -49,8 +49,8 @@ class CreatePersonsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('persons');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('persons');
+    // }
 }
