@@ -14,12 +14,12 @@
                 </div> -->
             </div>
 
-            <!-- <div class="grid grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6 mb-2">
                 <div class="col-span-2 sm:col-span-1">
                   <label for="section" class="block text-sm font-medium text-gray-700">Section :</label>
                   <select v-model="Form.section" id="section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <template v-for="(section, section_index) in sections" :key="section_index">
-                      <option :value="section.section">{{ section.section }}</option>                     
+                      <option :value="section.section">{{ section.section }}</option>
                     </template>
                   </select>
                 </div>
@@ -27,23 +27,23 @@
                   <label for="type" class="block text-sm font-medium text-gray-700">Type :</label>
                   <select v-model="Form.type" id="type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <template v-for="(type, type_index) in types" :key="type_index">
-                      <option :value="type.type">{{ type.type }}</option>                     
+                      <option :value="type.type">{{ type.type }}</option>
                     </template>
                   </select>
                 </div>
-            </div> -->
+            </div>
 
             <!-- {{ logs.data }} -->
             <div v-for="(log, index) in logs.data" :key="index"
-                class="mb-1"
+                class="bg-gradient-to-l from-sky-100 mb-1"
             >
                 <div v-if="log.person">
                     <div class="grid grid-cols-2 border p-2 rounded-md shadow-md">
                         <div class=" col-span-2 md:col-span-1">{{ dayjs(log.created_at).locale('th').format('D/MM/BBBB H:mm') }}</div>
-                        <div class=" col-span-2 justify-self-start md:col-span-1 md:justify-self-end">#{{ log.type }}#{{ log.section }}</div>
+                        <div class=" col-span-2 justify-self-start md:col-span-1 md:justify-self-end">#{{ log.type }} #{{ log.section }}</div>
                         <div class=" col-span-2">{{ log.person.fname_th }} {{ log.person.lname_th }}</div>
                         <div class=" col-span-2">{{ log.details }}</div>
-                        
+
                     </div>
                 </div>
                 <div v-else>
@@ -52,22 +52,22 @@
                         <div class=" col-span-2 justify-self-start md:col-span-1 md:justify-self-end">#{{ log.type }}#{{ log.section }}</div>
                         <div class=" col-span-2">Unknow-User</div>
                         <div class=" col-span-2">{{ log.details }}</div>
-                        
+
                     </div>
                 </div>
                 <!-- <div v-if="log.person">{{ log.person.fname_th }} {{ log.person.lname_th }} {{ log.action }} {{ log.details }} {{ log.created_at }}</div>
                 <div v-else>Unknow-User {{ log.action }} {{ log.details }} {{ log.created_at }}</div> -->
             </div>
             <Pagination :pagination="logs" class="mt-1"/>
-        
+
             <!-- <div>
-                <button @click="gotoPage(-1)" v-if="logs.current_page !== 1">prevouse</button>
+                <button @click="gotoPage(-1)" v-if="logs.current_page !== 1">previous</button>
                 <input type="text" :value="filters?.page ?? 1"> of {{ logs.last_page }}
                 <button @click="gotoPage(1)" v-if="logs.current_page !== logs.last_page">next</button>
             </div> -->
 
             <!-- <div class="grid grid-cols-1 gap-4">
-                <div v-for="(user, u_index) in users.data" :key="u_index" 
+                <div v-for="(user, u_index) in users.data" :key="u_index"
                     class="bg-white p-4 rounded-lg shadow"
                 >
                     <div class="flex items-center  justify-between">
@@ -101,12 +101,12 @@
                             {{ role }}
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-2">
                         <div class="col-span-2 font-bold">สิทธิการใช้งาน :</div>
                         <div class="col-span-2">
                             <div class="flex flex-row flex-wrap">
-                                <span v-for="(ability, a_index) in user.abilities" :key="a_index" 
+                                <span v-for="(ability, a_index) in user.abilities" :key="a_index"
                                     class="m-1 p-1 text-xs italic font-medium tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"
                                 >
                                     {{ ability }}
@@ -117,7 +117,7 @@
                 </div>
 
             </div> -->
-           
+
         </div>
     </AdminAppLayout>
 </template>
@@ -135,8 +135,8 @@ import Pagination from '@/Components/Paginations.vue'
 
 const props = defineProps({
     logs: { type: Object, required: true, default: {} },
-    // sections: { type: Object, required: true, default: {} },
-    // types: { type: Object, required: true, default: {} },
+    sections: { type: Object, required: true, default: {} },
+    types: { type: Object, required: true, default: {} },
     filters: { type: Object },
 })
 

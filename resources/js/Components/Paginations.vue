@@ -22,19 +22,19 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
- 
+
       <div class="flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-1">
         <div class="px-2 text-gray-600 lg:text-sm">หน้า </div>
-        <input type="number" 
+        <input type="number"
             @keydown.enter="loadPage(cpage)"
-            @change="loadPage(cpage)" 
+            @change="loadPage(cpage)"
             v-model="cpage"
-            min="1" :max="pagination.last_page" 
+            min="1" :max="pagination.last_page"
             class="px-2 w-11 h-11 text-center rounded border border-gray-400 shadow-sm lg:h-9 lg:w-12 lg:text-sm focus:ring-blue-500 focus:border-blue-500"
         />
         <div class="px-2 text-gray-600 lg:text-sm">จาก {{ pagination.last_page }}</div>
       </div>
- 
+
       <button
           :disabled="noNextPage"
           :class="{'opacity-50': noNextPage}"
@@ -45,7 +45,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>
- 
+
       <button
           :disabled="noNextPage"
           :class="{'opacity-50': noNextPage}"
@@ -60,43 +60,35 @@
     <div class="ml-2 text-sm text-gray-600 place-self-center hidden md:block">รวมทั้งหมด {{ pagination.total }} รายการ</div>
   </div>
 </template>
- 
+
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
-import { Link, usePage } from '@inertiajs/inertia-vue3'
+import { usePage } from '@inertiajs/inertia-vue3'
 
 const props = defineProps({
     pagination: { type: Object, required: true, default: {} },
 })
- 
+
 const cpage = ref(props.pagination.current_page)
 
 const loadPage = (page) => {
-    //console.log(props.pagination.links[page].url)
-
-    // Inertia.get(props.pagination.links[page].url, {page: page}, {
-    //     preserveState: true,
-    //     preserveScroll: true
-    // });
-
     //console.log(usePage().url.value)
     Inertia.get(usePage().url.value, {page: page}, {
         preserveState: true,
         preserveScroll: true
     });
-
 }
 
 const noPreviousPage = computed( () => {
-    return props.pagination.current_page - 1 <= 0    
+    return props.pagination.current_page - 1 <= 0
 })
 
 const noNextPage = computed( () => {
-    return props.pagination.current_page + 1 > props.pagination.last_page    
+    return props.pagination.current_page + 1 > props.pagination.last_page
 })
 
-watch( 
+watch(
     () => props.pagination.current_page,
     (newValue, oldValue) => {
         cpage.value = newValue

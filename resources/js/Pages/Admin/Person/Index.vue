@@ -27,7 +27,7 @@
             </div>
             <div>เพิ่ม</div>
           </Link>
-    
+
           <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
             <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
               <div>
@@ -35,22 +35,31 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                 </svg>
               </div>
-              <div>เรียงลำดับ</div> 
+              <div>เรียงลำดับ</div>
             </button>
           </Link>
         </div>
       </div>
 
       <div class="flex flex-col w-full mb-4">
-          <PersonInteractiveCardList 
-            v-for="(item, index) in persons.data" 
-            :key="index" 
-            :personDetails="item"
-            :order-input="false"
-            @edit-person="editPerson(item)" 
-            @view-person="viewPerson(item)"
-            @order-person="orderPerson(item)"
-            @delete-person="confirmDeletePerson(item)"
+<!--          <PersonInteractiveCardList -->
+<!--            v-for="(item, index) in persons.data" -->
+<!--            :key="index" -->
+<!--            :personDetails="item"-->
+<!--            :order-input="false"-->
+<!--            @edit-person="editPerson(item)" -->
+<!--            @view-person="viewPerson(item)"-->
+<!--            @order-person="orderPerson(item)"-->
+<!--            @delete-person="confirmDeletePerson(item)"-->
+<!--          />-->
+          <PersonInteractiveCardList
+              v-for="(item, index) in persons.data"
+              :key="index"
+              :personDetails="item"
+              :order-input="false"
+              @edit-person="editPerson(item)"
+              @view-person="viewPerson(item)"
+              @delete-person="confirmDeletePerson(item)"
           />
       </div>
 
@@ -120,8 +129,8 @@ const traceLogService = ref(new TraceLogService())
 const personModal = ref(false)
 const deletePersonModal = ref(false)
 const divisions = ref([])
-const filter_key = ref()
-const check_doctor = ref()
+// const filter_key = ref()
+// const check_doctor = ref()
 const pdpa_protect = ref(false)
 const url = ref(null)
 const baseUrl = ref(base_url)
@@ -179,7 +188,7 @@ const deletePerson = () => {
       toast('danger', 'พบปัญหา', error_display);
     },
     onFinish: () => {
-        personForm.processing = false 
+        personForm.processing = false
     }
   });
   openDeletePersonModal(false)
@@ -215,10 +224,10 @@ const confirmDeletePerson = ( personData ) => {
   openDeletePersonModal(true)
 }
 
-const orderPerson = (personData) => {
-  //console.log(personData.display_order)
-  personList.value = personList.value.sort( (a, b) => { return a.display_order - b.display_order });
-}
+// const orderPerson = (personData) => {
+//   //console.log(personData.display_order)
+//   personList.value = personList.value.sort( (a, b) => { return a.display_order - b.display_order });
+// }
 
 const getDivisionSlugFromId = (id) => {
   //console.log(id)
@@ -266,9 +275,9 @@ const togglePdpaData = () => {
     if( ! pdpa_protect.value ) {
         // มีการเปิดดูข้อมูลส่วนบุคคล
         traceLogService.value.storeLog(
-            section, 
+            section,
             "view",
-            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id, 
+            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id,
             "pdpa"
         )
     }

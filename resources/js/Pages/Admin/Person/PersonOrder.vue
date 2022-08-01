@@ -4,16 +4,17 @@
     <!-- Toolbar -->
     <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
       <div class=" text-2xl font-bold">เรียงการแสดงผลบุคคลากร</div>
-      <Link :href="route('admin.person')" method="get" :data="{ fdivision_selected: division_id}" as="button" type="button">
-      <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        กลับไปหน้าจัดการบุคคลากร
-      </button>
-      </Link>
+<!--      <Link :href="route('admin.person')" method="get" :data="{ fdivision_selected: division_id}" as="button" type="button">-->
+        <Link :href="route('admin.person')" method="get" as="button" type="button">
+          <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            กลับไปหน้าจัดการบุคคลากร
+          </button>
+        </Link>
     </div>
-    
+
     <div class="mt-0 mb-2 md:col-span-2">
       <div class="shadow overflow-hidden sm:rounded-md">
         <div class="px-4 py-5 bg-white sm:p-6">
@@ -42,9 +43,9 @@
 
     <!-- สำหรับแสดงผล list รายชื่อบุคลากร -->
     <div class="flex flex-col w-full">
-      <PersonInteractiveCardList 
-        v-for="(item, index) in personList" 
-        :key="index" 
+      <PersonInteractiveCardList
+        v-for="(item, index) in personList"
+        :key="index"
         :personDetails="item"
         :order-input="true"
         @order-person="orderPerson(item)"
@@ -140,10 +141,10 @@ const orderPerson = (personData) => {
 }
 
 const updateOrderPerson = () => {
-  Inertia.post(route('admin.person.update_display_order'), 
-    { person_list: personList.value, 
+  Inertia.post(route('admin.person.update_display_order'),
+    { person_list: personList.value,
       division_slug: props.division_slug
-    }, 
+    },
     {
     // onBefore: () => {
     //   return confirm(`คุณต้องการจัดเก็บข้อมูลการเรียงลำดับ ใช่ หรือ ไม่ ?`)
