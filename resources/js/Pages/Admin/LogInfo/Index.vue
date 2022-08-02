@@ -5,13 +5,6 @@
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">ข้อมูลการใช้งาน</div>
                 <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นจาก Section หรือ Type" />
-                <!-- <div class="">
-                    <Link :href="route('admin.download.create')" method="get" as="button" type="button"
-                        class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-                    >
-                        เพิ่ม
-                    </Link>
-                </div> -->
             </div>
 
             <div class="grid grid-cols-2 gap-6 mb-2">
@@ -35,7 +28,7 @@
 
             <!-- {{ logs.data }} -->
             <div v-for="(log, index) in logs.data" :key="index"
-                class="bg-gradient-to-l from-sky-100 mb-1"
+                class="bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600 mb-1"
             >
                 <div v-if="log.person">
                     <div class="grid grid-cols-2 border p-2 rounded-md shadow-md">
@@ -55,8 +48,6 @@
 
                     </div>
                 </div>
-                <!-- <div v-if="log.person">{{ log.person.fname_th }} {{ log.person.lname_th }} {{ log.action }} {{ log.details }} {{ log.created_at }}</div>
-                <div v-else>Unknow-User {{ log.action }} {{ log.details }} {{ log.created_at }}</div> -->
             </div>
             <Pagination :pagination="logs" class="mt-1"/>
 
@@ -64,58 +55,6 @@
                 <button @click="gotoPage(-1)" v-if="logs.current_page !== 1">previous</button>
                 <input type="text" :value="filters?.page ?? 1"> of {{ logs.last_page }}
                 <button @click="gotoPage(1)" v-if="logs.current_page !== logs.last_page">next</button>
-            </div> -->
-
-            <!-- <div class="grid grid-cols-1 gap-4">
-                <div v-for="(user, u_index) in users.data" :key="u_index"
-                    class="bg-white p-4 rounded-lg shadow"
-                >
-                    <div class="flex items-center  justify-between">
-                        <div class="flex items-center space-x-2">
-                            <div class="font-bold">ผู้ใช้ :</div>
-                            <div class="text-sm">{{ user.name }}</div>
-                            <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
-                                :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
-                            >
-                                {{ statusText(user.status) }}
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center space-x-2 ">
-                            <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
-                                :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
-                            >
-                                Edit
-                            </div>
-                            <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
-                                :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
-                            >
-                                Delete
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <div class="font-bold">หน้าที่ :</div>
-                        <div v-for="(role, r_index) in user.user_roles" :key="r_index"
-                            class="text-sm"
-                        >
-                            {{ role }}
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2">
-                        <div class="col-span-2 font-bold">สิทธิการใช้งาน :</div>
-                        <div class="col-span-2">
-                            <div class="flex flex-row flex-wrap">
-                                <span v-for="(ability, a_index) in user.abilities" :key="a_index"
-                                    class="m-1 p-1 text-xs italic font-medium tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"
-                                >
-                                    {{ ability }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div> -->
 
         </div>
@@ -153,16 +92,9 @@ watch( search, value => {
 const Form = useForm({
   section: 'login-page',
   type: 'info',
-  //division_selected: usePage().props.value.auth.division_id,
-  //leader: false,
-  //certificateList: []
 });
 
 dayjs.extend(buddhistEra)
-
-const statusText = (text) => {
-    return text ? 'Active' : 'Disabled'
-}
 
 // const gotoPage = (direction = 1) => {
 //     // console.log({page: parseInt(props.filters.page) + 1})

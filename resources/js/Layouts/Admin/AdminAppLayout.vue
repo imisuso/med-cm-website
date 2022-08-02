@@ -6,9 +6,9 @@
                 <slot></slot>
             </div>
         </div>
-        
+
     </div>
-    
+
     <div class="block lg:hidden">
         <AdminNavBar />
         <div class="px-5 mt-5">
@@ -27,8 +27,8 @@
         <div class="overflow-y-scroll px-2 mt-5 w-full">
             <slot></slot>
         </div>
-    </div>    
-    
+    </div>
+
 </template>
 
 <script setup>

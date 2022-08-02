@@ -79,7 +79,7 @@ class PersonController extends Controller
         ->orderBy('profiles->leader', 'desc')
         ->orderBy('display_order', 'asc')
         ->orderBy('fname_th', 'asc')
-        ->paginate(5)
+        ->paginate(6)
         ->withQueryString();
 
         return Inertia::render('Admin/Person/Index', [

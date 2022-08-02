@@ -13,14 +13,9 @@
                 </div> -->
             </div>
 
-
-            <Pagination :pagination="users"
-                class=""
-            />
-
-            <div class="grid grid-cols-1 gap-4">
-                <div v-for="(user, u_index) in users.data" :key="u_index" 
-                    class="bg-white p-4 rounded-lg shadow"
+            <div class="grid grid-cols-1 gap-2">
+                <div v-for="(user, u_index) in users.data" :key="u_index"
+                    class="p-4 rounded-md shadow bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
                 >
                     <div class="flex items-center  justify-between">
                         <div class="flex items-center space-x-2">
@@ -33,17 +28,27 @@
                             </div>
                         </div>
                         <div class="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center space-x-2 ">
-                            <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
-                                :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
+                            <div class="border-2 text-sm italic font-medium tracking-wider rounded-lg p-1 text-white bg-yellow-600 hover:bg-yellow-800 cursor-pointer"
                             >
                                 Edit
                             </div>
-                            <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
-                                :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
+                            <div class="border-2 text-sm italic font-medium tracking-wider rounded-lg p-1 text-white bg-orange-600 hover:bg-orange-800 cursor-pointer"
                             >
                                 Delete
                             </div>
                         </div>
+<!--                        <div class="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center space-x-2 ">-->
+<!--                            <div class="border-2 text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"-->
+<!--                                 :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"-->
+<!--                            >-->
+<!--                                Edit-->
+<!--                            </div>-->
+<!--                            <div class="border-2 text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"-->
+<!--                                 :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"-->
+<!--                            >-->
+<!--                                Delete-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <div class="flex items-center space-x-2">
                         <div class="font-bold">หน้าที่ :</div>
@@ -54,25 +59,29 @@
                         </div>
                     </div>
                     <!-- <div class="flex items-center space-x-2 flex-wrap"> -->
-                    <div class="grid grid-cols-2">
-                        <div class="col-span-2 font-bold">สิทธิการใช้งาน :</div>
-                        <div class="col-span-2">
-                            <div class="flex flex-row flex-wrap">
-                                <span v-for="(ability, a_index) in user.abilities" :key="a_index" 
-                                    class="m-1 p-1 text-xs italic font-medium tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"
-                                >
-                                    {{ ability }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="grid grid-cols-2">-->
+<!--                        <div class="col-span-2 font-bold">สิทธิการใช้งาน :</div>-->
+<!--                        <div class="col-span-2">-->
+<!--                            <div class="flex flex-row flex-wrap">-->
+<!--                                <span v-for="(ability, a_index) in user.abilities" :key="a_index"-->
+<!--                                    class="m-1 p-1 text-xs italic font-medium tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50"-->
+<!--                                >-->
+<!--                                    {{ ability }}-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- <div class="flex items-center space-x-2 text-sm">
                         xxxx, yyyy, zzzz
                     </div> -->
                 </div>
 
             </div>
-            <!-- {{ users }} -->
+
+            <Pagination :pagination="users"
+                        class="mt-4"
+            />
+
         </div>
     </AdminAppLayout>
 </template>

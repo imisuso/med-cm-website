@@ -43,7 +43,7 @@
                                             <input type="file" @input="personForm.image = $event.target.files[0]" @change="previewImage" class="hidden">
                                         </label>
                                     </div>
-                                    <button class="border bg-red-400 text-sm font-medium text-gray-700 mt-2 p-1 rounded-md" v-if="! viewDataInfomation && personForm.image" @click="emptyImage"> นำรูปออก </button>
+                                    <button class="border bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 text-sm font-medium text-white mt-2 p-1 rounded-md shadow-md" v-if="! viewDataInfomation && personForm.image" @click="emptyImage"> นำรูปออก </button>
                                 </div>
 
                                 <div class="grid grid-cols-6 gap-6 mb-6">
