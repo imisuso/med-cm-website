@@ -68,7 +68,7 @@ Route::get('/consultant', function () {
     $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division')
                         ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1, 2, 3, 4])
                         ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
-    
+
     //Log::channel('single')->info($listConsultant);
     return Inertia::render('Consultant', compact('listConsultant'));
 })->name('consultant');
@@ -175,7 +175,7 @@ Route::prefix('admin')
         Route::delete('/gallery/delete_image', 'destroyGalleryImage')->name('admin.gallery.delete_image');
     });
 Route::get('/list_enabled_gallery', [GalleryController::class, 'showListEnabledGallery'])->name('list_enabled_gallery');
-Route::get('/show_gallery/{event_date}', [GalleryController::class, 'show'])->name('show_gallery');
+Route::get('/show_gallery/{Gallery}', [GalleryController::class, 'show'])->name('show_gallery');
 
 //PersonController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ บุคคลากรในภาควิชา
 Route::prefix('admin')
@@ -305,7 +305,7 @@ Route::prefix('admin')
 Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
 
 Route::get('/admin/ability_role', function () {
-    $users = User::paginate(5);
+    $users = User::paginate(7);
     //logger($users);
     //dd($users);
     return Inertia::render('Admin/AbilityRole/Index', compact('users'));
@@ -403,7 +403,7 @@ Route::get('/admin/agreement-editor', function () {
 //                     });
 //             }
 //         )->get();
-    
+
 //     return App\Models\Person::query()
 //     ->when(\Request::input('fdivision_selected'), function ($query, $division) {
 //         $query->where('division_id', $division);

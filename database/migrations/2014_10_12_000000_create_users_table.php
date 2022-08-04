@@ -59,12 +59,12 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('role_user');
-        Schema::dropIfExists('ability_role');
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('abilities');
-        Schema::dropIfExists('users');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('role_user');
+    //     Schema::dropIfExists('ability_role');
+    //     Schema::dropIfExists('roles');
+    //     Schema::dropIfExists('abilities');
+    //     Schema::dropIfExists('users');
+    // }
 }

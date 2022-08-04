@@ -4,13 +4,16 @@
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลบุคลากร</div>
-                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"
-                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+<!--                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"-->
+<!--                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"-->
+<!--                >-->
+                <Link :href="route('admin.person')" method="get" as="button" type="button"
+                      class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
-                </Link>  
+                </Link>
             </div>
-        
+
             <div class="text-gray-900 text-lg underline font-medium dark:text-white mb-4">
                 รายละเอียดข้อมูลของบุคลากร
             </div>
@@ -36,20 +39,21 @@
                                             <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                             </svg>
-                                            <span class="mt-2 text-base leading-normal">เลือกรูป</span> 
+                                            <span class="mt-2 text-base leading-normal">เลือกรูป</span>
                                             <input type="file" @input="personForm.image = $event.target.files[0]" @change="previewImage" class="hidden">
                                         </label>
                                     </div>
+                                    <button class="border bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 text-sm font-medium text-white mt-2 p-1 rounded-md shadow-md" v-if="! viewDataInfomation && personForm.image" @click="emptyImage"> นำรูปออก </button>
                                 </div>
 
                                 <div class="grid grid-cols-6 gap-6 mb-6">
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="sap_id" class="block text-sm font-medium text-gray-700">รหัส SAP-ID</label>
-                                        <!-- <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id" 
+                                        <!-- <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']" 
+                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
                                         /> -->
-                                        <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id" 
+                                        <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
@@ -59,7 +63,7 @@
                                         <select v-model="personForm.division_selected" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <template v-for="(option, index) in divisions" :key="index">
                                             <option v-if="$page.props.auth.abilities.includes('view_all_content')" :value="option.division_id">{{ option.name_th }}</option>
-                                            <option v-else :value="option.division_id" :disabled="personForm.division_selected !== option.division_id">{{ option.name_th }}</option>                     
+                                            <option v-else :value="option.division_id" :disabled="personForm.division_selected !== option.division_id">{{ option.name_th }}</option>
                                             </template>
                                         </select>
                                     </div>
@@ -78,12 +82,12 @@
                                             <label for="fname_th" class="block text-sm font-medium text-gray-700">ชื่อ (TH)</label>
                                             <div class="text-red-500 px-2">*</div>
                                         </div>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true" 
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"        
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true"
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
                                         /> -->
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true" 
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true"
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                         <div class="p-error" v-if="submitted && !personForm.fname_th">จำเป็นต้องใส่ ชื่อภาษาไทย</div>
                                     </div>
@@ -93,12 +97,12 @@
                                             <label for="lname_th" class="block text-sm font-medium text-gray-700">นามสกุล (TH)</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th" 
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th"
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
                                         /> -->
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th" 
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th"
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                         <div class="p-error" v-if="submitted && !personForm.lname_th">จำเป็นต้องใส่ นามสกุลภาษาไทย</div>
                                     </div>
@@ -114,23 +118,23 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="fname_en" class="block text-sm font-medium text-gray-700">ชื่อ (EN)</label>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en" 
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
                                         /> -->
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en" 
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="lname_en" class="block text-sm font-medium text-gray-700">นามสกุล (EN)</label>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en" 
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                                 :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
                                         /> -->
-                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en" 
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                        <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
@@ -234,7 +238,7 @@
                                             <label for="rname_short_en" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ EN)</label>
                                             <div class=" text-white">.</div>
                                         </div>
-                                        <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />       
+                                        <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-4"> -->
@@ -271,7 +275,7 @@
                                         <div class="flex items-center justify-start">
                                             <div class="text-sm"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>
                                             <svg
-                                            v-show="!viewDataInfomation" 
+                                            v-show="!viewDataInfomation"
                                             xmlns="http://www.w3.org/2000/svg" @click="createCertificate(personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                                             </svg>
@@ -282,9 +286,9 @@
                                 <div class="flex flex-col">
                                     <div
                                         v-for="(input, index) in personForm.certificateList"
-                                        :key="`certificateInput-${index}`" 
+                                        :key="`certificateInput-${index}`"
                                         class="flex items-center mb-2"
-                                    > 
+                                    >
                                         <div class="w-full mr-1">
                                             <input v-model="input.cert" type="text" name="" id="" placeholder="ใส่รายละเอียดที่นี่" class="w-full border rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300">
                                         </div>
@@ -295,8 +299,8 @@
                                             v-show="personForm.certificateList.length > 0 && !viewDataInfomation"
                                             xmlns="http://www.w3.org/2000/svg" @click="deleteCertificate(index, personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                                        </svg>    
-                                    </div>  
+                                        </svg>
+                                    </div>
 
                                 </div>
                             </fieldset>
@@ -306,7 +310,7 @@
             </div>
 
             <div class="flex flex-row mt-2 space-x-4">
-                <!-- <button v-if="action === 'view' && viewDataInfomation" @click="togglePdpaData" type="button" 
+                <!-- <button v-if="action === 'view' && viewDataInfomation" @click="togglePdpaData" type="button"
                     class="bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600"
                     :class="[pdpa_protect ? 'text-green-700' : 'text-red-700']"
                     >
@@ -350,7 +354,7 @@ const props = defineProps({
 
 const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"
 const actionWord = ref(null)
-const baseUrl = ref(base_url) 
+const baseUrl = ref(base_url)
 const url = props.person ? ref(props.person.image_url) : ref(null)
 const oldimage = props.person ? ref(props.person.image) : ref(null)
 const viewDataInfomation = ref(false)
@@ -373,6 +377,7 @@ const personForm = useForm({
   rname_short_th: props.person ? props.person.rname_short_th : null,
   rname_short_en: props.person ? props.person.rname_short_en : null,
   image: props.person ? props.person.image : null,
+  use_default_image: false,
   type: props.person ? props.person.type : 'b',
   group: props.person ? props.person.group : 99,
   position_mgnt: props.person ? props.person.position_mgnt : null,
@@ -450,6 +455,12 @@ const previewImage = (e) => {
     }
 }
 
+const emptyImage = () => {
+    personForm.use_default_image = true
+    personForm.image = null
+    url.value = null
+}
+
 const replaced = ( str, use_case ) => {
 
     let markStr = "---"
@@ -473,9 +484,9 @@ const togglePdpaData = () => {
     if( ! pdpa_protect.value ) {
         // มีการเปิดดูข้อมูลส่วนบุคคล
         traceLogService.value.storeLog(
-            section, 
+            section,
             "view",
-            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id, 
+            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id,
             "pdpa"
         )
     }
@@ -486,7 +497,7 @@ const checkRequireData = () => {
   if( (personForm.group === 99) || (personForm.position_academic === 99) ) {
     return false
   }
-  // ถ้ามีตำแหน่งทางวิชาการ ต้องระบุให้ครบทั้งชื่อ นามสกุล คำนำหน้าชื่อแบบเต็ม คำนำหน้าชื่อแบบย่อ 
+  // ถ้ามีตำแหน่งทางวิชาการ ต้องระบุให้ครบทั้งชื่อ นามสกุล คำนำหน้าชื่อแบบเต็ม คำนำหน้าชื่อแบบย่อ
   else if(personForm.position_academic !== 0) {
     if( personForm.fname_th && personForm.lname_th && personForm.rname_full_th && personForm.rname_short_th ) {
       return true
@@ -509,18 +520,18 @@ const savePerson = () => {
     submitted.value = true;
     if(! checkRequireData() ) {
         toast('warning', 'คำเตือน', 'ยังระบุข้อมูลที่ต้องการของบุคลากรไม่ครบถ้วน');
-    } else { 
+    } else {
         if(personForm.id) {  // Update
             personForm.transform(data => ({
                 ...data,
                 certificateList: JSON.stringify(data.certificateList),
                 oldimage: oldimage.value,
-                //fdivision_selected: fdivision_selected.value   
+                //fdivision_selected: fdivision_selected.value
             })).post( route('admin.person.update', personForm.id), {
                     _method: 'patch',
                     preserveState: true,
                 onSuccess: () => {
-                    toast('success', 'สำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')    
+                    toast('success', 'สำเร็จ', 'แก้ไขข้อมูลบุคลากร เรียบร้อย')
                 },
                 onError: (errors) => {
                     for ( let p in errors ) {
@@ -552,7 +563,7 @@ const savePerson = () => {
                     toast('danger', 'พบข้อผิดพลาด', error_display);
                 },
                 onFinish: () => {
-                    personForm.processing = false 
+                    personForm.processing = false
                 }
             });
         }

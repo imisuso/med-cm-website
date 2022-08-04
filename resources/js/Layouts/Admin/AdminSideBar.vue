@@ -1,6 +1,6 @@
 <template>
-  
-    <div class="flex flex-col w-64 h-fit py-4 border-r bg-sky-300">
+
+    <div class="flex flex-col w-64 h-auto py-4 border-r bg-sky-300">
         <!-- <h2 class="text-3xl font-semibold text-center text-gray-800 dark:text-white">Brand</h2> -->
 
         <div class="flex flex-col items-center mt-1 mx-2">
@@ -12,18 +12,18 @@
             <h4 class="mx-2 mt-2 font-medium text-gray-800 hover:underline">{{$page.props.auth.person_fname}} {{$page.props.auth.person_lname}}</h4>
             <p class="mx-2 mt-1 text-sm font-medium text-gray-600 hover:underline">{{$page.props.auth.division_type}}{{$page.props.auth.division_name_th}}</p>
         </div>
-        
-        <div 
+
+        <div
             class="mt-6 px-3 underline"
-            v-if="$page.props.auth.abilities.includes('manage_users') || 
-            $page.props.auth.abilities.includes('manage_ability_role') || 
+            v-if="$page.props.auth.abilities.includes('manage_users') ||
+            $page.props.auth.abilities.includes('manage_ability_role') ||
             $page.props.auth.abilities.includes('view_log')"
         >
             จัดการระบบ (Comming Soon)
         </div>
         <div class="flex flex-col justify-between flex-1 mt-2">
             <nav>
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_users')"
                     :href="route('admin.index')"
                     class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -35,7 +35,7 @@
                     <span class="mx-4 font-medium">ผู้ใช้งาน</span>
                 </a>
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_ability_role')"
                     :href="route('admin.ability_role')"
                     class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -43,11 +43,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
-                    
+
                     <span class="mx-4 font-medium">สิทธิ์การใช้งาน</span>
                 </a>
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('view_log')"
                     :href="route('admin.log.index')"
                     class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -55,7 +55,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    
+
                     <span class="mx-4 font-medium">ข้อมูลการใช้งาน</span>
                 </a>
 
@@ -72,7 +72,7 @@
                     <span class="mx-4 font-medium">Dashboard</span>
                 </a> -->
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_divisions')"
                     :href="route('admin.division')"
                     class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -85,10 +85,10 @@
                 </a>
 
                 <!-- ยังไม่ได้ทำเพิ่ม เลย disable ไปก่อน -->
-                <!-- <a 
+                <!-- <a
                     v-if="$page.props.auth.abilities.includes('manage_branch_main_menu')"
                     :href="route('admin.branch_template_editor')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
+                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -97,10 +97,10 @@
                     <span class="mx-4 font-medium">เมนูหลักเนื้อหาสาขา</span>
                 </a>
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_branch_sub_menu')"
                     :href="route('admin.branch_template_editor')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
+                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
@@ -109,10 +109,10 @@
                     <span class="mx-4 font-medium">เมนูย่อยเนื้อหาสาขา</span>
                 </a> -->
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_division_content')"
                     :href="route('admin.branch_template_editor')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
+                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -122,7 +122,7 @@
                 </a>
 
                 <Link
-                        v-if="$page.props.auth.abilities.includes('manage_person')" 
+                        v-if="$page.props.auth.abilities.includes('manage_person')"
                         :href="route('admin.person')" :data="{ 'remember': 'forget' }" method="get" as="button" type="button"
                         class="flex items-center w-full px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
@@ -133,7 +133,7 @@
 
                     <span class="mx-4 font-medium">บุคลากร</span>
                 </Link>
-                <!-- <a 
+                <!-- <a
                     v-if="$page.props.auth.abilities.includes('manage_person')"
                     :href="route('admin.person')"
                     class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -158,10 +158,10 @@
                     <span class="mx-4 font-medium">ข่าวประกาศ</span>
                 </a>
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_posters')"
                     :href="route('admin.poster')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
+                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
@@ -170,10 +170,10 @@
                     <span class="mx-4 font-medium">โปสเตอร์</span>
                 </a>
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_galleries')"
                     :href="route('admin.gallery')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
+                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -182,10 +182,10 @@
                     <span class="mx-4 font-medium">รูปกิจกรรม</span>
                 </a>
 
-                <a 
+                <a
                     v-if="$page.props.auth.abilities.includes('manage_download')"
                     :href="route('admin.download')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
+                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

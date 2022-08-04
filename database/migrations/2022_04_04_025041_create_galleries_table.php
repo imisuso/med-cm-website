@@ -30,8 +30,8 @@ class CreateGalleriesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('galleries');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('galleries');
+    // }
 }

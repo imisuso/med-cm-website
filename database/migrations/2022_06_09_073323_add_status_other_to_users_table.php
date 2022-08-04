@@ -24,11 +24,11 @@ class AddStatusOtherToUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('other');
-            $table->dropColumn('status');
-        });
-    }
+    // public function down()
+    // {
+    //     Schema::table('users', function (Blueprint $table) {
+    //         $table->dropColumn('other');
+    //         $table->dropColumn('status');
+    //     });
+    // }
 }

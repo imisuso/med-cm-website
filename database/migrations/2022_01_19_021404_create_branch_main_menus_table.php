@@ -33,8 +33,8 @@ class CreateBranchMainMenusTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('branch_main_menus');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('branch_main_menus');
+    // }
 }
