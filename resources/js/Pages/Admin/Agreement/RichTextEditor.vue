@@ -5,10 +5,11 @@
             theme="snow"
             v-model:content="form.deltaContent"
             contentType="delta"
-            toolbar="full"
-            @ready="initialQuill" 
+
+            @ready="initialQuill"
             :options="options"
         />
+
         <div class="flex items-center space-x-2 mt-2 mb-4">
             <button @click="saveAgreement()" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,15 +18,18 @@
                 บันทึก
             </button>
             <button @click="true" class="flex items-center mx-1 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2 hover:text-gray-900 focus:z-10">
-                <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  
+                <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
                 ยกเลิก
             </button>
         </div>
     </div>
-    <!-- <div>{{ form }}</div> -->
-    <div>{{ form.htmlContent }}</div>
+
+<!--    <div class=" ">-->
+        <div class="ql-container ql-snow ql-editor" v-html="form.htmlContent"/>
+<!--    </div>-->
+
 </template>
 
 <script setup>
@@ -42,7 +46,7 @@ const form = useForm({
     htmlContent: null
 });
 
-const options = reactive({     
+const options = reactive({
     readOnly: false,
 })
 
@@ -61,3 +65,11 @@ const saveAgreement = () => {
 }
 
 </script>
+
+<style>
+p.ql-align-center {
+    display: block;
+    margin: 0 auto;
+    background-color: yellow;
+}
+</style>

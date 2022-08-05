@@ -4,10 +4,10 @@
       <template v-for="(sub_menu, index) in branchSubMenu" :key="sub_menu.sub_header_id" :index="index" >
         <RichTextContentShow v-if="sub_menu.main_header_id === 1" :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="ql-editor" v-html="sub_menu.detail_html"></div>
-          </template>        
+            <div class="ql-container ql-snow ql-editor" v-html="sub_menu.detail_html"></div>
+          </template>
         </RichTextContentShow>
-      </template>  
+      </template>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ const props = defineProps({
 //   {'sub_header_id':8,  'main_header_id': 1, 'branch_id':1, 'sub_header_name':'หัวหน้าสาขาจากอดีตถึงปัจจุบัน', 'status': true, 'delta_content': '', 'html_content': '<ul><li><span class="ql-size-small">พ.ศ. 2503-2509 ศาสตราจารย์นายแพทย์รจิต บุรี</span></li><li><span class="ql-size-small">พ.ศ. 2509-2539 ศาสตราจารย์นายแพทย์สง่า นิลวรางกูร</span></li><li><span class="ql-size-small">พ.ศ. 2539-2540 ศาสตราจารย์แพทย์หญิงสุมาลี นิมมานนิตย์</span></li><li><span class="ql-size-small">พ.ศ. 2540-2549 ศาสตราจารย์แพทย์หญิงลีนา องอาจยุทธ (ธัญญารัตน์ ธีรพรเลิศรัฐ)</span></li><li><span class="ql-size-small">พ.ศ. 2549-2555 อาจารย์นายแพทย์สมเกียรติ วสุวัฏฏกุล</span></li><li><span class="ql-size-small">พ.ศ. 2555-2564 ศาสตราจารย์ ดร. นายแพทย์เกรียงศักดิ์ วารีแสงทิพย์</span></li><li><span class="ql-size-small"><span class="ql-cursor">﻿</span>พ.ศ. 2564-ปัจจุบัน ศาสตราจารย์นายแพทย์ชัยรัตน์ ฉายากุล</span></li></ul><p><br></p>',  },
 //   {'sub_header_id':9,  'main_header_id': 1, 'branch_id':1, 'sub_header_name':'เกียรติยศและความภาคภูมิใจ', 'status': false, 'delta_content': '', 'html_content': '<p>I’m running Tiptap with Vue.js. 🎉</p><p><strong>หน่วย IT </strong>เวชสารสนเทศ ทดสอบ Quill</p><pre><code>CodeBlock อยู่ที่นี่</code></pre>',  },
 // ])
-  
+
 </script>
 
 <style scoped>

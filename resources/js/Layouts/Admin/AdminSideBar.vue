@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex flex-col w-64 h-auto py-4 border-r bg-sky-300">
+    <div class="flex flex-col w-64 h-fit py-4 border-r bg-sky-300">
         <!-- <h2 class="text-3xl font-semibold text-center text-gray-800 dark:text-white">Brand</h2> -->
 
         <div class="flex flex-col items-center mt-1 mx-2">

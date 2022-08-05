@@ -51,9 +51,14 @@ class BranchSubMenuTemplateController extends Controller
     public function show($slug)
     {
         $branch = Division::where('slug', $slug)->first();
+
+        if( ! $branch ) {
+            return Inertia::render('PageNotFound');
+        }
+
         $main_menu = BranchMainMenu::where('division_id', $branch->division_id)->orderBy('menu_order_id', 'asc')->get();
         $sub_menu = BranchSubMenu::where('division_id', $branch->division_id)->orderBy('menu_order_id', 'asc')->get();
-    
+
         return Inertia::render('BranchDetails', [
                                 'branch' => $branch,
                                 'branch_main_menu' => $main_menu,
@@ -97,7 +102,7 @@ class BranchSubMenuTemplateController extends Controller
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
         }
-        
+
         return Redirect::route('admin.branch_template_editor')->with('division_id', $division_id);
     }
 
@@ -111,7 +116,7 @@ class BranchSubMenuTemplateController extends Controller
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลเมนูไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
         }
-        
+
         return Redirect::route('admin.branch_template_editor')->with('division_id', $division_id);
     }
 
