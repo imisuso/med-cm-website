@@ -49,8 +49,8 @@
   </div>
 
   <div v-else class="flex flex-col ">
-    <div class="flex-grow">
-      <div class="ql-container ql-snow ql-editor" v-html="branchSubMenu.detail_html"></div>
+    <div class="flex-grow ql-container ql-snow">
+      <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>
     </div>
   </div>
 

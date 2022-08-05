@@ -4,7 +4,9 @@
       <template v-for="(sub_menu, index) in branchSubMenu" :key="sub_menu.sub_header_id" :index="index" >
         <RichTextContentShow v-if="sub_menu.main_header_id === 1" :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="ql-container ql-snow ql-editor" v-html="sub_menu.detail_html"></div>
+            <div class="ql-container ql-snow">
+              <div class="ql-editor" v-html="sub_menu.detail_html"></div>
+            </div>
           </template>
         </RichTextContentShow>
       </template>

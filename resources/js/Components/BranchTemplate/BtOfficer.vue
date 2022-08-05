@@ -3,13 +3,9 @@
     <ComingSoon />
   </div>
   <!-- Display List สำหรับแสดงผลรายชื่อเจ้าหน้าที่ -->
-  <div v-else class="flex flex-col border-green-200 gap-2 p-2 rounded-md mt-5">
+  <!-- <div v-else class="flex flex-col border-green-200 gap-2 p-2 rounded-md mt-5">
     <div v-for="person in personList" :key="person.id" class="flex flex-col sm:flex-row gap-4">
       <div class="flex shrink-0 justify-center">
-        <!-- <svg v-if="! person.image" class="h-36 w-28 object-cover rounded-sm text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <img v-else :src="`${person.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm"> -->
         <img :src="`${person.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm" />
       </div>
       <div class="flex flex-col w-full space-y-2 mb-2 items-center">
@@ -25,9 +21,26 @@
             <div>{{ cert.cert }}</div>
           </div>
         </div>
-        <!-- <div class="w-full border ">3</div> -->
       </div>
     </div>
+  </div> -->
+
+  <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 w-full gap-1 md:gap-2">
+    <template v-for="person in personList" :key="person.id">
+      <div class="flex flex-row mt-2 sm:mt-0  rounded-lg shadow-lg bg-gradient-to-r from-gray-50 to-gray-200">
+          <div class="flex items-center p-2">
+            <img class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300" :src="`${person.image_url}`" alt="" />
+          </div>
+          <div class="flex items-center">
+              <div class="flex flex-col">
+                  <div class="px-2">{{ person.title_th }}{{ person.fname_th }} {{ person.lname_th }}</div>
+                  <div v-if="person.position_division && person.position_division !== 'NULL' " class="px-2 italic text-sm text-gray-600">{{ person.position_division }}</div>
+                  <div v-else class="px-2 italic text-sm text-gray-600">ไม่พบข้อมูลตำแหน่งงาน</div>
+                  <!-- <div v-if="officer.profiles.leader" class="px-2 italic text-sm text-gray-600">(หัวหน้าหน่วยงาน)</div> -->
+              </div>
+          </div>
+      </div>
+    </template>
   </div>
 </template>
 

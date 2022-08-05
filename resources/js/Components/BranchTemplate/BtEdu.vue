@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <div class="flex-grow">
+    <div class="flex-grow ql-container ql-snow">
       <template v-for="(sub_menu, index) in branchSubMenu" :key="sub_menu.sub_header_id" :index="index" >
         <EduContentShow v-if="sub_menu.main_header_id === 2 && !richTextMenu.includes(sub_menu.sub_header_name_th)" :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
@@ -31,7 +31,7 @@
 
         <RichTextContentShow v-else :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="ql-container ql-snow ql-editor" v-html="sub_menu.detail_html"></div>
+            <div class="ql-editor" v-html="sub_menu.detail_html"></div>
           </template>
         </RichTextContentShow>
 
