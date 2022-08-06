@@ -3,3 +3,21 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@font-face {
+    font-family: 'DBLim';
+    src: '../asset/fonts/mahidol/DB_Lim_X_v3.2.ttf';
+    /* src: url("{{ asset('/fonts/mahidol/DB_Lim_X_v3.2.ttf') }}"); */
+}
+
+p.ql-align-center {
+    display: flex;
+    justify-content: center;
+    /* background-color: yellow; */
+}
+
+p.ql-align-right {
+    display: flex;
+    justify-content: right;
+    /* background-color: blue; */
+}

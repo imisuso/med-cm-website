@@ -13,6 +13,12 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { InertiaProgress } from '@inertiajs/progress'
 
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.core.css';
+import '@vueup/vue-quill/dist/vue-quill.snow.prod.css';
+// import 'quill/dist/quill.core.css';
+// import 'quill/dist/quill.snow.css';
+
 import '../css/app.css';
 
 import Datepicker from '@vuepic/vue-datepicker'
@@ -22,12 +28,6 @@ import VuePdfEmbed from 'vue-pdf-embed'
 
 import AppLayout from '@/Layouts/AppLayout.vue'
 import AdminAppLayout from '@/Layouts/Admin/AdminAppLayout.vue'
-
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.core.css';
-import '@vueup/vue-quill/dist/vue-quill.snow.prod.css';
-// import 'quill/dist/quill.core.css';
-// import 'quill/dist/quill.snow.css';
 
 const globalOptions = {
   // debug: 'info',
@@ -45,7 +45,7 @@ const globalOptions = {
       [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
       ['link', 'video', 'image'],
       ['clean']
-    ]
+    ],
   },
   // placeholder: 'Compose an epic...',
   readOnly: true,

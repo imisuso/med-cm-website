@@ -5,10 +5,10 @@
             theme="snow"
             v-model:content="form.deltaContent"
             contentType="delta"
-
             @ready="initialQuill"
             :options="options"
         />
+        <!-- :modules="quill_modules" -->
 
         <div class="flex items-center space-x-2 mt-2 mb-4">
             <button @click="saveAgreement()" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
@@ -26,15 +26,29 @@
         </div>
     </div>
 
-<!--    <div class=" ">-->
-        <div class="ql-container ql-snow ql-editor" v-html="form.htmlContent"/>
-<!--    </div>-->
+   <div class="ql-container ql-snow">
+        <div class="ql-editor" v-html="form.htmlContent"/>
+   </div>
 
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
+// import BlotFormatter from 'quill-blot-formatter'
+// import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
+
+// class CustomImageSpec extends ImageSpec {
+//     getActions() {
+//       return [AlignAction, DeleteAction, ResizeAction];
+//     }
+// }
+
+// class RemoveImageSpec extends ImageSpec {
+//     getActions() {
+//       return [];
+//     }
+// }
 
 const props = defineProps({
     agreement: {type: Object, required: true}
@@ -52,6 +66,18 @@ const options = reactive({
 
 const quill_e = ref()
 
+// const modules = {
+//     name: 'blotFormatter',
+//     module: BlotFormatter,
+//     options: {/* options */}
+// }
+
+// const quill_modules = {
+//                 name: 'blotFormatter',  
+//                 module: BlotFormatter, 
+//                 options: {/* options */}
+//             }
+
 const initialQuill = () => {
   //quill_e.value.getEditor().addEventListener('paste', pasteImage, false)
   // var toolbar = quill_e.value.getQuill().getModule('toolbar');
@@ -67,9 +93,23 @@ const saveAgreement = () => {
 </script>
 
 <style>
-p.ql-align-center {
+/* p.ql-align-center {
     display: block;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    background-color: yellow;
+} */
+
+/* p.ql-align-center {
+    display: flex;
+    justify-content: center;
     background-color: yellow;
 }
+
+p.ql-align-right {
+    display: flex;
+    justify-content: right;
+    background-color: blue;
+} */
 </style>
