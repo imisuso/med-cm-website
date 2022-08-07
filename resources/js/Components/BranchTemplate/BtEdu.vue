@@ -4,7 +4,7 @@
       <template v-for="(sub_menu, index) in branchSubMenu" :key="sub_menu.sub_header_id" :index="index" >
         <EduContentShow v-if="sub_menu.main_header_id === 2 && !richTextMenu.includes(sub_menu.sub_header_name_th)" :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="flex flex-col">  
+            <div class="flex flex-col">
               <template v-if="sub_menu?.attach_files">
                 <div v-for="(at, index) in sub_menu.attach_files" :key="index" class="flex items-center space-x-2 my-2">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 256 256" xml:space="preserve">
@@ -21,21 +21,23 @@
                       </g>
                     </g>
                   </svg>
-                  <div>{{ at.orig_name }}</div>    
+                  <div>{{ at.orig_name }}</div>
                 </div>
               </template>
-              
+
             </div>
-          </template>        
+          </template>
         </EduContentShow>
 
         <RichTextContentShow v-else :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="ql-editor" v-html="sub_menu.detail_html"></div>
-          </template>        
+            <div class="ql-container ql-snow">
+              <div class="ql-editor" v-html="sub_menu.detail_html"></div>
+            </div>
+          </template>
         </RichTextContentShow>
 
-      </template>  
+      </template>
     </div>
   </div>
 </template>
@@ -52,7 +54,7 @@ const props = defineProps({
 
 const richTextMenu = ['ข้อมูลทั่วไป']
 
-  
+
 </script>
 
 <style scoped>

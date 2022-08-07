@@ -10,15 +10,16 @@
         const base_url = "{{ env('APP_URL') }}";
     </script>
     
-    {{-- Loads Sarabun font --}}
-    @googlefonts('Sarabun')
-    <style>
+    {{-- <style>
         @font-face {
             font-family: 'DBLim';
             src: '../asset/fonts/mahidol/DB_Lim_X_v3.2.ttf';
-            /* src: url("{{ asset('/fonts/mahidol/DB_Lim_X_v3.2.ttf') }}"); */
         }
-    </style>
+    </style> --}}
+
+    {{-- Loads Sarabun font --}}
+    @googlefonts('Sarabun')
+
     @routes
     @inertiaHead
     <title>ภาควิชาอายุรศาสตร์ คณะแพทยศาสตร์ศิริราชพยาบาล มหาวิทยาลัยมหิดล</title>

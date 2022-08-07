@@ -24,7 +24,7 @@
         <div class="block lg:hidden">
             <AdminNavBar />
         </div>
-        <div class="overflow-y-scroll px-2 mt-5 w-full">
+        <div class="overflow-y-scroll px-2 mt-5 w-full h-auto">
             <slot></slot>
         </div>
     </div>

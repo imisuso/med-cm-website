@@ -35,10 +35,10 @@
                 <!-- </Link> -->
             </div>
         </div>
-        <div class="w-full">
-            {{ getContent }}
-            <div v-html="htmlContent" class="ql-editor border border-red-300 py-4 px-2 focus:outline-none"></div>
-            <!-- <div v-html="content" class="border border-red-300 py-4 px-2 prose prose-sm sm:prose lg:prose-lg xl:prose-2xl p-2  focus:outline-none"></div> -->
+        <div class="w-full ql-container ql-snow">
+          {{ getContent }}
+          <div v-html="htmlContent" class="ql-editor border border-red-300 py-4 px-2 focus:outline-none"></div>
+          <!-- <div v-html="content" class="border border-red-300 py-4 px-2 prose prose-sm sm:prose lg:prose-lg xl:prose-2xl p-2  focus:outline-none"></div> -->
         </div>
     </div>
 </template>
