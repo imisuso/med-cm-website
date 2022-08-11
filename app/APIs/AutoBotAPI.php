@@ -23,11 +23,13 @@ class AutoBotAPI implements AuthUserAPI
     {
         $faker = Factory::create();
         $user['org_id'] = $login['sap_id'];
+        $user['login'] = $login['name'];
         $user['name'] = $faker->name();
         $user['remark'] = 'ผู้ดูแลระบบแบบ auto';
         $user['name_en'] = '';
         $user['email'] = $login['name'].'@mahidol.ac.th';
         $user['found'] = true;
+        $user['reply_code'] = 0;
 
         return $user;
     }
@@ -46,7 +48,7 @@ class AutoBotAPI implements AuthUserAPI
     //         "reply_text" => "Username or Password is incorrect",
     //         "found" => "false",
     //     ]
-       
+
     //    /////////////////////////////////////
     //    [
     //         "ok" => true,

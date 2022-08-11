@@ -3,11 +3,7 @@
         <section class="relative flex flex-wrap lg:h-96 lg:items-center">
             <div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24 lg:mb-0">
                 <div class="max-w-lg mx-auto text-center">
-                <h1 class="text-2xl font-bold sm:text-3xl">We're Medicine Team!</h1>
-
-                <!-- <p class="mt-4 text-gray-500">
-                    สำหรับใช้เพื่ออำนวนความสะดวกให้กับเจ้าหน้าของภาควิชาอายุรศาสตร์ศิริราช
-                </p> -->
+                        <h1 class="text-2xl font-bold sm:text-3xl">We're Medicine Team!</h1>
                 </div>
 
                 <!-- <form action="" class="max-w-md mx-auto mt-8 mb-0 space-y-4"> -->
@@ -144,7 +140,7 @@ const clickLogin = () => {
             form.reset()
         },
         onError: (errors) => {
-            toast('danger', errors.msg, errors.sysmsg)
+            toast('danger', 'พบข้อผิดพลาด', errors.msg)
         },
         onFinish: () => {
             form.processing = false

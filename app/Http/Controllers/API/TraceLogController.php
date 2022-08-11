@@ -54,7 +54,7 @@ class TraceLogController extends Controller
                 ->withQueryString()
                 ->through(fn ($log) => [
                     'person' => $log->person,
-                    //    'user' => $log->user,
+                    'user' => $log->user,
                     'action' => $log->action,
                     'section' => $log->section,
                     'type' => $log->type,
