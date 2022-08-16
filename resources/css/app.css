@@ -21,3 +21,26 @@ p.ql-align-right {
     justify-content: right;
     /* background-color: blue; */
 }
+
+/*p.ql-align-left {*/
+/*    display: inline;*/
+/*    margin: 0px 1em 1em 0px;*/
+/*    float: left;*/
+/*    justify-content: left;*/
+/*    !* background-color: yellow; *!*/
+/*}*/
+
+/*p.ql-align-center {*/
+/*    display: flex;*/
+/*    margin: auto;*/
+/*    justify-content: center;*/
+/*    !* background-color: yellow; *!*/
+/*}*/
+
+/*p.ql-align-right {*/
+/*    display: inline;*/
+/*    margin: 0px 0px 1em 1em;*/
+/*    float: right;*/
+/*    justify-content: right;*/
+/*    !* background-color: blue; *!*/
+/*}*/

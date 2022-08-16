@@ -305,7 +305,7 @@ Route::prefix('admin')
 Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
 
 Route::get('/admin/ability_role', function () {
-    $users = User::paginate(7);
+    $users = User::with('person')->paginate(7);
     //logger($users);
     //dd($users);
     return Inertia::render('Admin/AbilityRole/Index', compact('users'));

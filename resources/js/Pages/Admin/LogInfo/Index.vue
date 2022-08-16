@@ -4,18 +4,10 @@
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">ข้อมูลการใช้งาน</div>
-                <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นจาก Section หรือ Type" />
+                <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นจาก Type หรือ Section" />
             </div>
 
             <div class="grid grid-cols-2 gap-6 mb-2">
-                <div class="col-span-2 sm:col-span-1">
-                  <label for="section" class="block text-sm font-medium text-gray-700">Section :</label>
-                  <select v-model="Form.section" id="section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <template v-for="(section, section_index) in sections" :key="section_index">
-                      <option :value="section.section">{{ section.section }}</option>
-                    </template>
-                  </select>
-                </div>
                 <div class="col-span-2 sm:col-span-1">
                   <label for="type" class="block text-sm font-medium text-gray-700">Type :</label>
                   <select v-model="Form.type" id="type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -23,6 +15,14 @@
                       <option :value="type.type">{{ type.type }}</option>
                     </template>
                   </select>
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                    <label for="section" class="block text-sm font-medium text-gray-700">Section :</label>
+                    <select v-model="Form.section" id="section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <template v-for="(section, section_index) in sections" :key="section_index">
+                            <option :value="section.section">{{ section.section }}</option>
+                        </template>
+                    </select>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                     <div class="grid grid-cols-2 border p-2 rounded-md shadow-md">
                         <div class=" col-span-2 md:col-span-1">{{ dayjs(log.created_at).locale('th').format('D/MM/BBBB H:mm') }}</div>
                         <div class=" col-span-2 justify-self-start md:col-span-1 md:justify-self-end">#{{ log.type }}#{{ log.section }}</div>
-                        <div class=" col-span-2">Unknow-User</div>
+                        <div class=" col-span-2">Unknow-User ({{ log.user }})</div>
                         <div class=" col-span-2">{{ log.details }}</div>
 
                     </div>
@@ -90,7 +90,7 @@ watch( search, value => {
 })
 
 const Form = useForm({
-  section: 'login-page',
+  section: 'login',
   type: 'info',
 });
 

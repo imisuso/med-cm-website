@@ -20,7 +20,9 @@
                     <div class="flex items-center  justify-between">
                         <div class="flex items-center space-x-2">
                             <div class="font-bold">ผู้ใช้ :</div>
-                            <div class="text-sm">{{ user.name }}</div>
+<!--                            <div class="text-sm">{{ user.name }}</div>-->
+                            <div class="text-sm" v-if="user.person">{{ user.person.title_th }}{{ user.person.fname_th }} {{ user.person.lname_th }}</div>
+                            <div class="text-sm" v-else>Unknown-User</div>
                             <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
                                 :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
                             >

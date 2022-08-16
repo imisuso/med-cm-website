@@ -3,12 +3,13 @@
         <QuillEditor
             ref="quill_e"
             theme="snow"
+            toolbar="full"
             v-model:content="form.deltaContent"
             contentType="delta"
             @ready="initialQuill"
-            :options="options"
+            :options="editorOption"
         />
-        <!-- :modules="quill_modules" -->
+        <!-- :modules="editorModule" -->
 
         <div class="flex items-center space-x-2 mt-2 mb-4">
             <button @click="saveAgreement()" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
@@ -26,29 +27,36 @@
         </div>
     </div>
 
+    {{ form.deltaContent }}
    <div class="ql-container ql-snow">
         <div class="ql-editor" v-html="form.htmlContent"/>
    </div>
+    {{ form.htmlContent }}
 
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
-// import BlotFormatter from 'quill-blot-formatter'
-// import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
-
+// import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter';
+//
 // class CustomImageSpec extends ImageSpec {
 //     getActions() {
-//       return [AlignAction, DeleteAction, ResizeAction];
+//         return [AlignAction, DeleteAction, ResizeAction];
 //     }
 // }
-
+//
 // class RemoveImageSpec extends ImageSpec {
 //     getActions() {
-//       return [];
+//         return [];
 //     }
 // }
+// import { Quill } from "@vueup/vue-quill";
+// import { ImageActions } from '@xeger/quill-image-actions';
+// import { ImageFormats } from '@xeger/quill-image-formats';
+//
+// Quill.register('modules/imageActions', ImageActions);
+// Quill.register('modules/imageFormats', ImageFormats);
 
 const props = defineProps({
     agreement: {type: Object, required: true}
@@ -60,23 +68,42 @@ const form = useForm({
     htmlContent: null
 });
 
-const options = reactive({
+const editorOption = reactive({
     readOnly: false,
 })
 
 const quill_e = ref()
 
-// const modules = {
-//     name: 'blotFormatter',
-//     module: BlotFormatter,
-//     options: {/* options */}
-// }
+// const editorModule = [
+        // {
+        //     name: 'blotFormatter',
+        //     module: BlotFormatter,
+        //     specs: [
+        //         CustomImageSpec,
+        //     ],
+        //     overlay: {
+        //         style: {
+        //             border: '2px solid red',
+        //         }
+        //     },
+        //     options: {/* options */}
+        // },
+        // {
+        //     name: 'imageActions',
+        //     module: ImageActions,
+        //     options: {}
+        // },
+        // {
+        //     name: 'imageFormats',
+        //     module: ImageFormats,
+        //     options: {}
+        // }
+    // ]
 
-// const quill_modules = {
-//                 name: 'blotFormatter',  
-//                 module: BlotFormatter, 
-//                 options: {/* options */}
-//             }
+// const editorModule = {
+//     imageActions: {},
+//     imageFormats: {},
+// }
 
 const initialQuill = () => {
   //quill_e.value.getEditor().addEventListener('paste', pasteImage, false)

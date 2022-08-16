@@ -13,11 +13,9 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { InertiaProgress } from '@inertiajs/progress'
 
-import { QuillEditor } from '@vueup/vue-quill'
+import { Quill, QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.core.css';
 import '@vueup/vue-quill/dist/vue-quill.snow.prod.css';
-// import 'quill/dist/quill.core.css';
-// import 'quill/dist/quill.snow.css';
 
 import '../css/app.css';
 
@@ -30,26 +28,37 @@ import AppLayout from '@/Layouts/AppLayout.vue'
 import AdminAppLayout from '@/Layouts/Admin/AdminAppLayout.vue'
 
 const globalOptions = {
-  // debug: 'info',
-  modules: {
-    toolbar: [
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-      ['blockquote', 'code-block'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-      [{ 'align': [] }],
-      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-      [{ 'direction': 'rtl' }],                         // text direction
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      ['link', 'video', 'image'],
-      ['clean']
-    ],
-  },
-  // placeholder: 'Compose an epic...',
-  readOnly: true,
-  theme: 'snow'
+    // debug: 'info',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'align': [] }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            ['link', 'video', 'image'],
+            ['clean']
+        ],
+        // blotFormatter: {
+        //     specs: [
+        //         CustomImageSpec,
+        //     ],
+        //     overlay: {
+        //         style: {
+        //             border: '2px solid red',
+        //         }
+        //     },
+        //     options: {/* options */}
+        // }
+    },
+    // placeholder: 'Compose an epic...',
+    readOnly: true,
+    theme: 'snow'
 }
 
 QuillEditor.props.globalOptions.default = () => globalOptions
