@@ -20,7 +20,8 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return Inertia::render('LoginForm');
+        $sso_url = env('RESET_PASSWORD_URL', '/');
+        return Inertia::render('LoginForm', compact('sso_url'));
     }
 
     public function login_authen(Request $request, AuthUserAPI $api)
@@ -38,7 +39,7 @@ class LoginController extends Controller
             return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
         }
 
-        // กรณีไม่พบ username หรือ username หรือ password ของ AD ไม่ถูกต้อง
+        // กรณีไม่พบ username หรือ username หรือ password ของ AD ไม่ถูกต้อง หรือ password หมดอายุ (ทุกกรณีที่กล่าวมา จะไม่พบข้อมูล user เลย ไม่สามารถแยก case ได้)
         if( strcmp($getUserFromAPI['reply_code'], '3') === 0 ) {
             $resp = (new LogManager)->store(
                 $request->username,
@@ -48,7 +49,8 @@ class LoginController extends Controller
                 'security'
             );
 
-            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+//            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+            return Redirect::back()->withErrors(['msg' => '<u>สามารถเกิดได้จากกรณีต่อไปนี้</u> <br>- กรอก Username หรือ Password ไม่ถูกต้อง <br>- Password หมดอายุ']);
         }
 
         $user = User::where('sap_id', $getUserFromAPI['org_id'])->first();
