@@ -20,10 +20,10 @@ class HannahAPI implements AuthUserAPI
         $data = json_decode($response->getBody(),true);
 
         if($response->status()!=200){
-            return ['reply_code' => '1', 'reply_text' => 'ไม่สามารถเรียกใช้งานระบบยืนยันตัวตนของของภาควิชาฯได้','found'=>false];
+            return ['reply_code' => '1', 'reply_text' => 'ไม่สามารถเรียกใช้งาน service สำหรับยืนยันตัวตนของภาควิชาฯได้','found'=>false];
         }
         if(!$data['ok']) {
-            return ['reply_code' => '2', 'reply_text' => 'ไม่สามารถเรียกใช้งานระบบยืนยันตัวตนของคณะแพทย์ฯศิริราชได้','found'=>false];
+            return ['reply_code' => '2', 'reply_text' => 'ไม่สามารถเรียกใช้งาน service สำหรับยืนยันตัวตนของคณะแพทย์ฯศิริราชได้','found'=>false];
         }
         if(!$data['found']) {
             return ['reply_code' => '3', 'reply_text' => $data['body'],'found'=>false];
