@@ -23,28 +23,28 @@
         </div>
         <div class="flex flex-col justify-between flex-1 mt-2">
             <nav>
+<!--                <a-->
+<!--                    v-if="$page.props.auth.abilities.includes('manage_users')"-->
+<!--                    :href="route('admin.index')"-->
+<!--                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"-->
+<!--                >-->
+<!--                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />-->
+<!--                    </svg>-->
+
+<!--                    <span class="mx-4 font-medium">ผู้ใช้งาน</span>-->
+<!--                </a>-->
+
                 <a
                     v-if="$page.props.auth.abilities.includes('manage_users')"
-                    :href="route('admin.index')"
-                    class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-
-                    <span class="mx-4 font-medium">ผู้ใช้งาน</span>
-                </a>
-
-                <a
-                    v-if="$page.props.auth.abilities.includes('manage_ability_role')"
-                    :href="route('admin.ability_role')"
+                    :href="route('admin.user_ability_role.index')"
                     class="flex items-center px-4 py-2 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
 
-                    <span class="mx-4 font-medium">สิทธิ์การใช้งาน</span>
+                    <span class="mx-4 font-medium">ผู้ใช้งานและสิทธิ์</span>
                 </a>
 
                 <a

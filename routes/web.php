@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserAbilityRoleController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -304,12 +305,18 @@ Route::prefix('admin')
     });
 Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
 
-Route::get('/admin/ability_role', function () {
-    $users = User::with('person')->paginate(7);
-    //logger($users);
-    //dd($users);
-    return Inertia::render('Admin/AbilityRole/Index', compact('users'));
-})->name('admin.ability_role');
+//UserAbilityRoleController => จัดการผู้ใช้งานในระบบ และ จัดการสิทธิ์การใช้งาน (ability, role)
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_users'])
+    ->controller(UserAbilityRoleController::class)
+    ->group(function () {
+        Route::get('/user_ability_role', 'index')->name('admin.user_ability_role.index');
+        Route::get('/user_ability_role/create', 'create')->name('admin.user_ability_role.create');
+        // Route::post('/download/store', 'store')->name('admin.download.store');
+        // Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
+        // Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
+        // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
+    });
 
 //TraceLogController => จัดการ log ต่างๆ ผ่าน UI
 Route::prefix('admin')
