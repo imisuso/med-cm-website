@@ -312,6 +312,7 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/user_ability_role', 'index')->name('admin.user_ability_role.index');
         Route::get('/user_ability_role/create', 'create')->name('admin.user_ability_role.create');
+        Route::post('/user_ability_role/store/{person}', 'store')->name('admin.user_ability_role.store');
         // Route::post('/download/store', 'store')->name('admin.download.store');
         // Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
         // Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
