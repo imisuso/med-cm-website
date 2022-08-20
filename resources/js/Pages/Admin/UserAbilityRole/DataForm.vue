@@ -26,6 +26,33 @@
                         label="fname_th"
                         placeholder="กรุณาเลือกผู้ใช้งาน"
                         class="col-span-6 md:col-span-5"
+                        :disabled="!!user"
+                        :show-labels="false"
+                        :options="person"
+                        :searchable="!user"
+                        :allow-empty="false"
+                        @search-change="onSearchUserChange"
+                        @select="onSelectedUser"
+                    >
+                        <template v-slot:singleLabel="props">
+                            <span><strong>{{ props.option.fname_th }} - {{ props.option.lname_th }} [{{ props.option.division.name_th }}]</strong></span>
+                        </template>
+                        <template v-slot:option="props">
+                            <div class="flex items-center">
+                                <img class=" h-14 w-12 p-1" :src='props.option.image_url' alt="Not Available">
+                                <strong>{{ props.option.fname_th }} - {{ props.option.lname_th }} [{{ props.option.division.name_th }}]</strong>
+                            </div>
+                        </template>
+                    </VueMultiselect>
+
+                    <!-- <VueMultiselect v-else
+                        id="user_id"
+                        v-model="selectedUser"
+                        deselect-label="Can't remove this value"
+                        track-by="id"
+                        label="fname_th"
+                        placeholder="กรุณาเลือกผู้ใช้งาน"
+                        class="col-span-6 md:col-span-5"
                         :custom-label="customLabelUser"
                         :show-labels="false"
                         :options="person"
@@ -34,15 +61,16 @@
                         @search-change="onSearchUserChange"
                         @select="onSelectedUser"
                     >
-                        <template slot="singleLabel" slot-scope="props">
-<!--                            <img class="option__image" :src="props.option.image_url" alt="No Man’s Sky">-->
-                            <span>{{ props.option.fname_th }}</span>
+                        <template v-slot:singleLabel="props">
+                            <span><strong>{{ props.option.fname_th }} - {{ props.option.lname_th }} [{{ props.option.division.name_th }}]</strong></span>
                         </template>
-                        <template slot="option" slot-scope="props">
-                            <img class="option__image" :src='props.option.image_url' alt="No Man’s Sky">
-                            <span><strong>{{ props.option.fname_th }} {{ props.option.lname_th }}</strong></span>
+                        <template v-slot:option="props">
+                            <div class="flex items-center">
+                                <img class=" h-14 w-12 p-1" :src='props.option.image_url' alt="Not Available">
+                                <strong>{{ props.option.fname_th }} - {{ props.option.lname_th }} [{{ props.option.division.name_th }}]</strong>
+                            </div>
                         </template>
-                    </VueMultiselect>
+                    </VueMultiselect> -->
 
 
 
@@ -62,13 +90,32 @@
                         :allow-empty="false"
                         @select="onSelectedRole"
                     >
-                        <template slot="singleLabel" slot-scope="props">
+                        <template slot:singleLabel="props">
                             <span>{{ props.option.name }}</span>
                         </template>
-                        <template slot="option" slot-scope="props">
+                        <template slot:option="props">
                             <span><strong>{{ props.option.name }}</strong></span>
                         </template>
                     </VueMultiselect>
+
+                    <label for="status" class="col-span-2 md:col-span-1 mr-2 self-center">สถานะ :</label>
+                    <div class="col-span-4">
+                    <div id="stauts" class="flex items-center my-2 sm:my-0">
+                        <div class="text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                            </svg>
+                        </div>
+                        <ToggleSwitch :status="form.status" @button-is-toggle="switchButtonToggle"/>
+                        <!-- <ToggleSwitch v-model:status="menu.status" @button-is-toggle="switchButtonToggle(menu)"/> -->
+                        <div class="text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
 
@@ -91,15 +138,16 @@ import { ref } from 'vue'
 import {useForm, Link } from '@inertiajs/inertia-vue3'
 import {Inertia} from "@inertiajs/inertia"
 
+import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import VueMultiselect from 'vue-multiselect'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 
 import {throttle} from 'lodash'
 
-
 const props = defineProps({
     action: { type: String, require: true, default: "insert" },
+    user: { type: Object },
     person: { type: Array, default: [] },
     roles: { type: Array, default: [] },
 })
@@ -120,8 +168,9 @@ switch(props.action) {
 }
 
 const form = useForm({
-    user_id: null,
-    role_name: null,
+    user_id: props.user ? props.user.id : null,
+    role_name: props.user ? props.user.roles[0].name : null,
+    status: props.user ? props.user.status : true,
   // id: props.person ? props.person.id : null,
   // division_id: props.division ? props.division.division_id : null,
   // type: props.division ? props.division.type : null,
@@ -130,8 +179,9 @@ const form = useForm({
   // image: null
 });
 
-const selectedUser = ref(null)
-const selectedRole = ref(null)
+const selectedUser = props.user ? props.person[0] : ref(null)
+// const selectedRole = ref(null)
+const selectedRole = props.user ? ref(props.user.roles[0]) : ref(null)
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -148,9 +198,9 @@ const toast = (severity, summary, detail) => {
     })
 }
 
-const customLabelUser = ({ fname_th, lname_th, division }) => {
-    return `${fname_th} – ${lname_th} [${division.name_th}]`;
-}
+// const customLabelUser = ({ fname_th, lname_th, division }) => {
+//     return `${fname_th} – ${lname_th} [${division.name_th}]`;
+// }
 
 const customLabelRole = ({ name }) => {
     return `${name}`;
@@ -169,8 +219,17 @@ const onSelectedUser = (person) => {
 }
 
 const onSelectedRole = (role) => {
+    console.log("Select role event")
+    // selectedRole.value = role
     form.role_name = role.name
 }
+
+const switchButtonToggle = () => {
+    // console.log("before toggle " + form.status)
+    form.status = ! form.status
+    // console.log("after toggle " + form.status)
+}
+
 
 const saveUser = () => {
     let error_display = ''

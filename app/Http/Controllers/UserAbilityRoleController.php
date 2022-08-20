@@ -37,7 +37,7 @@ class UserAbilityRoleController extends Controller
                     ->when(Request::input('term'), function ($query_1) use ($users) {
                         $term = Request::input('term');
                         $query_1->whereNotIn('sap_id', $users)
-                            ->where( function($query_2) use ($term) {
+                            ->where(function ($query_2) use ($term) {
                                 $query_2->where('fname_th', 'like', "%$term%")
                                 ->orWhere('lname_th', 'like', "%$term%");
                             });
@@ -65,6 +65,7 @@ class UserAbilityRoleController extends Controller
 //        logger(Request::input('role_name'));
 
         $role_name = Request::input('role_name');
+        $status = Request::input('status');
         $password = Hash::make('11111111');
 
         try {
@@ -72,7 +73,8 @@ class UserAbilityRoleController extends Controller
                 'name' => $person->slug,
                 'email' => 'add_by_webui@mahidol.ac.th',
                 'password' => $password,
-                'sap_id' => $person->sap_id
+                'sap_id' => $person->sap_id,
+                'status' => $status
             ]);
 
             $user->assignRole($role_name);
@@ -101,9 +103,20 @@ class UserAbilityRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        // logger($user);
+        $person = Person::with('division')
+                    ->where('sap_id', $user->sap_id)
+                    ->get();
+
+        return Inertia::render('Admin/UserAbilityRole/DataForm', [
+            'action' => 'edit',
+            'user' => $user,
+            'person' => $person,
+            // 'person' => [$user->person],
+            'roles' => Role::all()
+        ]);
     }
 
     /**
