@@ -17,14 +17,17 @@
     </div> -->
 
     <div class="flex flex-col lg:flex-row h-screen">
-        <!-- <div class="hidden lg:block overflow-x-hidden overflow-y-scroll w-80"> -->
+<!--         <div class="hidden lg:block overflow-x-hidden overflow-y-scroll w-80 h-auto">-->
         <div class="hidden lg:block overflow-x-hidden w-80">
             <AdminSideBar />
         </div>
         <div class="block lg:hidden">
             <AdminNavBar />
         </div>
-        <div class="overflow-y-scroll px-2 mt-5 w-full h-auto">
+<!--        <div class="overflow-y-scroll px-2 mt-5 w-full h-auto">
+            <slot></slot>
+        </div>-->
+        <div class="overflow-x-hidden px-2 w-full h-screen">
             <slot></slot>
         </div>
     </div>

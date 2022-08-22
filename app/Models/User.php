@@ -76,6 +76,11 @@ class User extends Authenticatable
         $this->roles()->syncWithoutDetaching($role);
     }
 
+    public function revokeRole()
+    {
+        $this->roles()->detach();
+    }
+
     public function getUserRolesAttribute()
     {
         return $this->roles->map->name->flatten()->unique()->flatten();

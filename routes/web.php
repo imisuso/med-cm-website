@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserAbilityRoleController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -21,6 +20,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\PageDownloadController;
+use App\Http\Controllers\UserController;
 
 // API
 use App\Http\Controllers\API\FileUploadController;
@@ -305,18 +305,16 @@ Route::prefix('admin')
     });
 Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
 
-//UserAbilityRoleController => จัดการผู้ใช้งานในระบบ และ จัดการสิทธิ์การใช้งาน (ability, role)
+//UserController => จัดการผู้ใช้งานในระบบ และกำหนดหน้าที่การทำงาน
 Route::prefix('admin')
     ->middleware(['auth', 'can:manage_users'])
-    ->controller(UserAbilityRoleController::class)
+    ->controller(UserController::class)
     ->group(function () {
-        Route::get('/user_ability_role', 'index')->name('admin.user_ability_role.index');
-        Route::get('/user_ability_role/create', 'create')->name('admin.user_ability_role.create');
-        Route::post('/user_ability_role/store/{person}', 'store')->name('admin.user_ability_role.store');
-        Route::get('/user_ability_role/edit/{user}', 'edit')->name('admin.user_ability_role.edit');
-        // Route::post('/download/store', 'store')->name('admin.download.store');
-        // Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
-        // Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
+        Route::get('/user', 'index')->name('admin.user.index');
+        Route::get('/user/create', 'create')->name('admin.user.create');
+        Route::post('/user/store/{person}', 'store')->name('admin.user.store');
+        Route::get('/user/edit/{user}', 'edit')->name('admin.user.edit');
+        Route::patch('/user/update/{user}', 'update')->name('admin.user.update');
         // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
     });
 

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Managers\LogManager;
 use App\Models\Person;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
-class UserAbilityRoleController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +23,7 @@ class UserAbilityRoleController extends Controller
     {
         $users = User::with('person')->paginate(7);
 
-        return Inertia::render('Admin/UserAbilityRole/Index', compact('users'));
+        return Inertia::render('Admin/User/Index', compact('users'));
     }
 
     /**
@@ -32,7 +34,7 @@ class UserAbilityRoleController extends Controller
     public function create()
     {
         $users = User::pluck('sap_id')->all();
-        return Inertia::render('Admin/UserAbilityRole/DataForm', [
+        return Inertia::render('Admin/User/DataForm', [
                 'person' => Person::with('division')
                     ->when(Request::input('term'), function ($query_1) use ($users) {
                         $term = Request::input('term');
@@ -82,8 +84,16 @@ class UserAbilityRoleController extends Controller
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มผู้ใช้งานระบบได้เนื่องจาก ' .$e->getMessage()]);
         }
 
+        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'User Management (จัดการผู้ใช้งาน)',
+            'insert',
+            'มีการเพิ่มข้อมูลผู้ใช้งานระบบใหม่ sap_id : '.$person->sap_id,
+            'info'
+        );
 
-        return Redirect::route('admin.user_ability_role.index');
+        return Redirect::route('admin.user.index');
     }
 
     /**
@@ -110,11 +120,10 @@ class UserAbilityRoleController extends Controller
                     ->where('sap_id', $user->sap_id)
                     ->get();
 
-        return Inertia::render('Admin/UserAbilityRole/DataForm', [
+        return Inertia::render('Admin/User/DataForm', [
             'action' => 'edit',
             'user' => $user,
             'person' => $person,
-            // 'person' => [$user->person],
             'roles' => Role::all()
         ]);
     }
@@ -126,9 +135,34 @@ class UserAbilityRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(User $user)
     {
-        //
+        $role_name = Request::input('role_name');
+        $status = Request::input('status');
+
+        try {
+            // ถ้า role ที่ update มาใหม่ ไม่ใช่ role เดิม ให้ทำการ remove role เก่าออกก่อน แล้วถึง assign role ใหม่ให้
+            if( ! $user->getUserRolesAttribute()->contains($role_name)) {
+                $user->revokeRole();
+                $user->assignRole($role_name);
+            }
+
+            $user->status = $status;
+            $user->save();
+        } catch (\Exception  $e) {
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขผู้ใช้งานระบบได้เนื่องจาก ' .$e->getMessage()]);
+        }
+
+        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'User Management (จัดการผู้ใช้งาน)',
+            'update',
+            'มีการแก้ไขข้อมูลผู้ใช้งานระบบ sap_id : '.$user->sap_id,
+            'info'
+        );
+
+        return Redirect::route('admin.user.index');
     }
 
     /**

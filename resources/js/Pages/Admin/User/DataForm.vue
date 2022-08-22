@@ -1,10 +1,10 @@
-<template>
+<template xmlns:slot="http://www.w3.org/1999/XSL/Transform">
     <AdminAppLayout>
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
-                <div class=" text-2xl font-bold">{{ actionWord }} ผู้ใช้งานและสิทธิ์</div>
-                <Link :href="route('admin.user_ability_role.index')" method="get" as="button" type="button"
+                <div class=" text-2xl font-bold">{{ actionWord }} ผู้ใช้งาน</div>
+                <Link :href="route('admin.user.index')" method="get" as="button" type="button"
                     class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
@@ -17,7 +17,7 @@
                     <img v-else :src="selectedUser.image_url" alt="No Picture" class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300">
                 </div>
                 <div class="grid grid-cols-6 gap-2 md:gap-6 mt-6 mb-6">
-                    <label for="division_id" class="col-span-6 md:col-span-1 mr-2 self-end">ผู้ใช้งาน :</label>
+                    <label for="user_id" class="col-span-6 md:col-span-1 mr-2 self-end">ผู้ใช้งาน :</label>
                     <VueMultiselect
                         id="user_id"
                         v-model="selectedUser"
@@ -45,36 +45,7 @@
                         </template>
                     </VueMultiselect>
 
-                    <!-- <VueMultiselect v-else
-                        id="user_id"
-                        v-model="selectedUser"
-                        deselect-label="Can't remove this value"
-                        track-by="id"
-                        label="fname_th"
-                        placeholder="กรุณาเลือกผู้ใช้งาน"
-                        class="col-span-6 md:col-span-5"
-                        :custom-label="customLabelUser"
-                        :show-labels="false"
-                        :options="person"
-                        :searchable="true"
-                        :allow-empty="false"
-                        @search-change="onSearchUserChange"
-                        @select="onSelectedUser"
-                    >
-                        <template v-slot:singleLabel="props">
-                            <span><strong>{{ props.option.fname_th }} - {{ props.option.lname_th }} [{{ props.option.division.name_th }}]</strong></span>
-                        </template>
-                        <template v-slot:option="props">
-                            <div class="flex items-center">
-                                <img class=" h-14 w-12 p-1" :src='props.option.image_url' alt="Not Available">
-                                <strong>{{ props.option.fname_th }} - {{ props.option.lname_th }} [{{ props.option.division.name_th }}]</strong>
-                            </div>
-                        </template>
-                    </VueMultiselect> -->
-
-
-
-                    <label for="division_id" class="col-span-6 md:col-span-1 mr-2 self-end">หน้าที่ :</label>
+                    <label for="role_name" class="col-span-6 md:col-span-1 mr-2 self-end">หน้าที่ :</label>
                     <VueMultiselect
                         id="role_name"
                         v-model="selectedRole"
@@ -100,29 +71,28 @@
 
                     <label for="status" class="col-span-2 md:col-span-1 mr-2 self-center">สถานะ :</label>
                     <div class="col-span-4">
-                    <div id="stauts" class="flex items-center my-2 sm:my-0">
-                        <div class="text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                            </svg>
+                        <div id="status" class="flex items-center my-2 sm:my-0">
+                            <div class="text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                </svg>
+                            </div>
+                            <ToggleSwitch :status="form.status" @button-is-toggle="switchButtonToggle"/>
+                            <div class="text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </div>
                         </div>
-                        <ToggleSwitch :status="form.status" @button-is-toggle="switchButtonToggle"/>
-                        <!-- <ToggleSwitch v-model:status="menu.status" @button-is-toggle="switchButtonToggle(menu)"/> -->
-                        <div class="text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
 
             <div class="flex flex-row mt-2 space-x-4">
                 <button v-if="action === 'insert'" type="button" @click="saveUser" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
-                <button v-if="action === 'edit'" type="button" @click="true" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
-                <Link :href="route('admin.user_ability_role.index')" method="get" as="button" type="button"
+                <button v-if="action === 'edit'" type="button" @click="saveUser" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
+                <Link :href="route('admin.user.index')" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                 >
                     ยกเลิก
@@ -169,19 +139,13 @@ switch(props.action) {
 
 const form = useForm({
     user_id: props.user ? props.user.id : null,
-    role_name: props.user ? props.user.roles[0].name : null,
+    role_name: (props.user && props.user.roles.length) ? props.user.roles[0].name : null,
     status: props.user ? props.user.status : true,
-  // id: props.person ? props.person.id : null,
-  // division_id: props.division ? props.division.division_id : null,
-  // type: props.division ? props.division.type : null,
-  // name_th: props.division ? props.division.name_th : null,
-  // name_en: props.division ? props.division.name_en : null,
-  // image: null
 });
 
 const selectedUser = props.user ? props.person[0] : ref(null)
-// const selectedRole = ref(null)
-const selectedRole = props.user ? ref(props.user.roles[0]) : ref(null)
+const selectedRole = (props.user && props.user.roles.length) ? ref(props.user.roles[0]) : ref(null)
+// const selectedRole = props.user.roles.length ? ref(props.user.roles[0]) : ref(null)
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -194,7 +158,6 @@ const toast = (severity, summary, detail) => {
       position: 'top-right', // Can top-left, top-right, top-center, bottom-left, bottom-right, bottom-center
       type: severity,    // Can default, info, warning, success, danger
       timeout: 3000,
-      //toastBackgroundColor: bg_color,
     })
 }
 
@@ -207,7 +170,7 @@ const customLabelRole = ({ name }) => {
 }
 
 const onSearchUserChange = throttle((term) => {
-    Inertia.get(route('admin.user_ability_role.create'), {term}, {
+    Inertia.get(route('admin.user.create'), {term}, {
         preserveState: true,
         preserveScroll: true,
         replace: true
@@ -219,8 +182,6 @@ const onSelectedUser = (person) => {
 }
 
 const onSelectedRole = (role) => {
-    console.log("Select role event")
-    // selectedRole.value = role
     form.role_name = role.name
 }
 
@@ -230,15 +191,14 @@ const switchButtonToggle = () => {
     // console.log("after toggle " + form.status)
 }
 
-
 const saveUser = () => {
     let error_display = ''
     if(props.action === 'edit') {  // Edit
-        form.patch(route('admin.user_ability_role.update', form.user_id), {
+        form.patch(route('admin.user.update', form.user_id), {
             preserveState: false,
             preserveScroll: true,
             onSuccess: () => {
-                toast('success', 'สำเร็จ', 'แก้ไขข้อมูล สาขา/หน่วยงาน เรียบร้อย');
+                toast('success', 'สำเร็จ', 'แก้ไขข้อมูลผู้ใช้งานเรียบร้อย');
             },
             onError: (errors) => {
                 for ( let p in errors ) {
@@ -251,8 +211,8 @@ const saveUser = () => {
             }
         });
     } else { // Add
-        form.post(route('admin.user_ability_role.store', form.user_id), {
-            preserveState: true,
+        form.post(route('admin.user.store', form.user_id), {
+            preserveState: false,
             preserveScroll: true,
             onSuccess: () => {
                 toast('success', 'สำเร็จ', 'เพิ่มข้อมูลผู้ใช้งานเรียบร้อย');
