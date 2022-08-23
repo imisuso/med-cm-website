@@ -20,6 +20,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\PageDownloadController;
+use App\Http\Controllers\UserController;
 
 // API
 use App\Http\Controllers\API\FileUploadController;
@@ -304,12 +305,18 @@ Route::prefix('admin')
     });
 Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
 
-Route::get('/admin/ability_role', function () {
-    $users = User::with('person')->paginate(7);
-    //logger($users);
-    //dd($users);
-    return Inertia::render('Admin/AbilityRole/Index', compact('users'));
-})->name('admin.ability_role');
+//UserController => จัดการผู้ใช้งานในระบบ และกำหนดหน้าที่การทำงาน
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_users'])
+    ->controller(UserController::class)
+    ->group(function () {
+        Route::get('/user', 'index')->name('admin.user.index');
+        Route::get('/user/create', 'create')->name('admin.user.create');
+        Route::post('/user/store/{person}', 'store')->name('admin.user.store');
+        Route::get('/user/edit/{user}', 'edit')->name('admin.user.edit');
+        Route::patch('/user/update/{user}', 'update')->name('admin.user.update');
+        // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
+    });
 
 //TraceLogController => จัดการ log ต่างๆ ผ่าน UI
 Route::prefix('admin')

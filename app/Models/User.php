@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'sap_id',
         'status',
         'other'
     ];
@@ -73,6 +74,11 @@ class User extends Authenticatable
         }
 
         $this->roles()->syncWithoutDetaching($role);
+    }
+
+    public function revokeRole()
+    {
+        $this->roles()->detach();
     }
 
     public function getUserRolesAttribute()

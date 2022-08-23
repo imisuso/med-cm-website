@@ -47,6 +47,7 @@
                         <input
                             v-model="form.password"
                             :type="[showPass ? 'text' : 'password']"
+                            @keyup.enter="focusLoginBtn"
                             class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                             placeholder="ระบุ password"
                         />
@@ -73,14 +74,15 @@
                         </p> -->
 
                         <button
+                            id="loginBtn"
                             @click="clickLogin"
-                            class="inline-block px-5 py-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
+                            class="inline-block px-5 py-3 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                             >
                             เข้าสู่ระบบ
                         </button>
 
-                        <p class="text-sm border p-2 rounded-md text-green-600">
-                            <a :href="sso_url" target="_blank"> Reset Password</a>
+                        <p class="text-sm border p-2 rounded-md text-green-600 hover:bg-gray-200">
+                            <a :href="sso_url" target="_blank">ลืมรหัสผ่าน ?</a>
                         </p>
                     </div>
                 </div>
@@ -108,11 +110,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 
 import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
+import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast
 
 const showPass = ref(false)
 const baseUrl = ref(base_url)
@@ -139,6 +141,12 @@ const toast = (severity, summary, detail) => {
       timeout: 3000,
       //toastBackgroundColor: bg_color,
     })
+}
+
+const focusLoginBtn = () => {
+    nextTick(() => {
+        document.getElementById('loginBtn').focus();
+    });
 }
 
 const clickLogin = () => {

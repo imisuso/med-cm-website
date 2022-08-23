@@ -50,7 +50,7 @@ class LoginController extends Controller
             );
 
 //            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
-            return Redirect::back()->withErrors(['msg' => '<u>สามารถเกิดได้จากกรณีต่อไปนี้</u> <br>- กรอก Username หรือ Password ไม่ถูกต้อง <br>- Password หมดอายุ']);
+            return Redirect::back()->withErrors(['msg' => '<u>ไม่สามารถเข้าใช้งานระบบได้ ซึ่งอาจเกิดจาก</u> <br>1. กรอก Username หรือ Password ไม่ถูกต้อง หรือ<br>2. Password หมดอายุ']);
         }
 
         $user = User::where('sap_id', $getUserFromAPI['org_id'])->first();
