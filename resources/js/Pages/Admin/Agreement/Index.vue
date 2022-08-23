@@ -5,7 +5,7 @@
     <!-- Modal Header -->
     <template v-slot:header>
         <div class="flex flex-col space-y-2">
-            <div class="text-gray-900 text-xl font-medium dark:text-white">
+            <div class="text-gray-900 text-xl font-medium">
                 {{ agreement.title }}
             </div>
             <div>
@@ -17,7 +17,7 @@
     <template v-slot:body>
         <div class="flex flex-row justify-start items-center">
         <div class="ql-editor" v-html="agreement.detail_html">
-            
+
         </div>
         </div>
     </template>
@@ -31,7 +31,7 @@
         >
             ไม่ยอมรับ
         </Link>
-        
+
     </template>
     </Modal>
     </teleport>
@@ -54,8 +54,8 @@ const props = defineProps({
 dayjs.extend(buddhistEra)
 
 const acceptAgreement = () => {
-    Inertia.post(route('admin.accept-agreement'), { agreement_id: props.agreement.id }, 
-    {   
+    Inertia.post(route('admin.accept-agreement'), { agreement_id: props.agreement.id },
+    {
         preserveState: false,
     });
 }

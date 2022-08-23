@@ -1,7 +1,7 @@
 <template>
   <AdminAppLayout>
     <div class="flex flex-col px-2 py-1 w-full">
-      <div class="mb-2 text-2xl font-bold">จัดการบุคลากร</div>
+      <div class="mt-2 mb-2 text-2xl font-bold">จัดการบุคลากร</div>
       <!-- Toolbar -->
       <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
         <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
