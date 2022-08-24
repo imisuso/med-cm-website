@@ -1,8 +1,15 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div> Hello Admin</div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 
