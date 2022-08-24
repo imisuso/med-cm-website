@@ -1,5 +1,5 @@
 <template>
-  <AdminAppLayout>
+<!--  <AdminAppLayout>-->
     <div class="flex flex-col px-2 py-1 w-full">
       <div class="mt-2 mb-2 text-2xl font-bold">จัดการบุคลากร</div>
       <!-- Toolbar -->
@@ -93,8 +93,15 @@
         <Pagination :pagination="persons"/>
       </div>
     </div>
-</AdminAppLayout>
+<!--</AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, onMounted, reactive, watch, nextTick } from 'vue'

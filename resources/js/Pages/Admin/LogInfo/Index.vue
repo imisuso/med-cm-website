@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -58,8 +58,19 @@
             </div> -->
 
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+export default {
+    // Using a render function
+    //layout: (h, page) => h(AdminAppLayout, () => child),
+
+    // Using the shorthand
+    layout: AdminAppLayout,
+}
+</script>
 
 <script setup>
 import { ref, watch } from 'vue'

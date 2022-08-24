@@ -1,5 +1,5 @@
 <template>
-<AdminAppLayout>
+<!--<AdminAppLayout>-->
   <div class="flex flex-wrap justify-center">
     <div class="w-full lg:w-11/12">
         <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
@@ -9,11 +9,11 @@
                     <option v-if="option.division_id < 19" :value="option.division_id">
                     {{ option.name_th }}
                     </option>
-                </template>              
+                </template>
             </select>
         </div>
         <div class="flex items-center justify-between mt-2 mb-2 ml-2 text-2xl text-orange-800 font-bold">
-            <div>{{ getDivisionNameFromId() }}</div> 
+            <div>{{ getDivisionNameFromId() }}</div>
             <!-- <div> สาขาวิชา{{ $page.props.auth.division_name_th }} </div> -->
             <div class="flex space-x-4 mx-5">
                 <svg @click="allTabExpandOrCollapse(true)" class="h-6 w-6 text-emerald-500 cursor-pointer"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,8 +77,15 @@
         </ul>
     </div>
   </div>
-</AdminAppLayout>
+<!--</AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -143,7 +150,7 @@ const openTab = ref()
 const toggleTabs = (tabNumber, index) => {
     openTab.value = tabNumber
     branchMainMenu.value[index].is_active = !branchMainMenu.value[index].is_active
-    
+
 }
 
 const toast = (severity, summary, detail) => {
@@ -165,7 +172,7 @@ const switchButtonToggle = (menu) => {
     // console.log(menu.id);
     Inertia.patch(route('admin.change_status_branch_main_menu', menu.id), {}, {
         onBefore: () => {
-            if( menu.status ) { 
+            if( menu.status ) {
                 return confirm('คุณต้องการปิดการแสดงผลเมนูนี้ ใช่ หรือ ไม่ ?')
             } else {
                 return confirm('คุณต้องการเปิดการแสดงผลเมนูนี้ ใช่ หรือ ไม่ ?')

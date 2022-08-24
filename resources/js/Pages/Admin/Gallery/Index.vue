@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -25,9 +25,9 @@
             </div>
 
             <div class="flex flex-col w-full mb-4">
-                <GalleryInteractiveCardList 
-                    v-for="(item, index) in galleries.data" 
-                    :key="index" 
+                <GalleryInteractiveCardList
+                    v-for="(item, index) in galleries.data"
+                    :key="index"
                     :galleryDetails="item"
                     @edit-gallery="editGallery(item)"
                     @delete-gallery="confirmDeleteGallery(item)"
@@ -35,7 +35,7 @@
             </div>
 
             <Paginations :pagination="galleries"/>
-        
+
             <!-- Modal สำหรับ confirm การลบ ข้อมูลแกลลอรี่  -->
             <Modal :isModalOpen="deleteGalleryModal" >
 
@@ -58,8 +58,15 @@
             </template>
             </Modal>
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, watch } from 'vue'
@@ -137,7 +144,7 @@ const confirmDeleteGallery = ( galleryData ) => {
             openDeleteGalleryModal(true)
         }
     });
-    
+
 }
 
 const editGallery = ( item ) => {
@@ -161,7 +168,7 @@ const deleteGallery = () => {
             toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
-            galleryForm.processing = false 
+            galleryForm.processing = false
         }
     });
 

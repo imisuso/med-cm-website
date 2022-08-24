@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -19,11 +19,11 @@
                 </Link>
             </div>
         </div>
-        
+
         <div class="flex flex-col px-4 w-full">
-            <DownloadItemInteractiveCardList 
-                v-for="(item, index) in items.data" 
-                :key="index" 
+            <DownloadItemInteractiveCardList
+                v-for="(item, index) in items.data"
+                :key="index"
                 :downloadItem="item"
                 :index="index+1"
             />
@@ -33,8 +33,15 @@
             <Pagination :pagination="items"/>
         </div>
 
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, watch } from 'vue'

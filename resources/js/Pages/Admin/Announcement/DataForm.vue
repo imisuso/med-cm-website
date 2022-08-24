@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -8,9 +8,9 @@
                     class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
-                </Link>  
+                </Link>
             </div>
-        
+
             <div class="text-gray-900 text-lg underline font-medium dark:text-white mb-4">
                 รายละเอียดข้อมูลข่าวประกาศ
             </div>
@@ -22,10 +22,10 @@
                                 <div class="grid grid-cols-6 gap-6 mb-6">
                                     <div class="col-span-6">
                                         <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">วันที่ประกาศหมดอายุ</label>
-                                        <Datepicker 
+                                        <Datepicker
                                             inputClassName="dp-custom-input"
                                             placeholder="default 30 วัน"
-                                            v-model="announceForm.expire_date" 
+                                            v-model="announceForm.expire_date"
                                             locale="th"
                                             cancelText="ยกเลิก"
                                             selectText="เลือก"
@@ -48,7 +48,7 @@
                                                 <option :value="option.division_id">
                                                     {{ option.name_th }}
                                                 </option>
-                                            </template>                 
+                                            </template>
                                         </select>
                                     </div>
 
@@ -56,10 +56,10 @@
                                         <div class="flex items-center justify-between">
                                             <label for="topic" class="block text-sm font-medium text-gray-700">หัวข้อข่าว</label>
                                             <!-- ส่วนของการปักหมุด ตอนนี้เอาออกก่อน ให้ใช้ที่ตัว component เป็นหลักจะได้ไม่ต้อง check หลายที่ -->
-                                            <!-- <div class="flex items-center space-x-2">     
+                                            <!-- <div class="flex items-center space-x-2">
                                             <input type="checkbox" v-model="announceForm.pinned" id="pinned" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                            
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" 
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
                                                 class="h-5 w-5 text-red-500" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve"
                                             >
                                                 <g transform="translate(128 128) scale(0.72 0.72)" style="">
@@ -71,7 +71,7 @@
                                             <label for="pinned" class="ml-2 text-sm font-medium text-gray-700">ปักหมุด</label>
                                             </div> -->
                                         </div>
-                                        <input type="text" id="topic" v-model.trim="announceForm.topic" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> 
+                                        <input type="text" id="topic" v-model.trim="announceForm.topic" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="announceForm.old_attachments" class="col-span-6">
@@ -89,7 +89,7 @@
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                                 </svg>
                                                             </a>
-                                                        </div>       
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>
@@ -116,7 +116,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
                                                 </a>
-                                            </div>       
+                                            </div>
                                             </div>
                                         </div>
                                         </li>
@@ -127,22 +127,22 @@
                                         </div>
                                     </a>
                                     </div>
-                                </div>             
+                                </div>
                             </fieldset>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="">
                 <label for="topic" class="block text-sm font-medium text-gray-700 mt-2 mb-2">เนื้อหาข่าวประกาศ</label>
                 <QuillEditor
-                    id="quill_e"  
-                    ref="quill_e" 
-                    theme="snow" 
-                    v-model:content="announceForm.detail_delta" 
-                    contentType="delta" 
-                    :toolbar="quill_options_full" 
-                    @ready="initialQuill" 
+                    id="quill_e"
+                    ref="quill_e"
+                    theme="snow"
+                    v-model:content="announceForm.detail_delta"
+                    contentType="delta"
+                    :toolbar="quill_options_full"
+                    @ready="initialQuill"
                 />
             </div>
 
@@ -156,8 +156,15 @@
                 </Link>
             </div>
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
@@ -216,7 +223,7 @@ const announceForm = useForm({
   detail_delta: props.announce ? JSON.parse(props.announce.detail_delta) : {},
   expire_date: props.announce ? dayjs(props.announce.expire_date).toDate() : ref(dayjs(current_date.value).add(30, 'day').toDate()),
   division_id: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id,
-  type: props.announce ? props.announce.type : 1,  // type ตอนนี้มีแบบเดียว แค่ออกแบบ db เพื่อรองรับประกาศ หลายๆแบบ 
+  type: props.announce ? props.announce.type : 1,  // type ตอนนี้มีแบบเดียว แค่ออกแบบ db เพื่อรองรับประกาศ หลายๆแบบ
   old_attachments: props.announce ? props.announce.attach_files.length > 0 ? props.announce.attach_files : [] : []
   //announceData.attach_files.length > 0 ? announceData.attach_files : []
 });
@@ -252,7 +259,7 @@ const addFile = () => {
   nextTick(() => {
       var inputId = "file-" + (attachments.length - 1);
       document.getElementById(inputId).click();
-  });  
+  });
 }
 
 const deleteFile = ( itemArray, index ) => {
@@ -293,14 +300,14 @@ const saveAnnounce = () => {
         announceForm.transform(data => ({
             ...data,
             expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-            detail_delta: JSON.stringify(data.detail_delta), 
+            detail_delta: JSON.stringify(data.detail_delta),
             detail_html: quill_e.value.getHTML(),
-            atFiles: attachments.map(file => file.File)     
+            atFiles: attachments.map(file => file.File)
         })).post( route('admin.announce.update', announceForm.id), {
             _method: 'patch',
             preserveState: false,
             onSuccess: () => {
-                toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')      
+                toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')
             },
             onError: (errors) => {
                 for ( let p in errors ) {
@@ -316,7 +323,7 @@ const saveAnnounce = () => {
         announceForm.transform(data => ({
             ...data,
             expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-            detail_delta: JSON.stringify(data.detail_delta), 
+            detail_delta: JSON.stringify(data.detail_delta),
             detail_html: quill_e.value.getHTML(),
             atFiles: attachments.map(file => file.File)
         })).post(route('admin.announce.store'), {
