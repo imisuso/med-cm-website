@@ -1,9 +1,13 @@
 <template>
     <AppLayout>
         <section class="relative flex flex-wrap lg:h-96 lg:items-center">
-            <div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24 lg:mb-0">
+            <div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-20 lg:mb-0">
                 <div class="max-w-lg mx-auto text-center">
-                        <h1 class="text-2xl font-bold sm:text-3xl">We're Medicine Team!</h1>
+                        <div class="text-2xl font-bold sm:text-3xl">We're Medicine Team!</div>
+                        <div class="font-medium text-gray-500 rounded-lg shadow-xl shadow-green-200">
+                            <div>Login ด้วย Siriraj AD</div>
+                            <div>ใช้ Username และ Password เดียวกับระบบ e-Document</div>
+                        </div>
                 </div>
 
                 <!-- <form action="" class="max-w-md mx-auto mt-8 mb-0 space-y-4"> -->

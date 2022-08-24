@@ -34,14 +34,27 @@ class UserController extends Controller
     public function create()
     {
         $users = User::pluck('sap_id')->all();
+//        $q = Person::with('division')
+//            ->select('sap_id', 'fname_th', 'lname_th')
+//            ->when(Request::input('term'), function ($query_1) use ($users) {
+//                $term = Request::input('term');
+//                //$term = "วลัย";
+//                $query_1->whereNotIn('sap_id', $users)
+//                    ->where(function ($query_2) use ($term) {
+//                        $query_2->where('lname_th', 'like', "%$term%")
+//                            ->orWhere('fname_th', 'like', "%$term%");
+//                    });
+//            })->get();
+//        logger($q);
+
         return Inertia::render('Admin/User/DataForm', [
                 'person' => Person::with('division')
                     ->when(Request::input('term'), function ($query_1) use ($users) {
                         $term = Request::input('term');
                         $query_1->whereNotIn('sap_id', $users)
                             ->where(function ($query_2) use ($term) {
-                                $query_2->where('fname_th', 'like', "%$term%")
-                                ->orWhere('lname_th', 'like', "%$term%");
+                                $query_2->where('lname_th', 'like', "%$term%")
+                                ->orWhere('fname_th', 'like', "%$term%");
                             });
                     })
                     ->orderBy('division_id', 'asc')
@@ -52,7 +65,6 @@ class UserController extends Controller
                     ->get(),
                 'roles' => Role::all()
             ]);
-        //return Inertia::render('Admin/UserAbilityRole/DataForm', compact('person'));
     }
 
     /**
@@ -73,7 +85,7 @@ class UserController extends Controller
         try {
             $user = User::create([
                 'name' => $person->slug,
-                'email' => 'add_by_webui@mahidol.ac.th',
+                'email' => $person->slug.'@mahidol.ac.th',
                 'password' => $password,
                 'sap_id' => $person->sap_id,
                 'status' => $status
@@ -171,8 +183,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        try {
+                $user->revokeRole();
+                User::whereId($user->id)->delete();
+        } catch (\Exception  $e) {
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบผู้ใช้งานออกจากระบบได้เนื่องจาก ' .$e->getMessage()]);
+        }
+
+        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'User Management (จัดการผู้ใช้งาน)',
+            'delete',
+            'มีการลบข้อมูลผู้ใช้งานออกจากระบบ sap_id : '.$user->sap_id,
+            'info'
+        );
+
+        return Redirect::route('admin.user.index');
     }
 }
