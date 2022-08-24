@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex flex-col w-64 min-h-screen overflow-y-auto bg-gray-50 border-r border-gray-200 py-4">
+    <div class="flex flex-col w-64 min-h-screen overflow-y-auto bg-blue-100 border-r border-blue-200 py-4">
         <div class="flex flex-col items-center mt-1 mx-2">
             <img v-if="! $page.props.auth.person_image" class="object-cover w-24 h-24 mx-2 rounded-full" src="fallbackimage/default-blank-image.jpg" alt="avatar">
             <img v-else class="object-cover w-24 h-24 mx-2 rounded-full" :src="`${$page.props.auth.person_image}`" alt="avatar">

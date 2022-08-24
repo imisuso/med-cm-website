@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -25,9 +25,9 @@
             </div>
 
             <div class="flex flex-col w-full">
-                <PosterInteractiveCardList 
-                    v-for="(item, index) in posters.data" 
-                    :key="index" 
+                <PosterInteractiveCardList
+                    v-for="(item, index) in posters.data"
+                    :key="index"
                     :posterDetails="item"
                     @delete-poster="confirmDeletePoster(item)"
                 />
@@ -51,7 +51,7 @@
                     </div>
                 </template>
 
-                <template v-slot:footer>   
+                <template v-slot:footer>
                     <button @click="deletePoster()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
                     <button @click="openDeletePosterModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
                 </template>
@@ -62,8 +62,15 @@
         <div class="flex justify-center md:justify-end mt-2 px-4">
             <Pagination :pagination="posters"/>
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, watch } from 'vue'
@@ -141,7 +148,7 @@ const deletePoster = () => {
         toast('danger', 'พบข้อผิดพลาด', error_display);
     },
     onFinish: () => {
-        posterForm.processing = false 
+        posterForm.processing = false
     }
   });
 

@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-4 w-full border rounded-md shadow-md items-baseline">
@@ -14,7 +14,7 @@
             <div class="text-gray-900 text-lg underline font-medium dark:text-white mb-4">
                 รายละเอียดข้อมูลดาวน์โหลด
             </div>
-            
+
             <div class="flex flex-col">
                 <label for="title" class="text-gray-600">รายละเอียด :</label>
                 <div class="mb-4">
@@ -36,7 +36,7 @@
 
                 <div class="flex items-center mb-4">
                     <div>ปิด</div>
-                    <div class="flex justify-between items-center mx-2 cursor-pointer" @click="form.status = ! form.status">    
+                    <div class="flex justify-between items-center mx-2 cursor-pointer" @click="form.status = ! form.status">
                         <div class="w-10 flex items-center bg-gray-300 rounded-full p-1 duration-300 ease-in-out" :class="{ 'bg-green-400': form.status}">
                             <div class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-4': form.status,}"></div>
                         </div>
@@ -56,8 +56,15 @@
                 </Link>
             </div>
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, reactive } from 'vue'
@@ -72,7 +79,7 @@ const props = defineProps({
     item: { type: Object },
 })
 
-const actionWord = ref(null) 
+const actionWord = ref(null)
 
 switch(props.action) {
     case 'insert':
@@ -127,7 +134,7 @@ const save = () => {
                 }
             },
             onFinish: () => {
-                form.processing = false 
+                form.processing = false
             }
         });
     } else {
@@ -146,7 +153,7 @@ const save = () => {
                 }
             },
             onFinish: () => {
-                form.processing = false 
+                form.processing = false
             }
         });
     }

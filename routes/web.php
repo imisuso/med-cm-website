@@ -315,7 +315,7 @@ Route::prefix('admin')
         Route::post('/user/store/{person}', 'store')->name('admin.user.store');
         Route::get('/user/edit/{user}', 'edit')->name('admin.user.edit');
         Route::patch('/user/update/{user}', 'update')->name('admin.user.update');
-        // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
+        Route::delete('/user/delete/{user}', 'destroy')->name('admin.user.delete');
     });
 
 //TraceLogController => จัดการ log ต่างๆ ผ่าน UI

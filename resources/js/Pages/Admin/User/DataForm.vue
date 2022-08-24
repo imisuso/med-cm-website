@@ -1,5 +1,5 @@
 <template xmlns:slot="http://www.w3.org/1999/XSL/Transform">
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -23,7 +23,8 @@
                         v-model="selectedUser"
                         deselect-label="Can't remove this value"
                         track-by="id"
-                        label="fname_th"
+                        label="lname_th"
+                        :internalSearch="false"
                         placeholder="กรุณาเลือกผู้ใช้งาน"
                         class="col-span-6 md:col-span-5"
                         :disabled="!!user"
@@ -100,8 +101,15 @@
             </div>
 
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue'
