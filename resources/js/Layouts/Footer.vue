@@ -39,7 +39,7 @@
               </a>
             <!-- </p> -->
           </div>
-          
+
         </div>
         <!-- <div class="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
           <div>
@@ -146,6 +146,7 @@
               ></path>
             </svg>
           </a> -->
+
           <a href="https://www.facebook.com/simedicine/" target="_blank" class="transition-colors duration-300 text-white hover:text-emerald-400">
             <svg viewBox="0 0 24 24" fill="currentColor" class="h-5">
               <path

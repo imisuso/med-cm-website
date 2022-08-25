@@ -1,36 +1,36 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
 
         <div id="who_we_are">
             <section class="w-full bg-white">
                 <WhoWeAre />
-            </section>      
+            </section>
         </div>
 
-        
+
         <div id="vision_mission">
             <section class="w-full bg-gray-50">
                 <VisionMission />
-            </section>      
+            </section>
         </div>
 
-        
+
         <div id="course_detail">
             <section class="w-full bg-white">
                 <CourseDetail />
-            </section>      
+            </section>
         </div>
 
         <div id="course_result">
             <section class="w-full bg-gray-50">
                 <CourseResult />
-            </section>      
+            </section>
         </div>
- 
+
         <div id="committee">
             <section class="w-full bg-white">
                 <Committee />
-            </section>      
+            </section>
         </div>
 
         <div id="officer">
@@ -50,10 +50,17 @@
                 <ContactUs />
             </section>
         </div>
-    
-    </AppLayout>
+
+<!--    </AppLayout>-->
 
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 

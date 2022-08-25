@@ -1,14 +1,14 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
                 <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">บุคคลากรสำนักงาน</h4>
 
             </div>
             <div class="mt-6 md:mt-0">
-                <a :href="route('index')">
+                <Link :href="route('index')">
                     <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
-                </a>
+                </Link>
             </div>
         </div>
 
@@ -59,11 +59,19 @@
                 </template>
             </div>
         </div>
-    </AppLayout>
+<!--    </AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3'
 import OfficerDetail from '@/Components/OfficerDetail.vue'
 
 const props = defineProps({

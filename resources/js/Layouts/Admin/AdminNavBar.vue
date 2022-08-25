@@ -161,137 +161,124 @@
                                 </button>
                                 </div>
                             </div>
-                            <nav>
-                                <div class="mt-6 mb-6 underline text-lg">เมนูการจัดการ</div>
-                                <ul class="space-y-4">
-                                <li>
-                                    <a 
-                                        v-if="$page.props.auth.abilities.includes('manage_divisions')"
-                                        :href="route('admin.division')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                        </svg>
+<!--                                <nav>-->
+<!--                                <div class="mt-6 mb-6 underline text-lg">เมนูการจัดการ</div>-->
+<!--                                <ul class="space-y-4">-->
+<!--                                <li>-->
+<!--                                    <a -->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_divisions')"-->
+<!--                                        :href="route('admin.division')"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"-->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">สาขา/หน่วย</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a 
-                                        v-if="$page.props.auth.abilities.includes('manage_division_content')"
-                                        :href="route('admin.branch_template_editor')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
+<!--                                        <span class="mx-4 font-medium">สาขา/หน่วย</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a -->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_division_content')"-->
+<!--                                        :href="route('admin.branch_template_editor')"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" -->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">เนื้อหาสาขา</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <Link
-                                        v-if="$page.props.auth.abilities.includes('manage_person')" 
-                                        :href="route('admin.person')" :data="{ 'remember': 'forget' }" method="get" as="button" type="button"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                                    >
-                                        <svg class="w-5 h-5 text-emerald-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+<!--                                        <span class="mx-4 font-medium">เนื้อหาสาขา</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <Link-->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_person')" -->
+<!--                                        :href="route('admin.person')" :data="{ 'remember': 'forget' }" method="get" as="button" type="button"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"-->
+<!--                                    >-->
+<!--                                        <svg class="w-5 h-5 text-emerald-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />-->
+<!--                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">บุคลากร</span>
-                                    </Link>
-                                    <!-- <a 
-                                        v-if="$page.props.auth.abilities.includes('manage_person')"
-                                        :href="route('admin.person')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                                    >
-                                        <svg class="w-5 h-5 text-emerald-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+<!--                                        <span class="mx-4 font-medium">บุคลากร</span>-->
+<!--                                    </Link>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a-->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_announce')"-->
+<!--                                        :href="route('admin.announce')"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"-->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">บุคลากร</span>
-                                    </a> -->
-                                </li>
-                                <li>
-                                    <a
-                                        v-if="$page.props.auth.abilities.includes('manage_announce')"
-                                        :href="route('admin.announce')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                                        </svg>
+<!--                                        <span class="mx-4 font-medium">ข่าวประกาศ</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a -->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_posters')"-->
+<!--                                        :href="route('admin.poster')"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" -->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">ข่าวประกาศ</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a 
-                                        v-if="$page.props.auth.abilities.includes('manage_posters')"
-                                        :href="route('admin.poster')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                                        </svg>
+<!--                                        <span class="mx-4 font-medium">โปสเตอร์</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a -->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_galleries')"-->
+<!--                                        :href="route('admin.gallery')"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" -->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">โปสเตอร์</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a 
-                                        v-if="$page.props.auth.abilities.includes('manage_galleries')"
-                                        :href="route('admin.gallery')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
+<!--                                        <span class="mx-4 font-medium">รูปกิจกรรม</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a -->
+<!--                                        v-if="$page.props.auth.abilities.includes('manage_download')"-->
+<!--                                        :href="route('admin.download')"-->
+<!--                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" -->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />-->
+<!--                                        </svg>-->
 
-                                        <span class="mx-4 font-medium">รูปกิจกรรม</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a 
-                                        v-if="$page.props.auth.abilities.includes('manage_download')"
-                                        :href="route('admin.download')"
-                                        class="flex items-center py-1 mt-1 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" 
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-
-                                        <span class="mx-4 font-medium">ดาวน์โหลด</span>
-                                    </a>
-                                </li>
-                                <!-- <li>
-                                    <a
-                                    href="/"
-                                    aria-label="Sign in"
-                                    title="Sign in"
-                                    class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                                    >Sign in</a
-                                    >
-                                </li> -->
-                                <li>
-                                    <Link
-                                        as="button" type="button"
-                                        :href="route('logout')"
-                                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide transition duration-200 rounded shadow-md bg-emerald-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                                        aria-label="Sign out"
-                                        title="Sign out"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                        </svg>
-                                    </Link>
-                                </li>
-                                </ul>
-                            </nav>
+<!--                                        <span class="mx-4 font-medium">ดาวน์โหลด</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                -->
+<!--                                <li>-->
+<!--                                    <Link-->
+<!--                                        as="button" type="button"-->
+<!--                                        :href="route('logout')"-->
+<!--                                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide transition duration-200 rounded shadow-md bg-emerald-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"-->
+<!--                                        aria-label="Sign out"-->
+<!--                                        title="Sign out"-->
+<!--                                    >-->
+<!--                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />-->
+<!--                                        </svg>-->
+<!--                                    </Link>-->
+<!--                                </li>-->
+<!--                                </ul>-->
+<!--                            </nav>-->
+                                <nav>
+                                    <AdminNavSideBar
+                                        :item="item"
+                                        v-for="item in navItems"
+                                        :key="item.label">
+                                    </AdminNavSideBar>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -304,9 +291,37 @@
 <script setup>
 import { ref } from 'vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import AdminNavSideBar from "@/Layouts/Admin/AdminNavSideBar.vue";
+import {
+    CubeIcon,
+    DocumentTextIcon, DownloadIcon,
+    HandIcon,
+    InformationCircleIcon, LogoutIcon, PhotographIcon, PresentationChartLineIcon,
+    ShieldCheckIcon, SpeakerphoneIcon, TemplateIcon, UserGroupIcon,
+    UsersIcon
+} from "@heroicons/vue/outline";
 
 const isMenuOpen = ref(false)
-
+const navItems = [
+    {href: "admin.index", active: false, label:"จัดการระบบ", children: [
+            {href: "admin.index", active: false, label:"หน้าที่และสิทธิ์", children: [], ability:['manage_ability_role'], icon: ShieldCheckIcon},
+            {href: "admin.user.index", active: false, label:"ผู้ใช้งาน", children: [], ability:['manage_users'], icon: UsersIcon},
+            {href: "admin.log.index", active: false, label:"ข้อมูลการใช้งาน", children: [], ability:['view_log'], icon: InformationCircleIcon},
+        ], ability:['manage_users', 'view_log', 'manage_ability_role'], icon: HandIcon},
+    {href: "admin.index", active: true, label:"จัดการเนื้อหา", children: [
+            {href: "admin.division", active: true, label:"สาขา/หน่วย", children: [], ability:['manage_divisions'], icon: CubeIcon},
+            {href: "admin.branch_template_editor", active: true, label:"เนื้อหาสาขา", children: [], ability:['manage_division_content'], icon: DocumentTextIcon},
+            {href: "admin.person", active: true, label:"บุคลากร", children: [], ability:['manage_person'], icon: UserGroupIcon},
+            {href: "admin.announce", active: true, label:"ข่าวประกาศ", children: [], ability:['manage_announce'], icon: SpeakerphoneIcon},
+            {href: "admin.poster", active: true, label:"โปสเตอร์", children: [], ability:['manage_posters'], icon: PresentationChartLineIcon},
+            {href: "admin.gallery", active: true, label:"รูปกิจกรรม", children: [], ability:['manage_galleries'], icon: PhotographIcon},
+            {href: "admin.download", active: true, label:"ดาวน์โหลด", children: [], ability:['manage_download'], icon: DownloadIcon},
+            // {href: "#", active: false, label:"ดาวน์โหลด", children: [
+            //         {href: "#", active: true, label:"Level 3", children: [], role:[], icon: null},
+            //     ], role:[], icon: null},
+        ], ability:[], icon: TemplateIcon},
+    {href: "logout", active: true, label:"ออกจากระบบ", children: [], ability:[], icon: LogoutIcon},
+]
 
 
 </script>

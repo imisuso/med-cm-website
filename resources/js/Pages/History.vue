@@ -1,5 +1,5 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
         <body style="overflow: hidden">
             <div class="2xl:container 2xl:mx-auto lg:py-16 lg:px-20 md:py-12 md:px-6 py-9 px-4">
                 <div class="flex flex-col lg:flex-row justify-between gap-8">
@@ -15,33 +15,28 @@
                         </ul>
                     </div>
                     <div class="w-full lg:w-8/12">
-                        <!-- <img class="w-full h-full" src="https://i.ibb.co/FhgPJt8/Rectangle-116.png" alt="A group of People" /> -->
-                        <!-- <img class="w-full h-full" :src="`${baseUrl}/images/med_building.jpg`" alt="A group of People" /> -->
                         <img class="w-full h-full" src="../../asset/images/med_building.jpg" alt="A group of People" />
                     </div>
                 </div>
 
                 <div class="flex flex-col justify-between gap-8 pt-12">
-                    <!-- <div class="w-full lg:w-5/12 flex flex-col justify-center"> -->
                     <div class="w-full flex flex-col justify-center">
                         <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">ประวัติภาควิชา</h1>
                         <div class="inline-block font-normal text-base leading-6 text-gray-600 mb-3 indent-8">
-                            ภาควิชาอายุรศาสตร์ อาจนับได้ว่าเริ่มมีขึ้นตั้งแต่มีการเปิดสอนหลักสูตรแพทย์แผนปัจจุบันขึ้นในโรงพยาบาลศิริราชจากจุดเริ่มต้นของการสอน 
+                            ภาควิชาอายุรศาสตร์ อาจนับได้ว่าเริ่มมีขึ้นตั้งแต่มีการเปิดสอนหลักสูตรแพทย์แผนปัจจุบันขึ้นในโรงพยาบาลศิริราชจากจุดเริ่มต้นของการสอน
                             ภาควิชาอายุรศาสตร์จึงได้เปิดการฝึกอบรมระดับหลังปริญญาให้แก่แพทยที่มีความต้องการเป็นแพทย์เฉพาะทางอายุรศาสตร์
-                            วิชาทางอายุรศาสตร์ คือวิชา Materia Medical และ Practice of Medicine โดยวิชาอายุรศาสตร์ก็ได้รับการจัดให้สอนอยู่ในหลักสูตรแพทย์มาตลอด 
-                            ระยะต่อมาก็มีครูแพทย์ไทยอีกหลายท่านที่ได้รับการศึกษาอบรมจากต่างประเทศกลับมาสอนวิชาอายุรศาสตร์ และเมื่อมีการปรับปรุงหลักสูตรการศึกษาแพทย์ไทยให้เป็นระดับปริญญา 
-                            โดยความร่วมมือของมูลนิธิร็อคกี้เฟลเลอร์ ศาสตราจารย์นายแพทย์ William Harvey Perkins ได้มารับตำแหน่งหัวหน้าแผนก "อายุรศาสตร์" ในพ.ศ. 2469 และในพ.ศ. 2473 
-                            ศาสตราจารย์พระอัพภันตราพาธพิศาลก็ได้เป็นหัวหน้าแผนก ต่อมาในสมัยแรกของการเรียนวิชาอายุรศาสตร์นั้น มีครูแพทย์ทั้งชาวต่างประเทศและชาวไทยเพียงไม่กี่ท่าน 
-                            แต่เนื่องจากกระบวนวิชาความรู้ต่างๆ ทางอายุรศาสตร์ได้มีความก้าวหน้าไปอย่างกว้างขวางอีกทั้งต้องการผู้เชี่ยวชาญเฉพาะกระบวนวิชาได้รับผิดชอบดูแล ในปีพ.ศ. 2488 
-                            ศาสตราจารย์นายแพทย์ประเสริฐ กังสดาลย์ หัวหน้าแผนกอายุรศาสตร์ท่านที่ 3 ก็ได้เริ่มจัดแบ่งให้มีหน่วยต่างๆ 10 หน่วย ซึ่งในพ.ศ. 2512 
+                            วิชาทางอายุรศาสตร์ คือวิชา Materia Medical และ Practice of Medicine โดยวิชาอายุรศาสตร์ก็ได้รับการจัดให้สอนอยู่ในหลักสูตรแพทย์มาตลอด
+                            ระยะต่อมาก็มีครูแพทย์ไทยอีกหลายท่านที่ได้รับการศึกษาอบรมจากต่างประเทศกลับมาสอนวิชาอายุรศาสตร์ และเมื่อมีการปรับปรุงหลักสูตรการศึกษาแพทย์ไทยให้เป็นระดับปริญญา
+                            โดยความร่วมมือของมูลนิธิร็อคกี้เฟลเลอร์ ศาสตราจารย์นายแพทย์ William Harvey Perkins ได้มารับตำแหน่งหัวหน้าแผนก "อายุรศาสตร์" ในพ.ศ. 2469 และในพ.ศ. 2473
+                            ศาสตราจารย์พระอัพภันตราพาธพิศาลก็ได้เป็นหัวหน้าแผนก ต่อมาในสมัยแรกของการเรียนวิชาอายุรศาสตร์นั้น มีครูแพทย์ทั้งชาวต่างประเทศและชาวไทยเพียงไม่กี่ท่าน
+                            แต่เนื่องจากกระบวนวิชาความรู้ต่างๆ ทางอายุรศาสตร์ได้มีความก้าวหน้าไปอย่างกว้างขวางอีกทั้งต้องการผู้เชี่ยวชาญเฉพาะกระบวนวิชาได้รับผิดชอบดูแล ในปีพ.ศ. 2488
+                            ศาสตราจารย์นายแพทย์ประเสริฐ กังสดาลย์ หัวหน้าแผนกอายุรศาสตร์ท่านที่ 3 ก็ได้เริ่มจัดแบ่งให้มีหน่วยต่างๆ 10 หน่วย ซึ่งในพ.ศ. 2512
                             ก็ได้ยกฐานะแผนกขึ้นเป็นภาควิชาและยกหน่วยขึ้นเป็นสาขาวิชา
                             <div class="inline-block text-gray-300 indent-2" :class="{ 'hidden' : readMore }">
                                 ความเจริญก้าวหน้า ของภาควิชาฯได้มีมากขึ้นเป็นลำดับ จำนวนสาขาวิชา...
                                 <button class="px-1 rounded-md text-blue-700 hover:text-blue-400" @click="readMore = !readMore">อ่านเพิ่มเติม</button>
                             </div>
                         </div>
-
-                        
 
                         <div :class="{ 'hidden' : !readMore }">
                             <p class="font-normal text-base leading-6 text-gray-600 mb-3 indent-8">
@@ -74,37 +69,19 @@
 
                             <button class=" w-28 px-1 rounded-md text-blue-700 hover:text-blue-400" @click="readMore = !readMore">ซ่อนเนื้อหา</button>
                         </div>
-                    
                     </div>
-                    <!-- <div class="w-full lg:w-8/12 lg:pt-8">
-                        <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md">
-                            <div class="p-4 pb-6 flex justify-center flex-col items-center">
-                                <img class="md:block hidden" src="https://i.ibb.co/FYTKDG6/Rectangle-118-2.png" alt="Alexa featured Image" />
-                                <img class="md:hidden block" src="https://i.ibb.co/zHjXqg4/Rectangle-118.png" alt="Alexa featured Image" />
-                                <p class="font-medium text-xl leading-5 text-gray-800 mt-4">Alexa</p>
-                            </div>
-                            <div class="p-4 pb-6 flex justify-center flex-col items-center">
-                                <img class="md:block hidden" src="https://i.ibb.co/fGmxhVy/Rectangle-119.png" alt="Olivia featured Image" />
-                                <img class="md:hidden block" src="https://i.ibb.co/NrWKJ1M/Rectangle-119.png" alt="Olivia featured Image" />
-                                <p class="font-medium text-xl leading-5 text-gray-800 mt-4">Olivia</p>
-                            </div>
-                            <div class="p-4 pb-6 flex justify-center flex-col items-center">
-                                <img class="md:block hidden" src="https://i.ibb.co/Pc6XVVC/Rectangle-120.png" alt="Liam featued Image" />
-                                <img class="md:hidden block" src="https://i.ibb.co/C5MMBcs/Rectangle-120.png" alt="Liam featued Image" />
-                                <p class="font-medium text-xl leading-5 text-gray-800 mt-4">Liam</p>
-                            </div>
-                            <div class="p-4 pb-6 flex justify-center flex-col items-center">
-                                <img class="md:block hidden" src="https://i.ibb.co/7nSJPXQ/Rectangle-121.png" alt="Elijah featured image" />
-                                <img class="md:hidden block" src="https://i.ibb.co/ThZBWxH/Rectangle-121.png" alt="Elijah featured image" />
-                                <p class="font-medium text-xl leading-5 text-gray-800 mt-4">Elijah</p>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </body>
-    </AppLayout>
+<!--    </AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue';

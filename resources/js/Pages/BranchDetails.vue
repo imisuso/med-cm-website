@@ -1,5 +1,5 @@
 <template>
-<AppLayout>
+<!--<AppLayout>-->
     <div class="flex flex-wrap justify-center">
         <div class="w-full md:mx-5">
             <div class="flex items-center justify-between mt-5 ml-2 text-2xl text-orange-800 font-bold">
@@ -122,8 +122,15 @@
             </ul>
         </div>
     </div>
-</AppLayout>
+<!--</AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, onMounted } from 'vue'

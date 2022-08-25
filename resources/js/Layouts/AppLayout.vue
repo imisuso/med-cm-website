@@ -1,28 +1,15 @@
 <template>
-    <!-- <div id="top" class="sticky top-0 z-10">
-        <Header />
-        <div class="w-full shadow-lg nav-background-color" :class="{change_color: scrollPosition > 281}" >
-            <Navbar />
-        </div>
-    </div> -->
-
     <Header class="hidden lg:block"/>
     <div id="top" class="sticky top-0 z-10">
-        
+
         <div class="w-full shadow-lg nav-background-color" :class="{change_color: scrollPosition > 281}" >
             <Navbar />
         </div>
     </div>
 
-    <!-- <div class=" sticky top-0 z-10 w-full shadow-lg nav-background-color" :class="{change_color: scrollPosition > 281}" >
-        <Navbar />
-    </div> -->
-
     <!-- Page Content -->
-    <!-- <main> -->
-        <slot></slot>
-    <!-- </main> -->
-    
+    <slot></slot>
+
     <div id="footer">
         <Footer />
     </div>
@@ -48,6 +35,7 @@ const updateScroll = (event) => {
     scrollPosition.value = window.scrollY
 }
 
+console.log("+1 hit")
 </script>
 
 <style>

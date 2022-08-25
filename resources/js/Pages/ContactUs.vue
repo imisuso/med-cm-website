@@ -1,13 +1,13 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
-                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-100">ติดต่อเรา</h4>
-                
+                <h4 class="text-2xl font-bold leading-tight text-gray-800">ติดต่อเรา</h4>
+
             </div>
             <div class="mt-6 md:mt-0">
                 <Link :href="route('index')">
-                    <button class="mr-3 bg-gray-200 dark:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-gray-300 text-indigo-700 dark:hover:bg-gray-600 dark:text-indigo-600 px-5 py-2 text-sm">กลับหน้าหลัก</button>
+                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
                 </Link>
             </div>
         </div>
@@ -23,7 +23,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-cyan-600 fill-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                <span>เบอร์โทร :</span> 
+                                <span>เบอร์โทร :</span>
                             </div>
                             <div class="md:ml-2">
                                 <div v-for="(phone, pindex) in item.phone" :key="pindex">
@@ -36,7 +36,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-gray-600 fill-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                 </svg>
-                                <span>Fax :</span> 
+                                <span>Fax :</span>
                             </div>
                             <div class="md:ml-2">
                                 <div v-for="(fax, findex) in item.fax" :key="findex">
@@ -58,7 +58,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-cyan-600 fill-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                <span>เบอร์โทร :</span> 
+                                <span>เบอร์โทร :</span>
                             </div>
                             <div class="md:ml-2">
                                 <div v-for="(phone, pindex) in item.phone" :key="pindex">
@@ -71,7 +71,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-gray-600 fill-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                 </svg>
-                                <span>Fax :</span> 
+                                <span>Fax :</span>
                             </div>
                             <div class="md:ml-2">
                                 <div v-for="(fax, findex) in item.fax" :key="findex">
@@ -83,8 +83,15 @@
                 </div>
             </div>
         </div>
-    </AppLayout>
+<!--    </AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { reactive, ref } from 'vue'
@@ -100,7 +107,7 @@ const BranchPhone = ref([
         // {'name' : 'สาขาวิชาโภชนาการคลินิก', 'phone' : ['0-2419-7191'], 'fax' : ['-']},
         // {'name' : 'สาขาวิชาโรคข้อและรูมาติสซั่ม', 'phone' : ['0-2419-7776'], 'fax' : ['-']},
         // {'name' : 'สาขาวิชาโรคภูมิแพ้และภูมิคุ้มกันทางคลินิก', 'phone' : ['0-2419-8263'], 'fax' : ['-']},
-        // {'name' : 'สาขาวิชาโรคระบบการหายใจและวัณโรค', 'phone' : ['0-2419-7757-8'], 'fax' : ['-']},    
+        // {'name' : 'สาขาวิชาโรคระบบการหายใจและวัณโรค', 'phone' : ['0-2419-7757-8'], 'fax' : ['-']},
         // {'name' : 'สาขาวิชาโรคระบบทางเดินอาหาร', 'phone' : ['0-2419-7281-3'], 'fax' : ['-']},
         // {'name' : 'สาขาวิชาโลหิตวิทยา', 'phone' : ['0-2419-4448-9'], 'fax' : ['-']},
         // {'name' : 'สาขาวิชาวักกะวิทยา', 'phone' : ['0-2419-8383', '0-2419-7291'], 'fax' : ['-']},
@@ -117,14 +124,14 @@ const BranchPhone = ref([
         {'name' : 'สาขาวิชาโภชนาการคลินิก', 'phone' : ['0-2419-9322'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาโรคข้อและรูมาติสซั่ม', 'phone' : ['0-2419-7776'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาโรคภูมิแพ้และภูมิคุ้มกันทางคลินิก', 'phone' : ['0-2419-8263'], 'fax' : ['-']},
-        {'name' : 'สาขาวิชาโรคระบบการหายใจและวัณโรค', 'phone' : ['0-2419-7757-8'], 'fax' : ['-']},    
+        {'name' : 'สาขาวิชาโรคระบบการหายใจและวัณโรค', 'phone' : ['0-2419-7757-8'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาโรคระบบทางเดินอาหาร', 'phone' : ['0-2419-7281-3'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาโลหิตวิทยา', 'phone' : ['0-2419-4448-9'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาวักกะวิทยา', 'phone' : ['0-2419-8383', '0-2419-7291'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาเวชบำบัดวิกฤต', 'phone' : ['0-2419-8354'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาเวชพันธุศาสตร์', 'phone' : ['0-2419-2729'], 'fax' : ['-']},
         {'name' : 'สาขาวิชาหทัยวิทยา', 'phone' : ['0-2419-6104-5'], 'fax' : ['-']},
-        {'name' : 'สาขาวิชาอายุรศาสตร์ปัจฉิมวัย', 'phone' : ['0-2419-7196'], 'fax' : ['-']},     
+        {'name' : 'สาขาวิชาอายุรศาสตร์ปัจฉิมวัย', 'phone' : ['0-2419-7196'], 'fax' : ['-']},
     ])
 
 const UnitPhone = ref([
