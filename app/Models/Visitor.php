@@ -10,8 +10,15 @@ class Visitor extends Model
     use HasFactory;
 
     protected $table = 'visitors';
+
     protected $fillable = [
-        'page_name',
+        'route_name',
+        'session_token',
+        'ip'
     ];
+
+//    protected $casts = [
+//        'date' => 'datetime:Y-m-d',
+//    ];
 
 }

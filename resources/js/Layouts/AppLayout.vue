@@ -35,7 +35,7 @@ const updateScroll = (event) => {
     scrollPosition.value = window.scrollY
 }
 
-console.log("+1 hit")
+// console.log("+1 hit")
 </script>
 
 <style>

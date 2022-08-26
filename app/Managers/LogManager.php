@@ -4,8 +4,6 @@ namespace App\Managers;
 
 use App\Models\TraceLog;
 
-// use Illuminate\Http\UploadedFile;
-
 class LogManager
 {
     public function store(string $user, string $section, string $action, string $details, string $type = 'info')
