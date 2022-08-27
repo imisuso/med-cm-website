@@ -30,7 +30,7 @@
             @change="loadPage(cpage)"
             v-model="cpage"
             min="1" :max="pagination.last_page"
-            class="px-2 w-11 h-11 text-center rounded border border-gray-400 shadow-sm lg:h-9 lg:w-12 lg:text-sm focus:ring-blue-500 focus:border-blue-500"
+            class="px-2 w-16 h-11 text-center rounded border border-gray-400 shadow-sm lg:h-9 lg:w-16 lg:text-sm focus:ring-blue-500 focus:border-blue-500"
         />
         <div class="px-2 text-gray-600 lg:text-sm">จาก {{ pagination.last_page }}</div>
       </div>

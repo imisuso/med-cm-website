@@ -10,17 +10,21 @@ class LogManager
     {
         //$prefix = ($isPublic ? 'public/':'') . $folder;
         //return $file->store($prefix);
-        $log = new TraceLog;
+        $log = new TraceLog();
         $log->user = $user;
         $log->section = $section;
         $log->action = $action;
         $log->details = $details;
         $log->type = $type;
 
+        // logger("[".$user."][".$section."][".$action."][".$details."][".$type."]");
+        // logger("into Log Manager");
         try {
             $log->save();
+            // logger("After Save Log");
             return true;
         } catch (\Exception  $e) {
+            // logger($e);
             return false;
         }
 
