@@ -1,5 +1,5 @@
 <template>
-  <AppLayout>
+<!--  <AppLayout>-->
     <div class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-12">
       <div class="mx-auto mb-10 lg:max-w-xl sm:text-center">
         <p class="text-base text-blue-900 md:text-3xl font-bold">
@@ -36,9 +36,15 @@
         </p>
       </div>
     </div>
-  </AppLayout>
+<!--  </AppLayout>-->
 </template>
 
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 <script setup>
 import { ref, reactive } from 'vue';
 
@@ -56,8 +62,8 @@ let DirectorData = reactive([
             { position_id: 11, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายพัฒนาคุณภาพ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'ณสิกาญจน์ อังคเศกวินัย', image: 'images/executive_director/u10017612.jpg', },
             { position_id: 12, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายทรัพยากรบุคคล', rname_full_th: 'อาจารย์นายแพทย์', name: 'ชนินทร์ ลิ่มวงศ์', image: 'images/executive_director/u10003610.jpg', },
             { position_id: 13, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน', rname_full_th: 'อาจารย์แพทย์หญิง', name: 'นลินี เปรมัษเฐียร', image: 'images/executive_director/u10008842.jpg', },
-            { position_id: 14, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายวิเทศสัมพันธ์', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ณัฐวุฒิ วงษ์ประภารัตน์', image: 'images/executive_director/u10014869.jpg', },    
-            { position_id: 15, position_eng: 'xxxx', position_thai: 'เลขานุการกรรมการบริหารภาควิชาอายุรศาสตร์', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/executive_director/u10008561.jpg', }, 
+            { position_id: 14, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายวิเทศสัมพันธ์', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ณัฐวุฒิ วงษ์ประภารัตน์', image: 'images/executive_director/u10014869.jpg', },
+            { position_id: 15, position_eng: 'xxxx', position_thai: 'เลขานุการกรรมการบริหารภาควิชาอายุรศาสตร์', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/executive_director/u10008561.jpg', },
             { position_id: 16, position_eng: 'xxxx', position_thai: 'ผู้ช่วยเลขานุการกรรมการบริหารภาควิชาอายุรศาสตร์', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'มณฑิรา มณีรัตนะพร', image: 'images/executive_director/u10014643.jpg', },
             { position_id: 17, position_eng: 'xxxx', position_thai: 'ผู้ช่วยเลขานุการกรรมการบริหารภาควิชาอายุรศาสตร์', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ชยวี เมืองจันทร์', image: 'images/executive_director/u10013675.jpg', },
 ]);

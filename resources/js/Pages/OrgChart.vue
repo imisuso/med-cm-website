@@ -1,5 +1,5 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
                 <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">โครงสร้างภาควิชา</h4>
@@ -15,8 +15,15 @@
             <!-- <img :src="`${baseUrl}/images/medicine_org_chart.jpg`" alt="" /> -->
             <img src="../../asset/images/medicine_org_chart.jpg" alt="" />
         </div>
-    </AppLayout>
+<!--    </AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue';

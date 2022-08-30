@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\VisitorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -49,7 +50,7 @@ use App\Models\Agreement;
 
 // Route::post('/webmed_api', [InfomedMonitorController::class, 'index']);
 
-Route::get('/', function () {
+Route::middleware(['visitor'])->get('/', function () {
     return Inertia::render('Index');
 })->name('index');
 
@@ -106,7 +107,7 @@ Route::get('/under_construction', function () {
     return Inertia::render('UnderConstruction');
 })->name('under_construction');
 
-Route::get('/branch', function () {
+Route::middleware(['visitor'])->get('/branch', function () {
     return Inertia::render('Branch');
 })->name('branch');
 
@@ -324,17 +325,12 @@ Route::prefix('admin')
     ->controller(TraceLogController::class)
     ->group(function () {
         Route::get('/log_info', 'index')->name('admin.log.index');
-        // Route::get('/download/create', 'create')->name('admin.download.create');
-        // Route::post('/download/store', 'store')->name('admin.download.store');
-        // Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
-        // Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
-        // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
     });
 
 //TraceLogController => จัดการเก็บ log ต่างๆ API
 Route::controller(TraceLogController::class)
     ->group(function () {
-        Route::post('/log', 'store')->name('log.store');
+        Route::post('/log/store', 'store')->name('log.store');
     });
 
 // Agreement Accept Page

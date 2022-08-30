@@ -17,9 +17,9 @@
             </div>
         </div>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            <div v-for="(card, idx) in downloadItems" v-bind:key="idx" class="w-full h-32 flex flex-col justify-between bg-white dark:bg-gray-500 dark:border-gray-400 rounded-lg border border-gray-400 mb-2 py-5 px-4" v-bind:class="[card.theme, card.border]">
+            <div v-for="(card, idx) in downloadItems" v-bind:key="idx" class="w-full h-32 flex flex-col justify-between bg-white rounded-lg border border-gray-400 mb-2 py-5 px-4" v-bind:class="[card.theme, card.border]">
                 <div class="flex align-top justify-between space-x-2">
-                    <h4 class="text-gray-800 dark:text-white font-bold mb-3">{{ card.title }}</h4>
+                    <h4 class="text-gray-800 font-bold mb-3">{{ card.title }}</h4>
                     <a :href="card.link" target="_blank">
                         <div class="w-8 h-8 rounded-full bg-blue-500  text-white flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">

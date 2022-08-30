@@ -6,8 +6,8 @@
         <!-- Desktop horizontal nav -->
         <div class="h-full flex items-center">
           <div class="mr-10 flex items-center">
-            <a
-              href="/"
+            <Link
+              :href="route('index')"
               aria-label="SI MEDICINE"
               title="SI MEDICINE"
               class="inline-flex items-center"
@@ -37,7 +37,7 @@
                     </span>
                 </h2>
               </span>
-            </a>
+            </Link>
           </div>
 
           <ul class="pr-12 lg:flex items-center h-full hidden space-x-6">
@@ -75,13 +75,13 @@
                   :title="main_menu_item.main_menu_name"
                   class="font-medium cursor-pointer tracking-wide transition-colors duration-200"
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
-                  >{{ main_menu_item.main_menu_name }} 
+                  >{{ main_menu_item.main_menu_name }}
                 </a>
-                <Link v-else 
-                  :href="route(`${main_menu_item.main_menu_link}`)" 
+                <Link v-else
+                  :href="route(`${main_menu_item.main_menu_link}`)"
                   class="font-medium tracking-wide transition-colors duration-200"
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
-                > {{ main_menu_item.main_menu_name }} 
+                > {{ main_menu_item.main_menu_name }}
                 </Link>
                 <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-sm ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
@@ -125,8 +125,8 @@
                 <li>
                   <div class="flex items-center w-full justify-between">
                     <div class="flex">
-                      <a
-                        href="/"
+                      <Link
+                        :href="route('index')"
                         aria-label="SI MEDICINE"
                         title="SI MEDICINE"
                         class="inline-flex items-center"
@@ -156,7 +156,7 @@
                               </span>
                           </h2>
                         </span>
-                      </a>
+                      </Link>
                     </div>
                     <div>
                       <div class="hidden close-m-menu cursor-pointer" @click="SideMenuHandler($event, false)">
@@ -179,7 +179,7 @@
                       :pic_heading_submenu="pic_heading_submenu"
                       :menu_name="main_menu_item.main_menu_name"
                       :menu_link="main_menu_item.main_menu_link"
-                      :sub_menu="filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" 
+                      :sub_menu="filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)"
                     />
                   </li>
                   <li v-else-if="main_menu_item.main_menu_id === 1">
@@ -187,7 +187,7 @@
                       <button class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>  
+                        </svg>
                       </button>
                     </Link>
                   </li>
@@ -197,17 +197,17 @@
                       :pic_heading_submenu="pic_heading_submenu"
                       :menu_name="main_menu_item.main_menu_name"
                       :menu_link="main_menu_item.main_menu_link"
-                      :sub_menu="filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" 
+                      :sub_menu="filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)"
                     />
                   </li>
-                </template>  
-          
+                </template>
+
                 <li class="mb-4">
                     <hr class="border-b border-white w-full" />
                 </li>
                 <Link
                   :href="route('login')"
-                  :class="[isMenuOpen ? '' : 'hidden']" 
+                  :class="[isMenuOpen ? '' : 'hidden']"
                   class="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-emerald-500 hover:bg-emerald-600 focus:shadow-outline focus:outline-none"
                   aria-label="Sign in"
                   title="Sign in"
@@ -219,7 +219,7 @@
                 </Link>
               </ul>
             </div>
-            
+
             <!-- <svg @click="MenuHandler($event, true)" aria-haspopup="true" aria-label="Main Menu" v-bind:xmlns="xmlns" class="show-m-menu icon icon-tabler icon-tabler-menu dropsidemenu " width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z"></path>
                 <line x1="4" y1="8" x2="20" y2="8"></line>
@@ -232,7 +232,7 @@
               <path fill="currentColor" d="M23,20H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,20,23,20z"></path>
             </svg>
 
-            
+
             <!-- <div class="hidden close-m-menu" @click="MenuHandler($event, false)">
                 <svg aria-label="Close" v-bind:xmlns="xmlns" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" />
@@ -244,7 +244,7 @@
       </div>
     </nav>
   </div>
-  
+
 </template>
 
 <script setup>
@@ -278,7 +278,7 @@ const toggle_menu = (event) => {
 // const toggle_visibleby_class = (index) => {
 //   items_visibility.value[index] = !items_visibility.value[index];
 //   //console.log(items_visibility);
-// } 
+// }
 
 const main_menu = ref([
   {'main_menu_id':1,  'main_menu_name': 'หน้าหลัก', 'main_menu_link': 'index', 'has_sub_menu':true, },
@@ -337,7 +337,7 @@ const updateScroll = (event) => {
 // }
 
 const MenuHandler = (el, val) => {
-  
+
   let MainList = el.currentTarget.parentElement.getElementsByTagName("ul")[0];
   let closeIcon = el.currentTarget.parentElement.getElementsByClassName("close-m-menu")[0];
   //let showIcon = el.currentTarget.parentElement.getElementsByClassName("show-m-menu")[0];
@@ -372,7 +372,7 @@ const closeSideMenuWhenClickOutSide = (event) => {
         if( isMenuOpen.value ) {
             SideMenuHandler(event, false)
         }
-    }  
+    }
 }
 
 </script>
@@ -403,7 +403,7 @@ const closeSideMenuWhenClickOutSide = (event) => {
   }
 
   .text-menu-color {
-    color: white; 
+    color: white;
   }
 
   .text-menu-color:hover {
@@ -422,11 +422,11 @@ const closeSideMenuWhenClickOutSide = (event) => {
     font-weight: bold;
   }
 
-  .change_text-menu-color {   
+  .change_text-menu-color {
       color: white;
    }
 
-  .change_text-menu-color:hover {   
+  .change_text-menu-color:hover {
       font-weight: bold;
   }
 

@@ -268,11 +268,12 @@ import AdminNavSideBar from "@/Layouts/Admin/AdminNavSideBar.vue";
 import {
             UsersIcon, ShieldCheckIcon, InformationCircleIcon, CubeIcon, DocumentTextIcon,
             UserGroupIcon, SpeakerphoneIcon, PresentationChartLineIcon, PhotographIcon, DownloadIcon,
-            TemplateIcon, LogoutIcon, HandIcon
+            TemplateIcon, LogoutIcon, HandIcon, DesktopComputerIcon
         } from "@heroicons/vue/outline"
 
 const baseUrl = ref(base_url)
 const navItems = [
+    {href: "admin.index", active: true, label:"แดชบอร์ด", children: [], ability:[], icon: DesktopComputerIcon},
     {href: "admin.index", active: false, label:"จัดการระบบ", children: [
             {href: "admin.index", active: false, label:"หน้าที่และสิทธิ์", children: [], ability:['manage_ability_role'], icon: ShieldCheckIcon},
             {href: "admin.user.index", active: false, label:"ผู้ใช้งาน", children: [], ability:['manage_users'], icon: UsersIcon},

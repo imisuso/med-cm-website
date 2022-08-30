@@ -52,10 +52,10 @@
 
             </component>
             <span class="flex-1">{{ item.label }}</span>
-            <ChevronDownIcon
+            <ChevronRightIcon
                 :class="[
                     'w-6 h-6 shrink-0',
-                    open ? '-rotate-180 text-gray-600' : 'text-gray-400'
+                    open ? 'rotate-90 text-gray-600' : 'text-gray-400'
                 ]"
             />
         </DisclosureButton>
@@ -72,7 +72,7 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue"
-import { ChevronDownIcon } from "@heroicons/vue/solid"
+import { ChevronRightIcon } from "@heroicons/vue/solid"
 import { computed } from "vue";
 import { usePage, Link } from "@inertiajs/inertia-vue3";
 
