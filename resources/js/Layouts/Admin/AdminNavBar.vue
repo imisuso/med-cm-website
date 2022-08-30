@@ -298,11 +298,12 @@ import {
     HandIcon,
     InformationCircleIcon, LogoutIcon, PhotographIcon, PresentationChartLineIcon,
     ShieldCheckIcon, SpeakerphoneIcon, TemplateIcon, UserGroupIcon,
-    UsersIcon
+    UsersIcon, DesktopComputerIcon
 } from "@heroicons/vue/outline";
 
 const isMenuOpen = ref(false)
 const navItems = [
+    {href: "admin.index", active: true, label:"แดชบอร์ด", children: [], ability:[], icon: DesktopComputerIcon},
     {href: "admin.index", active: false, label:"จัดการระบบ", children: [
             {href: "admin.index", active: false, label:"หน้าที่และสิทธิ์", children: [], ability:['manage_ability_role'], icon: ShieldCheckIcon},
             {href: "admin.user.index", active: false, label:"ผู้ใช้งาน", children: [], ability:['manage_users'], icon: UsersIcon},

@@ -1,13 +1,126 @@
 <template>
 <!--    <AdminAppLayout>-->
-    <div> Hello Admin</div>
+    <div class="text-2xl mt-4 mb-4">แดชบอร์ด</div>
 <!--    <Bar :chart-data="chartData"-->
 <!--         :chart-options="chartOptions"-->
 <!--    />-->
 
+    <div class="grid grid-cols-12 p-2 space-y-2 md:space-y-0 space-x-0 md:space-x-2 mb-4">
+        <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
+            <div class="flex items-start justify-between">
+                <div class="flex flex-col">
+                    <div class=" text-gray-500 font-medium">ผู้เยี่ยมชม website</div>
+                    <div class=" text-xl">{{ totalVisitor.toLocaleString() }}</div>
+                    <!-- <div>yyyyy</div> -->
+                </div>
+                <span>
+                    <ChartSquareBarIcon class="flex items-center w-10 h-10 border rounded-full bg-red-500 text-white p-2" />
+                    <!-- <div class="flex items-center w-10 h-10 border rounded-full bg-red-500 px-1">ChartBarSquareIcon.js</div> -->
+                </span> 
+            </div>
+        </div>
+
+        <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
+            <div class="flex items-start justify-between">
+                <div class="flex flex-col">
+                    <div class=" text-gray-500 font-medium">ข่าวประกาศ</div>
+                    <div class=" text-xl">{{ totalAnounce.toLocaleString() }}</div>
+                    <!-- <div>yyyyy</div> -->
+                </div>
+                <span>
+                    <SpeakerphoneIcon class="flex items-center w-10 h-10 border rounded-full bg-blue-500 text-white p-2" />
+                    <!-- <div class="flex items-center w-10 h-10 border rounded-full bg-blue-500 px-1">xxxx</div> -->
+                </span> 
+            </div>
+        </div>
+
+        <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
+            <div class="flex items-start justify-between">
+                <div class="flex flex-col">
+                    <div class=" text-gray-500 font-medium">โปสเตอร์</div>
+                    <div class=" text-xl">{{ totalPoster.toLocaleString() }}</div>
+                    <!-- <div>yyyyy</div> -->
+                </div>
+                <span>
+                    <PresentationChartLineIcon class="flex items-center w-10 h-10 border rounded-full bg-yellow-500 text-white p-2"/>
+                    <!-- <div class="flex items-center w-10 h-10 border rounded-full bg-yellow-500 px-1">xxxx</div> -->
+                </span> 
+            </div>
+        </div>
+
+    </div>
+
     <Line :chart-data="chartData"
          :chart-options="chartOptions"
+         class="mb-4"
     />
+
+    <!-- <div class="grid grid-cols-3 shadow-md rounded-md">
+        <div class=" bg-cyan-400 border-b rounded-t-md col-span-3 mb-1 p-4">Page Visits</div>
+        <div class=" hidden md:block px-4 text-sm text-gray-500">PAGE NAME</div>
+        <div class=" hidden md:block px-4 text-sm text-gray-500">VISITORS</div>
+        <div class=" hidden md:block px-4 text-sm text-gray-500">BOUNCE RATE</div>
+
+        <div class=" border-gray-200 hidden md:block px-4">index</div>
+        <div class=" border-gray-200 hidden md:block px-4">{{ totalVisitor.toLocaleString() }}</div>
+        <div class=" border-gray-200 hidden md:block px-4"> Other</div>
+    </div> -->
+
+    <div class="p-4 border rounded-md shadow-md text-2xl font-semibold bg-green-100">Page visits</div>
+    <div class=" overflow-auto rounded-lg shadow hidden md:block mb-4">
+        <table class="w-full">
+            <thead class="bg-gray-50 border-b-2 border-gray-200 ">
+                <tr>
+                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">PAGE NAME</th>
+                    <th class=" w-1/4 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">VISITORS</th>
+                    <th class=" w-1/4 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">BOUNCE RATE</th>
+                </tr>
+            </thead>
+            <tbody class=" divide-y divide-gray-100">
+                <tr class="bg-white">
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">index</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ totalVisitor.toLocaleString() }}</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">10%</td>
+                </tr>
+                <tr class="bg-gray-50">
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">branch</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">200</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:hidden mb-4">
+        <div class=" bg-white border space-y-3 p-4 rounded-lg shadow-md">
+            <div class="flex items-center space-x-2 text-sm">
+                <div class="w-1/3 sm:w-2/3 font-semibold">PAGE NAME : </div>
+                <div class="text-sm text-gray-700">index</div>
+            </div>
+            <div class="flex items-center space-x-2 text-sm">
+                <div class="w-1/3 sm:w-2/3 font-semibold">VISITORS : </div>
+                <div class="text-sm text-gray-700">{{ totalVisitor.toLocaleString() }}</div>
+            </div>
+            <div class="flex items-center space-x-2 text-sm">
+                <div class="w-1/3 sm:w-2/3 font-semibold">BOUNCE RATE : </div>
+                <div class="text-sm text-gray-700">10%</div>
+            </div>
+        </div>
+        <div class=" bg-white border space-y-3 p-4 rounded-lg shadow-md">
+            <div class="flex items-center space-x-2 text-sm">
+                <div class="w-1/3 sm:w-2/3 font-semibold">PAGE NAME : </div>
+                <div class="text-sm text-gray-700">branch</div>
+            </div>
+            <div class="flex items-center space-x-2 text-sm">
+                <div class="w-1/3 sm:w-2/3 font-semibold">VISITORS : </div>
+                <div class="text-sm text-gray-700">200</div>
+            </div>
+            <div class="flex items-center space-x-2 text-sm">
+                <div class="w-1/3 sm:w-2/3 font-semibold">BOUNCE RATE : </div>
+                <div class="text-sm text-gray-700">1%</div>
+            </div>
+        </div>
+    </div>
 <!--    </AdminAppLayout>-->
 </template>
 
@@ -24,6 +137,7 @@ import { Bar, Line } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale,
         LineElement, PointElement
 } from 'chart.js'
+import { ChartSquareBarIcon, SpeakerphoneIcon, PresentationChartLineIcon } from "@heroicons/vue/outline"
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement)
 
@@ -38,18 +152,18 @@ const chartData = ref({
 const fillChartData = () => {
     const updatedChartData = {
         labels: [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
+            'มกราคม',
+            'กุมภาพันธ์',
+            'มีนาคม',
+            'เมษายน',
+            'พฤษภาคม',
+            'มิถุนายน',
+            'กรกฎาคม',
+            'สิงหาคม',
+            'กันยายน',
+            'ตุลาคม',
+            'พฤศจิกายน',
+            'ธันวาคม'
         ],
         datasets: [
             {
@@ -101,6 +215,10 @@ const chartOptions = {
     responsive: true,
     maintainAspectRatio: false
 }
+
+const totalVisitor = ref(350897)
+const totalAnounce = ref(2356)
+const totalPoster = ref(924)
 
 </script>
 
