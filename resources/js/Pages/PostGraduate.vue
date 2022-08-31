@@ -29,7 +29,9 @@
 
         <div id="committee">
             <section class="w-full bg-white">
-                <Committee />
+                <Committee 
+                    :committees="CommitteeData"
+                />
             </section>
         </div>
 
@@ -73,6 +75,10 @@ import Committee from '@/Components/PostGraduate/Committee.vue'
 import Officer from '@/Components/PostGraduate/Officer.vue'
 import CriteriaDetail from '@/Components/PostGraduate/CriteriaDetail.vue'
 import ContactUs from '@/Components/PostGraduate/ContactUs.vue'
+
+const props = defineProps({
+    CommitteeData: { type: Array, default: [] },
+})
 
 </script>
 
