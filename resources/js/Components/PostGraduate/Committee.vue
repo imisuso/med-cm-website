@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="flex flex-wrap -m-2">
         <div v-for="person in CommitteeData" :key="person.id" class="p-2 xl:w-1/3 md:w-1/2 w-full">
             <div class="h-full flex items-center border-gray-200 group hover:bg-blue-500 border p-4 rounded-lg">
@@ -34,24 +34,29 @@
 import { ref, reactive } from 'vue';
 
 const CommitteeData = reactive([
-            { position_id: 1, position_eng: 'manager', position_thai: 'หัวหน้าภาควิชาอายุรศาสตร์', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ไชยรัตน์ เพิ่มพิกุล', image: 'images/post_graduate/committee/1.jpg', },
-            { position_id: 2, position_eng: 'xxxx', position_thai: 'ประธานกรรมการ', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'สุพจน์ พงศ์ประสบชัย', image: 'images/post_graduate/committee/2.jpg', },
-            { position_id: 3, position_eng: 'xxxx', position_thai: 'รองประธานกรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'อัจฉรา กุลวิสุทธิ์', image: 'images/post_graduate/committee/3.jpg', },
-            { position_id: 4, position_eng: 'xxxx', position_thai: 'เลขานุการและกรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์นายแพทย์', name: 'ยิ่งยง ชินธรรมมิตร์', image: 'images/post_graduate/committee/4.jpg', },           
-            { position_id: 5, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'วิวรรณ ทังสุบุตร', image: 'images/post_graduate/committee/5.jpg', },
-            { position_id: 6, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/post_graduate/committee/6.jpg', },
-            { position_id: 7, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'เมธี ชยะกุลคีรี', image: 'images/post_graduate/committee/7.jpg', },
-            { position_id: 8, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'พรพรรณ กู้มานะชัย', image: 'images/post_graduate/committee/8.jpg', },
-            { position_id: 9, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'วันรัชดา คัชมาตย์', image: 'images/post_graduate/committee/9.jpg', },
-            { position_id: 10, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'พจมาน พิศาลประภา', image: 'images/post_graduate/committee/10.jpg', },
-            { position_id: 11, position_eng: 'xxxx', position_thai: 'ผู้ช่วยเลขานุการและกรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'กนกวรรณ บุญญพิสิฎฐ์', image: 'images/post_graduate/committee/11.jpg', },
-            { position_id: 12, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์นายแพทย์', name: 'นัฐสิทธิ์ ลาภปริสุทธิ', image: 'images/post_graduate/committee/12.jpg', },
-            { position_id: 13, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์นายแพทย์', name: 'ศุภฤกษ์ ดิษยบุตร', image: 'images/post_graduate/committee/13.jpg', },
-            { position_id: 14, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์นายแพทย์', name: 'สุพจน์ นิ่มอนงค์', image: 'images/post_graduate/committee/14.jpg', },    
-            { position_id: 15, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์แพทย์หญิง', name: 'ปวีณา ชุณหโรจน์ฤทธิ์', image: 'images/post_graduate/committee/15.jpg', }, 
-            { position_id: 16, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์นายแพทย์', name: 'นราธิป ชุณหะมณีวัฒน์', image: 'images/post_graduate/committee/16.jpg', },
-            { position_id: 17, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์แพทย์หญิง', name: 'กฤติกา ธีระพันธ์เจริญ', image: 'images/post_graduate/committee/17.jpg', },
-            { position_id: 18, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์แพทย์หญิง', name: 'ชามาศ วงค์ษา', image: 'images/post_graduate/committee/18.jpg', },
+    { person_id: 10003260, position_id: 1, position_eng: 'xxxx', position_thai: 'ที่ปรึกษา', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ไชยรัตน์ เพิ่มพิกุล', image: 'images/post_graduate/committee/1.jpg', },
+    { person_id: 10003630, position_id: 1, position_eng: 'xxxx', position_thai: 'ที่ปรึกษา', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'นิธิพัฒน์ เจียรกุล', image: 'images/post_graduate/committee/1.jpg', },
+    { person_id: 10003532, position_id: 1, position_eng: 'xxxx', position_thai: 'ที่ปรึกษา', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'ทวีศักดิ์ แทนวันดี', image: 'images/post_graduate/committee/1.jpg', },
+    { person_id: 10004823, position_id: 1, position_eng: 'xxxx', position_thai: 'ที่ปรึกษา', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'ชัยรัตน์ ฉายากุล', image: 'images/post_graduate/committee/1.jpg', },
+    { person_id: 10006188, position_id: 2, position_eng: 'xxxx', position_thai: 'ประธานกรรมการ', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'สุพจน์ พงศ์ประสบชัย', image: 'images/post_graduate/committee/2.jpg', },
+    { person_id: 10004805, position_id: 3, position_eng: 'xxxx', position_thai: 'รองประธานฯและกรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'อัจฉรา กุลวิสุทธิ์', image: 'images/post_graduate/committee/3.jpg', },
+    { person_id: 10003691, position_id: 5, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ศาสตราจารย์แพทย์หญิง', name: 'วิวรรณ ทังสุบุตร', image: 'images/post_graduate/committee/5.jpg', },
+    { person_id: 10008561, position_id: 6, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/post_graduate/committee/6.jpg', },
+    { person_id: 10006561, position_id: 7, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์ดอกเตอร์นายแพทย์', name: 'เมธี ชยะกุลคีรี', image: 'images/post_graduate/committee/7.jpg', },
+    { person_id: 10009839, position_id: 9, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'วันรัชดา คัชมาตย์', image: 'images/post_graduate/committee/9.jpg', },
+    { person_id: 10011383, position_id: 8, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'พรพรรณ กู้มานะชัย', image: 'images/post_graduate/committee/8.jpg', },
+    { person_id: 10020928, position_id: 10, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'พจมาน พิศาลประภา', image: 'images/post_graduate/committee/10.jpg', },
+    { person_id: 10019496, position_id: 14, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์นายแพทย์', name: 'สุพจน์ นิ่มอนงค์', image: 'images/post_graduate/committee/14.jpg', },
+    { person_id: 10017710, position_id: 13, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ศุภฤกษ์ ดิษยบุตร', image: 'images/post_graduate/committee/13.jpg', },
+    { person_id: 10020702, position_id: 12, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์นายแพทย์', name: 'นัฐสิทธิ์ ลาภปริสุทธิ', image: 'images/post_graduate/committee/12.jpg', },
+    { person_id: 10019478, position_id: 15, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'ปวีณา ชุณหโรจน์ฤทธิ์', image: 'images/post_graduate/committee/15.jpg', },
+    { person_id: 10027438, position_id: 16, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์นายแพทย์', name: 'นราธิป ชุณหะมณีวัฒน์', image: 'images/post_graduate/committee/16.jpg', },
+    { person_id: 10030939, position_id: 17, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'กฤติกา ธีระพันธ์เจริญ', image: 'images/post_graduate/committee/17.jpg', },
+    { person_id: 10034027, position_id: 18, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'อาจารย์แพทย์หญิง', name: 'ชามาศ วงค์ษา', image: 'images/post_graduate/committee/18.jpg', },
+    { person_id: 10029131, position_id: 10, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'จิราพร จิตประไพกุลศาล', image: 'images/post_graduate/committee/10.jpg', },
+    { person_id: 10030820, position_id: 16, position_eng: 'xxxx', position_thai: 'กรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์นายแพทย์', name: 'ภาคภูมิ พุ่มพวง', image: 'images/post_graduate/committee/16.jpg', },
+    { person_id: 10006517, position_id: 4, position_eng: 'xxxx', position_thai: 'เลขานุการและกรรมการ', rname_full_th: 'ผู้ช่วยศาสตราจารย์นายแพทย์', name: 'ยิ่งยง ชินธรรมมิตร์', image: 'images/post_graduate/committee/4.jpg', },
+    { person_id: 10004417, position_id: 11, position_eng: 'xxxx', position_thai: 'ผู้ช่วยเลขานุการและกรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'กนกวรรณ บุญญพิสิฎฐ์', image: 'images/post_graduate/committee/11.jpg', },
 ]);
 
 const baseUrl = ref(base_url)
