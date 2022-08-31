@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\VisitorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\PageDownloadController;
+use App\Http\Controllers\UserController;
 
 // API
 use App\Http\Controllers\API\FileUploadController;
@@ -33,6 +35,7 @@ use App\Models\BranchSubMenu;
 use App\Models\Division;
 use App\Models\Person;
 use App\Models\User;
+use App\Models\Agreement;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +50,7 @@ use App\Models\User;
 
 // Route::post('/webmed_api', [InfomedMonitorController::class, 'index']);
 
-Route::get('/', function () {
+Route::middleware(['visitor'])->get('/', function () {
     return Inertia::render('Index');
 })->name('index');
 
@@ -67,7 +70,7 @@ Route::get('/consultant', function () {
     $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division')
                         ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1, 2, 3, 4])
                         ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
-    
+
     //Log::channel('single')->info($listConsultant);
     return Inertia::render('Consultant', compact('listConsultant'));
 })->name('consultant');
@@ -97,14 +100,51 @@ Route::get('/officer', function () {
 })->name('officer');
 
 Route::get('/post_graduate', function () {
-    return Inertia::render('PostGraduate');
+    $CommitteeData = [];
+    $committeeDataJson = '[
+        { "sap_id": 10003260, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10003630, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10003532, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10004823, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10006188, "position_thai": "ประธานกรรมการ" },
+        { "sap_id": 10004805, "position_thai": "รองประธานฯและกรรมการ" },
+        { "sap_id": 10003691, "position_thai": "กรรมการ" },
+        { "sap_id": 10008561, "position_thai": "กรรมการ" },
+        { "sap_id": 10006561, "position_thai": "กรรมการ" },
+        { "sap_id": 10009839, "position_thai": "กรรมการ" },
+        { "sap_id": 10011383, "position_thai": "กรรมการ" },
+        { "sap_id": 10020928, "position_thai": "กรรมการ" },
+        { "sap_id": 10019496, "position_thai": "กรรมการ" },
+        { "sap_id": 10017710, "position_thai": "กรรมการ" },
+        { "sap_id": 10020702, "position_thai": "กรรมการ" },
+        { "sap_id": 10019478, "position_thai": "กรรมการ" },
+        { "sap_id": 10027438, "position_thai": "กรรมการ" },
+        { "sap_id": 10030939, "position_thai": "กรรมการ" },
+        { "sap_id": 10034027, "position_thai": "กรรมการ" },
+        { "sap_id": 10029131, "position_thai": "กรรมการ" },
+        { "sap_id": 10030820, "position_thai": "กรรมการ" },
+        { "sap_id": 10006517, "position_thai": "เลขานุการและกรรมการ" },
+        { "sap_id": 10004417, "position_thai": "ผู้ช่วยเลขานุการและกรรมการ" }
+    ]';
+    $committees = json_decode($committeeDataJson, true);
+
+    foreach ($committees as $committee) {
+        // logger($committee);
+        $person = Person::select('rname_full_th', 'fname_th', 'lname_th', 'image')
+               ->where('sap_id', $committee['sap_id'])
+               ->first();
+
+        $CommitteeData[] = array('rname_full_th' => $person->rname_full_th, 'fullname' => $person->fname_th . ' ' . $person->lname_th, 'image_url' => $person->image_url, 'position_thai' => $committee['position_thai']);
+    }
+
+    return Inertia::render('PostGraduate', compact('CommitteeData'));
 })->name('post_graduate');
 
 Route::get('/under_construction', function () {
     return Inertia::render('UnderConstruction');
 })->name('under_construction');
 
-Route::get('/branch', function () {
+Route::middleware(['visitor'])->get('/branch', function () {
     return Inertia::render('Branch');
 })->name('branch');
 
@@ -174,7 +214,7 @@ Route::prefix('admin')
         Route::delete('/gallery/delete_image', 'destroyGalleryImage')->name('admin.gallery.delete_image');
     });
 Route::get('/list_enabled_gallery', [GalleryController::class, 'showListEnabledGallery'])->name('list_enabled_gallery');
-Route::get('/show_gallery/{event_date}', [GalleryController::class, 'show'])->name('show_gallery');
+Route::get('/show_gallery/{Gallery}', [GalleryController::class, 'show'])->name('show_gallery');
 
 //PersonController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ บุคคลากรในภาควิชา
 Route::prefix('admin')
@@ -303,12 +343,18 @@ Route::prefix('admin')
     });
 Route::get('/download/all', [PageDownloadController::class, 'listAllEnable'])->name('download.all_enable');
 
-Route::get('/admin/ability_role', function () {
-    $users = User::paginate(5);
-    //logger($users);
-    //dd($users);
-    return Inertia::render('Admin/AbilityRole/Index', compact('users'));
-})->name('admin.ability_role');
+//UserController => จัดการผู้ใช้งานในระบบ และกำหนดหน้าที่การทำงาน
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_users'])
+    ->controller(UserController::class)
+    ->group(function () {
+        Route::get('/user', 'index')->name('admin.user.index');
+        Route::get('/user/create', 'create')->name('admin.user.create');
+        Route::post('/user/store/{person}', 'store')->name('admin.user.store');
+        Route::get('/user/edit/{user}', 'edit')->name('admin.user.edit');
+        Route::patch('/user/update/{user}', 'update')->name('admin.user.update');
+        Route::delete('/user/delete/{user}', 'destroy')->name('admin.user.delete');
+    });
 
 //TraceLogController => จัดการ log ต่างๆ ผ่าน UI
 Route::prefix('admin')
@@ -316,21 +362,41 @@ Route::prefix('admin')
     ->controller(TraceLogController::class)
     ->group(function () {
         Route::get('/log_info', 'index')->name('admin.log.index');
-        // Route::get('/download/create', 'create')->name('admin.download.create');
-        // Route::post('/download/store', 'store')->name('admin.download.store');
-        // Route::get('/download/edit/{pageDownload}', 'edit')->name('admin.download.edit');
-        // Route::post('/download/update/{pageDownload}', 'update')->name('admin.download.update');
-        // Route::delete('/download/delete/{pageDownload}', 'destroy')->name('admin.download.delete');
     });
 
 //TraceLogController => จัดการเก็บ log ต่างๆ API
 Route::controller(TraceLogController::class)
     ->group(function () {
-        Route::post('/log', 'store')->name('log.store');
+        Route::post('/log/store', 'store')->name('log.store');
     });
+
+// Agreement Accept Page
+Route::get('/admin/agreement', function () {
+    return Inertia::render('Admin/Agreement/Index', ['agreement' => Agreement::orderByDesc('date_effected')->first()]);
+})->middleware(['auth'])->name('admin.agreement');
+
+// Agreement Click Accept
+Route::post('/admin/accept-agreement', function () {
+    request()->user()->agreements()->attach([request()->agreement_id]);
+
+    return redirect()->intended(route('admin.index'));
+    //return redirect()->intended('admin.index');
+})->middleware(['auth'])->name('admin.accept-agreement');
 
 Route::post('/uploading_file_api', [FileUploadController::class, 'upload'])->name('uploading_file_api');
 Route::post('/delete_file_api', [FileUploadController::class, 'delete'])->name('delete_file_api');
+
+// Test Agreement Editor
+Route::get('/admin/agreement-editor', function () {
+    $agreement = Agreement::find(1);
+
+    //$deltaStr = '{ "ops": [ { "attributes": { "bold": true }, "insert": "hello" }, { "insert": "\n" }, { "attributes": { "italic": true }, "insert": "world" }, { "insert": "\n" }, { "attributes": { "underline": true }, "insert": "test" }, { "insert": "\n" }, { "attributes": { "strike": true }, "insert": "vuequill" }, { "insert": "\n" } ] }';
+    // return Inertia::render('TestVueQuill', ['deltaContent' => []]);
+    // return Inertia::render('TestVueQuill', ['deltaContent' => json_decode($deltaStr, true)]);
+    //return Inertia::render('Admin/Agreement/RichTextEditor', ['deltaContent' => json_decode($deltaContent, true)]);
+
+    return Inertia::render('Admin/Agreement/RichTextEditor', compact('agreement'));
+});
 
 // Test VueQuill
 // Route::get('test-vuequill', function () {
@@ -377,7 +443,7 @@ Route::post('/delete_file_api', [FileUploadController::class, 'delete'])->name('
 //                     });
 //             }
 //         )->get();
-    
+
 //     return App\Models\Person::query()
 //     ->when(\Request::input('fdivision_selected'), function ($query, $division) {
 //         $query->where('division_id', $division);

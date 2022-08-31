@@ -23,14 +23,14 @@
                 <div class="bg-white border-l-4 shadow-sm border-green-800">
                     <div class="h-full p-5 border border-l-0 rounded-r">
                     <h6 @click="selectMethodModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
-                        วิธีการคัดเลือก   
+                        วิธีการคัดเลือก
                     </h6>
                     </div>
                 </div>
                 </div>
             </div>
             <div>
-                <img class="object-cover w-full h-56 rounded shadow-lg sm:h-96" :src="`${baseUrl}/images/post_graduate/criteria.jpg`" alt="" />
+                <img class="object-cover w-full h-56 rounded shadow-lg sm:h-96" src="../../../asset/images/post_graduate/criteria.jpg" alt="" />
             </div>
         </div>
     </div>
@@ -46,49 +46,56 @@
       <template v-slot:body>
         <div class="flex flex-col text-gray-900 text-md font-medium px-5">
             <ol class="list-decimal list-outside space-y-2">
-                <li class=" leading-5">พิจารณารับแพทย์ประจำบ้านสาขาอายุรศาสตร์ตามจำนวนที่แพทยสภากำหนดไว้ โดยมีสัดส่วนจำนวนหนึ่งสำหรับโครงการแพทย์ทดแทนภาระงานภาควิชาอายุรศาสตร์ในปี 2562 </li> 
-                <li class=" leading-5">พิจารณารับแพทย์ประจำบ้านที่มีต้นสังกัดมากกว่าแพทย์ประจำบ้านต้นสังกัดอิสระในสัดส่วนประมาณ 2 ต่อ 1</li>
+                <li class=" leading-5">พิจารณารับแพทย์ประจำบ้านที่มีต้นสังกัดมากกว่าแพทย์ประจำบ้านต้นสังกัดอิสระในสัดส่วนประมาณ 2 ต่อ 1  </li>
                 <li class=" leading-5">ผู้สมัครต้องมีคุณสมบัติถูกต้องตามระเบียบของแพทยสภาและราชวิทยาลัยอายุรแพทย์ฯ และไม่มีความพิการรุนแรงที่จะเป็นอุปสรรคในการฝึกอบรมแพทย์ประจำบ้านอายุรศาสตร์</li>
-                <li class=" leading-5">การตัดสินการคัดเลือกแพทย์ประจำบ้าน พิจารณาจากการรวมคะแนนตามลำดับดังนี้</li>
+                <li class=" leading-5">การตัดสินการคัดเลือกแพทย์ประจำบ้าน พิจารณาจากการรวมคะแนนดังนี้</li>
+                    <ul class=" list-outside list-disc px-5 space-y-2">
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">คะแนนเฉลี่ยตลอดหลักสูตร</div>
+                            <div>30%</div>
+                        </div>
+                    </li>
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">คะแนนสอบ NL ขั้นที่ 2</div>
+                            <div>30%</div>
+                        </div>
+                    </li>
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">จบการศึกษาจากแพทยศาสตร์บัณฑิต จากคณะแพทยศาสตร์ศิริราชพยาบาล</div>
+                            <div>5%</div>
+                        </div>
+                    </li>
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">มีต้นสังกัดเข้าฝึกอบรม</div>
+                            <div>5%</div>
+                        </div>
+                    </li>
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">มีต้นสังกัดของโรงพยาบาลจาก 3 จังหวัดภาคใต้, คณะแพทยศาสตร์ศิริราชพยาบาล, โครงการร่วมผลิตแพทย์ประจำบ้าน หรือโรงพยาบาลร่วมสอน</div>
+                            <div>+2%</div>
+                        </div>
+                    </li>
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">ทำงานชดใช้ทุนของกระทรวงสาธารณสุขครบ 3 ปี</div>
+                            <div>+2%</div>
+                        </div>
+                    </li>
+                    <li class=" leading-5">
+                        <div class="flex justify-between items-center">
+                            <div class="mr-4">คะแนนการสัมภาษณ์</div>
+                            <div>30%</div>
+                        </div>
+                    </li>
+                </ul>
+                <li class=" leading-5">การสอบสัมภาษณ์ กระทำโดยคณาจารย์และผู้แทนแพทย์ประจำบ้าน แต่ละท่านให้คะแนนอย่างเป็นอิสระแล้วนำมาคิดเป็นคะแนนเฉลี่ยของการสอบสัมภาษณ์ของผู้สมัคร โดยกรรมการทุกท่านไม่มีส่วนได้ส่วนเสียกับผู้สมัครใดๆ</li>
             </ol>
-            <ul class=" list-outside list-disc px-5 space-y-2">
-                <li class=" leading-5">
-                    <div class="flex justify-between items-center">
-                        <div class="mr-4">คะแนนเฉลี่ยตลอดหลักสูตร</div>
-                        <div>50%</div>
-                    </div>	
-                </li>
- 	            <li class=" leading-5">
-                     <div class="flex justify-between items-center">
-                        <div class="mr-4">คะแนนสอบ NL ขั้นที่ 2</div>
-                        <div>10%</div>
-                    </div>	
-                </li>
-                <li class=" leading-5">
-                     <div class="flex justify-between items-center">
-                        <div class="mr-4">จบการศึกษาจากแพทยศาสตร์บัณฑิต จากคณะแพทยศาสตร์ศิริราชพยาบาล</div>
-                        <div>5%</div>
-                    </div>	
-                </li>
-                <li class=" leading-5">
-                     <div class="flex justify-between items-center">
-                        <div class="mr-4">มีต้นสังกัดเข้าฝึกอบรม</div>
-                        <div>5%</div>
-                    </div>	
-                </li>
-                <li class=" leading-5">
-                     <div class="flex justify-between items-center">
-                        <div class="mr-4">มีต้นสังกัดของ 3 จังหวัดภาคใต้ หรือคณะแพทยศาสตร์ศิริราชพยาบาล</div>
-                        <div>2%</div>
-                    </div>	
-                </li>
-                <li class=" leading-5">
-                     <div class="flex justify-between items-center">
-                        <div class="mr-4">คะแนนการสัมภาษณ์</div>
-                        <div>30%</div>
-                    </div>	
-                </li>
-            </ul>
+
         </div>
       </template>
 
@@ -108,7 +115,7 @@
       <template v-slot:body>
         <div class="flex flex-col text-gray-900 text-md font-medium px-5">
             <ol class="list-decimal list-outside space-y-2">
-                <li class=" leading-5">ผู้สมัครส่งใบสมัครเป็นทางการให้ราชวิทยาลัยอายุรแพทย์ฯ ตามกำหนดการรับสมัคร พร้อมส่งหลักฐานประกอบการสมัครให้ภาควิชาฯ</li> 
+                <li class=" leading-5">ผู้สมัครส่งใบสมัครเป็นทางการให้ราชวิทยาลัยอายุรแพทย์ฯ ตามกำหนดการรับสมัคร พร้อมส่งหลักฐานประกอบการสมัครให้ภาควิชาฯ</li>
                 <li class=" leading-5">สอบสัมภาษณ์ผู้สมัครโดยคณะกรรมการการศึกษาหลังปริญญาและคณาจารย์ภาควิชาอายุรศาสตร์ ตามกำหนดเวลาและหลักเกณฑ์ของราชวิทยาลัยอายุรแพทย์ฯ</li>
                 <li class=" leading-5">ตัดสินผลการคัดเลือกตามเกณฑ์การคัดเลือกข้างต้น กรณีที่คะแนนใกล้เคียงกันขึ้นอยู่กับดุลยพินิจของคณะกรรมการการศึกษาหลังปริญญา</li>
                 <li class=" leading-5">แจ้งผลการคัดเลือกให้ผู้สมัครรับทราบตามกำหนดเวลาของราชวิทยาลัยอายุรแพทย์ฯ และส่งรายชื่อผู้ที่ได้รับคัดเลือกให้แพทยสภาโดยผ่านราชวิทยาลัยอายุรแพทย์ฯ</li>

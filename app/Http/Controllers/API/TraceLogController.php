@@ -20,26 +20,50 @@ class TraceLogController extends Controller
      */
     public function index()
     {
+//        return Inertia::render('Admin/LogInfo/Index', [
+//            'logs' => TraceLog::query()
+//               ->when(Request::input('search'), function ($query, $search) {
+//                   $query->where('section', 'like', "%$search%")
+//                   ->orWhere('type', 'like', "%$search%")->with('person');
+//               })
+//               ->with('person')
+//               ->orderByDesc('created_at')
+//               ->paginate(10)
+//               ->withQueryString()
+//               ->through(fn ($log) => [
+//                   'person' => $log->person,
+//                //    'user' => $log->user,
+//                   'action' => $log->action,
+//                   'section' => $log->section,
+//                   'type' => $log->type,
+//                   'details' => $log->details,
+//                   'created_at' => $log->created_at,
+//               ]),
+//            'filters' => Request::only(['search', 'page'])
+//        ]);
+
         return Inertia::render('Admin/LogInfo/Index', [
-             'logs' => TraceLog::with('person')->select('user', 'action', 'details', 'created_at')->orderBy('created_at', 'desc')->get(),
-            //'logs' => TraceLog::select('user', 'action', 'details', 'created_at')->orderBy('created_at', 'desc')->get(),
+            'logs' => TraceLog::query()
+                ->when(Request::input('search'), function ($query, $search) {
+                    $query->where('section', 'like', "%$search%")
+                        ->orWhere('type', 'like', "%$search%")->with('person');
+                })
+                ->with('person')
+                ->orderByDesc('created_at')
+                ->paginate(10)
+                ->withQueryString()
+                ->through(fn ($log) => [
+                    'person' => $log->person,
+                    'user' => $log->user,
+                    'action' => $log->action,
+                    'section' => $log->section,
+                    'type' => $log->type,
+                    'details' => $log->details,
+                    'created_at' => $log->created_at,
+                ]),
             'sections' => TraceLog::select('section')->groupBy('section')->get(),
             'types' => TraceLog::select('type')->groupBy('type')->get(),
-            // 'items' => TraceLog::query()
-            //     ->when(Request::input('search'), function ($query, $search) {
-            //         $query->where('title', 'like', "%{$search}%");
-            //     })
-            //     ->orderBy('order_number', 'asc')
-            //     ->paginate(5)
-            //     ->withQueryString()
-            //     ->through(fn ($item) => [
-            //         'id' => $item->id,
-            //         'title' => $item->title,
-            //         'link' => $item->link,
-            //         'order_number' => $item->order_number,
-            //         'status' => $item->status
-            //     ]),
-            // 'filters' => Request::only(['search'])
+            'filters' => Request::only(['search', 'page'])
         ]);
     }
 
@@ -73,6 +97,8 @@ class TraceLogController extends Controller
             Request::input('data')['details'],
             Request::input('data')['type']
         );
+
+        return;
     }
 
     /**

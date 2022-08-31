@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-4 w-full border rounded-md shadow-md items-baseline">
@@ -14,7 +14,7 @@
             <div class="text-gray-900 text-lg underline font-medium dark:text-white mb-4">
                 รายละเอียดข้อมูลโปสเตอร์
             </div>
-            
+
             <div class="shadow overflow-hidden sm:rounded-md">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <fieldset>
@@ -22,9 +22,9 @@
                             <div class="col-span-6">
                                 <div class="flex items-center justify-between">
                                     <label for="desc" class="block text-sm font-medium text-gray-700">รายละเอียดโปสเตอร์</label>
-                                    
+
                                 </div>
-                                <input type="text" id="desc" v-model.trim="posterForm.desc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />     
+                                <input type="text" id="desc" v-model.trim="posterForm.desc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                             </div>
 
                             <ul class="col-span-6">
@@ -41,12 +41,12 @@
                                                 <!-- <input :id="'file-'+index" type="file" accept="image/*" @change="uploadFile(index, file, $event)" style="display:none"> -->
                                                 <input :id="'file-'+index" type="file" :accept="file.accept" @change="uploadFile(index, file, $event)" style="display:none">
                                                 </label>
-                                            </div>       
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-                        </div>             
+                        </div>
                     </fieldset>
                 </div>
             </div>
@@ -62,8 +62,15 @@
                 </Link>
             </div>
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, reactive } from 'vue'
@@ -85,7 +92,7 @@ const checkContentFile = ref(false)
 const attachments = reactive([
                         { name: "", size: 0, label: "เพิ่มรูปหน้าปก", accept: ".jpg,.jpeg"},
                         { name: "", size: 0, label: "เพิ่มไฟล์เนื้อหา", accept: ".jpg,.jpeg,.pdf"}
-                    ]) 
+                    ])
 
 switch(props.action) {
     case 'insert':
@@ -160,7 +167,7 @@ const savePoster = () => {
             ...data,
             //   atFiles: attachments.map(file => file.File)
             cover: attachments[0].File,
-            content: attachments[1].File     
+            content: attachments[1].File
         })).post(route('admin.poster.store'), {
             onSuccess: () => {
                 toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลโปสเตอร์ เรียบร้อย')
@@ -195,7 +202,7 @@ const savePoster = () => {
 //                 }
 //             },
 //             onFinish: () => {
-//                 form.processing = false 
+//                 form.processing = false
 //             }
 //         });
 //     } else {
@@ -214,7 +221,7 @@ const savePoster = () => {
 //                 }
 //             },
 //             onFinish: () => {
-//                 form.processing = false 
+//                 form.processing = false
 //             }
 //         });
 //     }

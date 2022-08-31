@@ -198,9 +198,11 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($event_date)
+    public function show(Gallery $Gallery)
+    //public function show($event_date)
     {
-        //logger($event_date);
+        //logger($Gallery);
+        $event_date = date("Ymd", strtotime($Gallery->event_date));
         $image_path = "public/images/gallery/".$event_date."/photo";
 
         $files_path = Storage::files($image_path);
@@ -213,7 +215,7 @@ class GalleryController extends Controller
         }
         return Inertia::render(
             'Gallery',
-            ['images' => $file_storage]
+            ['images' => $file_storage, 'desc' => $Gallery->desc]
         );
     }
 

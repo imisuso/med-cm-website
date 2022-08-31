@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="flex flex-col justify-center p-4 mx-auto md:px-8">
 			<div class="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-gray-200">
 				<details>
@@ -49,14 +49,14 @@
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
                             <div>หลักสูตรการฝึกอบรมแพทย์ประจำบ้านเพื่อวุฒิบัตรแสดงความรู้ความชำนาญในการประกอบวิชาชีพเวชกรรม สาขาอายุรศาสตร์</div>
                         </div>
-                        
+
 					</div>
                     <div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาอังกฤษ)</div>
                             <div>Residency Training in Internal Medicine</div>
                         </div>
-                        
+
 					</div>
 				</details>
 				<details>
@@ -66,14 +66,14 @@
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
                             <div>วุฒิบัตรเพื่อแสดงความรู้ความชำนาญในการประกอบวิชาชีพเวชกรรม สาขาอายุรศาสตร์</div>
                         </div>
-                        
+
 					</div>
                     <div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาอังกฤษ)</div>
                             <div>Diploma of the Thai Board of Internal Medicine</div>
                         </div>
-                        
+
 					</div>
 				</details>
 				<details>
@@ -83,14 +83,14 @@
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
                             <div>วว. สาขาอายุรศาสตร์</div>
                         </div>
-                        
+
 					</div>
                     <div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาอังกฤษ)</div>
                             <div>Dip., Thai Board of Internal Medicine</div>
                         </div>
-                        
+
 					</div>
 				</details>
                 <details>
@@ -100,14 +100,14 @@
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
                             <div>วว. สาขาอายุรศาสตร์</div>
                         </div>
-                        
+
 					</div>
                     <div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาอังกฤษ)</div>
                             <div>Diplomate, Thai Board of Internal Medicine หรือ Dip., Thai Board of Intern Med</div>
                         </div>
-                        
+
 					</div>
 				</details>
                 <details>
@@ -115,13 +115,14 @@
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <!-- <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div> -->
-                            <div>ราชวิทยาลัยอายุรแพทย์แห่งประเทศไทยฯ</div>
+                            <div>ภาควิชาอายุรศาสตร์ คณะแพทยศาสตร์ศิริราชพยาบาล มหาวิทยาลัยมหิดล</div>
                         </div>
-                        
+
 					</div>
 				</details>
-                <a :href="`${baseUrl}/images/post_graduate/เกณฑ์หลักสูตรอายุรศาสตร์_RCPT.pdf`" target="_blank" class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>
-			</div>
+<!--                <a :href="`${baseUrl}/images/post_graduate/เกณฑ์หลักสูตรอายุรศาสตร์_RCPT.pdf`" target="_blank" class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>-->
+                <a href="../../../../images/post_graduate/course_details.pdf" target="_blank" class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>
+            </div>
 		</div>
     </div>
 </template>

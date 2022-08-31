@@ -1,8 +1,8 @@
 <template>
     <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-8">
-        <h2 class="text-3xl font-semibold text-center text-gray-800 dark:text-white">ติดต่อเราได้ที่</h2>
-        <p class="mt-3 text-center text-gray-600 dark:text-gray-400">คุณเรวดี พีรวัฒนฒึก ฝ่ายการศึกษาหลังปริญญา</p>
-        
+        <h2 class="text-3xl font-semibold text-center text-gray-800">ติดต่อเราได้ที่</h2>
+        <p class="mt-3 text-center text-gray-600">คุณเรวดี พีรวัฒนฒึก ฝ่ายการศึกษาหลังปริญญา</p>
+
         <div class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3">
             <div class="flex flex-col items-center px-4 py-3 text-gray-700 transition-colors duration-200 transform rounded-md group hover:bg-blue-500">
                 <svg class="w-5 h-5 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

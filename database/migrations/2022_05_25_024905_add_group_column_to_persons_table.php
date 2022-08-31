@@ -23,10 +23,10 @@ class AddGroupColumnToPersonsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('group');
-        });
-    }
+    // public function down()
+    // {
+    //     Schema::table('persons', function (Blueprint $table) {
+    //         $table->dropColumn('group');
+    //     });
+    // }
 }

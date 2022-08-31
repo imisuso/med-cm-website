@@ -20,29 +20,54 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return Inertia::render('LoginForm');
+        $sso_url = env('RESET_PASSWORD_URL', '/');
+        return Inertia::render('LoginForm', compact('sso_url'));
     }
 
     public function login_authen(Request $request, AuthUserAPI $api)
     {
         $getUserFromAPI = $api->authenticate($request->username, $request->password);
-        //logger($getUserFromAPI);
+//        logger($getUserFromAPI);
 
-        if (! $getUserFromAPI['found']) {
+        //กรณีเรียกใช้ serviec hannah ไม่ได้
+        if( strcmp($getUserFromAPI['reply_code'], '1') === 0 ) {
+            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+        }
+
+        // กรณี hannah เรียกใช้ serviec ของ AD ไม่ได้
+        if( strcmp($getUserFromAPI['reply_code'], '2') === 0 ) {
+            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+        }
+
+        // กรณีไม่พบ username หรือ username หรือ password ของ AD ไม่ถูกต้อง หรือ password หมดอายุ (ทุกกรณีที่กล่าวมา จะไม่พบข้อมูล user เลย ไม่สามารถแยก case ได้)
+        if( strcmp($getUserFromAPI['reply_code'], '3') === 0 ) {
             $resp = (new LogManager)->store(
-                '00000000', // ไม่พบ user ใน AD หรือ password ไม่ถูกต้อง
+                $request->username,
                 'login',
                 'login',
-                'พยายาม login เข้าใช้งานด้วย username:'.$request->username,
+                'พยายาม login เข้าใช้งานด้วย username:'.$request->username.' => reply_text:'.$getUserFromAPI['reply_text'],
                 'security'
             );
 
-            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text'], 'sysmsg' => '']);
+//            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+            return Redirect::back()->withErrors(['msg' => '<u>ไม่สามารถเข้าใช้งานระบบได้ ซึ่งอาจเกิดจาก</u> <br>1. กรอก Username หรือ Password ไม่ถูกต้อง หรือ<br>2. Password หมดอายุ']);
         }
 
         $user = User::where('sap_id', $getUserFromAPI['org_id'])->first();
 
         if ($user) {
+            // กรณี user ถูก disable การใช้งานชั่วคราว
+            if( ! $user->status ) {
+                $resp = (new LogManager)->store(
+                    $getUserFromAPI['org_id'],
+                    'login',
+                    'login',
+                    'ถูก disable สถานะการใช้งาน',
+                    'security'
+                );
+                return Redirect::back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ถูก disable สถานะการใช้งาน <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
+            }
+
             Auth::login($user);
             $resp = (new LogManager)->store(
                 $getUserFromAPI['org_id'],
@@ -51,25 +76,35 @@ class LoginController extends Controller
                 'ทำการ login เข้าใช้งาน website',
                 'security'
             );
+
+            // Update user ที่ใช้ login และ email ให้ตรงกับที่ AD ทำการ return กลับมา (กรณีข้อมูลใน database ไม่ตรงกับ AD)
+            if( strcmp($getUserFromAPI['login'], $user->name) !== 0
+                || strcmp($getUserFromAPI['email'], $user->email) !== 0 )
+            {
+                $user->name = $getUserFromAPI['login'];
+                $user->email = $getUserFromAPI['email'];
+                $user->save();
+            }
         } else {
             $resp = (new LogManager)->store(
                 $getUserFromAPI['org_id'],
                 'login',
                 'login',
-                'ไม่มีสิทธิในการเข้าจัดการเนื้อหาของ website',
+                'ไม่มีสิทธิ์ในการเข้าจัดการเนื้อหาของ website',
                 'security'
             );
+
+            return Redirect::back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ยังไม่มีสิทธิ์ในการเข้าจัดการเนื้อหาของ website <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
         }
 
         return redirect()->route('admin.index');
-        //return $user;
     }
 
     public function loginAs($sap_id)
     {
         //\Log::info("login-as controller");
         //\Log::info($name);
-        
+
         // if( $role === 'super_admin' ) {
         //     $user = 'super_admin@med.si';
         // } else if( $role === 'general_admin' ) {
@@ -173,6 +208,6 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('index');
+        return redirect()->route('login');
     }
 }

@@ -1,12 +1,12 @@
 <template>
-  <AdminAppLayout>
+<!--  <AdminAppLayout>-->
     <div class="flex flex-col p-4 w-full">
       <!-- Toolbar -->
       <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
         <div class=" text-2xl font-bold">จัดการสาขา / หน่วยงาน</div>
-        <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นหาจากชื่อหน่วย/สาขา">  
+        <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นหาจากชื่อหน่วย/สาขา">
       </div>
-      <div class="flex space-x-2">
+      <div class="flex space-x-2 mb-2">
         <Link :href="route('admin.division.create')" method="get" as="button" type="button"
             class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
         >
@@ -24,7 +24,7 @@
       <Modal :isModalOpen="deleteDivisionModal" >
         <!-- Modal Header -->
         <template v-slot:header>
-          <div class="text-gray-900 text-xl font-medium dark:text-white">
+          <div class="text-gray-900 text-xl font-medium">
               คุณต้องการลบข้อมูลของ สาขา/หน่วยงาน
           </div>
         </template>
@@ -32,28 +32,28 @@
         <template v-slot:body>
           <div class="flex flex-row justify-start items-center">
             <img :src="url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
-            <div class="text-gray-900 text-md font-medium dark:text-white">
+            <div class="text-gray-900 text-md font-medium">
                 {{ divisionForm.name_th }}
             </div>
           </div>
         </template>
         <!-- Modal Footer -->
         <template v-slot:footer>
-          <button @click="deleteDivision()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
-          <button @click="openDeleteDivisionModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
+          <button @click="deleteDivision()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">ลบ</button>
+          <button @click="openDeleteDivisionModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">ยกเลิก</button>
         </template>
       </Modal>
       </teleport>
 
       <!-- สำหรับแสดงผล list รายชื่อ สาขา/หน่วยงาน -->
-      <div v-for="item in props.divisions.data" :key="item.id" class="flex flex-col items-center space-y-4 sm:flex-row w-full px-4 py-2 mb-4 mx-auto bg-gradient-to-l from-sky-100 rounded-lg shadow-md dark:bg-gray-800">  
+      <div v-for="item in props.divisions.data" :key="item.id" class="flex flex-col items-center space-y-4 sm:flex-row w-full px-4 py-2 mb-4 mx-auto bg-gradient-to-l from-sky-100 rounded-lg shadow-md">
         <div>
           <img :src="`${item.image_url}`" class="h-20 w-20 rounded-full object-cover mr-4"/>
         </div>
         <div class="flex w-full items-center justify-between ml-2">
             <div class="flex items-baseline">
-              <p class="text-md mr-2">{{ item.division_id }}.</p> 
-              <span class="text-md font-normal text-black dark:text-gray-400">
+              <p class="text-md mr-2">{{ item.division_id }}.</p>
+              <span class="text-md font-normal text-black">
               {{ item.name_th }}
               <p class="text-gray-600 text-sm">({{ item.name_en }})</p>
               <p class="text-gray-600">ประเภท : {{item.division_type}}</p>
@@ -70,14 +70,21 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               </button>
-            </div> 
+            </div>
         </div>
       </div>
 
       <Paginations :pagination="divisions"/>
     </div>
-  </AdminAppLayout>
+<!--  </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, watch } from 'vue';
@@ -157,7 +164,7 @@ const deleteDivision = () => {
       toast('danger', 'พบปัญหา', error_display);
     },
     onFinish: () => {
-      divisionForm.processing = false 
+      divisionForm.processing = false
     }
   });
   openDeleteDivisionModal(false)

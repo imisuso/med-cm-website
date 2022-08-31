@@ -1,8 +1,8 @@
 <template>
-<AppLayout>
+<!--<AppLayout>-->
     <div class="flex flex-wrap justify-center">
         <div class="w-full md:mx-5">
-            <div class="flex items-center justify-between mt-5 ml-2 text-2xl text-orange-800 font-bold"> 
+            <div class="flex items-center justify-between mt-5 ml-2 text-2xl text-orange-800 font-bold">
                 <div> สาขาวิชา{{ branch.name_th }} </div>
                 <div class="flex space-x-4 mx-5">
                     <svg @click="allTabExpandOrCollapse(true)" class="h-6 w-6 text-emerald-500 cursor-pointer"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,7 +23,7 @@
 
                             <div class="border-b-2">{{ mainMenu.main_header_name_th }}</div>
                         </a>
-                        
+
                         <!-- แสดงผลข้อมูลสำหรับแต่ละ เมนูย่อยของ เมนูหลัก -->
                         <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded" v-bind:class="[mainMenu.isActive ? 'block' : 'hidden']">
                             <div class="px-4 py-5 flex-auto">
@@ -31,14 +31,16 @@
                                     <div v-if="mainMenu.component_name === 'BtAbout'">
                                         <template v-for="subMenu in branchSubMenu" :key="subMenu.sub_header_id">
                                             <div v-if="subMenu.status && subMenu.main_header_id === 1" class="mb-5" >
-                                                <div class="flex items-center">
+                                                <div class="flex items-center ">
                                                     <div class="text-blue-600 font-bold text-lg">{{ subMenu.sub_header_name_th }}</div>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 ml-2" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                                     </svg>
                                                 </div>
                                                 <!-- <div class="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl ql-editor" v-html="sub_header.html_content"></div> -->
-                                                <div class="ql-editor" v-html="subMenu.detail_html"></div>
+                                                <div class="ql-container ql-snow ">
+                                                    <div class="ql-editor" v-html="subMenu.detail_html"></div>
+                                                </div>
                                             </div>
                                         </template>
                                     </div>
@@ -54,11 +56,11 @@
                                                 <!-- <div class="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl ql-editor" v-html="sub_header.html_content"></div> -->
                                                 <!-- <div class="ql-editor" v-html="subMenu.detail_html"></div> -->
                                                 <div class="flex flex-col space-y-4">
-              
+
                                                     <template v-if="subMenu?.attach_files">
                                                         <div v-for="(at, index) in subMenu.attach_files" :key="index" class="flex flex-col items-center border mt-2">
                                                             <div class="flex items-center place-self-start">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 256 256" xml:space="preserve">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 256 256" xml:space="preserve">
                                                                     <g transform="translate(128 128) scale(0.72 0.72)" style="">
                                                                         <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
                                                                             <path d="M 11.194 73.946 v 11.506 c 0 2.508 2.04 4.548 4.548 4.548 h 58.517 c 2.508 0 4.548 -2.04 4.548 -4.548 V 20.496 c 0 -1.214 -0.473 -2.356 -1.332 -3.216 L 61.526 1.332 C 60.667 0.473 59.525 0 58.31 0 H 15.742 c -2.508 0 -4.548 2.04 -4.548 4.548 V 43.16 l 0 0 V 73.946 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(220,223,225); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
@@ -75,19 +77,19 @@
                                                                 <div class="px-2">{{ at.orig_name }}</div>
                                                                 <button @click="dlClick( at.unique_name, at.orig_name )" class="border rounded-md shadow-md bg-emerald-400 px-2 py-1 my-1">Download</button>
                                                             </div>
-                                                            
+
                                                             <div class="hidden md:block">
                                                                 <EduContentPdfViewer
                                                                     :allPages="false"
                                                                     :pdfFile="`${subMenu.json_array_field_transform[index].url}`"
                                                                 />
                                                             </div>
-                                                            
+
                                                             <!-- <embed :src="`${subMenu.json_array_field_transform[index].url}`" width="800px" height="800px" /> -->
                                                             <!-- <embed :src="`${baseUrl}/storage/${at.unique_name}`" width="800px" height="800px" /> -->
                                                         </div>
                                                     </template>
-                                                    
+
                                                 </div>
                                             </div>
                                             <div v-else-if="subMenu.status && subMenu.main_header_id === 2">
@@ -97,7 +99,9 @@
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                                     </svg>
                                                 </div>
-                                                <div class="ql-editor" v-html="subMenu.detail_html"></div>
+                                                <div class="ql-container ql-snow ">
+                                                    <div class="ql-editor" v-html="subMenu.detail_html"></div>
+                                                </div>
                                             </div>
                                         </template>
                                     </div>
@@ -109,7 +113,7 @@
                                     <BtAcademicService v-if="mainMenu.component_name === 'BtAcademicService'" :division_id="parseInt(branch.division_id)" :branchSubMenu="getOneBranchSubMenu( mainMenu.main_header_id )" display_content="" />
                                     <BtLink v-if="mainMenu.component_name === 'BtLink'" :division_id="parseInt(branch.division_id)" :branchSubMenu="getOneBranchSubMenu( mainMenu.main_header_id )" display_content="" />
                                     <BtContact v-if="mainMenu.component_name === 'BtContact'" :division_id="parseInt(branch.division_id)" :branchSubMenu="getOneBranchSubMenu( mainMenu.main_header_id )" display_content="" />
-                                    <BtEduEditor v-if="mainMenu.component_name === 'BtEduEditor'" :division_id="parseInt(branch.division_id)" :branchSubMenu="getOneBranchSubMenu( mainMenu.main_header_id )" display_content="" />
+                                    <!-- <BtEduEditor v-if="mainMenu.component_name === 'BtEduEditor'" :division_id="parseInt(branch.division_id)" :branchSubMenu="getOneBranchSubMenu( mainMenu.main_header_id )" display_content="" /> -->
                                 </div>
                             </div>
                         </div>
@@ -118,8 +122,15 @@
             </ul>
         </div>
     </div>
-</AppLayout>
+<!--</AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -132,7 +143,7 @@ import BtBranchService from '@/Components/BranchTemplate/BtBranchService.vue'
 import BtAcademicService from '@/Components/BranchTemplate/BtAcademicService.vue'
 import BtLink from '@/Components/BranchTemplate/BtLink.vue'
 import BtContact from '@/Components/BranchTemplate/BtContact.vue'
-import BtEduEditor from '@/Components/BranchTemplate/BtEduEditor.vue'
+// import BtEduEditor from '@/Components/BranchTemplate/BtEduEditor.vue'
 
 const props = defineProps({
     branch: { type: Object, required: true },
@@ -156,7 +167,7 @@ const baseUrl = ref(base_url)
 const toggleTabs = (tabNumber, index) => {
     openTab.value = tabNumber
     branchMainMenu.value[index].isActive = !branchMainMenu.value[index].isActive
-    
+
 }
 
 const allTabExpandOrCollapse = ( flag ) => {
@@ -165,12 +176,12 @@ const allTabExpandOrCollapse = ( flag ) => {
     });
 }
 
-const getBranchSubMenu = ( main_header_id ) => {
-    return branchSubMenu.value.filter( (item) => { return item.main_header_id === main_header_id }) // เอาทุกค่าที่ match
-}
+// const getBranchSubMenu = ( main_header_id ) => {
+//     return branchSubMenu.value.filter( (item) => { return item.main_header_id === main_header_id }) // เอาทุกค่าที่ match
+// }
 
 const getOneBranchSubMenu = ( main_header_id ) => {
-    let subMenu = {}
+    let subMenu
     subMenu = branchSubMenu.value.find( item => item.main_header_id === main_header_id) // เอาค่าแรกที่เจอค่าเดียว
     //console.log(subMenu)
     return subMenu
@@ -182,7 +193,7 @@ const dlClick = ( pdfFile, origName ) => {
             method: 'GET',
             params: {
                 pdf_file: pdfFile,
-                t: new Date().getTime()               
+                t: new Date().getTime()
             },
             responseType: 'arraybuffer',
         }).then((response) => {
@@ -194,7 +205,7 @@ const dlClick = ( pdfFile, origName ) => {
             link.href = window.URL.createObjectURL(blob)
             link.download = origName
             link.click()
-        });   
+        });
 }
 
 </script>

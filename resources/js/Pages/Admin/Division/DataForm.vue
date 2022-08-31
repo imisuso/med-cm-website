@@ -1,5 +1,5 @@
 <template>
-    <AdminAppLayout>
+<!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
@@ -8,9 +8,9 @@
                     class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
-                </Link>  
+                </Link>
             </div>
-        
+
             <div class="text-gray-900 text-lg underline font-medium dark:text-white mb-4">
                 รายละเอียดข้อมูลของ สาขา/หน่วยงาน
             </div>
@@ -29,7 +29,7 @@
                         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                         </svg>
-                        <span class="mt-2 text-base leading-normal">เลือกรูป</span> 
+                        <span class="mt-2 text-base leading-normal">เลือกรูป</span>
                         <input type="file" @input="divisionForm.image = $event.target.files[0]" @change="previewImage" class="hidden">
                     </label>
                     </div>
@@ -37,13 +37,13 @@
                 <div class="grid grid-cols-6 gap-2 md:gap-6 mt-6 mb-6">
                     <label for="division_id" class="col-span-6 md:col-span-2 mr-2 self-end">เลข สาขา/หน่วยงาน :</label>
                     <input type="number" id="division_id" v-model="divisionForm.division_id" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                   
+
                     <label for="name_thai" class="col-span-6 md:col-span-2 mr-2 self-end">ชื่อ สาขา/หน่วยงาน (ไทย) :</label>
                     <input type="text" id="name_thai" v-model="divisionForm.name_th" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                
+
                     <label for="name_eng" class="col-span-6 md:col-span-2 mr-2 self-end">ชื่อ สาขา/หน่วยงาน (อังกฤษ) :</label>
                     <input type="text" id="name_eng" v-model="divisionForm.name_en" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    
+
                 </div>
                 <fieldset class="py-3">
                     <div>
@@ -78,8 +78,15 @@
             </div>
 
         </div>
-    </AdminAppLayout>
+<!--    </AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue'
@@ -94,7 +101,7 @@ const props = defineProps({
 })
 
 const actionWord = ref(null)
-const baseUrl = ref(base_url) 
+const baseUrl = ref(base_url)
 const url = props.division ? ref(props.division.image_url) : ref(null)
 const oldimage = props.division ? ref(props.division.image) : ref(null)
 
@@ -139,7 +146,7 @@ const saveDivision = () => {
     if(divisionForm.id) {  // Edit
         divisionForm.transform(data => ({
             ...data,
-            oldimage: oldimage.value     
+            oldimage: oldimage.value
         })).post(route('admin.division.update', divisionForm.id), {
             _method: 'patch',
             preserveState: false,
@@ -154,7 +161,7 @@ const saveDivision = () => {
                 toast('danger', 'พบข้อผิดพลาด', error_display);
             },
             onFinish: () => {
-                divisionForm.processing = false 
+                divisionForm.processing = false
             }
         });
     } else { // Add
@@ -176,7 +183,7 @@ const saveDivision = () => {
                 //toast('danger', 'Error', `- ${errors.division_id} <br /> - ${errors.name_th} <br /> - ${errors.type} <br /> - ${errors.msg} <br /> - ${errors.sysmsg}`);
             },
             onFinish: () => {
-                divisionForm.processing = false 
+                divisionForm.processing = false
             }
         });
     }

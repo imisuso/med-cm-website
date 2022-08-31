@@ -23,11 +23,12 @@
                     <template v-for="(officer, index) in officers" :key="index">
                     <div class="flex flex-row mt-2 sm:mt-0  rounded-lg shadow-lg bg-gradient-to-r from-green-50 to-green-100">
                         <div class="flex items-center p-2">
-                            <svg v-if="! officer.image" class="w-20 h-28 rounded-lg ring-1 ring-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <!-- <svg v-if="! officer.image" class="w-20 h-28 rounded-lg ring-1 ring-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         
-                            <img v-else class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300" :src="`${officer.image_url}`" alt="">
+                            <img v-else class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300" :src="`${officer.image_url}`" alt=""> -->
+                            <img class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300" :src="`${officer.image_url}`" alt="" />
                         </div>
                         <div class="flex items-center">
                             <div class="flex flex-col">

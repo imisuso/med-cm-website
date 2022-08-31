@@ -18,32 +18,32 @@
 			<!-- <div class="flex flex-row flex-wrap justify-center"> -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
 				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" :src="`${baseUrl}/images/post_graduate/officer/1.jpg`">
+					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/1.jpg">
 					<p class="text-xl font-semibold leading-tight">นางเรวดี พีรวัฒนฒึกล</p>
 					<p class="text-md text-gray-600 italic">เจ้าหน้าที่บริหารงานทั่วไป ชำนาญการ</p>
 				</div>
 				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" :src="`${baseUrl}/images/post_graduate/officer/2.jpg`">
+					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/2.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาวสุภาพร สุรัตน์</p>
 					<p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
 				</div>
 				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" :src="`${baseUrl}/images/post_graduate/officer/3.jpg`">
+					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/3.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาววันวิสาข์ สุวรรณเสาร์</p>
 					<p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
 				</div>
 				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" :src="`${baseUrl}/images/post_graduate/officer/4.jpg`">
+					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/4.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาวสุภาภรณ์ จุลเศียร</p>
 					<p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
 				</div>
 				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" :src="`${baseUrl}/images/post_graduate/officer/5.jpg`">
+					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/5.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาวเพ็ญศิริ สีดีจริง</p>
 					<p class="text-md text-gray-600 italic">พนักงานธุรการ</p>
 				</div>
 				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" :src="`${baseUrl}/images/post_graduate/officer/6.jpg`">
+					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/6.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาวนภัสวรรณ สุขแสง</p>
 					<p class="text-md text-gray-600 italic">พนักงานบริการทั่วไป</p>
 				</div>

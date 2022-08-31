@@ -4,25 +4,27 @@ namespace App\Managers;
 
 use App\Models\TraceLog;
 
-// use Illuminate\Http\UploadedFile;
-
 class LogManager
 {
     public function store(string $user, string $section, string $action, string $details, string $type = 'info')
     {
         //$prefix = ($isPublic ? 'public/':'') . $folder;
         //return $file->store($prefix);
-        $log = new TraceLog;
+        $log = new TraceLog();
         $log->user = $user;
         $log->section = $section;
         $log->action = $action;
         $log->details = $details;
         $log->type = $type;
 
+        // logger("[".$user."][".$section."][".$action."][".$details."][".$type."]");
+        // logger("into Log Manager");
         try {
             $log->save();
+            // logger("After Save Log");
             return true;
         } catch (\Exception  $e) {
+            // logger($e);
             return false;
         }
 

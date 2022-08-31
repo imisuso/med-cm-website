@@ -1,5 +1,5 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
         <main class="bg-white overflow-hidden  relative">
             <!-- <header class="absolute top-0 left-0 right-0 z-20">
                 <nav class="container mx-auto px-6 md:px-12 py-4">
@@ -31,23 +31,32 @@
                         <h1 class="font-light font-sans text-center lg:text-left text-5xl lg:text-8xl mt-12 md:mt-0 text-gray-700">
                             Sorry, this page isn&#x27;t available
                         </h1>
-                        <a :href="route('index')">
+                        <Link :href="route('index')">
                             <button class="px-2 py-2 w-36 mt-16 font-light transition ease-in duration-200 hover:bg-yellow-400 border-2 text-lg border-gray-700 bg-yellow-300 focus:outline-none">
                                 Go back home
                             </button>
-                        </a>
+                        </Link>
                     </div>
                     <div class="block w-full mx-auto md:mt-0 relative max-w-md lg:max-w-2xl">
-                        <img :src="`${baseUrl}/images/construction.svg`"/>
+                        <!-- <img :src="`${baseUrl}/images/construction.svg`"/> -->
+                        <img src="../../asset/images/construction.svg" />
                     </div>
                 </div>
             </div>
         </main>
-    </AppLayout>
+<!--    </AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3'
 
 const baseUrl = ref(base_url)
 </script>

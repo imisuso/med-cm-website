@@ -2,8 +2,45 @@
 
 @tailwind components;
 
-/* @import '@vueup/vue-quill/dist/vue-quill.snow.css'; */
-@import 'quill/dist/quill.core.css';
-@import 'quill/dist/quill.snow.css';
-
 @tailwind utilities;
+
+@font-face {
+    font-family: 'DBLim';
+    src: '../asset/fonts/mahidol/DB_Lim_X_v3.2.ttf';
+    /* src: url("{{ asset('/fonts/mahidol/DB_Lim_X_v3.2.ttf') }}"); */
+}
+
+p.ql-align-center {
+    display: flex;
+    justify-content: center;
+    /* background-color: yellow; */
+}
+
+p.ql-align-right {
+    display: flex;
+    justify-content: right;
+    /* background-color: blue; */
+}
+
+/*p.ql-align-left {*/
+/*    display: inline;*/
+/*    margin: 0px 1em 1em 0px;*/
+/*    float: left;*/
+/*    justify-content: left;*/
+/*    !* background-color: yellow; *!*/
+/*}*/
+
+/*p.ql-align-center {*/
+/*    display: flex;*/
+/*    margin: auto;*/
+/*    justify-content: center;*/
+/*    !* background-color: yellow; *!*/
+/*}*/
+
+/*p.ql-align-right {*/
+/*    display: inline;*/
+/*    margin: 0px 0px 1em 1em;*/
+/*    float: right;*/
+/*    justify-content: right;*/
+/*    !* background-color: blue; *!*/
+/*}*/

@@ -35,8 +35,8 @@ class CreateBranchSubMenusTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('branch_sub_menus');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('branch_sub_menus');
+    // }
 }

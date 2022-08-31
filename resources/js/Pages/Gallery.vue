@@ -9,6 +9,9 @@
             <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in images" :key="src" :src="src">
         </div> -->
         
+        <div class="p-2 mb-2 border text-lg font-bold text-indigo-500 shadow-lg rounded-lg bg-gray-200">
+            {{ desc }}
+        </div>
         <!-- component -->
         <VueViewer
             :images="images"
@@ -26,8 +29,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { component as VueViewer } from 'v-viewer'
+import 'viewerjs/dist/viewer.css';
 
 // const options = reactive({
 //         inline: true,
@@ -47,23 +51,14 @@ import { component as VueViewer } from 'v-viewer'
 //       })
 
 const props = defineProps({
-    images: { type: Array, default: [] }
+    images: { type: Array, default: [] },
+    desc: { type: String, default: ''}
 })
 
 const baseUrl = ref(base_url)
 
-//console.log(props.images)
-
-// const images =  ref([
-//           "storage/images/gallery/25640101/photo/01.jpg",
-//           "storage/images/gallery/25640101/photo/02.jpg",
-//           "storage/images/gallery/25640101/photo/03.jpg",
-//           "storage/images/gallery/25640101/photo/04.jpg",
-//           "storage/images/gallery/25640101/photo/05.jpg",
-//           "storage/images/gallery/25640101/photo/09.jpg"
-//         ])
 </script>
 
 <style scoped>
-@import 'viewerjs/dist/viewer.css';
+
 </style>

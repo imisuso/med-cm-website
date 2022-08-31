@@ -1,4 +1,5 @@
 <?php
+
 namespace App\APIs;
 
 use App\Contracts\AuthUserAPI;
@@ -23,11 +24,13 @@ class AutoBotAPI implements AuthUserAPI
     {
         $faker = Factory::create();
         $user['org_id'] = $login['sap_id'];
+        $user['login'] = $login['name'];
         $user['name'] = $faker->name();
         $user['remark'] = 'ผู้ดูแลระบบแบบ auto';
         $user['name_en'] = '';
         $user['email'] = $login['name'].'@mahidol.ac.th';
         $user['found'] = true;
+        $user['reply_code'] = 0;
 
         return $user;
     }
@@ -35,18 +38,18 @@ class AutoBotAPI implements AuthUserAPI
     public function authenticate($login, $password)
     {
         $user = User::whereName($login)->first();
-        if ( $user && (strcmp($user['sap_id'], $password) === 0) ) {
+        if ($user && (strcmp($user['sap_id'], $password) === 0)) {
             return $this->getUser($user);
         } else {
-            return ['reply_code' => 1, 'reply_text' => 'credentials not found in our records', 'found' => false];
+            return ['reply_code' => 1, 'reply_text' => 'Credentials not found in our records', 'found' => false];
         }
 
-    //     [
+        //     [
     //         "reply_code" => "1",
     //         "reply_text" => "Username or Password is incorrect",
     //         "found" => "false",
     //     ]
-       
+
     //    /////////////////////////////////////
     //    [
     //         "ok" => true,
@@ -71,5 +74,4 @@ class AutoBotAPI implements AuthUserAPI
         //         ['reply_code' => 1, 'reply_text' => 'credentials not found in our records'] :
         //         $this->getUser($login);
     }
-
 }

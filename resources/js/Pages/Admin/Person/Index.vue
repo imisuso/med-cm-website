@@ -1,7 +1,7 @@
 <template>
-  <AdminAppLayout>
+<!--  <AdminAppLayout>-->
     <div class="flex flex-col px-2 py-1 w-full">
-      <div class="mb-2 text-2xl font-bold">จัดการบุคลากร</div>
+      <div class="mt-2 mb-2 text-2xl font-bold">จัดการบุคลากร</div>
       <!-- Toolbar -->
       <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
         <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
@@ -14,7 +14,7 @@
       </div>
       <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
         <div class="flex space-x-2 w-full place-self-center">
-          <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล หรือ รหัส SAP" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+          <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
         </div>
         <div class="flex space-x-2">
           <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
@@ -27,7 +27,7 @@
             </div>
             <div>เพิ่ม</div>
           </Link>
-    
+
           <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
             <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
               <div>
@@ -35,22 +35,31 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                 </svg>
               </div>
-              <div>เรียงลำดับ</div> 
+              <div>เรียงลำดับ</div>
             </button>
           </Link>
         </div>
       </div>
 
       <div class="flex flex-col w-full mb-4">
-          <PersonInteractiveCardList 
-            v-for="(item, index) in persons.data" 
-            :key="index" 
-            :personDetails="item"
-            :order-input="false"
-            @edit-person="editPerson(item)" 
-            @view-person="viewPerson(item)"
-            @order-person="orderPerson(item)"
-            @delete-person="confirmDeletePerson(item)"
+<!--          <PersonInteractiveCardList -->
+<!--            v-for="(item, index) in persons.data" -->
+<!--            :key="index" -->
+<!--            :personDetails="item"-->
+<!--            :order-input="false"-->
+<!--            @edit-person="editPerson(item)" -->
+<!--            @view-person="viewPerson(item)"-->
+<!--            @order-person="orderPerson(item)"-->
+<!--            @delete-person="confirmDeletePerson(item)"-->
+<!--          />-->
+          <PersonInteractiveCardList
+              v-for="(item, index) in persons.data"
+              :key="index"
+              :personDetails="item"
+              :order-input="false"
+              @edit-person="editPerson(item)"
+              @view-person="viewPerson(item)"
+              @delete-person="confirmDeletePerson(item)"
           />
       </div>
 
@@ -59,7 +68,7 @@
       <Modal :isModalOpen="deletePersonModal" >
 
         <template v-slot:header>
-          <div class="text-gray-900 text-xl font-medium dark:text-white">
+          <div class="text-gray-900 text-xl font-medium">
               คุณต้องการลบข้อมูลบุคลากร
           </div>
         </template>
@@ -67,15 +76,15 @@
         <template v-slot:body>
           <div class="flex flex-row justify-start items-center">
             <img :src="url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
-            <div class="text-gray-900 text-md font-medium dark:text-white">
+            <div class="text-gray-900 text-md font-medium">
                 {{ personForm.fullname }}
             </div>
           </div>
         </template>
 
         <template v-slot:footer>
-          <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
-          <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
+          <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">ลบ</button>
+          <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
         </template>
       </Modal>
       </teleport>
@@ -84,8 +93,15 @@
         <Pagination :pagination="persons"/>
       </div>
     </div>
-</AdminAppLayout>
+<!--</AdminAppLayout>-->
 </template>
+
+<script>
+import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
+    export default {
+        layout: AdminAppLayout,
+    }
+</script>
 
 <script setup>
 import { ref, onMounted, reactive, watch, nextTick } from 'vue'
@@ -120,8 +136,8 @@ const traceLogService = ref(new TraceLogService())
 const personModal = ref(false)
 const deletePersonModal = ref(false)
 const divisions = ref([])
-const filter_key = ref()
-const check_doctor = ref()
+// const filter_key = ref()
+// const check_doctor = ref()
 const pdpa_protect = ref(false)
 const url = ref(null)
 const baseUrl = ref(base_url)
@@ -179,7 +195,7 @@ const deletePerson = () => {
       toast('danger', 'พบปัญหา', error_display);
     },
     onFinish: () => {
-        personForm.processing = false 
+        personForm.processing = false
     }
   });
   openDeletePersonModal(false)
@@ -215,10 +231,10 @@ const confirmDeletePerson = ( personData ) => {
   openDeletePersonModal(true)
 }
 
-const orderPerson = (personData) => {
-  //console.log(personData.display_order)
-  personList.value = personList.value.sort( (a, b) => { return a.display_order - b.display_order });
-}
+// const orderPerson = (personData) => {
+//   //console.log(personData.display_order)
+//   personList.value = personList.value.sort( (a, b) => { return a.display_order - b.display_order });
+// }
 
 const getDivisionSlugFromId = (id) => {
   //console.log(id)
@@ -266,9 +282,9 @@ const togglePdpaData = () => {
     if( ! pdpa_protect.value ) {
         // มีการเปิดดูข้อมูลส่วนบุคคล
         traceLogService.value.storeLog(
-            section, 
+            section,
             "view",
-            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id, 
+            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id,
             "pdpa"
         )
     }

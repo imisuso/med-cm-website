@@ -6,12 +6,11 @@
   <div v-else-if="display_content === 'template'" class="flex flex-col">
 
     <div class="flex-grow">
-      <QuillEditor ref="quill_contact" 
-                  theme="snow"  
-                  contentType="delta" 
-                  toolbar="full" 
+      <QuillEditor ref="quill_contact"
+                  theme="snow"
+                  contentType="delta"
                   @ready="initialQuill()"
-                  @textChange="textChange" 
+                  @textChange="textChange"
       />
     </div>
 
@@ -30,19 +29,21 @@
         บันทึก
       </button>
       <button v-show="!editButton" @click="cancelEditContent" class="flex items-center mx-1 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2 hover:text-gray-900 focus:z-10">
-        <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  
+        <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
         ยกเลิก
       </button>
-      </div>   
+      </div>
     </div>
 
   </div>
 
   <div v-else class="flex flex-col">
     <div class="flex-grow">
-      <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>
+      <div class="ql-container ql-snow">
+        <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,7 +71,7 @@ onUnmounted(() => {
 const quill_contact = ref()
 const editButton = ref(true)
 const imgDeleted = reactive([])
-const imgInserted = reactive([])  
+const imgInserted = reactive([])
 
 const form = useForm({
   id: null,
@@ -96,7 +97,7 @@ const toast = (severity, summary, detail) => {
 // ใช้สำหรับ event เมื่อ rich-text มีการเปลี่ยนแปลงข้อความ ซึ่งในที่นี้จะหมายถึงการลบ รูป
 const textChange = (e) => {
   // หา url ของรูปที่ถูกลบไป
-  const deleted = getImgUrls(quill_contact.value.getContents().diff(e.oldContents))  
+  const deleted = getImgUrls(quill_contact.value.getContents().diff(e.oldContents))
   // เพิ่มข้อมูลรูปที่ถูกลบ ลงไปใน list
   deleted.length && imgDeleted.push(deleted[0]) && console.log('delete', imgDeleted)
 }
@@ -105,7 +106,7 @@ const getImgUrls = (delta) => {
   return delta.ops.filter(i => i.insert && i.insert.image).map(i => i.insert.image)
 }
 
-// ใช้สำหรับ copy patse รูปมาไว้ที่ rich-text 
+// ใช้สำหรับ copy patse รูปมาไว้ที่ rich-text
 const pasteImage = (e) => {
   Array.prototype.forEach.call(e.clipboardData.items, item => {
     if (item.type.match(/^image\/(gif|jpe?g|a?png|svg|webp|bmp)$/i)) {
@@ -114,7 +115,7 @@ const pasteImage = (e) => {
         return
     } else if (item.type.match(/^application\//i)) {
         e.preventDefault()
-    } 
+    }
     else if (item.type.startsWith('text/html')) {
       nextTick(() => {
         let editor = document.querySelector(`#quill_ourservice .ql-editor`)
@@ -162,7 +163,7 @@ const cancelEditContent = () => {
 
 //
 //  * Step1. select local image
-//  
+//
 const selectLocalImage = () => {
   const input = document.createElement('input');
   input.setAttribute('type', 'file');
@@ -184,10 +185,10 @@ const selectLocalImage = () => {
 //  * Step2. save to server
 //  *
 //  * @param {File} file
-//  
+//
 const saveToServer = ( file ) => {
   const fd = new FormData()
-  
+
   // แนบรูป ที่จะเก็บไปด้วยเมื่อเรียกใช้ api
   fd.append('image_file', file)
 
@@ -202,7 +203,7 @@ const saveToServer = ( file ) => {
   })
   .then( res => {
     // หลังจาก upload รูปขึ้น server สำเร็จ จะได้เป็น url ของรูปกลับมาจาก api
-    // จากนั้นจึงเรียกใช้งาน function insertToEditor() และส่ง url เข้าไปยัง function เพื่อเพิ่มรูปเข้าไปยัง rich-text  
+    // จากนั้นจึงเรียกใช้งาน function insertToEditor() และส่ง url เข้าไปยัง function เพื่อเพิ่มรูปเข้าไปยัง rich-text
     insertToEditor(res.data.url)
   })
   .catch( (error) => {
@@ -247,10 +248,10 @@ const saveContent = () => {
   form.id = props.branchSubMenu.id
   form.detail_delta = JSON.stringify(quill_contact.value.getContents())
   form.detail_html = quill_contact.value.getHTML()
-  
+
   form.patch(route('admin.update_content_branch_sub_menu', form.id), {
     preserveState: false,
-    onBefore: () => {    
+    onBefore: () => {
        if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
           quill_contact.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
           cancelEditContent()

@@ -6,7 +6,14 @@ module.exports = {
     './resources/**/*.vue'
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Sarabun', 'ui-sans-serif', 'system-ui'],
+        'serif': ['Sarabun', 'ui-serif', 'Georgia'],
+        'mono': ['Sarabun', 'ui-monospace', 'SFMono-Regular'],
+        'font-banner': ['DBLim'],
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

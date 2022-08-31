@@ -16,8 +16,8 @@
                 ดาวน์โหลด
             </div>
         </div>
-        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">       
-            <div v-for="(card, idx) in downloadItems" v-bind:key="idx" class="w-full h-32 flex flex-col justify-between bg-white dark:bg-gray-800 dark:border-gray-700 rounded-lg border border-gray-400 mb-2 py-5 px-4" v-bind:class="[card.theme, card.border]">
+        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+            <div v-for="(card, idx) in downloadItems" v-bind:key="idx" class="w-full h-32 flex flex-col justify-between bg-white rounded-lg border border-gray-400 mb-2 py-5 px-4" v-bind:class="[card.theme, card.border]">
                 <div class="flex align-top justify-between space-x-2">
                     <h4 class="text-gray-800 font-bold mb-3">{{ card.title }}</h4>
                     <a :href="card.link" target="_blank">
@@ -26,7 +26,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                             </svg>
                         </div>
-                    </a>           
+                    </a>
                 </div>
             </div>
         </div>

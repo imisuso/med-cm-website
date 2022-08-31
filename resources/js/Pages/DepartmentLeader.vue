@@ -1,14 +1,14 @@
 <template>
-    <AppLayout>
+<!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
-                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-100">ทำเนียบหัวหน้าภาค</h4>
-                
+                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">ทำเนียบหัวหน้าภาค</h4>
+
             </div>
             <div class="mt-6 md:mt-0">
-                <a :href="route('index')">
-                    <button class="mr-3 bg-gray-200 dark:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-gray-300 text-indigo-700 dark:hover:bg-gray-600 dark:text-indigo-600 px-5 py-2 text-sm">กลับหน้าหลัก</button>
-                </a>
+                <Link :href="route('index')">
+                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
+                </Link>
             </div>
         </div>
 
@@ -49,7 +49,7 @@
                                 <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover h-full w-full shadow-md" />
                             </div>
                             <div class="backdrop-opacity-10 backdrop-invert bg-white/20  p-2 rounded-md">
-                                <h3 class="font-semibold text-center text-md text-gray-800">{{ leader.position }}<br class="block lg:hidden" />{{ leader.name }}</h3>       
+                                <h3 class="font-semibold text-center text-md text-gray-800">{{ leader.position }}<br class="block lg:hidden" />{{ leader.name }}</h3>
                                 <!-- <h3 class="font-semibold text-md mb-1 text-gray-800">{{ leader.name }}</h3> -->
                                 <p class="underline text-sm text-center">ระยะเวลาดำรงตำแหน่ง</p>
                                 <p class="text-sm text-center">{{ leader.time_tenure }}</p>
@@ -59,11 +59,19 @@
                 </template>
             </div>
         </div>
-    </AppLayout>
+<!--    </AppLayout>-->
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3'
 
 const leaders = ref(
             [
@@ -82,7 +90,7 @@ const leaders = ref(
                 {"id": 13, "position":"ศาสตราจารย์คลีนิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/013.gif"},
                 {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "name": "วันชัย วนะชิวนาวิน","time_tenure": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image":"images/department_leaders/014.jpg"},
                 {"id": 15, "position":"รองศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - ปัจจุบัน", "image":"images/department_leaders/015.jpg"},
-                
+
             ]
 )
 

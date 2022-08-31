@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'sap_id',
         'status',
         'other'
     ];
@@ -75,6 +76,11 @@ class User extends Authenticatable
         $this->roles()->syncWithoutDetaching($role);
     }
 
+    public function revokeRole()
+    {
+        $this->roles()->detach();
+    }
+
     public function getUserRolesAttribute()
     {
         return $this->roles->map->name->flatten()->unique()->flatten();
@@ -83,5 +89,21 @@ class User extends Authenticatable
     public function getAbilitiesAttribute()
     {
         return $this->roles->map->abilities->flatten()->pluck('name')->unique()->flatten();
+    }
+
+    public function agreements()
+    {
+        return $this->belongsToMany(Agreement::class)->withTimestamps();
+    }
+
+    public function needAcceptAgreement()
+    {
+        $latestAgreement = Agreement::orderByDesc('date_effected')->first();
+
+        if (! $latestAgreement || $this->agreements()->where('id', $latestAgreement->id)->count()) {
+            return false;
+        }
+
+        return true;
     }
 }
