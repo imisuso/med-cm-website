@@ -100,7 +100,44 @@ Route::get('/officer', function () {
 })->name('officer');
 
 Route::get('/post_graduate', function () {
-    return Inertia::render('PostGraduate');
+    $CommitteeData = [];
+    $committeeDataJson = '[
+        { "sap_id": 10003260, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10003630, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10003532, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10004823, "position_thai": "ที่ปรึกษา" },
+        { "sap_id": 10006188, "position_thai": "ประธานกรรมการ" },
+        { "sap_id": 10004805, "position_thai": "รองประธานฯและกรรมการ" },
+        { "sap_id": 10003691, "position_thai": "กรรมการ" },
+        { "sap_id": 10008561, "position_thai": "กรรมการ" },
+        { "sap_id": 10006561, "position_thai": "กรรมการ" },
+        { "sap_id": 10009839, "position_thai": "กรรมการ" },
+        { "sap_id": 10011383, "position_thai": "กรรมการ" },
+        { "sap_id": 10020928, "position_thai": "กรรมการ" },
+        { "sap_id": 10019496, "position_thai": "กรรมการ" },
+        { "sap_id": 10017710, "position_thai": "กรรมการ" },
+        { "sap_id": 10020702, "position_thai": "กรรมการ" },
+        { "sap_id": 10019478, "position_thai": "กรรมการ" },
+        { "sap_id": 10027438, "position_thai": "กรรมการ" },
+        { "sap_id": 10030939, "position_thai": "กรรมการ" },
+        { "sap_id": 10034027, "position_thai": "กรรมการ" },
+        { "sap_id": 10029131, "position_thai": "กรรมการ" },
+        { "sap_id": 10030820, "position_thai": "กรรมการ" },
+        { "sap_id": 10006517, "position_thai": "เลขานุการและกรรมการ" },
+        { "sap_id": 10004417, "position_thai": "ผู้ช่วยเลขานุการและกรรมการ" }
+    ]';
+    $committees = json_decode($committeeDataJson, true);
+
+    foreach ($committees as $committee) {
+        // logger($committee);
+        $person = Person::select('rname_full_th', 'fname_th', 'lname_th', 'image')
+               ->where('sap_id', $committee['sap_id'])
+               ->first();
+
+        $CommitteeData[] = array('rname_full_th' => $person->rname_full_th, 'fullname' => $person->fname_th . ' ' . $person->lname_th, 'image_url' => $person->image_url, 'position_thai' => $committee['position_thai']);
+    }
+
+    return Inertia::render('PostGraduate', compact('CommitteeData'));
 })->name('post_graduate');
 
 Route::get('/under_construction', function () {
