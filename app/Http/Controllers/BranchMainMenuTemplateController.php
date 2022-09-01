@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Managers\LogManager;
 use App\Models\BranchMainMenu;
 use App\Models\BranchSubMenu;
+use App\Models\Division;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,13 +100,27 @@ class BranchMainMenuTemplateController extends Controller
     {
         //\Log::channel('daily')->info($BranchMainMenu);
         // \Log::info( ! $BranchMainMenu->status);
+        $division_data = Division::select('name_th')
+               ->where('division_id', $BranchMainMenu->division_id)
+               ->first();
+
         try {
+            $textStatus =  $BranchMainMenu->status ? 'ปิด' : 'เปิด';
             $BranchMainMenu->status = ! $BranchMainMenu->status;
             $BranchMainMenu->save();
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลเมนูไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
         }
-        
+
+        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager())->store(
+            Auth::user()->sap_id,
+            'Branch Content Management (จัดการเนื้อหาสาขา)',
+            'update',
+            'มีการเปลี่ยนสถานะการแสดงผลข้อมูลสาขา => '.$division_data->name_th.' | หัวข้อ => '.$BranchMainMenu->main_header_name_th.' | เป็น => '.$textStatus,
+            'info'
+        );
+
         return Redirect::route('admin.branch_template_editor');
     }
 
