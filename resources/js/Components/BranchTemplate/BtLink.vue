@@ -141,7 +141,11 @@ const saveLink = () => {
       form.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
     },
     onError: (errors) => {
-      toast('danger', errors.msg, errors.sysmsg)
+      let error_display = ''
+      for ( let p in errors ) {
+          error_display = error_display + `- ${errors[p]}<br/>`
+      }
+      toast('danger', 'พบข้อผิดพลาด', error_display);
     },
     onFinish: () => {
       form.processing = false

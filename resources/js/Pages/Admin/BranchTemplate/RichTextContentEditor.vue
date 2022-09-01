@@ -316,26 +316,30 @@ const saveContent = () => {
     })).patch( route('admin.richtext_content_update', contentForm.id), {
         //preserveState: false,
         onBefore: () => {    
-            if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
-                quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
-                cancelEditContent()
-                return false
-            }
+          if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
+              quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
+              cancelEditContent()
+              return false
+          }
         },
         onSuccess: () => {
-            toast('success', 'แก้ไขสำเร็จ', `แก้ไขข้อมูล ${props.sub_header.sub_header_name_th} เรียบร้อย`)
-            if( imgDeleted.length ) {
-                deleteFromServer(imgDeleted)
-            }
-            contentForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+          toast('success', 'แก้ไขสำเร็จ', `แก้ไขข้อมูล ${props.sub_header.sub_header_name_th} เรียบร้อย`)
+          if( imgDeleted.length ) {
+              deleteFromServer(imgDeleted)
+          }
+          contentForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
         },
         onError: (errors) => {
-            toast('danger', errors.msg, errors.sysmsg)
+          let error_display = ''
+          for ( let p in errors ) {
+              error_display = error_display + `- ${errors[p]}<br/>`
+          }
+          toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
-            contentForm.processing = false
-            imgDeleted.splice(0)
-            imgInserted.splice(0)
+          contentForm.processing = false
+          imgDeleted.splice(0)
+          imgInserted.splice(0)
         }
     })
 }
