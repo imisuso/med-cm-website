@@ -184,8 +184,11 @@ const switchButtonToggle = (menu) => {
             toast('success', 'สำเร็จ', 'เปลี่ยนสถานะการแสดงผลเมนูเรียบร้อย')
         },
         onError: (errors) => {
-            //console.log("onError state")
-            toast('danger', errors.msg, errors.sysmsg)
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
             //console.log("onFinish state")

@@ -265,7 +265,11 @@ const saveContent = () => {
       }
     },
     onError: (errors) => {
-      toast('danger', errors.msg, errors.sysmsg)
+      let error_display = ''
+      for ( let p in errors ) {
+          error_display = error_display + `- ${errors[p]}<br/>`
+      }
+      toast('danger', 'พบข้อผิดพลาด', error_display);
     },
     onFinish: () => {
       form.reset()
