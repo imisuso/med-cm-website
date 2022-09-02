@@ -203,14 +203,14 @@ Route::prefix('admin')
         Route::get('/gallery', 'index_admin')->name('admin.gallery');
         Route::get('/gallery/create', 'create')->name('admin.gallery.create');
         Route::get('/gallery/edit/{Gallery}', 'edit')->name('admin.gallery.edit');
-        Route::get('/gallery/check_empty/{event_date}', 'checkGalleryEmpty')->name('admin.gallery.check_empty');
+        Route::get('/gallery/check_empty/{slug}', 'checkGalleryEmpty')->name('admin.gallery.check_empty');
         Route::post('/gallery/store', 'store')->name('admin.gallery.store');
         Route::post('/gallery/update/{Gallery}', 'update')->name('admin.gallery.update');
         Route::patch('/gallery/update_display_status/{Gallery}', 'updateGalleryDisplayStatus')->name('admin.gallery.update_display_status');
         Route::delete('/gallery/delete/{Gallery}', 'destroy')->name('admin.gallery.delete');
 
         Route::get('/gallery/manage/{Gallery}', 'manageGallery')->name('admin.gallery.manage');
-        Route::post('/gallery/upload_image_to_gallery/{event_date}', 'uploadImageToGallery')->name('admin.gallery.upload_image_to_gallery');
+        Route::post('/gallery/upload_image_to_gallery/{Gallery}', 'uploadImageToGallery')->name('admin.gallery.upload_image_to_gallery');
         Route::delete('/gallery/delete_image', 'destroyGalleryImage')->name('admin.gallery.delete_image');
     });
 Route::get('/list_enabled_gallery', [GalleryController::class, 'showListEnabledGallery'])->name('list_enabled_gallery');

@@ -14,6 +14,7 @@ class Gallery extends Model
     //protected $table = 'galleries';
     protected $appends = ['cover_url'];
     protected $fillable = [
+        'slug',
         'cover',
         'desc',
         'event_date',
@@ -28,12 +29,12 @@ class Gallery extends Model
         'event_date' => 'datetime',
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($gallery) {
-            $gallery->slug = Str::uuid()->toString();
-        });
-    }
+    // protected static function booted()
+    // {
+    //     static::creating(function ($gallery) {
+    //         $gallery->slug = Str::uuid()->toString();
+    //     });
+    // }
 
     // public function getImageUrlAttribute()
     // {

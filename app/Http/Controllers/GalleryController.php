@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class GalleryController extends Controller
 {
@@ -33,6 +34,7 @@ class GalleryController extends Controller
                 ->withQueryString()
                 ->through(fn ($gallery) => [
                     'id' => $gallery->id,
+                    'slug' => $gallery->slug,
                     'cover' => $gallery->cover,
                     'cover_url' => $gallery->cover_url,
                     'desc' => $gallery->desc,
@@ -59,7 +61,9 @@ class GalleryController extends Controller
         $limit = (int)env('PHOTO_LIMIT_PER_GALLERY', 15);
         //logger($Gallery);
         $event_date = date("Ymd", strtotime($Gallery->event_date));
-        $image_path = "public/images/gallery/".$event_date."/photo";
+
+        //$image_path = "public/images/gallery/".$event_date."/photo";
+        $image_path = "public/images/gallery/".$Gallery->slug."/photo";
 
         $files_path = Storage::files($image_path);
         $file_storage = [];
@@ -73,6 +77,7 @@ class GalleryController extends Controller
             'Admin/Gallery/ManageGallery',
             [
                                     'id' => $Gallery->id,
+                                    'slug' => $Gallery->slug,
                                     'desc' => $Gallery->desc,
                                     'event_date' => $event_date,
                                     'images' => $file_storage,
@@ -81,10 +86,12 @@ class GalleryController extends Controller
         );
     }
 
-    public function uploadImageToGallery($event_date)
+    // public function uploadImageToGallery($event_date)
+    public function uploadImageToGallery(Gallery $Gallery)
     {
-        $store_path = "images/gallery/".$event_date."/photo";
-        
+        // $store_path = "images/gallery/".$event_date."/photo";
+        $store_path = "images/gallery/".$Gallery->slug."/photo";
+
         // $messages = [
         //     'same' => 'The :attribute and :other must match.',
         //     'size' => 'The :attribute must be exactly :size.',
@@ -104,27 +111,27 @@ class GalleryController extends Controller
             Request::all(),
             [   'imageFiles.*'  => 'required|mimes:jpg,jpeg|max:2305' ],
         );
-                        
+
         if ($validator->fails()) {
             //logger($validator->errors());
             return Redirect::back()->withErrors(['msg' => 'พบปัญหาของไฟล์ที่ไม่ใช่ .JPG หรือมีขนาดเกิน 2 MB']);
         }
-        
+
         foreach (Request::file('imageFiles') as $image) {
             //logger($image->getClientOriginalName());
             try {
-                $file_path = (new UploadManager)->store($image, true, $store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+                $file_path = (new UploadManager())->store($image, true, $store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
             } catch (\Exception  $e) {
                 return Redirect::back()->withErrors(['msg' => 'อัพโหลดรูปไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
             }
         }
 
         // เก็บ Log หลังจาก Upload รูปเรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Gallery Management (จัดการแกลลอรี่รูปกิจกรรม)',
             'upload',
-            'มีการเพิ่มรูปลงแกลลอรี่รูปกิจกรรม วันที่จัดกิจกรรม:'.$event_date,
+            'มีการเพิ่มรูปลงแกลลอรี่รูปกิจกรรม เรื่อง => '.$Gallery->desc,
             'info'
         );
 
@@ -159,17 +166,20 @@ class GalleryController extends Controller
             'desc.required' => 'ต้องใส่รายละเอียดแกลลอรี่รูปกิจกรรม ทุกครั้ง',
         ]);
 
+        //Create slug
+        $slug = Str::uuid()->toString();
+
         //Store Cover File
-        $event_date = date("Ymd", strtotime(Request::input('event_date')));
-        $cover_store_path = "images/gallery/".$event_date;
+        $cover_store_path = "images/gallery/".$slug;
         try {
-            $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+            $cover_path = (new UploadManager())->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เพิ่มรูปหน้าปกแกลลอรี่รูปกิจกรรมไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
         //Store data into DB
-        $gallery = new Gallery;
+        $gallery = new Gallery();
+        $gallery->slug = $slug;
         $gallery->desc = Request::input('desc');
         $gallery->cover = $cover_path;
         $gallery->event_date = Request::input('event_date');
@@ -180,12 +190,13 @@ class GalleryController extends Controller
             return Redirect::back()->withErrors(['msg' => 'เพิ่มแกลลอรี่รูปกิจกรรมไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
+
         // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Gallery Management (จัดการแกลลอรี่รูปกิจกรรม)',
             'insert',
-            'มีการเพิ่มข้อมูลแกลลอรี่รูปกิจกรรมใหม่ เรื่อง:'.Request::input('desc'),
+            'มีการเพิ่มข้อมูลแกลลอรี่รูปกิจกรรมใหม่ เรื่อง => '.Request::input('desc'),
             'info'
         );
 
@@ -202,8 +213,7 @@ class GalleryController extends Controller
     //public function show($event_date)
     {
         //logger($Gallery);
-        $event_date = date("Ymd", strtotime($Gallery->event_date));
-        $image_path = "public/images/gallery/".$event_date."/photo";
+        $image_path = "public/images/gallery/".$Gallery->slug."/photo";
 
         $files_path = Storage::files($image_path);
         $file_storage = [];
@@ -227,9 +237,10 @@ class GalleryController extends Controller
         return $galleries;
     }
 
-    public function checkGalleryEmpty($event_date)
+    // public function checkGalleryEmpty($event_date)
+    public function checkGalleryEmpty($slug)
     {
-        $image_path = "public/images/gallery/".$event_date."/photo";
+        $image_path = "public/images/gallery/".$slug."/photo";
 
         $files_path = Storage::files($image_path);
 
@@ -257,54 +268,41 @@ class GalleryController extends Controller
      */
     public function update(Gallery $Gallery)
     {
-        $change_event_date = 0;
+        $change_cover = 0;
         $old_cover = $Gallery->cover;
-
-        // ตรวจสอบว่ามีการเปลี่ยนวันที่ของรูปกิจกรรมหรือไม่
-        // การเปลี่ยนวันที่รูปกิจกรรม จะทำให้รูปทั้งหมดที่เคยมีอยู่ ทั้งรูปหน้าปก และ รูปกิจกรรม จะหายไปทั้งหมด
-        $db_event_date = date("Ymd", strtotime($Gallery->event_date));
-        $form_event_date = date("Ymd", strtotime(Request::input('event_date')));
-        if ($form_event_date !== $db_event_date) {
-            $change_event_date = 1;
-            $old_dir = "public/images/gallery/".$db_event_date;
-            try {
-                Storage::deleteDirectory($old_dir);
-                $Gallery->cover = '';
-                $Gallery->event_date = Request::input('event_date');
-            } catch (\Exception  $e) {
-                return Redirect::back()->withErrors(['msg' => 'เปลี่ยนวันที่ของรูปกิจกรรมไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
-            }
-        }
 
         // ตรวจสอบว่ามีการเปลี่ยนรูปหน้าปกของแกลลอรี่หรือไม่
         if (Request::hasFile('cover')) {
 
             //Store Cover File
-            $event_date = $form_event_date;
-            $cover_store_path = "images/gallery/".$event_date;
-            $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+            $slug = $Gallery->slug;
+            $cover_store_path = "images/gallery/".$slug;
+            $cover_path = (new UploadManager())->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
 
             //Store data into DB
             $Gallery->cover = $cover_path;
-
-            if (! $change_event_date) { // ถ้าไม่ได้เปลี่ยน event_date และมีการเปลี่ยนรูปหน้าปกกิจกรรม ให้ลบรูปเก่าทิ้งด้วย
-                Storage::delete($old_cover);
-            }
+            $change_cover = 1;
         }
 
         try {
+            $Gallery->event_date = Request::input('event_date');
             $Gallery->desc = Request::input('desc');
             $Gallery->save();
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'แก้ไขข้อมูลแกลลอรี่ลงฐานข้อมูลไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
-        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        // ลบรูปหน้าปก ของเก่าออก ถ้ามีการเปลี่ยนรูปหน้าปก ใหม่มา
+        if ($change_cover) {
+            Storage::delete($old_cover);
+        }
+
+        //เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Gallery Management (จัดการแกลลอรี่รูปกิจกรรม)',
             'update',
-            'มีการแก้ไขข้อมูลแกลลอรี่รูปกิจกรรม ID:'.$Gallery->id.' เรื่อง:'.Request::input('desc'),
+            'มีการแก้ไขข้อมูลแกลลอรี่รูปกิจกรรม ID => '.$Gallery->id.' | เรื่อง => '.Request::input('desc'),
             'info'
         );
 
@@ -320,12 +318,12 @@ class GalleryController extends Controller
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลแกลลอรี่ ไม่สำเร็จ', 'sysmsg' => $e->getMessage()]);
         }
-        
-        $resp = (new LogManager)->store(
+
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Gallery Management (จัดการแกลลอรี่รูปกิจกรรม)',
             'update',
-            'มีการเปลี่ยนการแสดงผลแกลลอรี่รูปกิจกรรม เรื่อง:'.$Gallery->desc.' เป็น:'.$status,
+            'มีการเปลี่ยนการแสดงผลแกลลอรี่รูปกิจกรรม เรื่อง => '.$Gallery->desc.' เป็น:'.$status,
             'info'
         );
 
@@ -341,9 +339,10 @@ class GalleryController extends Controller
     public function destroy(Gallery $Gallery)
     {
         $desc = $Gallery->desc;
+
         // ลบรูปปก และ รูปทั้งหมดภายในของ gallery แต่จะมีการ verify มาก่อนแล้วว่าจะให้ลบรูปใน gallery ก่อนถ้ามีรูปใน gallery แล้ว
         try {
-            $gallery_dir = "public/images/gallery/".date("Ymd", strtotime($Gallery->event_date));
+            $gallery_dir = "public/images/gallery/".$Gallery->slug;
             Storage::deleteDirectory($gallery_dir);
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปทั้งหมดของแกลลอรี่ได้', 'sysmsg' => $e->getMessage()]);
@@ -355,11 +354,11 @@ class GalleryController extends Controller
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลแกลลอรี่ได้', 'sysmsg' => $e->getMessage()]);
         }
 
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Gallery Management (จัดการแกลลอรี่รูปกิจกรรม)',
             'delete',
-            'มีการลบแกลลอรี่รูปกิจกรรม เรื่อง:'.$desc,
+            'มีการลบแกลลอรี่รูปกิจกรรม เรื่อง => '.$desc,
             'info'
         );
 
@@ -377,11 +376,11 @@ class GalleryController extends Controller
         }
 
         // เก็บ Log หลังจาก Upload รูปเรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Gallery Management (จัดการแกลลอรี่รูปกิจกรรม)',
             'upload',
-            'มีการลบรูปออกจากแกลลอรี่รูปกิจกรรม วันที่จัดกิจกรรม:'.Request::input('event_date'),
+            'มีการลบรูปออกจากแกลลอรี่รูปกิจกรรม เรื่อง => '.Request::input('desc'),
             'info'
         );
 

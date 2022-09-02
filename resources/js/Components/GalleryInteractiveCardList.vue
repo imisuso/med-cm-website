@@ -43,7 +43,7 @@
                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
                 <img v-else class="shadow-lg rounded-md h-16 w-20 object-cover mb-1 mt-1" :src="`${galleryDetails.cover_url}`" :alt="galleryDetails.desc"/> -->
-                <img class="shadow-lg rounded-md h-16 w-20 object-cover mb-1 mt-1" :src="`${galleryDetails.cover_url}`" :alt="galleryDetails.desc"/>
+                <img class="shadow-lg rounded-md h-16 w-20 object-cover mb-1 mt-1" :src="`${galleryDetails.cover_url}`" alt="Not Found"/>
             </div>
             <!-- <div class="flex flex-col w-full px-2 items-center sm:items-start">
                 <h3 class="text-md text-indigo-500 font-bold mb-1">ID:</h3>
