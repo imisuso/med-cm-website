@@ -21,7 +21,7 @@
       <div class="grid gap-4 mx-auto lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-4">
           <template v-for="director in DirectorData" :key="director.position_id">
               <div class="flex flex-col items-center" v-if="director.position_id !== 1">
-                  <img class="object-cover w-24 h-24 mb-2 rounded-full shadow" :src="`${baseUrl}/${director.image}`" />
+                  <img class="object-cover object-top w-24 h-24 mb-2 rounded-full shadow" :src="`${baseUrl}/${director.image}`" />
                   <div class="flex flex-col items-center">
                   <p class="text-lg text-center font-bold">{{ director.rname_full_th }}<br />{{ director.name }}</p>
                   <p class="text-sm text-center text-gray-800">{{ director.position_thai }}</p>
