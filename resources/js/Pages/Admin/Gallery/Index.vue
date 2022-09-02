@@ -131,7 +131,7 @@ const openDeleteGalleryModal = (isopen) => {
 
 const confirmDeleteGallery = ( galleryData ) => {
     axios({
-        url: route('admin.gallery.check_empty', dayjs(galleryData.event_date).locale('th').format('YYYYMMDD')),
+        url: route('admin.gallery.check_empty', galleryData.slug),
         method: 'GET',
     }).then((response) => {
         if(response.data > 0 ) {

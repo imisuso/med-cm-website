@@ -29,7 +29,7 @@
                 <div class="container mx-auto px-6 flex flex-col-reverse lg:flex-row justify-between items-center relative">
                     <div class="w-full mb-16 text-center lg:text-left">
                         <h1 class="font-light font-sans text-center lg:text-left text-5xl lg:text-8xl mt-12 md:mt-0 text-gray-700">
-                            Sorry, this page isn&#x27;t available
+                            Sorry, this page <br /> is under <br/> construction.
                         </h1>
                         <Link :href="route('index')">
                             <button class="px-2 py-2 w-36 mt-16 font-light transition ease-in duration-200 hover:bg-yellow-400 border-2 text-lg border-gray-700 bg-yellow-300 focus:outline-none">
