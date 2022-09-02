@@ -79,6 +79,7 @@ import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
 const props = defineProps({
     id: { type: Number, required: true, default: 0 },
+    slug: { type: String, required: true, default: '' },
     desc: { type: String, required: true, default: '' },
     event_date: { type: String, required: true, default: '' },
     images: { type: Array, required: true, default: [] },
@@ -90,6 +91,7 @@ const delete_gallery_image = ref(false)
 const images_url = ref([])
 const form = useForm({
     id: props.id,
+    desc: props.desc,
     event_date: props.event_date
 })
 
@@ -149,7 +151,7 @@ const uploadImage = () => {
     form.transform(data => ({
         ...data,
         imageFiles: images_url.value.map(file => file.File)     
-    })).post(route('admin.gallery.upload_image_to_gallery', form.event_date), {
+    })).post(route('admin.gallery.upload_image_to_gallery', form.id), {
         _method: 'patch',
         preserveState: true,
         only: ['images'],
