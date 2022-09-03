@@ -42,7 +42,7 @@ const links = ref([
     </svg>', link:'https://medlib.si.mahidol.ac.th', desc:'หอสมุดศิริราช'},
     {id:4, image:'<svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 bg-pink-200 rounded-full shadow-lg p-2 text-gray-400 stroke-2 fill-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">\
     <path stroke-linecap="round" stroke-linejoin="round" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />\
-    </svg>', link:'https://www.si.mahidol.ac.th/department/Medicine/home/user/manual/Medcon_2565.pdf', desc:'กำหนดการประชุมวิชาการ Medical Conference ปี 2565'},
+    </svg>', link:'https://med-cm-website.s3.ap-southeast-1.amazonaws.com/public/resource-files/pdf/%E0%B8%81%E0%B8%B3%E0%B8%AB%E0%B8%99%E0%B8%94%E0%B8%81%E0%B8%B2%E0%B8%A3+Medical+Conference_2565+.pdf', desc:'กำหนดการประชุมวิชาการ Medical Conference ปี 2565'},
     {id:5, image:'<svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 bg-indigo-200 rounded-full shadow-lg p-2 text-gray-400 stroke-2 fill-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">\
     <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />\
     </svg>', link:'https://med-vdo.simedicine.org', desc:'MED-VDO'},

@@ -22,7 +22,7 @@
     <div class="grid gap-8 row-gap-5 mb-8 md:row-gap-8 lg:grid-cols-4 sm:grid-cols-2">
       
       <div class="duration-300 transform bg-white border-l-4 border-green-700 hover:-translate-y-2">
-        <a href="https://www.si.mahidol.ac.th/department/Medicine/home/covid_survival_guide.html" target="_blank">
+        <a href="https://med-cm-website.s3.ap-southeast-1.amazonaws.com/public/resource-files/html/covid_survival_guide.html" target="_blank">
           <div class="h-full p-5 border border-l-0 rounded-r shadow-sm">
             <h6 class="mb-2 font-semibold leading-5">Survival Guide.</h6>
             <p class="text-sm text-gray-900">

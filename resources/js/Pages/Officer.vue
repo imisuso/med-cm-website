@@ -33,9 +33,9 @@
                             </button>
 
                         </div>
-                        <div v-if="unitDetail" class="flex flex-col w-full mt-4">
+                        <div v-if="unitDetail" class="flex flex-col w-full mt-4 rounded-lg shadow-lg bg-gradient-to-r from-blue-50 to-blue-200">
                             <div v-if="secretary" class="flex items-center space-x-4">
-                                <div class=" shrink-0">
+                                <div class=" shrink-0 ">
                                     <svg v-if="! secretary.image" class="w-20 h-28 rounded-lg ring-1 ring-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div>
                                     <div class="mb-4 underline ">{{ secretary.title_th }}{{ secretary.fname_th }} {{ secretary.lname_th }}</div>
-                                    <div>เลขานุการภาควิชาอายุรศาสตร์/หัวหน้าสำนักงานภาควิชาอายุรศาสตร์</div>
+                                    <div class="italic text-sm text-gray-600">เลขานุการภาควิชาอายุรศาสตร์/หัวหน้าสำนักงานภาควิชาอายุรศาสตร์</div>
                                 </div>
                             </div>
 

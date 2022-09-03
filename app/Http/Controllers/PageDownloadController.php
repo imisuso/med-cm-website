@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Managers\LogManager;
 use App\Models\PageDownload;
+use Illuminate\Support\Facades\Auth;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -99,6 +101,15 @@ class PageDownloadController extends Controller
             return Redirect::back()->withErrors(['msg' => 'เกิดข้อผิดพลาด', 'sysmsg' => 'เกิดข้อผิดพลาดในการจัดเก็บข้อมูล เนื่องจาก' . $e->getMessage()]);
         }
 
+        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
+        $resp = (new LogManager())->store(
+            Auth::user()->sap_id,
+            'Download Management (จัดการหัวข้อดาวน์โหลด)',
+            'insert',
+            'มีการเพิ่มหัวข้อดาวน์โหลดใหม่ เรื่อง => '.Request::input('title'),
+            'info'
+        );
+
         return Redirect::route('admin.download');
     }
 
@@ -149,7 +160,16 @@ class PageDownloadController extends Controller
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เกิดข้อผิดพลาด', 'sysmsg' => 'แก้ไขข้อมูลไม่สำเร็จ เนื่องจาก ' . $e->getMessage()]);
         }
-        
+
+        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager())->store(
+            Auth::user()->sap_id,
+            'Download Management (จัดการหัวข้อดาวน์โหลด)',
+            'update',
+            'มีการแก้ไขหัวข้อดาวน์โหลด ID => ' . $pageDownload->id . ' | เรื่อง => '.Request::input('title'),
+            'info'
+        );
+
         return Redirect::route('admin.download');
     }
 
@@ -161,11 +181,21 @@ class PageDownloadController extends Controller
      */
     public function destroy(PageDownload $pageDownload)
     {
+        $title = $pageDownload->title;
         try {
             PageDownload::whereId((int)$pageDownload->id)->delete();
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เกิดข้อผิดพลาด', 'sysmsg' => 'ไม่สามารถลบข้อมูลหัวข้อดาวน์โหลดได้ เนื่องจาก ' . $e->getMessage()]);
         }
+
+        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
+        $resp = (new LogManager())->store(
+            Auth::user()->sap_id,
+            'Download Management (จัดการหัวข้อดาวน์โหลด)',
+            'delete',
+            'มีการลบหัวข้อดาวน์โหลด เรื่อง => '.$title,
+            'info'
+        );
 
         return Redirect::route('admin.download');
     }
