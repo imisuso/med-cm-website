@@ -387,16 +387,16 @@ Route::post('/uploading_file_api', [FileUploadController::class, 'upload'])->nam
 Route::post('/delete_file_api', [FileUploadController::class, 'delete'])->name('delete_file_api');
 
 // Test Agreement Editor
-Route::get('/admin/agreement-editor', function () {
-    $agreement = Agreement::find(1);
+// Route::get('/admin/agreement-editor', function () {
+//     $agreement = Agreement::find(1);
 
-    //$deltaStr = '{ "ops": [ { "attributes": { "bold": true }, "insert": "hello" }, { "insert": "\n" }, { "attributes": { "italic": true }, "insert": "world" }, { "insert": "\n" }, { "attributes": { "underline": true }, "insert": "test" }, { "insert": "\n" }, { "attributes": { "strike": true }, "insert": "vuequill" }, { "insert": "\n" } ] }';
-    // return Inertia::render('TestVueQuill', ['deltaContent' => []]);
-    // return Inertia::render('TestVueQuill', ['deltaContent' => json_decode($deltaStr, true)]);
-    //return Inertia::render('Admin/Agreement/RichTextEditor', ['deltaContent' => json_decode($deltaContent, true)]);
+//     //$deltaStr = '{ "ops": [ { "attributes": { "bold": true }, "insert": "hello" }, { "insert": "\n" }, { "attributes": { "italic": true }, "insert": "world" }, { "insert": "\n" }, { "attributes": { "underline": true }, "insert": "test" }, { "insert": "\n" }, { "attributes": { "strike": true }, "insert": "vuequill" }, { "insert": "\n" } ] }';
+//     // return Inertia::render('TestVueQuill', ['deltaContent' => []]);
+//     // return Inertia::render('TestVueQuill', ['deltaContent' => json_decode($deltaStr, true)]);
+//     //return Inertia::render('Admin/Agreement/RichTextEditor', ['deltaContent' => json_decode($deltaContent, true)]);
 
-    return Inertia::render('Admin/Agreement/RichTextEditor', compact('agreement'));
-});
+//     return Inertia::render('Admin/Agreement/RichTextEditor', compact('agreement'));
+// });
 
 // Test VueQuill
 // Route::get('test-vuequill', function () {

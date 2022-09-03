@@ -79,7 +79,7 @@ class PosterController extends Controller
         //     'cover'  => 'required|mimes:jpg,jpeg|max:2305',
         //     'content' => 'required|mimes:jpg,jpeg,pdf|max:2305',
         // ]);
-  
+
         // if ($validator->fails()) {
         //     return Redirect::back()->withErrors(['msg' => 'Error File Type', 'sysmsg' => '']);
 
@@ -92,7 +92,7 @@ class PosterController extends Controller
         //Store Cover File
         $cover_store_path = "med_con/cover";
         try {
-            $cover_path = (new UploadManager)->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+            $cover_path = (new UploadManager())->store(Request::file('cover'), true, $cover_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'ทำการเพิ่มรูปหน้าปกโปสเตอร์ไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
@@ -100,14 +100,14 @@ class PosterController extends Controller
         //Store Content File
         $content_store_path = "med_con/content";
         try {
-            $content_path = (new UploadManager)->store(Request::file('content'), true, $content_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+            $content_path = (new UploadManager())->store(Request::file('content'), true, $content_store_path); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
         } catch (\Exception  $e) {
             Storage::delete($cover_path);
             return Redirect::back()->withErrors(['msg' => 'ทำการเพิ่มไฟล์เนื้อหาโปสเตอร์ไม่สำเร็จ เนื่องจาก '.$e->getMessage()]);
         }
 
         //Store data into DB
-        $poster = new Poster;
+        $poster = new Poster();
         $poster->desc = Request::input('desc');
         $poster->cover = $cover_path;
         $poster->content = $content_path;
@@ -120,11 +120,11 @@ class PosterController extends Controller
         }
 
         // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Poster Management (จัดการโปสเตอร์)',
             'insert',
-            'มีการเพิ่มข้อมูลโปสเตอร์ใหม่ เรื่อง:'.Request::input('desc'),
+            'มีการเพิ่มข้อมูลโปสเตอร์ใหม่ เรื่อง => '.Request::input('desc'),
             'info'
         );
 
@@ -186,14 +186,14 @@ class PosterController extends Controller
         }
 
         // เก็บ Log หลังจาก Update สถานะเรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Poster Management (จัดการโปสเตอร์)',
             'update',
-            'มีการเปลี่ยนการแสดงผลโปสเตอร์ เรื่อง:'.$desc.' เป็น '.$status,
+            'มีการเปลี่ยนการแสดงผลโปสเตอร์ เรื่อง => '.$desc.' เป็น '.$status,
             'info'
         );
-        
+
         return Redirect::route('admin.poster');
     }
 
@@ -216,16 +216,16 @@ class PosterController extends Controller
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลโปสเตอร์ได้ เนื่องจาก '.$e->getMessage()]);
         }
 
-        // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Poster Management (จัดการโปสเตอร์)',
             'delete',
-            'มีการลบข้อมูลโปสเตอร์ เรื่อง:'.$desc,
+            'มีการลบข้อมูลโปสเตอร์ เรื่อง => '.$desc,
             'info'
         );
 
-        
+
         try {
             // ลบรูปปกของ poster
             if (! is_null($cover_file)) {
@@ -241,7 +241,7 @@ class PosterController extends Controller
             logger("กรุณาลบไฟล์เนื้อหาโปสเตอร์ ".$content_file." อีกครั้ง เนื่องจากได้มีการลบข้อมูล db ไปแล้วแต่ไม่สามารถลบไฟล์เนื้อหาได้");
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบรูปปก หรือ ไฟล์เนื้อหา ของโปสเตอร์ได้ เนื่องจาก '.$e->getMessage()]);
         }
-        
+
         return Redirect::route('admin.poster');
     }
 }

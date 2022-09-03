@@ -32,7 +32,7 @@
 
       <div class="mx-auto mt-10 lg:max-w-xl sm:text-center">
         <p class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-green-900">
-          ปรับปรุงข้อมูล ณ วันที่ 2 มกราคม พ.ศ.2563
+          ปรับปรุงข้อมูล ณ วันที่ 3 กันยายน พ.ศ.2565
         </p>
       </div>
     </div>
