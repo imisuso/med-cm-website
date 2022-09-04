@@ -79,4 +79,14 @@ createInertiaApp({
     },
   })
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({ 
+  // The color of the progress bar.
+  //color: '#dd6722',
+  // color: '#f53333',
+
+  // Whether to include the default NProgress styles.
+  includeCSS: false,
+
+  // Whether the NProgress spinner will be shown.
+  showSpinner: true, 
+});
