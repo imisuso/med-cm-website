@@ -1,1 +1,0 @@
-import{_ as o}from"./Announcement.37bb11e8.js";import{o as r,c as t}from"./app.ab45dedf.js";import"./th.c900d3c2.js";import"./buddhistEra.30b7516d.js";const i={__name:"AnnounceAllPublish",setup(c){return(e,_)=>(r(),t(o,{limit:0}))}};export{i as default};
