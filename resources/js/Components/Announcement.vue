@@ -13,7 +13,7 @@
                 <div v-if="item.publish_status" class="w-full mb-2 bg-white rounded-md border border-gray-400 border-l-4 border-l-teal-600">
                     <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs(item.publish_date).locale('th').format('D MMMM BBBB เวลา H:mm') }}</a>
                     <!-- <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs.tz(dayjs(item.publish_date), 'Asia/Bangkok').locale('th').format('D MMMM BBBB เวลา H:mm') }}</a> -->
-                    <div class="flex items-center shadow-md rounded-md">
+                    <div class="flex flex-col items-start shadow-md rounded-md">
                         <svg v-if="item.pinned" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="h-5 w-5 text-red-500 shrink-0" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                             <g transform="translate(128 128) scale(0.72 0.72)" style="">
                                 <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
@@ -35,9 +35,16 @@
                 </div>
             </div> -->
 
-            <div v-show="limit !== 0" class="text-md mt-4 hover:text-indigo-700 cursor-pointer">
+            <!-- <div v-show="announcement_all > limit" class="text-md mt-4 hover:text-indigo-700 cursor-pointer">
                 <a :href="route(`announce_all_publish`)" target="_blank">
                     ดูทั้งหมด...
+                </a>
+            </div> -->
+            <div v-show="announcement_all > limit" 
+                class="w-54 border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+            >
+                <a :href="route(`announce_all_publish`)" target="_blank">
+                    ข่าวประชาสัมพันธ์ ทั้งหมด
                 </a>
             </div>              
         </div>
@@ -58,7 +65,8 @@ import buddhistEra from 'dayjs/plugin/buddhistEra'
 import AnnounceService from '@/Services/AnnounceService'
 
 const props = defineProps({
-    limit: { type: Number, default: 10 }
+    limit: { type: Number },
+    announcement_all: { type: Number, default: 0 } // ถ้า click จากปุ่ม ข่าวประชาสัมพันธ์ ทั้งหมด จะไม่ส่ง props announcement_all มาซึ่งจะได้ค่าเป็น 0 เพราะไม่ต้องการ show ปุ่ม 
 })
 
 onMounted(() => {
@@ -66,8 +74,6 @@ onMounted(() => {
     announceService.value.listShow(props.limit).then(data => {
         announcements.value = data
     });
-
-
 })
 
 dayjs.extend(buddhistEra)

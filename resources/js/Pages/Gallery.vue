@@ -1,5 +1,5 @@
 <template>
-    <div class="container p-4">
+    <div class="p-4 w-full self-center">
         <!-- directive -->
         <!-- <div class="images" v-viewer>
             <img v-for="src in images" :key="src" :src="src">
@@ -9,7 +9,7 @@
             <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in images" :key="src" :src="src">
         </div> -->
         
-        <div class="p-2 mb-2 border text-lg font-bold text-indigo-500 shadow-lg rounded-lg bg-gray-200">
+        <div class="p-2 mb-4 border text-lg font-bold text-indigo-500 shadow-lg rounded-lg bg-gray-200">
             {{ desc }}
         </div>
         <!-- component -->
@@ -18,7 +18,8 @@
         >
             <template #default="scope">
                 <div class=" grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                    <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`">
+                    <!-- <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`"> -->
+                    <img class="object-contain bg-slate-500 border rounded-md w-full md:h-60 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`" />
                 </div>
             </template>
         </VueViewer>
@@ -27,6 +28,13 @@
         <!-- <button type="button" @click="show">Click to show</button> -->
     </div>
 </template>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue"
+    export default {
+        layout: AppLayout,
+    }
+</script>
 
 <script setup>
 import { ref } from 'vue';
