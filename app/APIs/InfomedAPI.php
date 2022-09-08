@@ -54,6 +54,24 @@ class InfomedAPI
         logger("Insert Employee data from api");
         logger($logslack);
 
+        //ตรวจสอบก่อนว่าถ้ามี sap_id นี้ในระบบ website ตาราง person แล้ว จะไม่เพิ่มข้อมูลใหม่
+        if (Person::where('sap_id', $sap)->first()) {
+            logger("พบข้อมูลนี้ในระบบ website แล้ว จึงยกเลิกการเพิ่มข้อมูลนี้ลงระบบ website");
+            $resp = (new LogManager());
+            $resp->store(
+                $user_in, // มาจากใคร
+                'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+                'insert',  // action
+                'Cancel insert new person data from infomed SAP-ID ['.$sap.'] => Duplicate', // details
+                'api' // type
+            );
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Cancel insert emp  => '. $sap
+                ], 500);
+        }
+
         // ข้อมูลที่ประกาศขึ้นมาเองใน API
         $group = 1; // default ให้เป็นกลุ่มของ วิชาการ ก่อน
         $type = '-';
@@ -108,8 +126,8 @@ class InfomedAPI
         //     $status = true;
         // }
         $status = false;  // default ให้ปิดแล้วให้ admin เป็นคนดำเนินการเปิดเองเมื่อ verify ข้อมูลบุคคลากรเรียบร้อยแล้ว
-            
-        $resp = (new LogManager);
+
+        $resp = (new LogManager());
 
         try {
             Person::create([
@@ -153,7 +171,7 @@ class InfomedAPI
         }
 
         logger("มีการเพิ่มข้อมูลบุคคลากรใหม่ SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
-        
+
         $logdata = '[{"sap":"'.$sap.'",
             "title_th":"'.$title_th.'",
             "title_en":"'.$title_en.'",
@@ -168,7 +186,7 @@ class InfomedAPI
             "type":"'.$type.'",
             "position_academic":"'.$position_academic.'"
         }]';
-        
+
         $resp->store(
             $user_in, // มาจากใคร
             'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
@@ -176,7 +194,7 @@ class InfomedAPI
             'Insert new person data (ข้อมูลส่วนตัว): '.$logdata, // details
             'api' // type
         );
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Insert emp success => '. $sap
@@ -186,7 +204,7 @@ class InfomedAPI
     public function updateEmp($data)
     {
         //logger($data);
-        
+
         $sap = $data['sap'];
         $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
         $title_en = $data['title_en'];
@@ -229,7 +247,7 @@ class InfomedAPI
 
         logger("Update Employee data from api");
         logger($logslack);
-        
+
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
 
@@ -274,7 +292,7 @@ class InfomedAPI
             $person->type = "z";
         }
 
-        
+
 
         //1=ปฏิบัติงาน,2=ลาออก,3=เกษียณอายุ,4=หน่วยงาน,5=ยืมตัว,6=ที่ปรึกษา
         if ($emp_flag === 2 || $emp_flag === 3 || $emp_flag === 5) {
@@ -285,7 +303,7 @@ class InfomedAPI
         // } else {
         //     $person->status = true;
         // }
-    
+
         // Update to Object is get from DB query if can convert charset else use old data
         $person->title_th = $title_th ?: $person->title_th;
         $person->title_en = $title_en;
@@ -299,7 +317,7 @@ class InfomedAPI
         $person->user_previous_act = $person->user_last_act;
         $person->user_last_act = $user_in;
 
-        $resp = (new LogManager);
+        $resp = (new LogManager());
         $logdata = '[{"sap":"'.$sap.'",
             "title_th":"'.$person->title_th.'",
             "title_en":"'.$person->title_en.'",
@@ -337,7 +355,7 @@ class InfomedAPI
         }
 
         logger("มีการแก้ไขข้อมูลบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
-        
+
         $resp->store(
             $user_in, // มาจากใคร
             'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
@@ -345,7 +363,7 @@ class InfomedAPI
             'Update person data (ข้อมูลส่วนตัว): '.$logdata, // details
             'api' // type
         );
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Update emp success => '. $sap
@@ -384,11 +402,11 @@ class InfomedAPI
 
         logger("Update Employee work data from api");
         logger($logslack);
-        
+
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
 
-        $resp = (new LogManager);
+        $resp = (new LogManager());
 
         // ตรวจสอบว่าพบข้อมูลบุคคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
         if (! $person) {
@@ -405,7 +423,7 @@ class InfomedAPI
                 'message' => 'Not Found emp => '. $sap
                 ], 404);
         }
-        
+
         // Update to DB
         $person->division_id = $division_id ?: $person->division_id;
 
@@ -413,7 +431,7 @@ class InfomedAPI
             $type = 'z';
         }
         $person->type = $type ?: $person->type;
-        
+
         $person->group = $group ?: $person->group;
         $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
@@ -450,7 +468,7 @@ class InfomedAPI
         }
 
         logger("มีการแก้ไขข้อมูลงานของบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
-        
+
         $logdata = '[{"sap":"'.$sap.'",
             "division_id":"'.$division_id.'",
             "$type":"'.$type.'",
@@ -479,7 +497,7 @@ class InfomedAPI
         $sap = $data['sap'];
         $user_in = $data['userin'];
 
-        $resp = (new LogManager);
+        $resp = (new LogManager());
 
         $logslack = '[{"sap":"'.$sap.'",
             "user_in":"'.$user_in.'"

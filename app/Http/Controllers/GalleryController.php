@@ -213,6 +213,10 @@ class GalleryController extends Controller
     //public function show($event_date)
     {
         //logger($Gallery);
+        if( ! $Gallery->status ) {
+            return Inertia::render('Admin/Errors/NotFound');
+        }
+
         $image_path = "public/images/gallery/".$Gallery->slug."/photo";
 
         $files_path = Storage::files($image_path);

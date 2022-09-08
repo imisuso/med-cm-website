@@ -51,7 +51,15 @@ use App\Models\Agreement;
 // Route::post('/webmed_api', [InfomedMonitorController::class, 'index']);
 
 Route::middleware(['visitor'])->get('/', function () {
-    return Inertia::render('Index');
+    $announce_show_limit = (int)env('ANNOUNCE_SHOW_LIMIT', 10);  // ส่ง limit ในการแสดงผลสำหรับหน้าแรกของ website ถ้า = 0 จะแสดงทั้งหมด
+    $announcement_all = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->get()->count();
+    // if ($announce_show_limit > 0) {
+    //     $announcements = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->take($announce_show_limit)->get();
+    // } else {
+    //     $announcements = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->get();
+    // }
+    return Inertia::render('Index', ['announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all ]);
+    // return Inertia::render('Index', ['announce_show_limit' => $announce_show_limit, 'announcements' => $announcements, 'announcement_all' => $announcement_all ]);
 })->name('index');
 
 Route::get('/executive_director', function () {
@@ -262,7 +270,39 @@ Route::get('/admin/list_announce_all', [AnnounceController::class, 'listAll'])->
 Route::get('/list_announce_show/{record}', [AnnounceController::class, 'listShow'])->name('list_announce_show');
 Route::get('/announce_details/{slug}', [AnnounceController::class, 'listMe'])->name('announce_details');
 Route::get('/announce_all_publish', function () {
-    return Inertia::render('AnnounceAllPublish');
+    // $announcements = Announce::with('division')
+    //                     ->when(Request::input('search'), function ($query, $search) {
+    //                         $query->where('topic', 'LIKE', "%{$search}%");
+    //                     })
+    //                     ->whereDate('expire_date', '>', now()->format('Y-m-d'))
+    //                     ->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')
+    //                     ->paginate(5)
+    //                     ->withQueryString();
+
+    //return Inertia::render('AnnounceAllPublish', compact('announcements'));
+
+    return Inertia::render('AnnounceAllPublish', [
+        'announcements' => Announce::with('division')
+                ->when(Request::input('search'), function ($query, $search) {
+                    $query->where('topic', 'like', "%{$search}%");
+                })
+                ->whereDate('expire_date', '>', now()->format('Y-m-d'))
+                ->where('publish_status', 1)
+                ->orderBy('pinned', 'desc')
+                ->orderBy('publish_date', 'desc')
+                ->paginate(10)
+                ->withQueryString(),
+                // ->through(fn ($announce) => [
+                //     // 'id' => $announce->id,
+                //     // 'content_url' => $announce->content_url,
+                //     // 'cover' => $announce->cover,
+                //     // 'cover_url' => $announce->cover_url,
+                //     // 'desc' => $announce->desc,
+                //     // 'status' => $announce->status,
+                //     // 'created_at' => $announce->created_at
+                // ]),
+            'filters' => Request::only(['search'])
+            ]);
 })->name('announce_all_publish');
 Route::get('/announce_download_pdf', [AnnounceController::class, 'downloadPdf'])->name('announce_download_pdf');
 
