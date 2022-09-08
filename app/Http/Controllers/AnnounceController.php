@@ -81,7 +81,7 @@ class AnnounceController extends Controller
     public function create()
     {
         $fdivision_selected = (int)request()->fdivision_selected ?? (int)request()->user()->person->division_id;
-        
+
         // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
         if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
             return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
@@ -114,7 +114,7 @@ class AnnounceController extends Controller
             'topic.required' => 'ต้องระบุหัวข้อข่าวประกาศ ทุกครั้ง',
             // 'detail_delta.string' => 'ต้องระบุเนื้อหาข่าวประกาศ ทุกครั้ง',
         ]);
- 
+
         if ((int)Request::input('division_id') === 0) {
             // default ถ้าไม่มีให้เลือก ที่หน้า web จะส่งมาเป็น 0 (option ตามสาขาหรือหน่วยงานผู้ประกาศ)
             // จึงดึงเอา division_id ของคนที่ทำการ login มาใช้งานโดยรับมาจาก Auth
@@ -134,7 +134,7 @@ class AnnounceController extends Controller
                     $storePath = 'pdf/announce_attach_file/' . $division_id;
                     $origFileName = $attach->getClientOriginalName();
 
-                    $uniqueFileName = (new UploadManager)->store($attach, true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+                    $uniqueFileName = (new UploadManager())->store($attach, true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
 
                     $attach_files[] = ['orig_name'=> $origFileName, 'unique_name'=> $uniqueFileName];
                 }
@@ -163,7 +163,7 @@ class AnnounceController extends Controller
         }
 
         // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             $sap_id,
             'Announce Management (จัดการข่าวประกาศ)',
             'insert',
@@ -201,7 +201,7 @@ class AnnounceController extends Controller
         if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
             return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
-        
+
         return Inertia::render('Admin/Announcement/DataForm', ['action' => $action,
                                                         'divisions' => $divisions,
                                                         'announce' => $Announce,
@@ -258,7 +258,7 @@ class AnnounceController extends Controller
                     //$fileName = uniqid().'.pdf';
                     $storePath = 'pdf/announce_attach_file/' . $division_id;
                     $origFileName = $attach->getClientOriginalName();
-                    $uniqueFileName = (new UploadManager)->store($attach, true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
+                    $uniqueFileName = (new UploadManager())->store($attach, true, $storePath); // แบบใหม่ที่จะทำรองรับ s3 ด้วย
                     $attach_files[] = ['orig_name'=> $origFileName, 'unique_name'=> $uniqueFileName];
                     $new_attach_files = ['orig_name'=> $origFileName, 'unique_name'=> $uniqueFileName];
                 }
@@ -295,9 +295,9 @@ class AnnounceController extends Controller
                 //\Log::info($delete_file['unique_name']);
             }
         }
-        
+
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             $sap_id,
             'Announce Management (จัดการข่าวประกาศ)',
             'update',
@@ -332,9 +332,9 @@ class AnnounceController extends Controller
                 Storage::delete($delete_file['unique_name']);
             }
         }
-       
+
         // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Announce Management (จัดการข่าวประกาศ)',
             'delete',
@@ -350,7 +350,7 @@ class AnnounceController extends Controller
         $user = Auth::user();
         $user_division = $user->person->division->division_id;
         $sap_id = $user->sap_id;
-        
+
         if ($user->abilities->contains("view_all_content") || $user->abilities->contains("view_division_content")) {
             // list ครั้งแรกให้แสดง เฉพาะของสาขา ของผู้ใช้เท่านั้น และยังไม่หมดอายุ
             return Announce::with('division')->where('division_id', $user_division)->whereDate('expire_date', '>', now()->format('Y-m-d'))->orderBy('created_at', 'desc')->get();
@@ -359,7 +359,7 @@ class AnnounceController extends Controller
             return Announce::with('division')->where('user_sap_id', $sap_id)->whereDate('expire_date', '>', now()->format('Y-m-d'))->orderBy('created_at', 'desc')->get();
         }
     }
-    
+
     public function listShow($record)
     {
         // list ประกาศทั้งหมดที่เผยแพร่แล้ว และยังไม่หมดอายุ โดยเรียงลำดับเอาที่ ปักหมุดมาก่อน และเรียงวันที่เผยแพร่ล่าสุดขึ้นมาก่อน
@@ -372,8 +372,17 @@ class AnnounceController extends Controller
 
     public function listMe($slug)
     {
-        $me =  Announce::with('division')->with('person')->whereSlug($slug)->first();
-        return Inertia::render('AnnounceDetails', ['announceItem' => $me]);
+        if (Auth::user()) {
+            $me =  Announce::with('division')->with('person')->whereSlug($slug)->first();
+            return Inertia::render('AnnounceDetails', ['announceItem' => $me]);
+        } else {
+            $me =  Announce::with('division')->with('person')->whereSlug($slug)->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->first();
+            if ($me) {
+                return Inertia::render('AnnounceDetails', ['announceItem' => $me]);
+            } else {
+                return Inertia::render('Admin/Errors/NotFound');
+            }
+        }
     }
 
     public function downloadPdf()
@@ -402,7 +411,7 @@ class AnnounceController extends Controller
         }
 
         // เก็บ Log หลังจาก togglePublish เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Announce Management (จัดการข่าวประกาศ)',
             'publish',
@@ -429,7 +438,7 @@ class AnnounceController extends Controller
         }
 
         // เก็บ Log หลังจาก togglePin เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $resp = (new LogManager())->store(
             Auth::user()->sap_id,
             'Announce Management (จัดการข่าวประกาศ)',
             'pinned',
@@ -444,7 +453,7 @@ class AnnounceController extends Controller
     private function checkBranchAdminCanAccessContent($division_id)
     {
         if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $division_id)) {
-            $resp = (new LogManager)->store(
+            $resp = (new LogManager())->store(
                 Auth::user()->sap_id,
                 'Announce Management (จัดการข่าวประกาศ)',
                 'access',

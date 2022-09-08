@@ -34,11 +34,6 @@
 
         <div id="announcement">
             <section class="w-full bg-gradient-to-r from-slate-100">
-                <!-- <Announcement 
-                    :limit=announce_show_limit
-                    :announcements="announcements"
-                    :announcement_all=announcement_all
-                /> -->
                 <Announcement 
                     :limit=announce_show_limit
                     :announcement_all=announcement_all

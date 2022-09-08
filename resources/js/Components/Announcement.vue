@@ -28,13 +28,7 @@
                     
                 </div>
             </div>
-            <!-- <div v-for="item in announcements" :key="item.id" class="flex flex-wrap md:flex-nowrap w-full">
-                <div v-if="item.publish_status" class="w-full mb-2 bg-indigo-50">
-                    <a class="text-red-500 inline-flex items-center px-2 text-xs">{{ dayjs(item.publish_date).locale('th').format('D MMMM BBBB เวลา H:mm') }}</a>
-                    <p class="leading-relaxed text-md text-black shadow-md rounded-md p-2  hover:text-indigo-700 cursor-pointer">{{ item.topic }}</p>    
-                </div>
-            </div> -->
-
+            
             <!-- <div v-show="announcement_all > limit" class="text-md mt-4 hover:text-indigo-700 cursor-pointer">
                 <a :href="route(`announce_all_publish`)" target="_blank">
                     ดูทั้งหมด...
@@ -43,9 +37,12 @@
             <div v-show="announcement_all > limit" 
                 class="w-54 border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
             >
-                <a :href="route(`announce_all_publish`)" target="_blank">
+                <Link :href="route(`announce_all_publish`)">
                     ข่าวประชาสัมพันธ์ ทั้งหมด
-                </a>
+                </Link>
+                <!-- <a :href="route(`announce_all_publish`)" target="_blank">
+                    ข่าวประชาสัมพันธ์ ทั้งหมด
+                </a> -->
             </div>              
         </div>
     </div>
