@@ -46,6 +46,8 @@
                 <PhotoGallery
                     data-aos="zoom-in"
                     data-aos-duration="2000"
+                    :limit=announce_show_limit
+                    :gallery_all=announcement_all
                 />
             </section>
         </div>
@@ -84,8 +86,9 @@ import 'aos/dist/aos.css';
 
 const props = defineProps({
     announce_show_limit: { type: Number },
-    // announcements: { type: Array, default: []},
-    announcement_all: { type: Number, default: 0 }
+    announcement_all: { type: Number },
+    gallery_show_limit: { type: Number },
+    gallery_all: { type: Number } 
 })
 
 // const posters = ref([])

@@ -35,7 +35,7 @@
                 </a>
             </div> -->
             <div v-show="announcement_all > limit" 
-                class="w-54 border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+                class="border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
             >
                 <Link :href="route(`announce_all_publish`)">
                     ข่าวประชาสัมพันธ์ ทั้งหมด
@@ -63,7 +63,7 @@ import AnnounceService from '@/Services/AnnounceService'
 
 const props = defineProps({
     limit: { type: Number },
-    announcement_all: { type: Number, default: 0 } // ถ้า click จากปุ่ม ข่าวประชาสัมพันธ์ ทั้งหมด จะไม่ส่ง props announcement_all มาซึ่งจะได้ค่าเป็น 0 เพราะไม่ต้องการ show ปุ่ม 
+    announcement_all: { type: Number, default: 0 }
 })
 
 onMounted(() => {
