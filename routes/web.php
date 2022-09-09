@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\VisitorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;

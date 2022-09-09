@@ -34,7 +34,7 @@
 
         <div id="announcement">
             <section class="w-full bg-gradient-to-r from-slate-100">
-                <Announcement 
+                <Announcement
                     :limit=announce_show_limit
                     :announcement_all=announcement_all
                 />
@@ -46,8 +46,8 @@
                 <PhotoGallery
                     data-aos="zoom-in"
                     data-aos-duration="2000"
-                    :limit=announce_show_limit
-                    :gallery_all=announcement_all
+                    :limit=gallery_show_limit
+                    :gallery_all=gallery_all
                 />
             </section>
         </div>
@@ -88,7 +88,7 @@ const props = defineProps({
     announce_show_limit: { type: Number },
     announcement_all: { type: Number },
     gallery_show_limit: { type: Number },
-    gallery_all: { type: Number } 
+    gallery_all: { type: Number }
 })
 
 // const posters = ref([])

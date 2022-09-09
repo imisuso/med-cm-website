@@ -437,6 +437,11 @@ class AnnounceController extends Controller
             return Redirect::back()->withErrors(['msg' => $error_msg.' เนื่องจาก '.$e->getMessage()]);
         }
 
+
+        $topic_search = request()->input('ftopic') ? request()->input('ftopic') : '';
+        $expire_type = request()->input('fexpire_type') ? request()->input('fexpire_type') : '';
+        $division_selected = request()->input('fdivision_selected') ? (int)request()->input('fdivision_selected') : $Announce->division_id;
+
         // เก็บ Log หลังจาก togglePin เรียบร้อยแล้ว
         $resp = (new LogManager())->store(
             Auth::user()->sap_id,
@@ -446,7 +451,11 @@ class AnnounceController extends Controller
             'info'
         );
 
-        return Redirect::route('admin.announce', ['fdivision_selected' => $Announce->division_id]);
+        return Redirect::route('admin.announce', [
+            'ftopic' => $topic_search,
+            'expire_type' => $expire_type,
+            'fdivision_selected' => $division_selected
+        ]);
     }
 
     // ใช้ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
