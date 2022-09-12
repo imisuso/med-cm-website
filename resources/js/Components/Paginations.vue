@@ -74,7 +74,7 @@ const cpage = ref(props.pagination.current_page)
 
 const loadPage = (page) => {
     //console.log(usePage().url.value)
-    Inertia.post(usePage().url.value, {page: page}, {
+    Inertia.get(usePage().url.value, {page: page}, {
         preserveState: true,
         preserveScroll: true
     });

@@ -67,7 +67,7 @@ class AnnounceController extends Controller
             $query->where('topic', 'LIKE', "%{$ftopic}%");
         })
         ->orderBy('created_at', 'desc')
-        ->paginate(5)
+        ->paginate(10)
         ->withQueryString();
 
         return Inertia::render('Admin/Announcement/Index', [ 'announces' => $announces, 'fdivision_selected' => $fdivision_selected ]);
@@ -398,16 +398,16 @@ class AnnounceController extends Controller
     {
         $publish_status = $Announce->publish_status ? 'ยกเลิกเผยแพร่' : 'เผยแพร่';
         try {
-            if (! $Announce->publish_status) {
+            if (!$Announce->publish_status) {
                 $error_msg = "เผยแพร่ข่าวประกาศไม่สำเร็จ";
                 $Announce->publish_date = Carbon::now();
             } else {
                 $error_msg = "ยกเลิกการเผยแพร่ข่าวประกาศไม่สำเร็จ";
             }
-            $Announce->publish_status = ! $Announce->publish_status;
+            $Announce->publish_status = !$Announce->publish_status;
             $Announce->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => $error_msg.' เนื่องจาก '.$e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => $error_msg . ' เนื่องจาก ' . $e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก togglePublish เรียบร้อยแล้ว
@@ -415,11 +415,30 @@ class AnnounceController extends Controller
             Auth::user()->sap_id,
             'Announce Management (จัดการข่าวประกาศ)',
             'publish',
-            'มีการเปลี่ยนแปลงการเผยแพร่ข่าวประกาศ ID:'.$Announce->id.' เรื่อง:'.$Announce->topic.' เป็น '.$publish_status,
+            'มีการเปลี่ยนแปลงการเผยแพร่ข่าวประกาศ ID:' . $Announce->id . ' เรื่อง:' . $Announce->topic . ' เป็น ' . $publish_status,
             'info'
         );
 
-        return Redirect::route('admin.announce', ['fdivision_selected' => $Announce->division_id]);
+//        logger(request()->input('ftopic'));
+//        logger(request()->input('fexpire_type'));
+//        logger(request()->input('fdivision_selected'));
+
+        $topic_search = request()->input('ftopic') ? request()->input('ftopic') : '';
+        $expire_type = request()->input('fexpire_type') ? request()->input('fexpire_type') : '';
+        if ( request()->input('fdivision_selected') !== '' ) {
+            logger('เลือกแผนก');
+            $division_selected = (int)request()->input('fdivision_selected');
+        } else {
+            logger('ไม่เลือกแผนก');
+            $division_selected = $Announce->division_id;
+        }
+
+        return Redirect::route('admin.announce', [
+            'ftopic' => $topic_search,
+            'expire_type' => $expire_type,
+            'fdivision_selected' => $division_selected
+        ]);
+//        return Redirect::route('admin.announce', ['fdivision_selected' => $Announce->division_id]);
     }
 
     public function togglePin(Announce $Announce)
@@ -437,11 +456,6 @@ class AnnounceController extends Controller
             return Redirect::back()->withErrors(['msg' => $error_msg.' เนื่องจาก '.$e->getMessage()]);
         }
 
-
-        $topic_search = request()->input('ftopic') ? request()->input('ftopic') : '';
-        $expire_type = request()->input('fexpire_type') ? request()->input('fexpire_type') : '';
-        $division_selected = request()->input('fdivision_selected') ? (int)request()->input('fdivision_selected') : $Announce->division_id;
-
         // เก็บ Log หลังจาก togglePin เรียบร้อยแล้ว
         $resp = (new LogManager())->store(
             Auth::user()->sap_id,
@@ -450,6 +464,16 @@ class AnnounceController extends Controller
             'มีการเปลี่ยนแปลงการปักหมุดข่าวประกาศ ID:'.$Announce->id.' เรื่อง:'.$Announce->topic.' เป็น '.$pin_status,
             'info'
         );
+
+        $topic_search = request()->input('ftopic') ? request()->input('ftopic') : '';
+        $expire_type = request()->input('fexpire_type') ? request()->input('fexpire_type') : '';
+        if ( request()->input('fdivision_selected') !== '' ) {
+            logger('เลือกแผนก');
+            $division_selected = (int)request()->input('fdivision_selected');
+        } else {
+            logger('ไม่เลือกแผนก');
+            $division_selected = $Announce->division_id;
+        }
 
         return Redirect::route('admin.announce', [
             'ftopic' => $topic_search,

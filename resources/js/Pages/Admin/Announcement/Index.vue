@@ -63,6 +63,7 @@
       :key="item.id"
       :announceDetails="item"
       typeDetail="list"
+      :filter="filterForm"
       @edit-announce="editAnnounce(item)"
     />
 

@@ -167,7 +167,17 @@ Route::get('/image_preview', function () {
 
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
 Route::get('/admin', function () {
-    return Inertia::render('Admin/Index');
+    return Inertia::render('Admin/Index', [
+        'total_visitor' => \App\Models\Visitor::where('route_name', 'index')->get()->count(),
+        'branch_visitor' => \App\Models\Visitor::where('route_name', 'branch')->get()->count(),
+        'total_announce' => Announce::all()->count(),
+        'total_poster' => \App\Models\Poster::all()->count()
+    ]);
+//    return Inertia::render('Admin/Index', [
+//        'announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all,
+//        'gallery_show_limit' => $gallery_show_limit,  'gallery_all' => $gallery_all
+//    ]);
+//    return Inertia::render('Admin/Index');
 })->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
 
 //LoginController =>
@@ -288,9 +298,9 @@ Route::prefix('admin')
         Route::post('/announce/delete/{id}', 'destroy')->name('admin.announce.delete');
     });
 
-Route::post('/admin/announce/toggle_publish/{Announce}', [AnnounceController::class, 'togglePublish'])->name('admin.announce.toggle_publish')
+Route::get('/admin/announce/toggle_publish/{Announce}', [AnnounceController::class, 'togglePublish'])->name('admin.announce.toggle_publish')
         ->middleware('auth', 'can:publish_unpublish_announce');
-Route::post('/admin/announce/toggle_pin/{Announce}', [AnnounceController::class, 'togglePin'])->name('admin.announce.toggle_pin')
+Route::get('/admin/announce/toggle_pin/{Announce}', [AnnounceController::class, 'togglePin'])->name('admin.announce.toggle_pin')
         ->middleware('auth', 'can:pin_unpin_announce');
 
 Route::get('/admin/list_announce_all', [AnnounceController::class, 'listAll'])->name('admin.list_announce_all');
