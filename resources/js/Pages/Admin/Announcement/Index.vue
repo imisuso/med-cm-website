@@ -47,9 +47,10 @@
         </div>
         <div class="px-4 py-1 bg-gray-50 text-left sm:px-6">
           <button type="button" @click="filterAnnounce" class="flex items-center justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />-->
+<!--            </svg>-->
+              <SearchIcon class="h-6 w-6" />
             ค้นหา
           </button>
         </div>
@@ -62,6 +63,7 @@
       :key="item.id"
       :announceDetails="item"
       typeDetail="list"
+      :filter="filterForm"
       @edit-announce="editAnnounce(item)"
     />
 
@@ -92,6 +94,7 @@ import 'dayjs/locale/th'
 import Modal from '@/Components/Modal.vue'
 import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList.vue'
 import Pagination from '@/Components/Paginations.vue'
+import { SearchIcon } from '@heroicons/vue/outline';
 
 // API Service
 import DivisionService from '@/Services/DivisionService'
@@ -135,7 +138,7 @@ const toast = (severity, summary, detail) => {
 }
 
 const filterAnnounce = () => {
-  filterForm.post(route('admin.announce'), {
+  filterForm.get(route('admin.announce'), {
     preserveState: true,
     replace: true,
     onError: (errors) => {

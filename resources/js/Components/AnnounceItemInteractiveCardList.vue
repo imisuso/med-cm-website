@@ -14,7 +14,7 @@
                         <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                     </svg>
                 </button>
-                
+
                 <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute right-10 -top-20 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                     <ul class="py-1" aria-labelledby="dropdownButton">
                     <li v-if="!announceDetails.publish_status && $page.props.auth.abilities.includes('publish_unpublish_announce')">
@@ -26,7 +26,7 @@
                             เผยแพร่
                         </a>
                     </li>
-    
+
                     <li v-if="announceDetails.publish_status && $page.props.auth.abilities.includes('publish_unpublish_announce')">
                         <a href="#" @click="confirmAnwser('unpublish', true)" class="flex items-center text-sm hover:bg-gray-100 text-gray-500 px-4 py-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,7 +44,7 @@
                                     <path d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(175,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
                                     </g>
                                 </g>
-                            </svg> 
+                            </svg>
                             ปักหมุด
                         </a>
                     </li>
@@ -57,7 +57,7 @@
                                     <path d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(115 115 115 / var(--tw-text-opacity)); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
                                     </g>
                                 </g>
-                            </svg> 
+                            </svg>
                             ยกเลิกปักหมุด
                         </a>
                     </li>
@@ -82,12 +82,12 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="flex items-start px-2 space-x-2">
                 <!-- <div v-if="announceDetails.division_id > 18" class="text-sm text-gray-500">หน่วย{{announceDetails.division.name_th}}</div>
                 <div v-else class="text-sm text-gray-500">สาขา{{announceDetails.division.name_th}}</div> -->
                 <div class="text-sm text-gray-500">{{announceDetails.division.division_type}}{{announceDetails.division.name_th}}</div>
-                <div v-if="announceDetails.pinned" class="flex space-x-2">  
+                <div v-if="announceDetails.pinned" class="flex space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="h-5 w-5 text-red-500" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                         <g transform="translate(128 128) scale(0.72 0.72)" style="">
                             <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
@@ -102,7 +102,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                     </svg>
                 </div>
-                <div v-if="announceDetails.publish_status" class="flex space-x-2">  
+                <div v-if="announceDetails.publish_status" class="flex space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -143,28 +143,28 @@
 
             <div class=" grid grid-cols-6 gap-2 p-2 w-full">
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">
-                    <div class="flex items-center space-x-2"> 
+                    <div class="flex items-center space-x-2">
                         <svg v-if="announceDetails.pinned" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="h-5 w-5 text-red-500 mr-2 shrink-0" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                             <g transform="translate(128 128) scale(0.72 0.72)" style="">
                                 <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
                                 <path d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(175,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
                                 </g>
                             </g>
-                        </svg>    
-                        <div>หัวข้อข่าว :</div>          
+                        </svg>
+                        <div>หัวข้อข่าว :</div>
                     </div>
                 </div>
                 <div class=" col-span-6 sm:col-span-5 ml-3 font-bold text-xl">{{ announceDetails.topic }}</div>
 
-                <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">วันที่ประกาศ :</div>   
+                <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">วันที่ประกาศ :</div>
                 <div v-if="announceDetails.publish_status" class=" col-span-6 sm:col-span-5 ml-3 italic">{{ dayjs(announceDetails.publish_date).locale('th').format('D MMMM BBBB เวลา H:mm') }}</div>
                 <div v-else class=" col-span-6 sm:col-span-5 ml-3">ยังไม่เผยแพร่</div>
 
                 <div class="col-span-6 border-b-2"></div>
-                
+
                 <div class=" col-span-6 sm:col-span-1 mt-2 font-bold text-emerald-700 sm:justify-self-end">รายละเอียดข่าว :</div>
                 <div class=" col-span-6 sm:col-span-5 ql-editor" v-html="announceDetails.detail_html"></div>
-                
+
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ส่วนงาน :</div>
                 <div class=" col-span-6 sm:col-span-5 ml-3 font-bold">{{announceDetails.division.division_type}}{{ announceDetails.division.name_th }}</div>
 
@@ -181,9 +181,9 @@
                 <!-- <div v-else class=" col-span-6 sm:col-span-5 ml-3 font-bold">**********</div> -->
 
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ไฟล์แนบ :</div>
-                <div v-if="announceDetails.attach_files.length > 0" class=" col-span-6 sm:col-span-5 ml-3">   
-                    <div class="flex items-center border-t-2 space-x-4" 
-                        v-for="(atFile, index) in announceDetails.attach_files" 
+                <div v-if="announceDetails.attach_files.length > 0" class=" col-span-6 sm:col-span-5 ml-3">
+                    <div class="flex items-center border-t-2 space-x-4"
+                        v-for="(atFile, index) in announceDetails.attach_files"
                         :key="index"
                     >
                         <div class="mx-2">
@@ -193,7 +193,7 @@
                             />
                         </div>
                         <div class=" italic">{{ atFile.orig_name }}</div>
-                           
+
                     </div>
                 </div>
                 <div v-else class=" col-span-6 sm:col-span-5 ml-3">-</div>
@@ -217,7 +217,7 @@
       </template>
 
       <template v-slot:footer>
-        <button @click="process_announce()" type="button" 
+        <button @click="process_announce()" type="button"
             :class="[confirmType === 'delete' ? 'bg-red-700 hover:bg-red-800 focus:ring-red-300' : 'bg-blue-700 hover:bg-blue-800 focus:ring-blue-300']"
             class="text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             ตกลง
@@ -257,6 +257,7 @@ defineEmits(['edit-announce'])
 const props = defineProps({
     announceDetails: { type: Object, required: true  },
     typeDetail: { type: String, required: true },
+    filter: { type: Object }
 })
 
 dayjs.extend(buddhistEra)
@@ -311,12 +312,38 @@ const process_announce = () => {
         msgProcess = "ลบข่าวประกาศ"
     }
 
-    Inertia.post(route(routeName, props.announceDetails.id), {}, {
-        // data: {    
-        //     publish_status: props.announceDetails.publish_status,
-        //     pinned: props.announceDetails.pinned,
-        // },  
-        //preserveState: true,
+    // Inertia.get(route(routeName, props.announceDetails.id), {
+    //     data: {
+    //         // publish_status: props.announceDetails.publish_status,
+    //         // pinned: props.announceDetails.pinned,
+    //         ftopic: props.filter.ftopic,
+    //         fexpire_type: props.filter.fexpire_type,
+    //         fdivision_selected: props.filter.fdivision_selected
+    //     },
+    //     preserveState: true,
+    //     onSuccess: () => {
+    //         toast('success', 'สำเร็จ', `ดำเนินการ${msgProcess}เรียบร้อย`)
+    //     },
+    //     onError: (errors) => {
+    //         let error_display = ''
+    //         for ( let p in errors ) {
+    //             error_display = error_display + `- ${errors[p]}<br/>`
+    //         }
+    //         toast('danger', 'พบข้อผิดพลาด', error_display);
+    //         //toast('danger', errors.msg, errors.sysmsg)
+    //     },
+    //     onFinish: () => {
+    //         confirmType.value = ''
+    //         confirmModal.value = false
+    //     }
+    // })
+
+    Inertia.get(route(routeName, props.announceDetails.id), {
+        ftopic: props.filter.ftopic,
+        fexpire_type: props.filter.fexpire_type,
+        fdivision_selected: props.filter.fdivision_selected
+    }, {
+        preserveState: true,
         onSuccess: () => {
             toast('success', 'สำเร็จ', `ดำเนินการ${msgProcess}เรียบร้อย`)
         },
@@ -326,14 +353,13 @@ const process_announce = () => {
                 error_display = error_display + `- ${errors[p]}<br/>`
             }
             toast('danger', 'พบข้อผิดพลาด', error_display);
-            //toast('danger', errors.msg, errors.sysmsg)
         },
         onFinish: () => {
             confirmType.value = ''
             confirmModal.value = false
         }
     })
-} 
+}
 
 const closeDropdownWhenClickOutSide = (event) => {
     if (!event.target.matches('.dropbtn')) {

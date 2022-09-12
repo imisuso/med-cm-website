@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\VisitorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -36,6 +35,7 @@ use App\Models\Division;
 use App\Models\Person;
 use App\Models\User;
 use App\Models\Agreement;
+use App\Models\Gallery;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,14 +51,19 @@ use App\Models\Agreement;
 // Route::post('/webmed_api', [InfomedMonitorController::class, 'index']);
 
 Route::middleware(['visitor'])->get('/', function () {
+
+    // สำหรับ component ข่าวประกาศ (Announcement)
     $announce_show_limit = (int)env('ANNOUNCE_SHOW_LIMIT', 10);  // ส่ง limit ในการแสดงผลสำหรับหน้าแรกของ website ถ้า = 0 จะแสดงทั้งหมด
-    $announcement_all = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->get()->count();
-    // if ($announce_show_limit > 0) {
-    //     $announcements = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->take($announce_show_limit)->get();
-    // } else {
-    //     $announcements = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->get();
-    // }
-    return Inertia::render('Index', ['announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all ]);
+    $announcement_all = Announce::with('division')->whereDate('expire_date', '>', now()->format('Y-m-d'))->where('publish_status', 1)->orderBy('pinned', 'desc')->orderBy('publish_date', 'desc')->get()->count(); //ส่งจำนวนข่าวประกาศทั้งหมดที่ยังไม่หมดอายุ และทำการ publish อยู่
+
+    // สำหรับ component รูปกิจกรรม (PhotoGallery)
+    $gallery_show_limit = (int)env('GALLERY_LIMIT', 8);  // ส่ง limit ในการแสดงผลสำหรับหน้าแรกของ website ถ้า = 0 จะแสดงทั้งหมด
+    $gallery_all = Gallery::whereStatus(true)->orderBy('event_date', 'desc')->get()->count(); //ส่งจำนวน gallery ทั้งหมดที่เปิดแสดงผลอยู่
+
+    return Inertia::render('Index', [
+        'announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all,
+        'gallery_show_limit' => $gallery_show_limit,  'gallery_all' => $gallery_all
+    ]);
     // return Inertia::render('Index', ['announce_show_limit' => $announce_show_limit, 'announcements' => $announcements, 'announcement_all' => $announcement_all ]);
 })->name('index');
 
@@ -162,7 +167,17 @@ Route::get('/image_preview', function () {
 
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
 Route::get('/admin', function () {
-    return Inertia::render('Admin/Index');
+    return Inertia::render('Admin/Index', [
+        'total_visitor' => \App\Models\Visitor::where('route_name', 'index')->get()->count(),
+        'branch_visitor' => \App\Models\Visitor::where('route_name', 'branch')->get()->count(),
+        'total_announce' => Announce::all()->count(),
+        'total_poster' => \App\Models\Poster::all()->count()
+    ]);
+//    return Inertia::render('Admin/Index', [
+//        'announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all,
+//        'gallery_show_limit' => $gallery_show_limit,  'gallery_all' => $gallery_all
+//    ]);
+//    return Inertia::render('Admin/Index');
 })->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
 
 //LoginController =>
@@ -223,6 +238,28 @@ Route::prefix('admin')
     });
 Route::get('/list_enabled_gallery', [GalleryController::class, 'showListEnabledGallery'])->name('list_enabled_gallery');
 Route::get('/show_gallery/{Gallery}', [GalleryController::class, 'show'])->name('show_gallery');
+Route::get('/gallery_all_publish', function () {
+    return Inertia::render('GalleryAllPublish', [
+        'galleries' => Gallery::query()
+            ->when(Request::input('search'), function ($query, $search) {
+                $query->where('desc', 'like', "%{$search}%");
+            })
+            ->orderBy('event_date', 'desc')
+            ->paginate(8)
+            ->withQueryString()
+            ->through(fn ($gallery) => [
+                'id' => $gallery->id,
+                'slug' => $gallery->slug,
+                'cover' => $gallery->cover,
+                'cover_url' => $gallery->cover_url,
+                'desc' => $gallery->desc,
+                'event_date' => $gallery->event_date,
+                'status' => $gallery->status,
+                'created_at' => $gallery->created_at
+            ]),
+        'filters' => Request::only(['search'])
+    ]);
+})->name('gallery_all_publish');
 
 //PersonController => แสดง เพิ่ม ลบ และ จัดการ เกี่ยวกับ บุคคลากรในภาควิชา
 Route::prefix('admin')
@@ -261,9 +298,9 @@ Route::prefix('admin')
         Route::post('/announce/delete/{id}', 'destroy')->name('admin.announce.delete');
     });
 
-Route::post('/admin/announce/toggle_publish/{Announce}', [AnnounceController::class, 'togglePublish'])->name('admin.announce.toggle_publish')
+Route::get('/admin/announce/toggle_publish/{Announce}', [AnnounceController::class, 'togglePublish'])->name('admin.announce.toggle_publish')
         ->middleware('auth', 'can:publish_unpublish_announce');
-Route::post('/admin/announce/toggle_pin/{Announce}', [AnnounceController::class, 'togglePin'])->name('admin.announce.toggle_pin')
+Route::get('/admin/announce/toggle_pin/{Announce}', [AnnounceController::class, 'togglePin'])->name('admin.announce.toggle_pin')
         ->middleware('auth', 'can:pin_unpin_announce');
 
 Route::get('/admin/list_announce_all', [AnnounceController::class, 'listAll'])->name('admin.list_announce_all');

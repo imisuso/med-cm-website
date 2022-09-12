@@ -9,14 +9,15 @@
         <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
             <div class="flex items-start justify-between">
                 <div class="flex flex-col">
-                    <div class=" text-gray-500 font-medium">ผู้เยี่ยมชม website</div>
-                    <div class=" text-xl">{{ totalVisitor.toLocaleString() }}</div>
+                    <div class=" text-gray-500 font-medium">ผู้เข้าชมเว็บไซต์ทั้งหมด</div>
+<!--                    <div class=" text-xl">{{ totalVisitor.toLocaleString() }}</div>-->
+                    <div class=" text-xl">{{ total_visitor.toLocaleString() }}</div>
                     <!-- <div>yyyyy</div> -->
                 </div>
                 <span>
                     <ChartSquareBarIcon class="flex items-center w-10 h-10 border rounded-full bg-red-500 text-white p-2" />
                     <!-- <div class="flex items-center w-10 h-10 border rounded-full bg-red-500 px-1">ChartBarSquareIcon.js</div> -->
-                </span> 
+                </span>
             </div>
         </div>
 
@@ -24,13 +25,14 @@
             <div class="flex items-start justify-between">
                 <div class="flex flex-col">
                     <div class=" text-gray-500 font-medium">ข่าวประกาศ</div>
-                    <div class=" text-xl">{{ totalAnounce.toLocaleString() }}</div>
+<!--                    <div class=" text-xl">{{ totalAnounce.toLocaleString() }}</div>-->
+                    <div class=" text-xl">{{ total_announce.toLocaleString() }}</div>
                     <!-- <div>yyyyy</div> -->
                 </div>
                 <span>
                     <SpeakerphoneIcon class="flex items-center w-10 h-10 border rounded-full bg-blue-500 text-white p-2" />
                     <!-- <div class="flex items-center w-10 h-10 border rounded-full bg-blue-500 px-1">xxxx</div> -->
-                </span> 
+                </span>
             </div>
         </div>
 
@@ -38,13 +40,14 @@
             <div class="flex items-start justify-between">
                 <div class="flex flex-col">
                     <div class=" text-gray-500 font-medium">โปสเตอร์</div>
-                    <div class=" text-xl">{{ totalPoster.toLocaleString() }}</div>
+<!--                    <div class=" text-xl">{{ totalPoster.toLocaleString() }}</div>-->
+                    <div class=" text-xl">{{ total_poster.toLocaleString() }}</div>
                     <!-- <div>yyyyy</div> -->
                 </div>
                 <span>
                     <PresentationChartLineIcon class="flex items-center w-10 h-10 border rounded-full bg-yellow-500 text-white p-2"/>
                     <!-- <div class="flex items-center w-10 h-10 border rounded-full bg-yellow-500 px-1">xxxx</div> -->
-                </span> 
+                </span>
             </div>
         </div>
 
@@ -66,59 +69,59 @@
         <div class=" border-gray-200 hidden md:block px-4"> Other</div>
     </div> -->
 
-    <div class="p-4 border rounded-md shadow-md text-2xl font-semibold bg-green-100">Page visits</div>
+    <div class="p-4 border rounded-md shadow-md text-2xl font-semibold bg-green-100">ผู้เข้าชมแยกตามหน้าเว็บไซต์</div>
     <div class=" overflow-auto rounded-lg shadow hidden md:block mb-4">
         <table class="w-full">
             <thead class="bg-gray-50 border-b-2 border-gray-200 ">
                 <tr>
-                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">PAGE NAME</th>
-                    <th class=" w-1/4 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">VISITORS</th>
-                    <th class=" w-1/4 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">BOUNCE RATE</th>
+                    <th class="p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">หน้าเว็บไซต์</th>
+                    <th class=" w-3/4 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">#จำนวนผู้เข้าชม</th>
+<!--                    <th class=" w-1/4 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">BOUNCE RATE</th>-->
                 </tr>
             </thead>
             <tbody class=" divide-y divide-gray-100">
-                <tr class="bg-white">
-                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">index</td>
-                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ totalVisitor.toLocaleString() }}</td>
-                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">10%</td>
-                </tr>
+<!--                <tr class="bg-white">-->
+<!--                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">index</td>-->
+<!--                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ totalVisitor.toLocaleString() }}</td>-->
+<!--                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">10%</td>-->
+<!--                </tr>-->
                 <tr class="bg-gray-50">
-                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">branch</td>
-                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">200</td>
-                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1%</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">หน้าสาขา</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">{{ branch_visitor.toLocaleString() }}</td>
+<!--                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap ">1%</td>-->
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:hidden mb-4">
+<!--        <div class=" bg-white border space-y-3 p-4 rounded-lg shadow-md">-->
+<!--            <div class="flex items-center space-x-2 text-sm">-->
+<!--                <div class="w-1/3 sm:w-2/3 font-semibold">หน้าเว็บไซต์ : </div>-->
+<!--                <div class="text-sm text-gray-700">index</div>-->
+<!--            </div>-->
+<!--            <div class="flex items-center space-x-2 text-sm">-->
+<!--                <div class="w-1/3 sm:w-2/3 font-semibold">#จำนวนผู้เข้าชม : </div>-->
+<!--                <div class="text-sm text-gray-700">{{ totalVisitor.toLocaleString() }}</div>-->
+<!--            </div>-->
+<!--            <div class="flex items-center space-x-2 text-sm">-->
+<!--                <div class="w-1/3 sm:w-2/3 font-semibold">BOUNCE RATE : </div>-->
+<!--                <div class="text-sm text-gray-700">10%</div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class=" bg-white border space-y-3 p-4 rounded-lg shadow-md">
             <div class="flex items-center space-x-2 text-sm">
-                <div class="w-1/3 sm:w-2/3 font-semibold">PAGE NAME : </div>
-                <div class="text-sm text-gray-700">index</div>
+                <div class="w-1/3 sm:w-2/3 font-semibold">หน้าเว็บไซต์ : </div>
+                <div class="text-sm text-gray-700">หน้าสาขา</div>
             </div>
             <div class="flex items-center space-x-2 text-sm">
-                <div class="w-1/3 sm:w-2/3 font-semibold">VISITORS : </div>
-                <div class="text-sm text-gray-700">{{ totalVisitor.toLocaleString() }}</div>
+                <div class="w-1/3 sm:w-2/3 font-semibold">#จำนวนผู้เข้าชม : </div>
+                <div class="text-sm text-gray-700">{{ branch_visitor.toLocaleString() }}</div>
             </div>
-            <div class="flex items-center space-x-2 text-sm">
-                <div class="w-1/3 sm:w-2/3 font-semibold">BOUNCE RATE : </div>
-                <div class="text-sm text-gray-700">10%</div>
-            </div>
-        </div>
-        <div class=" bg-white border space-y-3 p-4 rounded-lg shadow-md">
-            <div class="flex items-center space-x-2 text-sm">
-                <div class="w-1/3 sm:w-2/3 font-semibold">PAGE NAME : </div>
-                <div class="text-sm text-gray-700">branch</div>
-            </div>
-            <div class="flex items-center space-x-2 text-sm">
-                <div class="w-1/3 sm:w-2/3 font-semibold">VISITORS : </div>
-                <div class="text-sm text-gray-700">200</div>
-            </div>
-            <div class="flex items-center space-x-2 text-sm">
-                <div class="w-1/3 sm:w-2/3 font-semibold">BOUNCE RATE : </div>
-                <div class="text-sm text-gray-700">1%</div>
-            </div>
+<!--            <div class="flex items-center space-x-2 text-sm">-->
+<!--                <div class="w-1/3 sm:w-2/3 font-semibold">BOUNCE RATE : </div>-->
+<!--                <div class="text-sm text-gray-700">1%</div>-->
+<!--            </div>-->
         </div>
     </div>
 <!--    </AdminAppLayout>-->
@@ -143,6 +146,13 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale,
 
 onMounted(() => {
     fillChartData()
+})
+
+const props = defineProps({
+    total_visitor: { type: Number, default: 0 },
+    branch_visitor: { type: Number, default: 0 },
+    total_announce: { type: Number, default: 0 },
+    total_poster: { type: Number, default: 0 }
 })
 
 const chartData = ref({
