@@ -4,6 +4,7 @@ namespace App\APIs;
 
 use App\Models\Person;
 use App\Managers\LogManager;
+use App\Models\PersonLog;
 
 class InfomedAPI
 {
@@ -251,6 +252,9 @@ class InfomedAPI
         // Query data with sap_id condition
         $person = Person::where('sap_id', $sap)->first();
 
+        // สร้าง person log เพื่อเก็บข้อมูลเก่าไว้
+        $person_log = $person;
+
         // ตรวจสอบว่าพบข้อมูลบุคคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
         if (! $person) {
             return response()->json([
@@ -356,13 +360,44 @@ class InfomedAPI
 
         logger("มีการแก้ไขข้อมูลบุคคลากร SAP-ID [".$sap."] มาจาก Infomed กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
 
-        $resp->store(
-            $user_in, // มาจากใคร
-            'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
-            'update',  // action
-            'Update person data (ข้อมูลส่วนตัว): '.$logdata, // details
-            'api' // type
-        );
+        $log_id = $resp->store(
+                        $user_in, // มาจากใคร
+                        'Person Management (จัดการบุคคลากร)', // section ของงานอะไร
+                        'update',  // action
+                        'Update person data (ข้อมูลส่วนตัว): '.$logdata, // details
+                        'api' // type
+                    );
+
+//        $person_log = new PersonLog();
+//        $person_log->title_th =  $person->title_th;
+//        $person_log->title_en = $person->title_en;
+//        $person_log->rname_short_th = $person->rname_short_th;
+//        $person_log->rname_full_th = $person->rname_full_th;
+//        $person_log->rname_short_en = $person->rname_short_en;
+//        $person_log->fname_th = $person->fname_th;
+//        $person_log->lname_th = $person->lname_th;
+//        $person_log->fname_en = $person->fname_en;
+//        $person_log->lname_en = $person->lname_en;
+//        $person_log->user_previous_act = $person->user_previous_act;
+//        $person_log->user_last_act = $person->user_last_act;
+        try {
+
+            PersonLog::create([
+                'title_th'=>$person_log->title_th,
+                'title_en'=>$person_log->title_en,
+                'fname_th'=>$person_log->fname_th,
+                'fname_en'=>$person_log->fname_en,
+                'lname_th'=>$person_log->lname_th,
+                'lname_en'=>$person_log->lname_en,
+                'rname_full_th'=>$person_log->rname_full_th,
+                'rname_short_th'=>$person_log->rname_short_th,
+                'rname_short_en'=>$person_log->rname_short_en,
+                'user_previous_act'=>$person_log->user_previous_act,
+                'user_last_act'=>$person_log->user_last_act
+            ]);
+        } catch (\Exception  $e) {
+            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลบุคคลากรไม่สำเร็จ เนื่องจาก ' .$e->getMessage()]);
+        }
 
         return response()->json([
             'status' => true,
