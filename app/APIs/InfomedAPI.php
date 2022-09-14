@@ -206,14 +206,27 @@ class InfomedAPI
     {
         //logger($data);
 
+//        $sap = $data['sap'];
+//        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
+//        $title_en = $data['title_en'];
+//        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
+//        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
+//        $rname_short_en = $data['rname_short_en'];
+//        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: null;
+//        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: null;
+//        $fname_en = $data['fname_en'];
+//        $lname_en = $data['lname_en'];
+//        $emp_flag = (int)$data['empflag'];
+//        $user_in = $data['userin'];
+
         $sap = $data['sap'];
-        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
+        $title_th = mb_convert_encoding($data['title_th'], "UTF-8", "auto") ?: null;
         $title_en = $data['title_en'];
-        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
-        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
+        $rname_short_th = mb_convert_encoding($data['rname_short_th'], "UTF-8", "auto") ?: null;
+        $rname_full_th = mb_convert_encoding($data['rname_full_th'], "UTF-8", "auto") ?: null;
         $rname_short_en = $data['rname_short_en'];
-        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: null;
-        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: null;
+        $fname_th = mb_convert_encoding($data['fname_th'], "UTF-8", "auto") ?: null;
+        $lname_th = mb_convert_encoding($data['lname_th'], "UTF-8", "auto") ?: null;
         $fname_en = $data['fname_en'];
         $lname_en = $data['lname_en'];
         $emp_flag = (int)$data['empflag'];
@@ -253,7 +266,7 @@ class InfomedAPI
         $person = Person::where('sap_id', $sap)->first();
 
         // สร้าง person log เพื่อเก็บข้อมูลเก่าไว้
-        $person_log = $person;
+        // $person_log = $person->getOriginal();
 
         // ตรวจสอบว่าพบข้อมูลบุคคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
         if (! $person) {
@@ -339,6 +352,22 @@ class InfomedAPI
         }]';
 
         try {
+            // ดึงข้อมูล original ของเก่ามาไว้เพื่อเก็บ log
+            $pl_title_th = $person->getOriginal('title_th');
+            $pl_title_en = $person->getOriginal('title_en');
+            $pl_fname_th = $person->getOriginal('fname_th');
+            $pl_fname_en = $person->getOriginal('fname_en');
+            $pl_lname_th = $person->getOriginal('lname_th');
+            $pl_lname_en = $person->getOriginal('lname_en');
+            $pl_rname_full_th = $person->getOriginal('rname_full_th');
+            $pl_rname_short_th = $person->getOriginal('rname_short_th');
+            $pl_rname_short_en = $person->getOriginal('rname_short_en');
+            $pl_user_previous_act = $person->getOriginal('user_previous_act');
+            $pl_user_last_act = $person->getOriginal('user_last_act');
+
+            $pl = $person->getOriginal();
+
+            // Save ข้อมูลใหม่ลง DB
             $person->save();
         } catch (\Exception  $e) {
             logger("เกิดข้อผิดพลาดไม่สามารถแก้ไขข้อมูลบุคคลากรได้ SAP-ID [".$sap."]");
@@ -368,41 +397,64 @@ class InfomedAPI
                         'api' // type
                     );
 
-//        $person_log = new PersonLog();
-//        $person_log->title_th =  $person->title_th;
-//        $person_log->title_en = $person->title_en;
-//        $person_log->rname_short_th = $person->rname_short_th;
-//        $person_log->rname_full_th = $person->rname_full_th;
-//        $person_log->rname_short_en = $person->rname_short_en;
-//        $person_log->fname_th = $person->fname_th;
-//        $person_log->lname_th = $person->lname_th;
-//        $person_log->fname_en = $person->fname_en;
-//        $person_log->lname_en = $person->lname_en;
-//        $person_log->user_previous_act = $person->user_previous_act;
-//        $person_log->user_last_act = $person->user_last_act;
         try {
-
             PersonLog::create([
-                'title_th'=>$person_log->title_th,
-                'title_en'=>$person_log->title_en,
-                'fname_th'=>$person_log->fname_th,
-                'fname_en'=>$person_log->fname_en,
-                'lname_th'=>$person_log->lname_th,
-                'lname_en'=>$person_log->lname_en,
-                'rname_full_th'=>$person_log->rname_full_th,
-                'rname_short_th'=>$person_log->rname_short_th,
-                'rname_short_en'=>$person_log->rname_short_en,
-                'user_previous_act'=>$person_log->user_previous_act,
-                'user_last_act'=>$person_log->user_last_act
+                'log_id' => $log_id,
+                'title_th'=>$pl_title_th,
+                'title_en'=>$pl_title_en,
+                'fname_th'=>$pl_fname_th,
+                'fname_en'=>$pl_fname_en,
+                'lname_th'=>$pl_lname_th,
+                'lname_en'=>$pl_lname_en,
+                'rname_full_th'=>$pl_rname_full_th,
+                'rname_short_th'=>$pl_rname_short_th,
+                'rname_short_en'=>$pl_rname_short_en,
+                'user_previous_act'=>$pl_user_previous_act,
+                'user_last_act'=>$pl_user_last_act
             ]);
+
+            logger($pl);
+
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลบุคคลากรไม่สำเร็จ เนื่องจาก ' .$e->getMessage()]);
+            logger("เกิดข้อผิดพลาดในการเก็บ Log ข้อมูลเก่าของ SAP-ID [".$sap."]");
+            logger($e);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Insert PersonLog fail'
+            ], 500);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Update emp success => '. $sap
             ], 200);
+    }
+
+    public function testPersonLog($data) {
+//        PersonLog::create([]);
+
+        $title_th = iconv("TIS-620", "UTF-8//IGNORE", $data['title_th']) ?: null;
+//        $fname_th = iconv("TIS-620", "UTF-8////TRANSLIT", $data['fname_th']) ?: null;
+        $fname_th = mb_convert_encoding($data['fname_th'], "UTF-8", "auto") ?: null;
+        $lname_th = iconv("TIS-620", "UTF-8//IGNORE", $data['lname_th']) ?: null;
+        $rname_short_th = iconv("TIS-620", "UTF-8//IGNORE", $data['rname_short_th']) ?: null;
+        $rname_full_th = iconv("TIS-620", "UTF-8//IGNORE", $data['rname_full_th']) ?: null;
+
+        $logslack = '[{"title_th":"'.$title_th.'",
+            "fname_th":"'.$fname_th.'",
+            "lname_th":"'.$lname_th.'",
+            "rname_short_th":"'.$rname_short_th.'",
+            "rname_full_th":"'.$rname_full_th.'"
+        }]';
+
+        logger("Test ICONV from postman");
+        logger($logslack);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Test success => '. $data['sap']
+        ], 200);
     }
 
     public function updateWork($data)

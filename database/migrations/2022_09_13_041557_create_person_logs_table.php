@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('person_logs', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('log_id')->nullable();
             $table->string('slug', 36)->nullable();
             $table->tinyInteger('division_id')->nullable();
             $table->string('sap_id', 20)->nullable();
@@ -41,7 +42,6 @@ return new class extends Migration
             $table->tinyInteger('display_order')->nullable();
             $table->string('user_previous_act')->nullable();
             $table->string('user_last_act')->nullable();
-            $table->bigInteger('log_id')->nullable();
             $table->timestamps();
         });
     }
