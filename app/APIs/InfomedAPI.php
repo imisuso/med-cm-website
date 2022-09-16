@@ -25,32 +25,32 @@ class InfomedAPI
         //     ], 405);
 
         // ข้อมูลที่มาจาก infomed ส่งมาให้ (iconv)
-//        $sap = $data['sap'];
-//        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-";
-//        $title_en = $data['title_en'];
-//        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
-//        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
-//        $rname_short_en = $data['rname_short_en'];
-//        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-";
-//        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-";
-//        $fname_en = $data['fname_en'];
-//        $lname_en = $data['lname_en'];
-//        $emp_flag = (int)$data['empflag'];
-//        $user_in = $data['userin'];
-
-        // ข้อมูลที่มาจาก infomed ส่งมาให้ (mb_convert_encoding)
         $sap = $data['sap'];
-        $title_th = mb_convert_encoding($data['title_th'], "UTF-8", "auto") ?: "-";
+        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-";
         $title_en = $data['title_en'];
-        $rname_short_th = mb_convert_encoding(trim($data['rname_short_th']), "UTF-8", "auto") ?: null;
-        $rname_full_th = mb_convert_encoding(trim($data['rname_full_th']), "UTF-8", "auto") ?: null;
+        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
+        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
         $rname_short_en = $data['rname_short_en'];
-        $fname_th = mb_convert_encoding(trim($data['fname_th']), "UTF-8", "auto") ?: "-";
-        $lname_th = mb_convert_encoding(trim($data['lname_th']), "UTF-8", "auto") ?: "-";
+        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-";
+        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-";
         $fname_en = $data['fname_en'];
         $lname_en = $data['lname_en'];
         $emp_flag = (int)$data['empflag'];
         $user_in = $data['userin'];
+
+        // ข้อมูลที่มาจาก infomed ส่งมาให้ (mb_convert_encoding) ใช้กับ postman
+//        $sap = $data['sap'];
+//        $title_th = mb_convert_encoding($data['title_th'], "UTF-8", "auto") ?: "-";
+//        $title_en = $data['title_en'];
+//        $rname_short_th = mb_convert_encoding(trim($data['rname_short_th']), "UTF-8", "auto") ?: null;
+//        $rname_full_th = mb_convert_encoding(trim($data['rname_full_th']), "UTF-8", "auto") ?: null;
+//        $rname_short_en = $data['rname_short_en'];
+//        $fname_th = mb_convert_encoding(trim($data['fname_th']), "UTF-8", "auto") ?: "-";
+//        $lname_th = mb_convert_encoding(trim($data['lname_th']), "UTF-8", "auto") ?: "-";
+//        $fname_en = $data['fname_en'];
+//        $lname_en = $data['lname_en'];
+//        $emp_flag = (int)$data['empflag'];
+//        $user_in = $data['userin'];
 
         // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
         $logslack = '[{"title_th":"'.$title_th.'",
@@ -228,31 +228,33 @@ class InfomedAPI
     {
         //logger($data);
 
-//        $sap = $data['sap'];
-//        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
-//        $title_en = $data['title_en'];
-//        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
-//        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
-//        $rname_short_en = $data['rname_short_en'];
-//        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: null;
-//        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: null;
-//        $fname_en = $data['fname_en'];
-//        $lname_en = $data['lname_en'];
-//        $emp_flag = (int)$data['empflag'];
-//        $user_in = $data['userin'];
-
+        // ใช้ iconv สำหรับ production
         $sap = $data['sap'];
-        $title_th = mb_convert_encoding($data['title_th'], "UTF-8", "auto") ?: null;
+        $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: null;
         $title_en = $data['title_en'];
-        $rname_short_th = mb_convert_encoding($data['rname_short_th'], "UTF-8", "auto") ?: null;
-        $rname_full_th = mb_convert_encoding($data['rname_full_th'], "UTF-8", "auto") ?: null;
+        $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
+        $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
         $rname_short_en = $data['rname_short_en'];
-        $fname_th = mb_convert_encoding($data['fname_th'], "UTF-8", "auto") ?: null;
-        $lname_th = mb_convert_encoding($data['lname_th'], "UTF-8", "auto") ?: null;
+        $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: null;
+        $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: null;
         $fname_en = $data['fname_en'];
         $lname_en = $data['lname_en'];
         $emp_flag = (int)$data['empflag'];
         $user_in = $data['userin'];
+
+        // ใช้กับ postman สำหรับทดสอบ
+//        $sap = $data['sap'];
+//        $title_th = mb_convert_encoding($data['title_th'], "UTF-8", "auto") ?: null;
+//        $title_en = $data['title_en'];
+//        $rname_short_th = mb_convert_encoding($data['rname_short_th'], "UTF-8", "auto") ?: null;
+//        $rname_full_th = mb_convert_encoding($data['rname_full_th'], "UTF-8", "auto") ?: null;
+//        $rname_short_en = $data['rname_short_en'];
+//        $fname_th = mb_convert_encoding($data['fname_th'], "UTF-8", "auto") ?: null;
+//        $lname_th = mb_convert_encoding($data['lname_th'], "UTF-8", "auto") ?: null;
+//        $fname_en = $data['fname_en'];
+//        $lname_en = $data['lname_en'];
+//        $emp_flag = (int)$data['empflag'];
+//        $user_in = $data['userin'];
 
         logger("มีการแก้ไขข้อมูลบุคลากรมาจาก infomed-api");
 
@@ -482,10 +484,14 @@ class InfomedAPI
         $division_id = (int)$data['division_id'];
         $type = $data['type'];
         $group = $data['group'];
-        $position_division = mb_convert_encoding(trim($data['position_division']), "UTF-8", "auto") ?: null;
-        $reward = mb_convert_encoding(trim($data['technic_name']), "UTF-8", "auto") ?: null;
-        //$position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division'])) ?: null;
-        //$reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name'])) ?: null;
+        // สำหรับใช้กับ postman เพื่อทดสอบ
+        //$position_division = mb_convert_encoding(trim($data['position_division']), "UTF-8", "auto") ?: null;
+        //$reward = mb_convert_encoding(trim($data['technic_name']), "UTF-8", "auto") ?: null;
+
+        //สำหรับใช้กับ production
+        $position_division = iconv('TIS-620', 'UTF-8', trim($data['position_division'])) ?: null;
+        $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name'])) ?: null;
+
         $manager_flag = (int)$data['manager_flag'];
         $user_in = $data['userin'];
 
