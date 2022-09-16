@@ -46,7 +46,8 @@ class TraceLogController extends Controller
             'logs' => TraceLog::query()
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('section', 'like', "%$search%")
-                        ->orWhere('type', 'like', "%$search%")->with('person');
+                        ->orWhere('type', 'like', "%$search%")
+                        ->orWhere('details', 'like', "%$search%" );
                 })
                 ->with('person')
                 ->orderByDesc('created_at')
