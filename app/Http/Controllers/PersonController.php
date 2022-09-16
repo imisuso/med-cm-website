@@ -413,6 +413,8 @@ class PersonController extends Controller
             'info'
         );
 
+//        logger($resp);
+
         return Redirect::route('admin.person_order', $division_slug);
     }
 

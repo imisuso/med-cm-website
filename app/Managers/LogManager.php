@@ -22,7 +22,8 @@ class LogManager
         try {
             $log->save();
             // logger("After Save Log");
-            return true;
+            return $log->id;
+//            return true;
         } catch (\Exception  $e) {
             // logger($e);
             return false;
