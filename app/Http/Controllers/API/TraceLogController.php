@@ -47,6 +47,7 @@ class TraceLogController extends Controller
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('section', 'like', "%$search%")
                         ->orWhere('type', 'like', "%$search%")
+                        ->orWhere('action', 'like', "%$search%")
                         ->orWhere('details', 'like', "%$search%" );
                 })
                 ->with('person')
@@ -54,6 +55,7 @@ class TraceLogController extends Controller
                 ->paginate(10)
                 ->withQueryString()
                 ->through(fn ($log) => [
+                    'id' => $log->id,
                     'person' => $log->person,
                     'user' => $log->user,
                     'action' => $log->action,
@@ -64,6 +66,7 @@ class TraceLogController extends Controller
                 ]),
             'sections' => TraceLog::select('section')->groupBy('section')->get(),
             'types' => TraceLog::select('type')->groupBy('type')->get(),
+            'actions' => TraceLog::select('action')->groupBy('action')->get(),
             'filters' => Request::only(['search', 'page'])
         ]);
     }

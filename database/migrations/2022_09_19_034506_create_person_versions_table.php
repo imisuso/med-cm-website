@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('person_logs', function (Blueprint $table) {
+        Schema::create('person_versions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('log_id')->nullable();
-            $table->string('slug', 36)->nullable();
+            $table->foreignId('person_id')->constrained('persons');
+            $table->foreignId('trace_log_id')->constrained('trace_logs');
+            $table->uuid('slug')->nullable();
             $table->tinyInteger('division_id')->nullable();
             $table->string('sap_id', 20)->nullable();
             $table->string('title_th')->nullable();
@@ -53,6 +54,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('person_logs');
+        Schema::dropIfExists('person_versions');
     }
 };

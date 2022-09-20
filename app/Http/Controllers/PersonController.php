@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Managers\LogManager;
 use App\Managers\UploadManager;
 
+use App\Models\PersonVersion;
+use App\Models\TraceLog;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -147,7 +149,7 @@ class PersonController extends Controller
                 $imgDB = "";
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพบุคคลากร ได้เนื่องจาก ' .$e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่มรูปภาพบุคลากร ได้เนื่องจาก ' .$e->getMessage()]);
         }
 
         // ถ้าพบ sap_id เลขนี้ในระบบแล้ว ให้ return error กลับไป
@@ -186,15 +188,15 @@ class PersonController extends Controller
                 'user_last_act'=>$userin
             ]);
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลบุคคลากรไม่สำเร็จ เนื่องจาก ' .$e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'จัดเก็บข้อมูลบุคลากรไม่สำเร็จ เนื่องจาก ' .$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
             $userin,
-            'Person Management (จัดการบุคคลากร)',
+            'Person Management (จัดการบุคลากร)',
             'insert',
-            'มีการเพิ่มข้อมูลบุคคลากรใหม่ของ sap_id:'.$sap_id,
+            'มีการเพิ่มข้อมูลบุคลากรใหม่ของ sap_id:'.$sap_id,
             'info'
         );
 
@@ -221,7 +223,7 @@ class PersonController extends Controller
         // เก็บ Log หลังจากมีการเปิดดูข้อมูลบุคลากร
         $resp = (new LogManager)->store(
             request()->user()->sap_id,
-            'Person Management (จัดการบุคคลากร)',
+            'Person Management (จัดการบุคลากร)',
             'view',
             'มีการเปิดดูข้อมูลบุคลากรของ sap_id:'.$Person->sap_id,
             'info'
@@ -317,7 +319,7 @@ class PersonController extends Controller
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคคลากรได้ เนื่องจาก '. $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขรูปภาพบุคลากรได้ เนื่องจาก '. $e->getMessage()]);
         }
 
         // ถ้า sap_id ไม่เท่ากับเลขเดิม และ พบเลขนี้ในระบบแล้ว ให้ return error กลับไป
@@ -357,13 +359,16 @@ class PersonController extends Controller
             $Person->user_previous_act = $Person->user_last_act;
             $Person->user_last_act = $userin;
 
+            // เก็บค่าเก่าก่อนทำการแก้ไข
+            $old = $Person->getOriginal();
+            // จัดเก็บค่าที่แก้ไขใหม่
             $Person->save();
         } catch (\Exception  $e) {
             // ถ้ามีการเปลี่ยนรูปใหม่ ให้ลบรูปใหม่ที่เพิ่ง upload ถ้า update ฐานข้อมูลไม่สำเร็จ
             if ($has_update_image) {
                 Storage::delete($imgDB);
             }
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคคลากร ได้เนื่องจาก '. $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคลากร ได้เนื่องจาก '. $e->getMessage()]);
         }
 
         // ลบรูปเก่าหลังจาก update ข้อมูลทุกอย่างเรียบร้อยแล้ว (ถ้ามีการ update รูป)
@@ -372,13 +377,19 @@ class PersonController extends Controller
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
+        $log = (new LogManager)->store(
             $userin,
-            'Person Management (จัดการบุคคลากร)',
+            'Person Management (จัดการบุคลากร)',
             'update',
-            'มีการอัพเดทข้อมูลบุคคลากรของ ID:'.$Person->id.' sap_id:'.$person_sap_id,
+            'มีการอัพเดทข้อมูลบุคลากรของ ID:'.$Person->id.' sap_id:'.$person_sap_id,
             'pdpa'
         );
+
+        // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
+        $old['trace_log_id'] = $log ?: 0;
+        $old['person_id'] = $old['id'];
+        PersonVersion::query()->create($old);
+
         ////Session::put('fdivision_selected', $fdivision_selected);
         //return Redirect::route('admin.person')->with('fdivision_selected', $fdivision_selected);
         //return Redirect::route('admin.person', ['fdivision_selected' => $division_id]);
@@ -401,15 +412,15 @@ class PersonController extends Controller
                 }
             }
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
-            'Person Management (จัดการบุคคลากร)',
+            'Person Management (จัดการบุคลากร)',
             'order',
-            'มีการเรียงลำดับการแสดงผลของบุคคลากร:'.$unit_name->division_type.$unit_name->name_th,
+            'มีการเรียงลำดับการแสดงผลของบุคลากร:'.$unit_name->division_type.$unit_name->name_th,
             'info'
         );
 
@@ -430,16 +441,16 @@ class PersonController extends Controller
             $Person->status = ! $Person->status;
             $Person->save();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
         $status = $Person->status ? 'เปิด' : 'ปิด';
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
-            'Person Management (จัดการบุคคลากร)',
+            'Person Management (จัดการบุคลากร)',
             'update',
-            'มีการเปลี่ยนสถานะการแสดงผลของบุคคลากร ID:'.$Person->id.' sap_id:'.$Person->sap_id.' เป็น '.$status,
+            'มีการเปลี่ยนสถานะการแสดงผลของบุคลากร ID:'.$Person->id.' sap_id:'.$Person->sap_id.' เป็น '.$status,
             'info'
         );
 
@@ -463,7 +474,7 @@ class PersonController extends Controller
         try {
             Person::whereId((int)$id)->delete();
         } catch (\Exception  $e) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคคลากร ได้เนื่องจาก '. $e->getMessage()]);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคลากร ได้เนื่องจาก '. $e->getMessage()]);
         }
 
         // ถ้าเคยมีการเก็บรูปมาแล้ว
@@ -473,9 +484,9 @@ class PersonController extends Controller
 
         $resp = (new LogManager)->store(
             Auth::user()->sap_id,
-            'Person Management (จัดการบุคคลากร)',
+            'Person Management (จัดการบุคลากร)',
             'delete',
-            'มีการลบข้อมูลของบุคคลากร ID:'.$id.' sap_id:'.$data['sap_id'],
+            'มีการลบข้อมูลของบุคลากร ID:'.$id.' sap_id:'.$data['sap_id'],
             'info'
         );
 
@@ -549,7 +560,7 @@ class PersonController extends Controller
         if (Auth::user()->can('view_division_content') && (request()->user()->person->division_id != $division_id)) {
             $resp = (new LogManager)->store(
                 Auth::user()->sap_id,
-                'Person Management (จัดการบุคคลากร)',
+                'Person Management (จัดการบุคลากร)',
                 'access',
                 'มีการพยายามเข้าถึงข้อมูลบุคลากรที่ไม่ใช่ สาขา/หน่วย ของตนเอง หมายเลข:'.$division_id,
                 'security'
