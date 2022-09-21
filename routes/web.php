@@ -244,6 +244,7 @@ Route::get('/gallery_all_publish', function () {
             ->when(Request::input('search'), function ($query, $search) {
                 $query->where('desc', 'like', "%{$search}%");
             })
+            ->whereStatus(true)
             ->orderBy('event_date', 'desc')
             ->paginate(8)
             ->withQueryString()
