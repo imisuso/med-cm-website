@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -52,6 +53,26 @@ class Person extends Model
         static::creating(function ($person) {
             $person->slug = Str::uuid()->toString();
         });
+
+
+//        static::updated(function (Person $person) {
+//            $log = $person->actionlogs()->create([
+//                'user' => Auth::user()->id,
+//                'action' => 'update',
+//            ]);
+//
+//            $old = $person->getOriginal();
+//            //logger($old);
+//            $old['trace_log_id'] = $log->id;
+//            $old['person_id'] = $old['id'];
+//            //unset($old['id'], $old['updated_at'], $old['created_at']);
+//            PersonVersion::query()->create($old);
+//        });
+
+    }
+
+    public function versions() {
+        return $this->hasMany(PersonVersion::class, 'person_id', 'id');
     }
 
     public function division()
@@ -59,10 +80,10 @@ class Person extends Model
         return $this->hasOne(Division::class, 'division_id', 'division_id');
     }
 
-    public function trace_log()
-    {
-        return $this->belongsTo(TraceLog::class);
-    }
+//    public function trace_log()
+//    {
+//        return $this->belongsTo(TraceLog::class);
+//    }
 
     public function getPersonTypeAttribute()
     {
@@ -80,7 +101,6 @@ class Person extends Model
             $person_type = 'xxxx';
         }
         return $person_type;
-        //return 'ที่ปรึกษา';
     }
 
     public function getImageUrlAttribute()

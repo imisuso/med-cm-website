@@ -89,7 +89,8 @@
                       <div v-html="pic_heading_submenu"></div>
                       <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
                       <a v-else-if="sub_menu_item.sub_menu_link.startsWith('http')" :href="sub_menu_item.sub_menu_link" target="_blank" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
-                      <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</Link>
+                      <a v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</a>
+                        <!--  <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</Link> -->
                     </div>
                   </template>
                 </div>
@@ -375,6 +376,17 @@ const closeSideMenuWhenClickOutSide = (event) => {
     }
 }
 
+const closeSubMenu = (event) => {
+    let x = document.getElementById("sub-menu");
+    x.style.display = "none";
+    console.log("Close Sub Menu")
+    // if (x.style.display === "none") {
+    //     x.style.display = "block";
+    // } else {
+    //     x.style.display = "none";
+    // }
+}
+
 </script>
 
 <style scoped>
@@ -401,6 +413,14 @@ const closeSideMenuWhenClickOutSide = (event) => {
   .hoverable:hover .sub-menu {
     display: block;
   }
+
+  /*.hoverable:hover a:focus {*/
+  /*    display: none;*/
+  /*}*/
+
+  /*.sub-menu > a:after:focus {*/
+  /*    display: none;*/
+  /*}*/
 
   .text-menu-color {
     color: white;
