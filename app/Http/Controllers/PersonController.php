@@ -19,10 +19,11 @@ use Illuminate\Support\Str;
 
 class PersonController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('remember')->only('index');
-    }
+    // ใส่ remember middleware ไว้ที่ web.php แล้ว เลยทำการ comment ไว้
+//    public function __construct()
+//    {
+//        $this->middleware('remember')->only('index');
+//    }
 
     /**
      * Display a listing of the resource.
@@ -77,12 +78,13 @@ class PersonController extends Controller
         // }
 
         $persons = $query->with('division')
-        ->orderBy('type')
-        ->orderBy('profiles->leader', 'desc')
-        ->orderBy('display_order', 'asc')
-        ->orderBy('fname_th', 'asc')
-        ->paginate(6)
-        ->withQueryString();
+                        ->with('versions')
+                        ->orderBy('type')
+                        ->orderBy('profiles->leader', 'desc')
+                        ->orderBy('display_order', 'asc')
+                        ->orderBy('fname_th', 'asc')
+                        ->paginate(6)
+                        ->withQueryString();
 
         return Inertia::render('Admin/Person/Index', [
             'persons' => $persons,
@@ -252,6 +254,26 @@ class PersonController extends Controller
     public function show($id)
     {
         return Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type', 'status')->where('sap_id', $id);
+    }
+
+    public function showBackupHistory(Person $Person) {
+//        logger($Person->versions);
+        // ทำเพื่อให้มี division ติดไปด้วยตอนส่ง props
+        $versions = $Person->versions;
+        if (count($versions) > 0) {
+            foreach ($versions as $version) {
+                $version->division;
+//                $division_version[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
+            }
+        }
+        return Inertia::render('Admin/Person/BackupHistory', [
+            'person_versions' => $versions
+        ]);
+
+//        return Inertia::render('Admin/Person/BackupHistory', [
+//            'person_versions' => $Person->versions,
+//            'division_version' => $division_version
+//        ]);
     }
 
     /**
