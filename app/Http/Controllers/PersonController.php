@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class PersonController extends Controller
 {
     // ใส่ remember middleware ไว้ที่ web.php แล้ว เลยทำการ comment ไว้
@@ -257,23 +261,62 @@ class PersonController extends Controller
     }
 
     public function showBackupHistory(Person $Person) {
-//        logger($Person->versions);
-        // ทำเพื่อให้มี division ติดไปด้วยตอนส่ง props
-        $versions = $Person->versions;
-        if (count($versions) > 0) {
-            foreach ($versions as $version) {
-                $version->division;
-//                $division_version[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
-            }
-        }
-        return Inertia::render('Admin/Person/BackupHistory', [
-            'person_versions' => $versions
+
+        $versions = $Person->versions->sortBy([
+            ['trace_log_id', 'desc'],
         ]);
 
-//        return Inertia::render('Admin/Person/BackupHistory', [
-//            'person_versions' => $Person->versions,
-//            'division_version' => $division_version
-//        ]);
+        // ทำเพื่อให้มี division ติดไปด้วยตอนส่ง props
+//        if (count($versions) > 0) {
+//            foreach ($versions as $version) {
+//                $version->division;
+//              // $division_version[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
+//            }
+//        }
+        $myCollectionObj = collect($versions);
+
+        $data = $this->paginate($myCollectionObj);
+
+        return Inertia::render('Admin/Person/BackupHistory', [
+            'person_versions' => $data
+        ]);
+    }
+
+    public function view_version(PersonVersion $PersonVersion)
+    {
+        $divisions = Division::all();
+//        $fdivision_selected = $PersonVersion->division_id;
+        $action = "view";
+
+        // เก็บ Log หลังจากมีการเปิดดูข้อมูลบุคลากร
+//        $resp = (new LogManager)->store(
+//            request()->user()->sap_id,
+//            'Person Management (จัดการบุคลากร)',
+//            'view',
+//            'มีการเปิดดูข้อมูลบุคลากรของ sap_id:'.$Person->sap_id,
+//            'info'
+//        );
+
+        // ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
+//        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
+//            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
+//        }
+//        dd($PersonVersion);
+//        return Inertia::render('Admin/Person/DataForm', ['action' => $action, 'person' => $PersonVersion]);
+
+        return Inertia::render('Admin/Person/DataForm', ['action' => $action,
+            'divisions' => $divisions,
+            'person' => $PersonVersion,
+            'fdivision_selected' => $PersonVersion->division_id,
+            'version' => true
+        ]);
+    }
+
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
