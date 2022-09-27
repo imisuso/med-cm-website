@@ -27,40 +27,40 @@
                         </a>
                     </li> -->
                     <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
-                        <a href="#" @click="route('admin.person.show_backup_history', personDetails.id)" class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
+                        <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
 <!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />-->
 <!--                            </svg>-->
                             <DatabaseIcon :class="['w-6 h-6 px-1']" />
                             ประวัติการแก้ไข
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
+                        <Link href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
 <!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />-->
 <!--                            </svg>-->
                             <IdentificationIcon :class="['w-6 h-6 px-1']" />
                             ดูข้อมูล
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
+                        <Link href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
 <!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />-->
 <!--                            </svg>-->
                             <PencilAltIcon :class="['w-6 h-6 px-1']" />
                             แก้ไข
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
+                        <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
 <!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
 <!--                            </svg>-->
                             <TrashIcon :class="['w-6 h-6 px-1']" />
                             ลบ
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>
@@ -169,28 +169,28 @@
                                 </a>
                             </li> -->
                             <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
-                                <a :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
+                                <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
                                     <DatabaseIcon :class="['w-6 h-6 px-1']" />
                                     ประวัติการแก้ไข
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
+                                <Link href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
                                     <IdentificationIcon :class="['w-6 h-6 px-1']" />
                                     ดูข้อมูล
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
+                                <Link href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
                                     <PencilAltIcon :class="['w-6 h-6 px-1']" />
                                     แก้ไข
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
+                                <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
                                     <TrashIcon :class="['w-6 h-6 px-1']" />
                                     ลบ
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -230,6 +230,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-vue3'
 import { IdentificationIcon, PencilAltIcon, TrashIcon, DatabaseIcon } from "@heroicons/vue/outline"
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import Modal from '@/Components/Modal.vue'

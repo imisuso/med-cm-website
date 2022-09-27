@@ -261,23 +261,24 @@ class PersonController extends Controller
     }
 
     public function showBackupHistory(Person $Person) {
-
+        $Person->division;
         $versions = $Person->versions->sortBy([
             ['trace_log_id', 'desc'],
         ]);
 
         // ทำเพื่อให้มี division ติดไปด้วยตอนส่ง props
-//        if (count($versions) > 0) {
-//            foreach ($versions as $version) {
-//                $version->division;
-//              // $division_version[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
-//            }
-//        }
+        if (count($versions) > 0) {
+            foreach ($versions as $version) {
+                $version->division;
+              // $division_version[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
+            }
+        }
         $myCollectionObj = collect($versions);
 
         $data = $this->paginate($myCollectionObj);
 
         return Inertia::render('Admin/Person/BackupHistory', [
+            'person' => $Person,
             'person_versions' => $data
         ]);
     }
@@ -301,22 +302,14 @@ class PersonController extends Controller
 //        if (! $this->checkBranchAdminCanAccessContent($fdivision_selected)) {
 //            return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
 //        }
-//        dd($PersonVersion);
-//        return Inertia::render('Admin/Person/DataForm', ['action' => $action, 'person' => $PersonVersion]);
 
-        return Inertia::render('Admin/Person/DataForm', ['action' => $action,
+        return Inertia::render('Admin/Person/DataForm', [
+            'action' => $action,
             'divisions' => $divisions,
             'person' => $PersonVersion,
             'fdivision_selected' => $PersonVersion->division_id,
             'version' => true
         ]);
-    }
-
-    public function paginate($items, $perPage = 10, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
@@ -534,10 +527,14 @@ class PersonController extends Controller
     public function destroy($id)
     {
         //\Log::info(Request::all());
+
         $data = Person::select('image', 'sap_id', 'division_id')->whereId((int)$id)->first();
 
         try {
-            Person::whereId((int)$id)->delete();
+            $person = Person::find((int)$id);
+            $person->versions()->delete();
+            $person->delete();
+//            Person::whereId((int)$id)->delete();
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูลบุคลากร ได้เนื่องจาก '. $e->getMessage()]);
         }
@@ -617,6 +614,13 @@ class PersonController extends Controller
                             ->orderBy('fname_th', 'asc')->get();
 
         return $listPerson;
+    }
+
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     // ใช้ตรวจสอบว่าถ้าเป็น admin ของสาขาหรือหน่วยงาน จะไม่สามารถเห็นข้อมูลของ สาขา หรือ หน่วยอื่นที่ไม่ใช่ของตัวเองได้
