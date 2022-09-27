@@ -6,15 +6,15 @@
                     <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                 </svg>
             </button>
-            
+
             <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
                 <ul class="py-1" aria-labelledby="dropdownButton">
                     <!-- <li>
                         <a href="#"
-                            @click="togglePdpaData" 
+                            @click="togglePdpaData"
                             class="flex items-center text-sm hover:bg-gray-100 text-orange-500 px-4 py-2"
                         >
-                            
+
                             <svg v-if="pdpa_protect" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -26,29 +26,41 @@
 
                         </a>
                     </li> -->
+                    <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
+                        <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />-->
+<!--                            </svg>-->
+                            <DatabaseIcon :class="['w-6 h-6 px-1']" />
+                            ประวัติการแก้ไข
+                        </Link>
+                    </li>
                     <li>
-                        <a href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                            </svg>
+                        <Link href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />-->
+<!--                            </svg>-->
+                            <IdentificationIcon :class="['w-6 h-6 px-1']" />
                             ดูข้อมูล
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
+                        <Link href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />-->
+<!--                            </svg>-->
+                            <PencilAltIcon :class="['w-6 h-6 px-1']" />
                             แก้ไข
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                        <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
+<!--                            </svg>-->
+                            <TrashIcon :class="['w-6 h-6 px-1']" />
                             ลบ
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>
@@ -76,7 +88,7 @@
                 <!-- ดู/ปิด ข้อมูลส่วนบุคคล -->
                 <!-- <span>
                     <a href="#"
-                        @click="togglePdpaData" 
+                        @click="togglePdpaData"
                         class="flex items-center text-sm hover:bg-gray-100 text-orange-500"
                     >
                         <svg v-if="pdpa_protect" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -128,7 +140,7 @@
                     </div>
                 </div>
             </div>
-           
+
             <div v-if="!orderInput" class="hidden sm:block">
                 <div class="px-4 pt-4 relative">
                     <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
@@ -136,15 +148,15 @@
                             <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                         </svg>
                     </button>
-                    
+
                     <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 -top-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
                         <ul class="py-1" aria-labelledby="dropdownButton">
                             <!-- <li>
                                 <a href="#"
-                                    @click="togglePdpaData" 
+                                    @click="togglePdpaData"
                                     class="flex items-center text-sm hover:bg-gray-100 text-orange-500 px-4 py-2"
                                 >
-                                   
+
                                     <svg v-if="pdpa_protect" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -156,34 +168,34 @@
 
                                 </a>
                             </li> -->
+                            <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
+                                <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
+                                    <DatabaseIcon :class="['w-6 h-6 px-1']" />
+                                    ประวัติการแก้ไข
+                                </Link>
+                            </li>
                             <li>
-                                <a href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                                    </svg>
+                                <Link href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
+                                    <IdentificationIcon :class="['w-6 h-6 px-1']" />
                                     ดูข้อมูล
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
+                                <Link href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
+                                    <PencilAltIcon :class="['w-6 h-6 px-1']" />
                                     แก้ไข
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
+                                <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
+                                    <TrashIcon :class="['w-6 h-6 px-1']" />
                                     ลบ
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </div>           
+            </div>
         </div>
     </div>
 
@@ -205,11 +217,11 @@
         </template>
 
         <template v-slot:footer>
-            <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
-            <button @click="switchButtonToggle(personDetails)" type="button" 
+            <button @click="switchButtonToggle(personDetails)" type="button"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 ตกลง
             </button>
+            <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
         </template>
     </Modal>
     </teleport>
@@ -218,6 +230,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-vue3'
+import { IdentificationIcon, PencilAltIcon, TrashIcon, DatabaseIcon } from "@heroicons/vue/outline"
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import Modal from '@/Components/Modal.vue'
 
@@ -264,7 +278,7 @@ const closeDropdownWhenClickOutSide = (event) => {
     }
     // else {
     //     console.log("InSide")
-    // }   
+    // }
 }
 
 const toast = (severity, summary, detail) => {
@@ -286,13 +300,13 @@ const switchButtonToggle = (person) => {
     Inertia.patch(route('admin.person.update_display_status', person.id), { fdivision: props.personDetails.division_id }, {
         // onBefore: () => {
         //     let display = ''
-        //     if( person.type === 'b' && person.position_academic === 0 ) { 
+        //     if( person.type === 'b' && person.position_academic === 0 ) {
         //         display = `${person.title_th}${person.fname_th} ${person.lname_th}`
         //     } else {
         //         display = `${person.rname_short_th}${person.fname_th} ${person.lname_th}`
         //     }
-           
-        //     if( person.status ) { 
+
+        //     if( person.status ) {
         //         return confirm(`คุณต้องการปิดการแสดงผล ${display} ใช่ หรือ ไม่ ?`)
         //     } else {
         //         return confirm(`คุณต้องการเปิดการแสดงผล ${display} ใช่ หรือ ไม่ ?`)
@@ -320,16 +334,16 @@ const togglePdpaData = () => {
     if( ! pdpa_protect.value ) {
         // มีการเปิดดูข้อมูลส่วนบุคคล
         traceLogService.value.storeLog(
-            section, 
+            section,
             "view",
-            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + props.personDetails.sap_id, 
+            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + props.personDetails.sap_id,
             "pdpa"
         )
     }
 }
 
 const orderPerson = () => {
-    //document.getElementById("order_text").blur(); 
+    //document.getElementById("order_text").blur();
     emit('order-person')
 }
 

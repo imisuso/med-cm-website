@@ -4,6 +4,7 @@
         as="button" type="button"
         preserve-state
         :href="route(item.href)"
+        :data="{ 'remember': 'forget' }"
         v-if="! item.children.length"
         v-show="canUseMenu(item.ability) || ! item.ability.length"
         :class="[

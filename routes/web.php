@@ -210,7 +210,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:manage_posters'])
     ->controller(PosterController::class)
     ->group(function () {
-        Route::get('/poster', 'index')->name('admin.poster');
+        Route::get('/poster', 'index')->middleware(['remember'])->name('admin.poster');
         Route::get('/poster/create', 'create')->name('admin.poster.create');
         Route::post('/poster/store', 'store')->name('admin.poster.store');
         Route::patch('/poster/update_display_status/{Poster}', 'updatePosterDisplayStatus')->name('admin.poster.update_display_status');
@@ -223,7 +223,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:manage_galleries'])
     ->controller(GalleryController::class)
     ->group(function () {
-        Route::get('/gallery', 'index_admin')->name('admin.gallery');
+        Route::get('/gallery', 'index_admin')->middleware(['remember'])->name('admin.gallery');
         Route::get('/gallery/create', 'create')->name('admin.gallery.create');
         Route::get('/gallery/edit/{Gallery}', 'edit')->name('admin.gallery.edit');
         Route::get('/gallery/check_empty/{slug}', 'checkGalleryEmpty')->name('admin.gallery.check_empty');
@@ -267,17 +267,20 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:manage_person'])
     ->controller(PersonController::class)
     ->group(function () {
-        Route::match(['get', 'post'], '/person', 'index')->name('admin.person');
+        Route::match(['get', 'post'], '/person', 'index')->middleware(['remember'])->name('admin.person');
         Route::get('/person_order/{division_slug}', 'index_order')->name('admin.person_order');
         Route::get('/person/create', 'create')->name('admin.person.create');
         Route::get('/person/view/{Person}', 'view')->name('admin.person.view');
+        Route::get('/person/view_version/{PersonVersion}', 'view_version')->name('admin.person.view_version');
         Route::get('/person/edit/{Person}', 'edit')->name('admin.person.edit');
         Route::post('/person/store', 'store')->name('admin.person.store');
         Route::post('/person/update/{Person}', 'update')->name('admin.person.update');
         Route::patch('/person/update_display_status/{Person}', 'updatePersonDisplayStatus')->name('admin.person.update_display_status');
         Route::delete('/person/delete/{id}', 'destroy')->name('admin.person.delete');
         Route::post('/person/update_display_order', 'updatePersonDisplayOrder')->name('admin.person.update_display_order');
+        Route::get('/person/show_backup_history/{Person}', 'showBackupHistory')->middleware(['remember'])->name('admin.person.show_backup_history');
         Route::get('/person/list_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('admin.person.list_by_division_and_type');
+
     });
 //Route::get('/list_person_by_division_and_type', [PersonController::class,'listPersonByDivisionAndType'])->name('list_person_by_division_and_type');
 Route::get('/person/show/{id}', [PersonController::class, 'show'])->name('person.show');
