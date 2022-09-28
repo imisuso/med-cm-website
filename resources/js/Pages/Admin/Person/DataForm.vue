@@ -7,11 +7,17 @@
 <!--                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"-->
 <!--                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"-->
 <!--                >-->
-                <Link v-if="!version" :href="route('admin.person')" method="get" as="button" type="button"
+                <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button"
                       class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
                 </Link>
+                <Link v-else-if="from_history_page" :href="route('admin.person.show_backup_history', person.id)" method="get" as="button" type="button"
+                      class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                >
+                    กลับหน้าดูประวัติ
+                </Link>
+
                 <Link v-else :href="route('admin.person.show_backup_history', person.person_id)" method="get" as="button" type="button"
                       class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
                 >
@@ -329,10 +335,15 @@
                     ยกเลิก
                 </Link> -->
                 <!-- ใช้ remember middleware แล้วมันจะจำ query string ล่าสุดให้เอง -->
-                <Link v-if="! version" :href="route('admin.person')" method="get" as="button" type="button"
+                <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                 >
                     ยกเลิก
+                </Link>
+                <Link v-else-if="from_history_page" :href="route('admin.person.show_backup_history', person.id)" method="get" as="button" type="button"
+                      class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
+                >
+                    กลับหน้าดูประวัติ
                 </Link>
                 <Link v-else :href="route('admin.person.show_backup_history', person.person_id)" method="get" as="button" type="button"
                       class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
@@ -367,7 +378,8 @@ const props = defineProps({
     person: { type: Object },
     divisions: { type: Array },
     fdivision_selected: { type: Number},
-    version: { type: Boolean, default: false }
+    version: { type: Boolean, default: false },
+    from_history_page: { type: Boolean, default: false },
 })
 
 const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"

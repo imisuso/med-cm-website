@@ -9,9 +9,12 @@
         </svg>
     </button>
 
-    <Link v-else :href="route(`${menu_link}`)">
+<!--    <Link v-else :href="route(`${menu_link}`)">-->
+<!--        <button class="text-white font-sans font-bold my-3 flex flex-row items-center dropsidemenu">{{ menu_name }} :</button>-->
+<!--    </Link>-->
+    <a v-else :href="route(`${menu_link}`)">
         <button class="text-white font-sans font-bold my-3 flex flex-row items-center dropsidemenu">{{ menu_name }} :</button>
-    </Link>
+    </a>
 
     <ul v-if="has_sub_menu" class="pl-1 border-white text-menu-color dropsidemenu" :class="{'hidden': !items_visibility}">
         <template v-for="sub_menu_item in sub_menu" :key="sub_menu_item.sub_menu_id">
@@ -19,7 +22,8 @@
                 <div v-html="pic_heading_submenu" class="inline-block"></div>
                 <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" @click="true">{{ sub_menu_item.sub_menu_name }}</a>
                 <a v-else-if="sub_menu_item.sub_menu_link.startsWith('http')" :href="sub_menu_item.sub_menu_link" target="_blank" @click="true">{{ sub_menu_item.sub_menu_name }}</a>
-                <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)" @click="true">{{ sub_menu_item.sub_menu_name }}</Link>       
+<!--                <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)" @click="true">{{ sub_menu_item.sub_menu_name }}</Link>-->
+                <a v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</a>
             </li>
         </template>
     </ul>
@@ -37,12 +41,12 @@ const props = defineProps({
     sub_menu: { type: Array, required: true }
 })
 
-const items_visibility = ref(true)
+const items_visibility = ref(false)
 
 </script>
 
 <style scoped>
     .text-menu-color {
-        color: white; 
+        color: white;
     }
 </style>
