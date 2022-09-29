@@ -104,7 +104,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 </script>
 
 <script setup>
-import { ref, onMounted, reactive, watch, nextTick } from 'vue'
+import { ref, onMounted, reactive, watch, nextTick, inject } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
 import Modal from '@/Components/Modal.vue'
@@ -116,7 +116,11 @@ import DivisionService from '@/Services/DivisionService'
 import TraceLogService from '@/Services/TraceLogService'
 
 import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
+import 'mosha-vue-toastify/dist/style.css'
+
+import Swal  from 'vue-sweetalert2';
+//import 'sweetalert2/dist/sweetalert2.min.css';
+//import VueSweetalert2 from "vue-sweetalert2";  // import the styling for the toast
 
 const props = defineProps({
     persons: { type: Object, required: true, default: {} },
@@ -128,6 +132,8 @@ onMounted(() => {
     divisions.value = data
   });
 })
+
+const swal = inject('$swal')
 
 const blank_image = '/fallbackimage/default-blank-image.jpg'
 const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"
@@ -160,6 +166,7 @@ watch( search, value => {
 
 const openDeletePersonModal = (isopen) => {
   deletePersonModal.value = isopen
+
   if( !isopen ) {
     personForm.reset()
     url.value = null
@@ -224,11 +231,40 @@ const editPerson = ( personData ) => {
   })
 }
 
+// Backup ไว้ก่อน รอทดสอบ sweetalert2
+// const confirmDeletePerson = ( personData ) => {
+//   url.value = personData.image ? personData.image_url : `${baseUrl.value}${blank_image}`
+//   personForm.id = personData.id
+//   personForm.fullname = `${personData.fname_th} ${personData.lname_th}`
+//   openDeletePersonModal(true)
+// }
+
 const confirmDeletePerson = ( personData ) => {
-  url.value = personData.image ? personData.image_url : `${baseUrl.value}${blank_image}`
-  personForm.id = personData.id
-  personForm.fullname = `${personData.fname_th} ${personData.lname_th}`
-  openDeletePersonModal(true)
+    url.value = personData.image ? personData.image_url : `${baseUrl.value}${blank_image}`
+    personForm.id = personData.id
+    personForm.fullname = `${personData.fname_th} ${personData.lname_th}`
+
+    swal.fire({
+        title: 'Are you sure?',
+        text: "คุณต้องการลบข้อมูลบุคลากร",
+        //icon: 'warning',
+        imageUrl: url.value,
+        imageWidth: 80,
+        imageHeight: 80,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+        }
+    })
+    //openDeletePersonModal(true)
 }
 
 // const orderPerson = (personData) => {

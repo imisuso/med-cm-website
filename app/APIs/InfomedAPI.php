@@ -399,6 +399,7 @@ class InfomedAPI
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log_id ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
 
@@ -558,6 +559,7 @@ class InfomedAPI
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log_id ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
         return response()->json([

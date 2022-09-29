@@ -24,6 +24,9 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 import VuePdfEmbed from 'vue-pdf-embed'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import AppLayout from '@/Layouts/AppLayout.vue'
 import AdminAppLayout from '@/Layouts/Admin/AdminAppLayout.vue'
 
@@ -69,6 +72,7 @@ createInertiaApp({
       createApp({ render: () => h(App, props) })
         // .config.compilerOptions.isCustomElement = tag => tag.startsWith('trix-')
         .use(plugin)
+        .use(VueSweetalert2)
         .component('Datepicker', Datepicker)
         .component('VuePdfEmbed', VuePdfEmbed)
         .component('QuillEditor', QuillEditor)
@@ -79,7 +83,7 @@ createInertiaApp({
     },
   })
 
-InertiaProgress.init({ 
+InertiaProgress.init({
   // The color of the progress bar.
   //color: '#dd6722',
   // color: '#f53333',
@@ -88,5 +92,5 @@ InertiaProgress.init({
   includeCSS: false,
 
   // Whether the NProgress spinner will be shown.
-  showSpinner: true, 
+  showSpinner: true,
 });

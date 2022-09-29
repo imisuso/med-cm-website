@@ -468,13 +468,14 @@ class PersonController extends Controller
             $userin,
             'Person Management (จัดการบุคลากร)',
             'update',
-            'มีการอัพเดทข้อมูลบุคลากรของ ID:'.$Person->id.' sap_id:'.$person_sap_id,
+            "มีการอัพเดทข้อมูลบุคลากรของ {$Person->title_th}{$Person->fname_th} หน่วย/สาขา : {$Person->division->name_th}",
             'pdpa'
         );
 
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
         ////Session::put('fdivision_selected', $fdivision_selected);
@@ -509,13 +510,14 @@ class PersonController extends Controller
                         Auth::user()->sap_id,
                         'Person Management (จัดการบุคลากร)',
                         'order',
-                        "มีการแก้ไขลำดับการแสดงผลของ {$db_person->title_th}{$db_person->name_th} : {$unit_name->division_type}{$unit_name->name_th}",
+                        "มีการแก้ไขลำดับการแสดงผลของ {$db_person->title_th}{$db_person->fname_th} หน่วย/สาขา : {$unit_name->name_th}",
                         'info'
                     );
 
                     // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
                     $old['trace_log_id'] = $log_id ?: 0;
                     $old['person_id'] = $old['id'];
+                    $old['record_updated'] = $old['updated_at'];
                     PersonVersion::query()->create($old);
                 }
             }
@@ -532,8 +534,6 @@ class PersonController extends Controller
 //            'info'
 //        );
 
-//        logger($resp);
-
         return Redirect::route('admin.person_order', $division_slug);
     }
 
@@ -544,7 +544,6 @@ class PersonController extends Controller
         //     $fdivision_selected = Session::pull('fdivision_selected');
         // }
         // logger($fdivision_selected);
-        // dd($fdivision_selected);
         try {
             $Person->status = ! $Person->status;
             $Person->user_last_act = Auth::user()->sap_id;
@@ -563,13 +562,14 @@ class PersonController extends Controller
             Auth::user()->sap_id,
             'Person Management (จัดการบุคลากร)',
             'update',
-            "มีการเปลี่ยนสถานะการแสดงผลของบุคลากร : {$Person->title_th}{$Person->name_th} เป็น {$status}",
+            "มีการเปลี่ยนสถานะการแสดงผลของบุคลากร : {$Person->title_th}{$Person->fname_th} หน่วย/สาขา : {$Person->division->name_th}  เป็น {$status}",
             'info'
         );
 
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log_id ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
         //return Redirect::back()->with('fdivision_selected', $fdivision_selected);
@@ -588,7 +588,7 @@ class PersonController extends Controller
     {
         //\Log::info(Request::all());
 
-        $data = Person::select('image', 'sap_id', 'division_id')->whereId((int)$id)->first();
+        $data = Person::select('image', 'sap_id', 'title_th', 'fname_th', 'division_id')->whereId((int)$id)->first();
 
         try {
             $person = Person::find((int)$id);
@@ -608,7 +608,7 @@ class PersonController extends Controller
             Auth::user()->sap_id,
             'Person Management (จัดการบุคลากร)',
             'delete',
-            'มีการลบข้อมูลของบุคลากร ID:'.$id.' sap_id:'.$data['sap_id'],
+            "มีการลบข้อมูลของบุคลากรของ  {$data['title_th']}{$data['fname_th']} หน่วย/สาขา : {$person->division->name_th}",
             'info'
         );
 
