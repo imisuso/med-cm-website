@@ -613,7 +613,7 @@ class PersonController extends Controller
         );
 
         // ใช้ remember middleware
-        return Redirect::route('admin.person');
+        return Redirect::route('admin.person', ['rember' => 'forget']);
         //return Redirect::route('admin.person', ['fdivision_selected' => $data['division_id']]);
     }
 

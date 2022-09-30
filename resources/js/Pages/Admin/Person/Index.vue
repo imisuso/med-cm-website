@@ -21,9 +21,7 @@
               class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
           >
             <div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
+                <PlusSmIcon :class="['h-6 w-6']"/>
             </div>
             <div>เพิ่ม</div>
           </Link>
@@ -31,9 +29,7 @@
           <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
             <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
               <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                </svg>
+                  <SwitchVerticalIcon :class="['h-6 w-6']"/>
               </div>
               <div>เรียงลำดับ</div>
             </button>
@@ -42,16 +38,6 @@
       </div>
 
       <div class="flex flex-col w-full mb-4">
-<!--          <PersonInteractiveCardList -->
-<!--            v-for="(item, index) in persons.data" -->
-<!--            :key="index" -->
-<!--            :personDetails="item"-->
-<!--            :order-input="false"-->
-<!--            @edit-person="editPerson(item)" -->
-<!--            @view-person="viewPerson(item)"-->
-<!--            @order-person="orderPerson(item)"-->
-<!--            @delete-person="confirmDeletePerson(item)"-->
-<!--          />-->
           <PersonInteractiveCardList
               v-for="(item, index) in persons.data"
               :key="index"
@@ -62,32 +48,6 @@
               @delete-person="confirmDeletePerson(item)"
           />
       </div>
-
-      <!-- Modal สำหรับ confirm การลบ ข้อมูลบุคลากร  -->
-      <teleport to="body">
-      <Modal :isModalOpen="deletePersonModal" >
-
-        <template v-slot:header>
-          <div class="text-gray-900 text-xl font-medium">
-              คุณต้องการลบข้อมูลบุคลากร
-          </div>
-        </template>
-
-        <template v-slot:body>
-          <div class="flex flex-row justify-start items-center">
-            <img :src="url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
-            <div class="text-gray-900 text-md font-medium">
-                {{ personForm.fullname }}
-            </div>
-          </div>
-        </template>
-
-        <template v-slot:footer>
-          <button @click="deletePerson()" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">ลบ</button>
-          <button @click="openDeletePersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
-        </template>
-      </Modal>
-      </teleport>
 
       <div class="flex justify-center md:justify-end mt-2 px-4">
         <Pagination :pagination="persons"/>
@@ -107,20 +67,18 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 import { ref, onMounted, reactive, watch, nextTick, inject } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
-import Modal from '@/Components/Modal.vue'
 import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList.vue'
 import Pagination from '@/Components/Paginations.vue'
 
 // API Service
 import DivisionService from '@/Services/DivisionService'
-import TraceLogService from '@/Services/TraceLogService'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 
-import Swal  from 'vue-sweetalert2';
-//import 'sweetalert2/dist/sweetalert2.min.css';
-//import VueSweetalert2 from "vue-sweetalert2";  // import the styling for the toast
+import { PlusSmIcon, SwitchVerticalIcon } from "@heroicons/vue/outline"
+import Swal  from 'sweetalert2';
+//import Swal  from 'vue-sweetalert2'; // ใช้งานร่วมกับ inject
 
 const props = defineProps({
     persons: { type: Object, required: true, default: {} },
@@ -133,18 +91,12 @@ onMounted(() => {
   });
 })
 
-const swal = inject('$swal')
+// const swal = inject('$swal')
 
 const blank_image = '/fallbackimage/default-blank-image.jpg'
 const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"
 const divisionService = ref(new DivisionService())
-const traceLogService = ref(new TraceLogService())
-const personModal = ref(false)
-const deletePersonModal = ref(false)
 const divisions = ref([])
-// const filter_key = ref()
-// const check_doctor = ref()
-const pdpa_protect = ref(false)
 const url = ref(null)
 const baseUrl = ref(base_url)
 
@@ -163,15 +115,6 @@ watch( search, value => {
         replace: true
     })
 })
-
-const openDeletePersonModal = (isopen) => {
-  deletePersonModal.value = isopen
-
-  if( !isopen ) {
-    personForm.reset()
-    url.value = null
-  }
-}
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -205,7 +148,6 @@ const deletePerson = () => {
         personForm.processing = false
     }
   });
-  openDeletePersonModal(false)
 }
 
 const getPersonList = () => {
@@ -231,46 +173,56 @@ const editPerson = ( personData ) => {
   })
 }
 
-// Backup ไว้ก่อน รอทดสอบ sweetalert2
-// const confirmDeletePerson = ( personData ) => {
-//   url.value = personData.image ? personData.image_url : `${baseUrl.value}${blank_image}`
-//   personForm.id = personData.id
-//   personForm.fullname = `${personData.fname_th} ${personData.lname_th}`
-//   openDeletePersonModal(true)
-// }
-
 const confirmDeletePerson = ( personData ) => {
     url.value = personData.image ? personData.image_url : `${baseUrl.value}${blank_image}`
     personForm.id = personData.id
     personForm.fullname = `${personData.fname_th} ${personData.lname_th}`
 
-    swal.fire({
-        title: 'Are you sure?',
-        text: "คุณต้องการลบข้อมูลบุคลากร",
-        //icon: 'warning',
+    // ตัวอย่างการใช้งาน
+    // swal.fire({
+    //     title: 'Are you sure?',
+    //     text: "คุณต้องการลบข้อมูลบุคลากร",
+    //     //icon: 'warning',
+    //     imageUrl: url.value,
+    //     imageWidth: 80,
+    //     imageHeight: 80,
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Yes, delete it!'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         swal.fire(
+    //             'Deleted!',
+    //             'Your file has been deleted.',
+    //             'success'
+    //         )
+    //     } else {
+    //         personForm.reset()
+    //         url.value = null
+    //     }
+    // })
+
+    Swal.fire({
+        title: 'คุณแน่ใจว่าต้องการลบข้อมูลบุคลากร?',
+        text: `${personForm.fullname}`,
         imageUrl: url.value,
         imageWidth: 80,
         imageHeight: 80,
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonColor: '#b91c1c',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ลบ',
+        cancelButtonText: 'ยกเลิก'
     }).then((result) => {
         if (result.isConfirmed) {
-            swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-            )
+            deletePerson()
+        } else {
+            personForm.reset()
+            url.value = null
         }
     })
-    //openDeletePersonModal(true)
 }
-
-// const orderPerson = (personData) => {
-//   //console.log(personData.display_order)
-//   personList.value = personList.value.sort( (a, b) => { return a.display_order - b.display_order });
-// }
 
 const getDivisionSlugFromId = (id) => {
   //console.log(id)
@@ -307,23 +259,6 @@ const replaced = ( str, use_case ) => {
 
     return firstStr+markStr+lastStr
     //return str.slice(0, -5) + '*****';
-}
-
-const original_str = ( str ) => {
-    alert(str)
-}
-
-const togglePdpaData = () => {
-    pdpa_protect.value = ! pdpa_protect.value
-    if( ! pdpa_protect.value ) {
-        // มีการเปิดดูข้อมูลส่วนบุคคล
-        traceLogService.value.storeLog(
-            section,
-            "view",
-            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + personForm.sap_id,
-            "pdpa"
-        )
-    }
 }
 
 </script>

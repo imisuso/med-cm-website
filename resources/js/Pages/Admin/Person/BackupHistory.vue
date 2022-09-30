@@ -5,7 +5,10 @@
             <Link :href="route('admin.person')" method="get" as="button" type="button"
                   class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
             >
-                กลับหน้าบุคลากร
+                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                    <ReplyIcon :class="['h-6 w-6 mr-2']" />
+                    กลับหน้าบุคคลากร
+                </button>
             </Link>
         </div>
 
@@ -18,24 +21,6 @@
                 />
             </div>
         </div>
-
-<!--        <div class="flex flex-col">-->
-<!--            <div class="flex flex-col w-full mb-4">-->
-<!--                <PersonVersionInteractiveTable-->
-<!--                    :personDetails="person"-->
-<!--                />-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="flex flex-col">-->
-<!--            <div class="flex flex-col w-full mb-4">-->
-<!--                <PersonVersionInteractiveTable-->
-<!--                    v-for="version in person_versions.data"-->
-<!--                    :key="version.id"-->
-<!--                    :personDetails="version"-->
-<!--                />-->
-<!--            </div>-->
-<!--        </div>-->
 
         <div class="flex justify-center md:justify-end mt-2 px-4">
             <Pagination :pagination="person_versions"/>
@@ -53,20 +38,14 @@ export default {
 </script>
 
 <script setup>
-import { ref } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import PersonVersionInteractiveTable from '@/Components/PersonVersionInteractiveTable.vue'
 import Pagination from '@/Components/Paginations.vue'
-// import { UserCircleIcon } from "@heroicons/vue/outline"
-//
-// import dayjs from 'dayjs'
-// import 'dayjs/locale/th'
-// import buddhistEra from 'dayjs/plugin/buddhistEra'
+import { ReplyIcon } from "@heroicons/vue/outline"
 
 const props = defineProps({
     person: { type: Object, default: {} },
     person_versions: { type: Object, default: {} },
 })
 
-// dayjs.extend(buddhistEra)
 </script>

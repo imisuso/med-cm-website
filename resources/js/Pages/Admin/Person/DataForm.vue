@@ -7,21 +7,24 @@
 <!--                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"-->
 <!--                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"-->
 <!--                >-->
-                <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button"
-                      class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-                >
-                    กลับหน้าหลัก
+                <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button">
+                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                        <ReplyIcon :class="['h-6 w-6 mr-2']" />
+                        กลับหน้าหลัก
+                    </button>
                 </Link>
-                <Link v-else-if="from_history_page" :href="route('admin.person.show_backup_history', person.id)" method="get" as="button" type="button"
-                      class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-                >
-                    กลับหน้าดูประวัติ
+                <Link v-else-if="from_history_page" :href="route('admin.person.show_backup_history', person.id)" method="get" as="button" type="button">
+                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                        <ReplyIcon :class="['h-6 w-6 mr-2']" />
+                        กลับหน้าดูประวัติ
+                    </button>
                 </Link>
 
-                <Link v-else :href="route('admin.person.show_backup_history', person.person_id)" method="get" as="button" type="button"
-                      class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-                >
-                    กลับหน้าดูประวัติ
+                <Link v-else :href="route('admin.person.show_backup_history', person.person_id)" method="get" as="button" type="button">
+                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                        <ReplyIcon :class="['h-6 w-6 mr-2']" />
+                        กลับหน้าดูประวัติ
+                    </button>
                 </Link>
             </div>
 
@@ -366,6 +369,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 <script setup>
 import { ref } from 'vue'
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
+import { ReplyIcon } from "@heroicons/vue/outline"
 
 // API Service
 import TraceLogService from '@/Services/TraceLogService'

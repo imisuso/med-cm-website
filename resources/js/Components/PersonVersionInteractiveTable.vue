@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class=" overflow-x-scroll">
+        <div class="overflow-x-scroll">
             <table class="w-full  border-collapse border border-slate-400">
                 <thead class="bg-gray-50 border-b-2 border-gray-200 ">
                     <tr>
@@ -13,11 +13,11 @@
                         <th class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">การแสดงผล</th>
                         <th class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">ผู้ดำเนินการ</th>
                         <th class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">วันที่อัพเดท</th>
-                        <th class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">วันที่สร้างเรคคอร์ด</th>
+                        <th class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">วันที่เกิดข้อมูล/เวอร์ชั่น</th>
                     </tr>
                 </thead>
                 <tbody class=" divide-y divide-gray-100">
-                    <tr class="bg-gradient-to-r from-sky-100">
+                    <tr class="bg-gradient-to-r from-sky-50">
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
                             ข้อมูลปัจจุบัน
                             <Link :href='route("admin.person.view", {Person: personCurrent.id, fromHistoryPage: true })' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-1 tracking-wide">
@@ -34,11 +34,11 @@
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"><ToggleSwitch v-model:status="personCurrent.status" /></td>
                         <td v-if="personCurrent.user_last_act_full_name" class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ personCurrent.user_last_act_full_name }}</td>
                         <td v-else class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ personCurrent.user_last_act }}</td>
-                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personCurrent.updated_at).locale('th').format('D MMMM BBBB H:m:s') }}</td>
-                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personCurrent.created_at).locale('th').format('D MMMM BBBB H:m:s') }}</td>
+                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personCurrent.updated_at).locale('th').format('D MMMM BBBB HH:mm:ss') }}</td>
+                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personCurrent.created_at).locale('th').format('D MMMM BBBB HH:mm:ss') }}</td>
                     </tr>
                     <tr v-for=" personVersion in personHistory" :key="personVersion.id"
-                        class="bg-gradient-to-r from-red-100"
+                        class="bg-gradient-to-r from-red-50"
                     >
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
                             LOG-ID : {{ personVersion.trace_log_id }}
@@ -56,8 +56,8 @@
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap"><ToggleSwitch v-model:status="personVersion.status" /></td>
                         <td v-if="personVersion.user_last_act_full_name" class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ personVersion.user_last_act_full_name }}</td>
                         <td v-else class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ personVersion.user_last_act }}</td>
-                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personVersion.record_updated).locale('th').format('D MMMM BBBB H:m:s') }}</td>
-                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personVersion.created_at).locale('th').format('D MMMM BBBB H:m:s') }}</td>
+                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personVersion.record_updated).locale('th').format('D MMMM BBBB HH:mm:ss') }}</td>
+                        <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personVersion.created_at).locale('th').format('D MMMM BBBB HH:mm:ss') }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -77,19 +77,12 @@ import buddhistEra from 'dayjs/plugin/buddhistEra'
 
 dayjs.extend(buddhistEra)
 
-// API Service
-//import TraceLogService from '@/Services/TraceLogService'
-
 const props = defineProps({
-    //personDetails: { type: Object, default: {} },
     personCurrent: { type: Object, default: {} },
     personHistory: { type: Object, default: {} },
-    // tableHeader: { type: Boolean, default: false }
 })
 
-//const traceLogService = ref(new TraceLogService())
 const baseUrl = ref(base_url)
-//const section = "Person Management (จัดการบุคคลากร)"
 
 const isDoctor = (person) => {
     if( person.position_academic !== 0 ) {
@@ -99,31 +92,11 @@ const isDoctor = (person) => {
     }
 }
 
-// const isLeader = ( leader ) => {
-//     if( leader ) {
-//         return "L"
-//     } else {
-//         return "M"
-//     }
-// }
 const isLeader = ( leader ) => {
     if( leader ) {
         return true
     } else {
         return false
-    }
-}
-
-const isType = () => {
-    //console.log(props.personDetails)
-    if( props.personDetails.type === 'a' ) {
-        return "อาจารย์"
-    } else if ( props.personDetails.type === 'z' ) {
-        return "ที่ปรึกษา"
-    } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic !== 0) {
-        return "แพทย์"
-    } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic === 0) {
-        return "เจ้าหน้าที่"
     }
 }
 
