@@ -444,8 +444,8 @@ Route::prefix('admin')
     ->controller(RoleController::class)
     ->group(function () {
         Route::get('/role', 'index')->name('admin.role.index');
-//        Route::get('/user/create', 'create')->name('admin.user.create');
-//        Route::post('/user/store/{person}', 'store')->name('admin.user.store');
+        Route::get('/role/create', 'create')->name('admin.role.create');
+        Route::post('/role/store', 'store')->name('admin.role.store');
 //        Route::get('/user/edit/{user}', 'edit')->name('admin.user.edit');
 //        Route::patch('/user/update/{user}', 'update')->name('admin.user.update');
 //        Route::delete('/user/delete/{user}', 'destroy')->name('admin.user.delete');

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ability;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RoleController extends Controller
@@ -27,7 +29,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $abilities = Ability::select('id', 'label', 'name')->get();
+        $action = "insert";
+        return Inertia::render('Admin/Role/DataForm', compact('abilities', 'action'));
     }
 
     /**
@@ -36,9 +40,31 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $role_name = request()->input('role_name');
+        $role_label = request()->input('role_label');
+        $abilities = request()->input('abilities');
+
+        logger($role_name);
+        logger($role_label);
+        logger($abilities);
+
+//        try {
+//            $role = Role::create([
+//                'name' => $role_name,
+//                'label' => $role_label,
+//            ]);
+//
+//            foreach ($abilities as $ability) {
+//                $role->allowTo($ability);
+//            }
+//
+//        } catch (\Exception  $e) {
+//            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถเพิ่ม Role ได้เนื่องจาก ' .$e->getMessage()]);
+//        }
+
+        return Redirect::route('admin.role.index');
     }
 
     /**
