@@ -98,7 +98,7 @@
 
                     <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 -top-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
                         <ul class="py-1" aria-labelledby="dropdownButton">
-                            <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
+                            <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content') && $page.props.auth.abilities.includes('view_log')">
                                 <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
                                     <DatabaseIcon :class="['w-6 h-6 px-1']" />
                                     ประวัติการแก้ไข

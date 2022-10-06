@@ -48,7 +48,7 @@
                                 <Link :href="route('admin.role.index', role.id)" class="flex items-center mx-1 text-orange-500 bg-white hover:bg-orange-100 focus:ring-4 focus:ring-orange-300 rounded-full border border-orange-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
                                     <PencilIcon :class="['h-5 w-5']" />
                                 </Link>
-                                <button @click="true" class="flex items-center mx-1 text-red-500 bg-white hover:bg-red-200 focus:ring-4 focus:ring-red-300 rounded-full border border-red-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
+                                <button @click="confirmDeleteRole(role)" class="flex items-center mx-1 text-red-500 bg-white hover:bg-red-200 focus:ring-4 focus:ring-red-300 rounded-full border border-red-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
                                     <TrashIcon :class="['h-5 w-5']" />
                                 </button>
                             </div>
@@ -89,9 +89,8 @@ const props = defineProps({
     roles: { type: Object, required: true, default: {} },
 })
 
-const userId = ref(null)
-const userFullName = ref(null)
-const userImageUrl = ref(null)
+const roleId = ref(null)
+const roleName = ref(null)
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -108,51 +107,41 @@ const toast = (severity, summary, detail) => {
         })
 }
 
-// const statusText = (text) => {
-//     return text ? 'Active' : 'Disabled'
-// }
+const confirmDeleteRole = ( role ) => {
+    roleId.value = role.id
+    roleName.value = role.name
 
-// const confirmDeleteUser = ( user ) => {
-//     userId.value = user.id
-//     userFullName.value = `${user.person.fname_th} - ${user.person.lname_th}`
-//     userImageUrl.value = user.person.image_url
-//
-//     Swal.fire({
-//         title: 'คุณแน่ใจว่าต้องการลบผู้ใช้งาน?',
-//         text: `${userFullName.value}`,
-//         imageUrl: userImageUrl.value,
-//         imageWidth: 80,
-//         imageHeight: 80,
-//         showCancelButton: true,
-//         confirmButtonColor: '#b91c1c',
-//         cancelButtonColor: '#6b7280',
-//         confirmButtonText: 'ลบ',
-//         cancelButtonText: 'ยกเลิก'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             deleteUser()
-//         }
-//     })
-// }
+    Swal.fire({
+        title: `คุณต้องการลบ Role ที่ชื่อว่า ${roleName.value} ?`,
+        showCancelButton: true,
+        confirmButtonColor: '#b91c1c',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ลบ',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteRole()
+        }
+    })
+}
 
-// const deleteUser = () => {
-//     Inertia.delete(route('admin.user.delete', userId.value), {
-//         preserveState: false,
-//         onSuccess: () => {
-//             toast('success', 'สำเร็จ', 'ลบข้อมูลผู้ใช้งาน เรียบร้อย')
-//         },
-//         onError: (errors) => {
-//             let error_display = ''
-//             for ( let p in errors ) {
-//                 error_display = error_display + `- ${errors[p]}<br/>`
-//             }
-//             toast('danger', 'พบปัญหา', error_display);
-//         },
-//     });
-//     userId.value = null
-//     userFullName.value = null
-//     userImageUrl.value = null
-// }
+const deleteRole = () => {
+    Inertia.delete(route('admin.role.delete', roleId.value), {
+        preserveState: false,
+        onSuccess: () => {
+            toast('success', 'สำเร็จ', 'ลบข้อมูล Role เรียบร้อย')
+        },
+        onError: (errors) => {
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบปัญหา', error_display);
+        },
+    });
+    roleId.value = null
+    roleName.value = null
+}
 
 </script>
 

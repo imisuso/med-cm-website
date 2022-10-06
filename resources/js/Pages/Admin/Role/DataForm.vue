@@ -13,30 +13,36 @@
 
         <div class="flex flex-col border rounded-lg shadow-lg p-4">
             <div class="grid grid-cols-6 gap-2 md:gap-6 mt-6 mb-6">
-                <label for="role-name" class="col-span-6 md:col-span-1 mr-2 self-end justify-self-start sm:justify-self-end font-semibold">ชื่อ Role :</label>
+                <label for="role-name" class="col-span-6 md:col-span-1 mr-2 self-start justify-self-start sm:justify-self-end font-semibold">ชื่อ Role :</label>
                 <div class="col-span-6 md:col-span-5">
                     <div>
                         <input  type="text" id="role-name"
                                 v-model="form.role_name"
-                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
+                                :class="[$page.props.errors.role_name ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
+                    <div class="mt-2 text-xs  text-red-600" v-if="$page.props.errors.role_name">{{ $page.props.errors.role_name }}</div>
                 </div>
-                <label for="role-label" class="col-span-6 md:col-span-1 mr-2 self-end justify-self-start sm:justify-self-end font-semibold">รายละเอียด :</label>
+
+                <label for="role-label" class="col-span-6 md:col-span-1 mr-2 self-start justify-self-start sm:justify-self-end font-semibold">รายละเอียด :</label>
                 <div class="col-span-6 md:col-span-5">
                     <div>
                         <textarea id="role-label"
                                   v-model="form.role_label"
-                                  class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                  class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
+                                  :class="[$page.props.errors.role_label ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
+                    <div class="mt-2 text-xs  text-red-600" v-if="$page.props.errors.role_label">{{ $page.props.errors.role_label }}</div>
                 </div>
             </div>
 
             <div class="grid grid-cols-6 gap-2 md:gap-6 mt-2 mb-6 p-2 rounded-lg">
-                <label for="abilities" class="col-span-6 md:col-span-1 mr-2 self-end justify-self-start sm:justify-self-end font-semibold">Ability :</label>
+                <label for="abilities" class="col-span-6 md:col-span-1 mr-2 self-center justify-self-start sm:justify-self-end font-semibold">Ability :</label>
                 <VueMultiselect
-                    class="col-span-6 md:col-span-5 mt-4"
+                    class="col-span-6 md:col-span-5 mt-4 border"
+                    :class="[$page.props.errors.abilities ? 'border-red-600' : '']"
                     id="abilities"
                     v-model="selectedAbilities"
                     track-by="id"
@@ -56,12 +62,18 @@
                     @select="onSelectedAbility"
                 >
                 </VueMultiselect>
+                <div class="col-start-1 sm:col-start-2 col-span-6 text-xs text-red-600" v-if="$page.props.errors.abilities">{{ $page.props.errors.abilities }}</div>
             </div>
-            <div class=" bg-yellow-300 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800">
-                ภาพรวม :
-                <div class="flex items-center" v-for="abt in form.abilities" :key="abt.id">
-                    <PlusSmIcon :class="['mr-1 text-green-700 w-6 h-6 shrink-0']" />
-                    <div>{{abt.name}} => สามารถ {{abt.label}} </div>
+            <div class="bg-gradient-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
+                <div class="font-semibold text-lg underline tracking-wide">ภาพรวม :</div>
+                <div class="flex items-center py-1" v-for="abt in form.abilities" :key="abt.id">
+                    <div class="flex flex-col sm:flex-row sm:items-center">
+                        <div class="border-green-700 text-white bg-green-600 px-1 pb-1 rounded-md mr-1">{{abt.name}}</div>
+                        <div class="flex items-start sm:items-center">
+                            <FastForwardIcon :class="['mr-1 text-green-700 w-6 h-6 shrink-0']" />
+                            {{abt.label}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,7 +107,7 @@ import VueMultiselect from 'vue-multiselect'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 
-import { ReplyIcon, PlusSmIcon, CheckIcon } from "@heroicons/vue/outline"
+import { ReplyIcon, PlusSmIcon, FastForwardIcon } from "@heroicons/vue/outline"
 
 import {throttle} from 'lodash'
 
@@ -172,7 +184,7 @@ const saveRole = () => {
         });
     } else { // Add
         form.post(route('admin.role.store'), {
-            preserveState: false,
+            preserveState:true,
             preserveScroll: true,
             onSuccess: () => {
                 toast('success', 'สำเร็จ', 'เพิ่มข้อมูล Role เรียบร้อย');
@@ -193,5 +205,4 @@ const saveRole = () => {
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css">
-
 </style>
