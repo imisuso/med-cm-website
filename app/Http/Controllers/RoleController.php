@@ -106,9 +106,12 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        $role->load('abilities');
+        $abilities = Ability::select('id', 'label', 'name')->get();
+        $action = "edit";
+        return Inertia::render('Admin/Role/DataForm', compact('role','abilities', 'action'));
     }
 
     /**
@@ -118,9 +121,73 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Role $role)
     {
-        //
+        request()->validate([
+            'role_name' => ['required', 'regex:/^[a-z]+[_a-z0-9]*$/', 'max:20'],
+            'role_label' => ['required', 'max:255'],
+            'abilities' => [function ($attribute, $value, $fail) {
+                $hasBasicAbility = false;
+                foreach ($value as $ability) {
+                    $hasBasicAbility = strcmp($ability['name'], 'goto_admin_panel') === 0 ? true : $hasBasicAbility;
+                }
+                if(!$hasBasicAbility) $fail('ต้องมี Role ชื่อ goto_admin_panel ในรายการเสมอ');
+            }],
+        ], [
+            'role_name.required' => 'ต้องใส่ขื่อ Role ทุกครั้ง',
+            'role_name.regex' => 'ขื่อ Role ต้องขึ้นต้นด้วยตัวอักษร ภาษาอังกฤษตัวพิมพ์เล็กเท่านั้น และใส่ได้เฉพาะภาษาอังกฤษตัวพิมพ์เล็ก หรือเครื่องหมาย _ หรือตัวเลขได้เท่านั้น เช่น hr หรือ hr01 หรือ hr_admin เป็นต้น',
+            'role_name.max' => 'ต้องใส่ขื่อ Role ไม่เกิน 20 ตัวอักษรเท่านั้น',
+            'role_label.required' => 'ต้องใส่คำอธิบายเกี่ยวกับหน้าที่ของ Role ทุกครั้ง',
+            'role_label.max' => 'ต้องใส่คำอธิบายเกี่ยวกับหน้าที่ของ Role ไม่เกิน 255 ตัวอักษรเท่านั้น',
+
+        ]);
+
+        foreach ($role->abilities as $ability) {
+            $current_abt[] = $ability['name'];
+        }
+        sort($current_abt);
+        logger("---Current Abilities---");
+        logger($current_abt);
+
+        $abilities = request()->input('abilities');
+        foreach ($abilities as $ability) {
+            $update_abt[] = $ability['name'];
+        }
+        sort($update_abt);
+        logger("---Update Abilities---");
+        logger($update_abt);
+
+        if( count(array_diff($current_abt, $update_abt)) ) {
+            logger("Role diff");
+        } else {
+            logger("Role same");
+        }
+
+//        try {
+//            // ทำการลบ abilities ทั้งหมดก่อนทำการ เพิ่มใหม่ กรณีที่ เอาบาง ability ออก
+//            $role->revokeAbility();
+//            foreach ($abilities as $ability) {
+//                $role->allowTo($ability['name']);
+//            }
+//
+//            $role->name = trim(request()->input('role_name'));
+//            $role->label = request()->input('role_label');
+//            $role->save();
+//
+//        } catch (\Exception  $e) {
+//            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขผู้ใช้งานระบบได้เนื่องจาก ' .$e->getMessage()]);
+//        }
+//
+//        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+//        $resp = (new LogManager)->store(
+//            Auth::user()->sap_id,
+//            'Role Management (จัดการ Role)',
+//            'update',
+//            "มีการแก้ไขข้อมูล Role ชื่อ : {$role->name}",
+//            'info'
+//        );
+
+        return Redirect::route('admin.role.index');
     }
 
     /**
@@ -146,7 +213,7 @@ class RoleController extends Controller
 //            Auth::user()->sap_id,
 //            'Role Management (จัดการ Role)',
 //            'delete',
-//            "มีการลบข้อมูล Role ออกจากระบบ name : {$role->name}",
+//            "มีการลบข้อมูล Role ออกจากระบบ ชื่อ : {$role->name}",
 //            'info'
 //        );
 

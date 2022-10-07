@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-span-2 md:col-span-1">
                             <div class="flex flex-col space-y-2 items-end sm:space-y-1 sm:items-center">
-                                <Link :href="route('admin.role.index', role.id)" class="flex items-center mx-1 text-orange-500 bg-white hover:bg-orange-100 focus:ring-4 focus:ring-orange-300 rounded-full border border-orange-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
+                                <Link :href="route('admin.role.edit', role.id)" class="flex items-center mx-1 text-orange-500 bg-white hover:bg-orange-100 focus:ring-4 focus:ring-orange-300 rounded-full border border-orange-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
                                     <PencilIcon :class="['h-5 w-5']" />
                                 </Link>
                                 <button @click="confirmDeleteRole(role)" class="flex items-center mx-1 text-red-500 bg-white hover:bg-red-200 focus:ring-4 focus:ring-red-300 rounded-full border border-red-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">

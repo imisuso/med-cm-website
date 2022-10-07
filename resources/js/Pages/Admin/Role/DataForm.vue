@@ -80,7 +80,7 @@
 
         <div class="flex flex-row mt-2 space-x-4">
             <button v-if="action === 'insert'" type="button" @click="saveRole" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
-            <button v-if="action === 'edit'" type="button" @click="true" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
+            <button v-if="action === 'edit'" type="button" @click="saveRole" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
             <Link :href="route('admin.role.index')" method="get" as="button" type="button"
                 class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
             >
@@ -114,7 +114,7 @@ import {throttle} from 'lodash'
 const props = defineProps({
     action: { type: String, require: true, default: "insert" },
     abilities: { type: Array, default: [] },
-    role: { type: Array, default: [] },
+    role: { type: Object, default: {} },
 })
 
 const actionWord = ref(null)
@@ -139,7 +139,7 @@ const form = useForm({
     abilities: props.role ? props.role.abilities : []
 });
 
-const selectedAbilities = ref([])
+const selectedAbilities = form.abilities ? ref(form.abilities) : ref([])
 
 const toast = (severity, summary, detail) => {
     createToast({
@@ -166,11 +166,11 @@ const onSelectedAbility = () => {
 const saveRole = () => {
     let error_display = ''
     if(props.action === 'edit') {  // Edit
-        form.patch(route('admin.user.update', form.user_id), {
-            preserveState: false,
+        form.patch(route('admin.role.update', form.role_id), {
+            preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-                toast('success', 'สำเร็จ', 'แก้ไขข้อมูลผู้ใช้งานเรียบร้อย');
+                toast('success', 'สำเร็จ', 'แก้ไขข้อมูล Role เรียบร้อย');
             },
             onError: (errors) => {
                 for ( let p in errors ) {
