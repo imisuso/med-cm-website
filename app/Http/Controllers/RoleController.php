@@ -174,19 +174,18 @@ class RoleController extends Controller
         $role->name = request()->input('role_name');
         $role->label = request()->input('role_label');
 
-        if( count(array_merge(array_diff($current_abt, $update_abt), array_diff($update_abt, $current_abt))) ) {
-            try {
+        try {
+            if( count(array_merge(array_diff($current_abt, $update_abt), array_diff($update_abt, $current_abt))) ) {
                 // ทำการลบ abilities ทั้งหมดก่อนทำการเพิ่มใหม่ เพื่อรองรับกรณีที่ เอาบาง ability ออก
                 $role->revokeAbility();
                 foreach ($abilities as $ability) {
                     $role->allowTo($ability['name']);
                 }
-
-                // จัดเก็บค่าใหม่ที่ต้องการ update
-                $role->save();
-            } catch (\Exception  $e) {
-                return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล Role ได้เนื่องจาก ' .$e->getMessage()]);
             }
+            // จัดเก็บค่าใหม่ที่ต้องการ update
+            $role->save();
+        } catch (\Exception  $e) {
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล Role ได้เนื่องจาก ' .$e->getMessage()]);
         }
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
