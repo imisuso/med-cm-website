@@ -19,7 +19,7 @@
                         <input  type="text" id="role-name"
                                 v-model="form.role_name"
                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
-                                :class="[$page.props.errors.role_name ? 'border-red-600' : 'border-gray-300']"
+                                :class="[ $page.props.errors.role_name ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
                     <div class="mt-2 text-xs  text-red-600" v-if="$page.props.errors.role_name">{{ $page.props.errors.role_name }}</div>
@@ -31,7 +31,7 @@
                         <textarea id="role-label"
                                   v-model="form.role_label"
                                   class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
-                                  :class="[$page.props.errors.role_label ? 'border-red-600' : 'border-gray-300']"
+                                  :class="[ $page.props.errors.role_label ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
                     <div class="mt-2 text-xs  text-red-600" v-if="$page.props.errors.role_label">{{ $page.props.errors.role_label }}</div>
@@ -60,6 +60,7 @@
                     :preselect-first="true"
                     :hide-selected="true"
                     @select="onSelectedAbility"
+                    @remove="onSelectedAbility"
                 >
                 </VueMultiselect>
                 <div class="col-start-1 sm:col-start-2 col-span-6 text-xs text-red-600" v-if="$page.props.errors.abilities">{{ $page.props.errors.abilities }}</div>
@@ -79,8 +80,13 @@
         </div>
 
         <div class="flex flex-row mt-2 space-x-4">
-            <button v-if="action === 'insert'" type="button" @click="saveRole" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
-            <button v-if="action === 'edit'" type="button" @click="saveRole" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
+            <button v-if="action === 'insert'" :disabled="!checkReadyInput" type="button" @click="saveRole"
+                    class=" font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    :class="[checkReadyInput ? 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300' : 'text-gray-500 bg-white focus:ring-4 focus:ring-gray-300 border border-gray-200' ]"
+            >
+                จัดเก็บ
+            </button>
+            <button v-if="action === 'edit'" :disabled="!checkReadyInput" type="button" @click="saveRole" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
             <Link :href="route('admin.role.index')" method="get" as="button" type="button"
                 class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
             >
@@ -99,7 +105,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 </script>
 
 <script setup>
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 import {useForm, Link } from '@inertiajs/inertia-vue3'
 import {Inertia} from "@inertiajs/inertia"
 
@@ -135,7 +141,7 @@ switch(props.action) {
 const form = useForm({
     role_id: props.role ? props.role.id : null,
     role_name: props.role ? props.role.name : null,
-    role_label: props.role ? props.role.label : true,
+    role_label: props.role ? props.role.label : null,
     abilities: props.role ? props.role.abilities : []
 });
 
@@ -162,6 +168,10 @@ const customLabelAbility = ( {name, label}) => {
 const onSelectedAbility = () => {
     form.abilities = selectedAbilities
 }
+
+const checkReadyInput = computed( () => {
+    return ( form.role_name && form.role_label && form.abilities )
+})
 
 const saveRole = () => {
     let error_display = ''

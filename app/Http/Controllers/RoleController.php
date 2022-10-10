@@ -142,50 +142,61 @@ class RoleController extends Controller
 
         ]);
 
+        // หา List Ability ของเดิม
         foreach ($role->abilities as $ability) {
             $current_abt[] = $ability['name'];
         }
-        sort($current_abt);
-        logger("---Current Abilities---");
-        logger($current_abt);
 
+        // หา List Ability ของใหม่ที่ต้องการ update
         $abilities = request()->input('abilities');
         foreach ($abilities as $ability) {
             $update_abt[] = $ability['name'];
         }
-        sort($update_abt);
-        logger("---Update Abilities---");
-        logger($update_abt);
 
-        if( count(array_diff($current_abt, $update_abt)) ) {
-            logger("Role diff");
-        } else {
-            logger("Role same");
+        $list_ability_diff = "";
+        //---หา List Ability ที่ถูกเพิ่มใหม่จากของเดิม---
+        foreach (array_diff($update_abt, $current_abt) as $ability) {
+            $list_ability_diff .= "+{$ability} ";
         }
 
-//        try {
-//            // ทำการลบ abilities ทั้งหมดก่อนทำการ เพิ่มใหม่ กรณีที่ เอาบาง ability ออก
-//            $role->revokeAbility();
-//            foreach ($abilities as $ability) {
-//                $role->allowTo($ability['name']);
-//            }
-//
-//            $role->name = trim(request()->input('role_name'));
-//            $role->label = request()->input('role_label');
-//            $role->save();
-//
-//        } catch (\Exception  $e) {
-//            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขผู้ใช้งานระบบได้เนื่องจาก ' .$e->getMessage()]);
-//        }
-//
-//        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
-//        $resp = (new LogManager)->store(
-//            Auth::user()->sap_id,
-//            'Role Management (จัดการ Role)',
-//            'update',
-//            "มีการแก้ไขข้อมูล Role ชื่อ : {$role->name}",
-//            'info'
-//        );
+        //---หา List Ability ที่ถูกลบออกจากของเดิม---
+        foreach (array_diff($current_abt, $update_abt) as $ability) {
+            $list_ability_diff .= "-{$ability} ";
+        }
+
+        if($list_ability_diff !== '') {
+            $log_message = "มีการแก้ไขข้อมูล Role ชื่อ : {$role->name} | รายละเอียด : {$list_ability_diff}";
+        } else {
+            $log_message = "มีการแก้ไขข้อมูล Role ชื่อ : {$role->name}";
+        }
+        //logger($log_message);
+
+        $role->name = request()->input('role_name');
+        $role->label = request()->input('role_label');
+
+        if( count(array_merge(array_diff($current_abt, $update_abt), array_diff($update_abt, $current_abt))) ) {
+            try {
+                // ทำการลบ abilities ทั้งหมดก่อนทำการเพิ่มใหม่ เพื่อรองรับกรณีที่ เอาบาง ability ออก
+                $role->revokeAbility();
+                foreach ($abilities as $ability) {
+                    $role->allowTo($ability['name']);
+                }
+
+                // จัดเก็บค่าใหม่ที่ต้องการ update
+                $role->save();
+            } catch (\Exception  $e) {
+                return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล Role ได้เนื่องจาก ' .$e->getMessage()]);
+            }
+        }
+
+        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Role Management (จัดการ Role)',
+            'update',
+            "{$log_message}",
+            'info'
+        );
 
         return Redirect::route('admin.role.index');
     }
@@ -209,13 +220,13 @@ class RoleController extends Controller
         }
 
         // เก็บ Log หลังจาก Delete เรียบร้อยแล้ว
-//        $resp = (new LogManager)->store(
-//            Auth::user()->sap_id,
-//            'Role Management (จัดการ Role)',
-//            'delete',
-//            "มีการลบข้อมูล Role ออกจากระบบ ชื่อ : {$role->name}",
-//            'info'
-//        );
+        $resp = (new LogManager)->store(
+            Auth::user()->sap_id,
+            'Role Management (จัดการ Role)',
+            'delete',
+            "มีการลบข้อมูล Role ออกจากระบบ ชื่อ : {$role->name}",
+            'info'
+        );
 
         return Redirect::route('admin.role.index');
     }
