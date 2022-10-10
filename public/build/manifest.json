@@ -163,7 +163,7 @@
       "_index.d94d527a.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "_BtContact.5397725d.js": {
@@ -255,7 +255,7 @@
       "_SearchIcon.3d8962ed.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/History.vue": {
@@ -397,7 +397,7 @@
       "resources/js/app.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/Announcement/DataForm.vue": {
@@ -446,7 +446,7 @@
       "_index.d94d527a.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "_ToggleSwitch.4e4cf700.js": {
@@ -455,7 +455,7 @@
       "resources/js/app.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/BranchTemplate/EduContentEditor.vue": {
@@ -567,7 +567,7 @@
     ],
     "css": [
       "assets/Index.a9b4d913.css",
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/Gallery/ManageGallery.vue": {
@@ -580,7 +580,7 @@
       "_style.0ae9805a.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/LogInfo/Index.vue": {
@@ -608,7 +608,7 @@
       "_ReplyIcon.15a13b48.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "_ReplyIcon.15a13b48.js": {
@@ -646,7 +646,7 @@
     ],
     "css": [
       "assets/Index.cc90a69f.css",
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "_PersonInteractiveCardList.f671503d.js": {
@@ -684,7 +684,7 @@
       "_ToggleSwitch.4e4cf700.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/Poster/DataForm.vue": {
@@ -710,7 +710,7 @@
       "_Paginations.9051fe54.js"
     ],
     "css": [
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/Role/DataForm.vue": {
@@ -773,7 +773,7 @@
     ],
     "css": [
       "assets/DataForm.935414a9.css",
-      "assets/ToggleSwitch.vue_vue_type_style_index_0_scoped_true_lang.363db8eb.css"
+      "assets/BranchDetails.72b31ebf.css"
     ]
   },
   "resources/js/Pages/Admin/User/Index.vue": {
