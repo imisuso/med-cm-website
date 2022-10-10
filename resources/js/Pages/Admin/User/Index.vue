@@ -5,10 +5,11 @@
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">จัดการผู้ใช้งาน</div>
                  <div class="">
-                    <Link :href="route('admin.user.create')" method="get" as="button" type="button"
-                        class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-                    >
-                        เพิ่มผู้ใช้งาน
+                    <Link :href="route('admin.user.create')" method="get" as="button" type="button">
+                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                            <PlusSmIcon :class="['h-6 w-6 mr-2']" />
+                            เพิ่มผู้ใช้งาน
+                        </button>
                     </Link>
                  </div>
             </div>
@@ -51,14 +52,10 @@
                         <div class="col-span-2 md:col-span-1">
                             <div class="flex flex-col space-y-2 items-end sm:space-y-1 sm:items-center">
                                 <Link :href="route('admin.user.edit', user.id)" class="flex items-center mx-1 text-orange-500 bg-white hover:bg-orange-100 focus:ring-4 focus:ring-orange-300 rounded-full border border-orange-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                    </svg>
+                                    <PencilIcon :class="['h-5 w-5']" />
                                 </Link>
-                                <button @click="openDeleteUserModal(user)" class="flex items-center mx-1 text-red-500 bg-white hover:bg-red-200 focus:ring-4 focus:ring-red-300 rounded-full border border-red-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
+                                <button @click="confirmDeleteUser(user)" class="flex items-center mx-1 text-red-500 bg-white hover:bg-red-200 focus:ring-4 focus:ring-red-300 rounded-full border border-red-200 text-sm font-medium px-2 py-2 hover:text-orange-900 focus:z-10">
+                                    <TrashIcon :class="['h-5 w-5']" />
                                 </button>
                             </div>
                         </div>
@@ -70,31 +67,6 @@
                         class="mt-4"
             />
 
-            <!-- Modal สำหรับ confirm การลบข้อมูลผู้ใช้งาน  -->
-            <teleport to="body">
-                <Modal :isModalOpen="deleteUserModal" >
-
-                    <template v-slot:header>
-                        <div class="text-gray-900 text-xl font-medium">
-                            คุณต้องการลบข้อมูลผู้ใช้งาน
-                        </div>
-                    </template>
-
-                    <template v-slot:body>
-                        <div class="flex flex-row justify-start items-center">
-                            <img :src="userImageUrl" alt="" class="h-20 w-20 rounded-lg object-contain mr-4" />
-                            <div class="text-gray-900 text-md font-medium">
-                                {{ userFullName }}
-                            </div>
-                        </div>
-                    </template>
-
-                    <template v-slot:footer>
-                        <button @click="deleteUser" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">ลบ</button>
-                        <button @click="closeDeleteUserModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
-                    </template>
-                </Modal>
-            </teleport>
         </div>
 <!--    </AdminAppLayout>-->
 </template>
@@ -115,17 +87,18 @@ import { ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 
-import Modal from '@/Components/Modal.vue'
 import Pagination from '@/Components/Paginations.vue'
 
+import { PlusSmIcon, PencilIcon, TrashIcon } from "@heroicons/vue/outline"
+
 import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
+import 'mosha-vue-toastify/dist/style.css'
+import Swal from "sweetalert2";  // import the styling for the toast
 
 const props = defineProps({
     users: { type: Object, required: true, default: {} },
 })
 
-const deleteUserModal = ref(false)
 const userId = ref(null)
 const userFullName = ref(null)
 const userImageUrl = ref(null)
@@ -149,20 +122,27 @@ const statusText = (text) => {
     return text ? 'Active' : 'Disabled'
 }
 
-const openDeleteUserModal = (user) => {
+const confirmDeleteUser = ( user ) => {
     userId.value = user.id
     userFullName.value = `${user.person.fname_th} - ${user.person.lname_th}`
     userImageUrl.value = user.person.image_url
-    deleteUserModal.value = true
-    // console.log(userId.value)
-}
 
-const closeDeleteUserModal = () => {
-    userId.value = null
-    userFullName.value = null
-    userImageUrl.value = null
-    deleteUserModal.value = false
-
+    Swal.fire({
+        title: 'คุณแน่ใจว่าต้องการลบผู้ใช้งาน?',
+        text: `${userFullName.value}`,
+        imageUrl: userImageUrl.value,
+        imageWidth: 80,
+        imageHeight: 80,
+        showCancelButton: true,
+        confirmButtonColor: '#b91c1c',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ลบ',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteUser()
+        }
+    })
 }
 
 const deleteUser = () => {
@@ -179,7 +159,9 @@ const deleteUser = () => {
             toast('danger', 'พบปัญหา', error_display);
         },
     });
-    closeDeleteUserModal()
+    userId.value = null
+    userFullName.value = null
+    userImageUrl.value = null
 }
 
 </script>

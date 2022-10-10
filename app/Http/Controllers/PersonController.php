@@ -225,13 +225,16 @@ class PersonController extends Controller
         $divisions = Division::all();
         $fdivision_selected = $Person->division_id;
         $action = "view";
+        $from_history_page = (boolean)Request::input('fromHistoryPage') ?: false;
+
+        //logger($Person);
 
         // เก็บ Log หลังจากมีการเปิดดูข้อมูลบุคลากร
         $resp = (new LogManager)->store(
             request()->user()->sap_id,
             'Person Management (จัดการบุคลากร)',
             'view',
-            'มีการเปิดดูข้อมูลบุคลากรของ sap_id:'.$Person->sap_id,
+            "มีการเปิดดูข้อมูลบุคลากรของ : {$Person->title_th}{$Person->fname_th} => {$Person->division->division_type}{$Person->division->name_th}",
             'info'
         );
 
@@ -240,47 +243,24 @@ class PersonController extends Controller
             return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
 
-        return Inertia::render('Admin/Person/DataForm', ['action' => $action,
-                                                        'divisions' => $divisions,
-                                                        'person' => $Person,
-                                                        'fdivision_selected' => $fdivision_selected
-                                                    ]);
+        if($from_history_page) {
+            return Inertia::render('Admin/Person/DataForm', [
+                'action' => $action,
+                'divisions' => $divisions,
+                'person' => $Person,
+                'fdivision_selected' => $fdivision_selected,
+                'from_history_page' => true
+            ]);
+        } else {
+            return Inertia::render('Admin/Person/DataForm', [
+                'action' => $action,
+                'divisions' => $divisions,
+                'person' => $Person,
+            ]);
+        }
+
         //return Inertia::render('Admin/Person/DataForm', compact('action', 'divisions', 'person', 'fdivision_selected'));
         //return Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type', 'status')->where('sap_id', $id);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type', 'status')->where('sap_id', $id);
-    }
-
-    public function showBackupHistory(Person $Person) {
-        $Person->division;
-        $versions = $Person->versions->sortBy([
-            ['trace_log_id', 'desc'],
-        ]);
-
-        // ทำเพื่อให้มี division ติดไปด้วยตอนส่ง props
-        if (count($versions) > 0) {
-            foreach ($versions as $version) {
-                $version->division;
-              // $division_version[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
-            }
-        }
-        $myCollectionObj = collect($versions);
-
-        $data = $this->paginate($myCollectionObj);
-
-        return Inertia::render('Admin/Person/BackupHistory', [
-            'person' => $Person,
-            'person_versions' => $data
-        ]);
     }
 
     public function view_version(PersonVersion $PersonVersion)
@@ -309,6 +289,55 @@ class PersonController extends Controller
             'person' => $PersonVersion,
             'fdivision_selected' => $PersonVersion->division_id,
             'version' => true
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type', 'status')->where('sap_id', $id);
+    }
+
+    public function showBackupHistory(Person $Person) {
+
+        // query เอาชื่อผู้แก้ไขข้อมูลล่าสุดส่งไปด้วย
+        if( strcmp($Person->user_last_act, 'api') !== 0 ) {
+            $user_last_act = Person::select( 'title_th', 'fname_th', 'lname_th')->where('sap_id', $Person->user_last_act)->first();
+            $Person['user_last_act_full_name'] = "{$user_last_act->title_th}{$user_last_act->fname_th} {$user_last_act->lname_th}";
+        }
+
+        $Person->division;
+
+        // เรียงลำดับ version จากล่าสุดไปเก่าสุด
+        $versions = $Person->versions->sortBy([
+            ['trace_log_id', 'desc'],
+        ]);
+
+        // ทำเพื่อให้มี division ติดไปด้วยตอนส่ง props และ query เอาชื่อผู้แก้ไขข้อมูลล่าสุดส่งไปด้วย
+        if (count($versions) > 0) {
+            foreach ($versions as $version) {
+                $version->division;
+                if( strcmp($version->user_last_act, 'api') !== 0 ){
+                    $user_last_act = Person::select( 'title_th', 'fname_th', 'lname_th')->where('sap_id', $version->user_last_act)->first();
+                    $version['user_last_act_full_name'] = "{$user_last_act->title_th}{$user_last_act->fname_th} {$user_last_act->lname_th}";
+
+                    // $versions[] = (object) ['name_th' => $version->division->name_th, 'division_type' => $version->division->division_type];
+                }
+            }
+        }
+
+        $myCollectionObj = collect($versions);
+
+        $data = $this->paginate($myCollectionObj);
+
+        return Inertia::render('Admin/Person/BackupHistory', [
+            'person' => $Person,
+            'person_versions' => $data
         ]);
     }
 
@@ -439,13 +468,14 @@ class PersonController extends Controller
             $userin,
             'Person Management (จัดการบุคลากร)',
             'update',
-            'มีการอัพเดทข้อมูลบุคลากรของ ID:'.$Person->id.' sap_id:'.$person_sap_id,
+            "มีการอัพเดทข้อมูลบุคลากรของ {$Person->title_th}{$Person->fname_th} หน่วย/สาขา : {$Person->division->name_th}",
             'pdpa'
         );
 
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
         ////Session::put('fdivision_selected', $fdivision_selected);
@@ -463,40 +493,64 @@ class PersonController extends Controller
 
         try {
             foreach ($PersonList as $person) {
-                $db_person = Person::select('id', 'display_order', 'type')->find($person['id']);
+//                $db_person = Person::select('id', 'display_order', 'type')->find($person['id']);
+                $db_person = Person::find($person['id']);
                 if ($db_person->display_order !== $person['display_order']) {
                     $db_person->display_order = $person['display_order'];
+                    $db_person->user_last_act = Auth::user()->sap_id;
+
+                    // เก็บค่าเก่าก่อนทำการแก้ไข
+                    $old = $db_person->getOriginal();
+
+                    // จัดเก็บการเรียงลำดับใหม่
                     $db_person->save();
+
+                    // เก็บ Log หลังจาก Update เรียบร้อยแล้ว (รายคน)
+                    $log_id = (new LogManager)->store(
+                        Auth::user()->sap_id,
+                        'Person Management (จัดการบุคลากร)',
+                        'order',
+                        "มีการแก้ไขลำดับการแสดงผลของ {$db_person->title_th}{$db_person->fname_th} หน่วย/สาขา : {$unit_name->name_th}",
+                        'info'
+                    );
+
+                    // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
+                    $old['trace_log_id'] = $log_id ?: 0;
+                    $old['person_id'] = $old['id'];
+                    $old['record_updated'] = $old['updated_at'];
+                    PersonVersion::query()->create($old);
                 }
             }
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
         }
 
-        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
-        $resp = (new LogManager)->store(
-            Auth::user()->sap_id,
-            'Person Management (จัดการบุคลากร)',
-            'order',
-            'มีการเรียงลำดับการแสดงผลของบุคลากร:'.$unit_name->division_type.$unit_name->name_th,
-            'info'
-        );
-
-//        logger($resp);
+//        // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
+//        $resp = (new LogManager)->store(
+//            Auth::user()->sap_id,
+//            'Person Management (จัดการบุคลากร)',
+//            'order',
+//            'มีการเรียงลำดับการแสดงผลของบุคลากร:'.$unit_name->division_type.$unit_name->name_th,
+//            'info'
+//        );
 
         return Redirect::route('admin.person_order', $division_slug);
     }
 
     public function updatePersonDisplayStatus(Person $Person)
     {
-        $fdivision_selected = Request::input('fdivision');
+        //$fdivision_selected = Request::input('fdivision');
         // if (Session::has('fdivision_selected')) {
         //     $fdivision_selected = Session::pull('fdivision_selected');
         // }
         // logger($fdivision_selected);
-        // dd($fdivision_selected);
         try {
             $Person->status = ! $Person->status;
+            $Person->user_last_act = Auth::user()->sap_id;
+
+            // เก็บค่าเก่าก่อนทำการแก้ไข
+            $old = $Person->getOriginal();
+
             $Person->save();
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'เปลี่ยนสถานะการแสดงผลบุคลากรบน website ไม่สำเร็จเนื่องจาก '.$e->getMessage()]);
@@ -504,13 +558,19 @@ class PersonController extends Controller
 
         // เก็บ Log หลังจาก Update เรียบร้อยแล้ว
         $status = $Person->status ? 'เปิด' : 'ปิด';
-        $resp = (new LogManager)->store(
+        $log_id = (new LogManager)->store(
             Auth::user()->sap_id,
             'Person Management (จัดการบุคลากร)',
             'update',
-            'มีการเปลี่ยนสถานะการแสดงผลของบุคลากร ID:'.$Person->id.' sap_id:'.$Person->sap_id.' เป็น '.$status,
+            "มีการเปลี่ยนสถานะการแสดงผลของบุคลากร : {$Person->title_th}{$Person->fname_th} หน่วย/สาขา : {$Person->division->name_th}  เป็น {$status}",
             'info'
         );
+
+        // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
+        $old['trace_log_id'] = $log_id ?: 0;
+        $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
+        PersonVersion::query()->create($old);
 
         //return Redirect::back()->with('fdivision_selected', $fdivision_selected);
         // ใช้ remember middleware
@@ -528,7 +588,7 @@ class PersonController extends Controller
     {
         //\Log::info(Request::all());
 
-        $data = Person::select('image', 'sap_id', 'division_id')->whereId((int)$id)->first();
+        $data = Person::select('image', 'sap_id', 'title_th', 'fname_th', 'division_id')->whereId((int)$id)->first();
 
         try {
             $person = Person::find((int)$id);
@@ -548,12 +608,12 @@ class PersonController extends Controller
             Auth::user()->sap_id,
             'Person Management (จัดการบุคลากร)',
             'delete',
-            'มีการลบข้อมูลของบุคลากร ID:'.$id.' sap_id:'.$data['sap_id'],
+            "มีการลบข้อมูลของบุคลากรของ  {$data['title_th']}{$data['fname_th']} หน่วย/สาขา : {$person->division->name_th}",
             'info'
         );
 
         // ใช้ remember middleware
-        return Redirect::route('admin.person');
+        return Redirect::route('admin.person', ['rember' => 'forget']);
         //return Redirect::route('admin.person', ['fdivision_selected' => $data['division_id']]);
     }
 

@@ -172,8 +172,8 @@ class InfomedAPI
                 'profiles'=>['leader'=> false],
                 'status'=>$status,
                 'cert' => '[]',
-                'user_previous_act'=>'api',
-                'user_last_act'=>'api'
+                'user_previous_act'=>$user_in,
+                'user_last_act'=>$user_in
             ]);
         } catch (\Exception  $e) {
             logger("เกิดข้อผิดพลาด การเพิ่มข้อมูลบุคลากรใหม่ SAP-ID [".$sap."] ไม่สำเร็จเนื่องจาก => ". $e);
@@ -227,31 +227,42 @@ class InfomedAPI
     public function updateEmp($data)
     {
         //logger($data);
+        $sap = $data['sap'];
+
+        // Query data with sap_id condition
+        $person = Person::where('sap_id', $sap)->first();
+
+        // ตรวจสอบว่าพบข้อมูลบุคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
+        if (! $person) {
+            logger("ไม่พบข้อมูลบุคลากรที่ต้องการแก้ไข SAP-ID => ".$sap);
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found emp => '. $sap
+            ], 404);
+        }
 
         if( strcmp(config('app.env'), 'local') === 0 || strcmp(config('app.env'), 'dev') === 0 ) { // กรณีใช้งานที่ local (เครื่องตัวเอง เพื่อจะใช้ postman ทดสอบได้)
-            $sap = $data['sap'];
             $title_th = mb_convert_encoding($data['title_th'], "UTF-8", "auto") ?: "-";
-            $title_en = $data['title_en'] ?: null;
-            $rname_short_th = mb_convert_encoding($data['rname_short_th'], "UTF-8", "auto") ?: null;
-            $rname_full_th = mb_convert_encoding($data['rname_full_th'], "UTF-8", "auto") ?: null;
-            $rname_short_en = $data['rname_short_en'] ?: null;
-            $fname_th = mb_convert_encoding($data['fname_th'], "UTF-8", "auto") ?: "-";
-            $lname_th = mb_convert_encoding($data['lname_th'], "UTF-8", "auto") ?: "-";
-            $fname_en = $data['fname_en'] ?: null;
-            $lname_en = $data['lname_en'] ?: null;
+            $title_en = $data['title_en'] ?: $person->title_en;
+            $rname_short_th = mb_convert_encoding($data['rname_short_th'], "UTF-8", "auto") ?: $person->rname_short_th;
+            $rname_full_th = mb_convert_encoding($data['rname_full_th'], "UTF-8", "auto") ?: $person->rname_full_th;
+            $rname_short_en = $data['rname_short_en'] ?: $person->rname_short_en;
+            $fname_th = mb_convert_encoding($data['fname_th'], "UTF-8", "auto") ?: $person->fname_th;
+            $lname_th = mb_convert_encoding($data['lname_th'], "UTF-8", "auto") ?: $person->lname_th;
+            $fname_en = $data['fname_en'] ?: $person->fname_en;
+            $lname_en = $data['lname_en'] ?: $person->lname_en;
             $emp_flag = (int)$data['empflag'];
             $user_in = $data['userin'];
         } else { // ใช้ iconv สำหรับ production
-            $sap = $data['sap'];
             $title_th = iconv('TIS-620', 'UTF-8', $data['title_th']) ?: "-";
-            $title_en = $data['title_en'] ?: null;
-            $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: null;
-            $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: null;
-            $rname_short_en = $data['rname_short_en'] ?: null;
-            $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: "-";
-            $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: "-";
-            $fname_en = $data['fname_en'] ?: null;
-            $lname_en = $data['lname_en'] ?: null;
+            $title_en = $data['title_en'] ?: $person->title_en;
+            $rname_short_th = iconv('TIS-620', 'UTF-8', trim($data['rname_short_th'])) ?: $person->rname_short_th;
+            $rname_full_th = iconv('TIS-620', 'UTF-8', trim($data['rname_full_th'])) ?: $person->rname_full_th;
+            $rname_short_en = $data['rname_short_en'] ?: $person->rname_short_en;
+            $fname_th = iconv('TIS-620', 'UTF-8', $data['fname_th']) ?: $person->fname_th;
+            $lname_th = iconv('TIS-620', 'UTF-8', $data['lname_th']) ?: $person->lname_th;
+            $fname_en = $data['fname_en'] ?: $person->fname_en;
+            $lname_en = $data['lname_en'] ?: $person->lname_en;
             $emp_flag = (int)$data['empflag'];
             $user_in = $data['userin'];
         }
@@ -271,17 +282,6 @@ class InfomedAPI
             "user_in":"'.$user_in.'"
         }]';
 
-        // Query data with sap_id condition
-        $person = Person::where('sap_id', $sap)->first();
-
-        // ตรวจสอบว่าพบข้อมูลบุคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
-        if (! $person) {
-            logger("ไม่พบข้อมูลบุคลากรที่ต้องการแก้ไข SAP-ID => ".$sap);
-            return response()->json([
-                'status' => false,
-                'message' => 'Not Found emp => '. $sap
-                ], 404);
-        }
 
         // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
         logger("มีการแก้ไขข้อมูลบุคลากรมาจาก infomed-api");
@@ -399,6 +399,7 @@ class InfomedAPI
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log_id ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
 
@@ -540,7 +541,7 @@ class InfomedAPI
 
         $logdata = '[{"sap":"'.$sap.'",
             "division_id":"'.$division_id.'",
-            "$type":"'.$type.'",
+            "type":"'.$type.'",
             "group":"'.$group.'",
             "position_division":"'.$position_division.'",
             "reward":"'.$reward.'",
@@ -558,6 +559,7 @@ class InfomedAPI
         // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
         $old['trace_log_id'] = $log_id ?: 0;
         $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
 
         return response()->json([

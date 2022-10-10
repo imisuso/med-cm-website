@@ -275,7 +275,7 @@ const baseUrl = ref(base_url)
 const navItems = [
     {href: "admin.index", active: true, label:"แดชบอร์ด", children: [], ability:[], icon: DesktopComputerIcon},
     {href: "admin.index", active: false, label:"จัดการระบบ", children: [
-            {href: "admin.index", active: false, label:"หน้าที่และสิทธิ์", children: [], ability:['manage_ability_role'], icon: ShieldCheckIcon},
+            {href: "admin.role.index", active: false, label:"หน้าที่และสิทธิ์", children: [], ability:['manage_ability_role'], icon: ShieldCheckIcon},
             {href: "admin.user.index", active: false, label:"ผู้ใช้งาน", children: [], ability:['manage_users'], icon: UsersIcon},
             {href: "admin.log.index", active: false, label:"ข้อมูลการใช้งาน", children: [], ability:['view_log'], icon: InformationCircleIcon},
         ], ability:['manage_users', 'view_log', 'manage_ability_role'], icon: HandIcon},

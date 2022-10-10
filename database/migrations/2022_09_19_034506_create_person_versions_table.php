@@ -43,6 +43,7 @@ return new class extends Migration
             $table->tinyInteger('display_order')->nullable();
             $table->string('user_previous_act')->nullable();
             $table->string('user_last_act')->nullable();
+            $table->dateTime('record_updated')->nullable();
             $table->timestamps();
         });
     }

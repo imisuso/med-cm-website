@@ -4,12 +4,9 @@
     <!-- Toolbar -->
     <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
       <div class=" text-2xl font-bold">เรียงการแสดงผลบุคคลากร</div>
-<!--      <Link :href="route('admin.person')" method="get" :data="{ fdivision_selected: division_id}" as="button" type="button">-->
         <Link :href="route('admin.person')" method="get" as="button" type="button">
           <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
+            <ReplyIcon :class="['h-6 w-6 mr-2']" />
             กลับไปหน้าจัดการบุคคลากร
           </button>
         </Link>
@@ -33,11 +30,9 @@
     </div>
 
     <div class="flex flex-col sm:flex-row ">
-      <button v-show="personList.length > 1" @click="openOrderPersonModal(true)" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-        </svg>
-        บันทึก
+        <button v-show="personList.length > 1" @click="confirmOrderChange" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
+            <SaveIcon :class="['h-6 w-6 mr-2']" />
+            บันทึก
       </button>
     </div>
 
@@ -51,32 +46,6 @@
         @order-person="orderPerson(item)"
       />
     </div>
-
-    <!-- Modal สำหรับ confirm การเรียงลำดับ ข้อมูลบุคลากร  -->
-    <teleport to="body">
-    <Modal :isModalOpen="orderPersonModal" >
-
-      <template v-slot:header>
-        <div class="text-gray-900 text-xl font-medium dark:text-white">
-            คุณต้องการจัดเก็บการเรียงลำดับการแสดงผลข้อมูลบุคลากร ใช่ หรือ ไม่
-        </div>
-      </template>
-
-      <!-- <template v-slot:body>
-        <div class="flex flex-row justify-start items-center">
-          <img :src="url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
-          <div class="text-gray-900 text-md font-medium dark:text-white">
-              {{ personForm.fullname }}
-          </div>
-        </div>
-      </template> -->
-
-      <template v-slot:footer>
-        <button @click="updateOrderPerson" type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ตกลง</button>
-        <button @click="openOrderPersonModal(false)" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
-      </template>
-    </Modal>
-    </teleport>
 
   </div>
 
@@ -95,7 +64,9 @@ import { ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, Link } from '@inertiajs/inertia-vue3'
 import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList.vue'
-import Modal from '@/Components/Modal.vue'
+
+import Swal  from 'sweetalert2';
+import { ReplyIcon, SaveIcon } from "@heroicons/vue/outline"
 
 // API Service
 import PersonService from '@/Services/PersonService'
@@ -111,7 +82,6 @@ const props = defineProps({
 
 const personService = ref(new PersonService())
 const personList = ref([])
-const orderPersonModal = ref(false)
 
 const Form = useForm({
   type: null,
@@ -132,8 +102,20 @@ const toast = (severity, summary, detail) => {
     })
 }
 
-const openOrderPersonModal = (isopen) => {
-  orderPersonModal.value = isopen
+const confirmOrderChange = () => {
+    Swal.fire({
+        title: 'ต้องการเรียงลำดับการแสดงผลบุคลากร?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#1e40af',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateOrderPerson()
+        }
+    })
 }
 
 const displayPersonByType = () => {
@@ -153,9 +135,6 @@ const updateOrderPerson = () => {
       division_slug: props.division_slug
     },
     {
-    // onBefore: () => {
-    //   return confirm(`คุณต้องการจัดเก็บข้อมูลการเรียงลำดับ ใช่ หรือ ไม่ ?`)
-    // },
     onSuccess: () => {
       toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลการเรียงลำดับเรียบร้อย')
     },
@@ -166,10 +145,7 @@ const updateOrderPerson = () => {
       }
       toast('danger', 'พบปัญหา', error_display);
     },
-    onFinish: () => {
-      //openOrderPersonModal(false)
-    }
+    onFinish: () => {}
   })
-  openOrderPersonModal(false)
 }
 </script>

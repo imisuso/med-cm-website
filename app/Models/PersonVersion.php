@@ -15,6 +15,15 @@ class PersonVersion extends Person
         $override =  parent::getFillable();
         $override[] = 'person_id';
         $override[] = 'trace_log_id';
+        $override[] = 'record_updated';
+
+        return $override;
+    }
+
+    public function getCasts()
+    {
+        $override =  parent::getCasts();
+        $override['record_updated'] = 'datetime';
 
         return $override;
     }

@@ -21,6 +21,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\PageDownloadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 // API
 use App\Http\Controllers\API\FileUploadController;
@@ -435,6 +436,19 @@ Route::prefix('admin')
         Route::get('/user/edit/{user}', 'edit')->name('admin.user.edit');
         Route::patch('/user/update/{user}', 'update')->name('admin.user.update');
         Route::delete('/user/delete/{user}', 'destroy')->name('admin.user.delete');
+    });
+
+//RoleController => จัดการหน้าที่ (Role) และกำหนด Ability ให้ Role
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_ability_role'])
+    ->controller(RoleController::class)
+    ->group(function () {
+        Route::get('/role', 'index')->name('admin.role.index');
+        Route::get('/role/create', 'create')->name('admin.role.create');
+        Route::post('/role/store', 'store')->name('admin.role.store');
+        Route::get('/role/edit/{role}', 'edit')->name('admin.role.edit');
+        Route::patch('/role/update/{role}', 'update')->name('admin.role.update');
+        Route::delete('/role/delete/{role}', 'destroy')->name('admin.role.delete');
     });
 
 //TraceLogController => จัดการ log ต่างๆ ผ่าน UI

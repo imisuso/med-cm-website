@@ -9,55 +9,26 @@
 
             <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
                 <ul class="py-1" aria-labelledby="dropdownButton">
-                    <!-- <li>
-                        <a href="#"
-                            @click="togglePdpaData"
-                            class="flex items-center text-sm hover:bg-gray-100 text-orange-500 px-4 py-2"
-                        >
-
-                            <svg v-if="pdpa_protect" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                            </svg>
-                            ดู/ปิด ข้อมูลส่วนบุคคล
-
-                        </a>
-                    </li> -->
                     <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
                         <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />-->
-<!--                            </svg>-->
                             <DatabaseIcon :class="['w-6 h-6 px-1']" />
                             ประวัติการแก้ไข
                         </Link>
                     </li>
                     <li>
                         <Link href="#" @click="$emit('view-person')" class="flex items-center text-sm hover:bg-gray-100 text-blue-900 px-4 py-2">
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />-->
-<!--                            </svg>-->
                             <IdentificationIcon :class="['w-6 h-6 px-1']" />
                             ดูข้อมูล
                         </Link>
                     </li>
                     <li>
                         <Link href="#" @click="$emit('edit-person')" class="flex items-center text-sm hover:bg-gray-100 text-yellow-500 px-4 py-2">
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />-->
-<!--                            </svg>-->
                             <PencilAltIcon :class="['w-6 h-6 px-1']" />
                             แก้ไข
                         </Link>
                     </li>
                     <li>
                         <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />-->
-<!--                            </svg>-->
                             <TrashIcon :class="['w-6 h-6 px-1']" />
                             ลบ
                         </Link>
@@ -68,46 +39,23 @@
 
         <div class="flex flex-col sm:flex-row items-center w-full px-2 bg-gradient-to-l from-sky-100">
             <div class="flex shrink-0 w-24 items-center justify-center">
-                <!-- <svg v-if="! personDetails.image" class="shadow-lg rounded-md h-16 w-16 mb-1 mt-1 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <img v-else class="shadow-lg rounded-md h-24 w-16 object-cover mb-1 mt-1" :src="`${personDetails.image_url}`" alt="Bonnie image"/> -->
                 <img class="shadow-lg rounded-md h-24 w-16 object-cover mb-1 mt-1" :src="`${personDetails.image_url}`" alt="Blank-Image"/>
             </div>
             <div class="flex flex-col w-full px-2 items-center sm:items-start">
-                <h3 v-if="! isDoctor(personDetails)" class="text-md text-indigo-500 font-bold mb-1">
-                    <div v-if="false">{{ personDetails.title_th }}{{ replaced(personDetails.fname_th, "name") }} {{ replaced(personDetails.lname_th, "name") }}</div>
-                    <div v-else>{{ personDetails.title_th }}{{ personDetails.fname_th }} {{personDetails.lname_th }}</div>
-                </h3>
-                <h3 v-else class="text-md text-indigo-500 font-bold mb-1">
-                    <div v-if="false">{{ personDetails.rname_short_th }} {{ replaced(personDetails.fname_th, "name") }} {{ replaced(personDetails.lname_th, "name") }} {{ personDetails.reward }}</div>
-                    <div v-else>{{ personDetails.rname_short_th }} {{ personDetails.fname_th }} {{ personDetails.lname_th }} {{ personDetails.reward }}</div>
-                </h3>
+                <span>
+                    <h3 v-if="! isDoctor(personDetails)" class="text-md text-indigo-500 font-bold mb-1">
+                        <div>{{ personDetails.title_th }}{{ personDetails.fname_th }} {{personDetails.lname_th }}</div>
+                    </h3>
+                    <h3 v-else class="text-md text-indigo-500 font-bold mb-1">
+                        <div>{{ personDetails.rname_short_th }} {{ personDetails.fname_th }} {{ personDetails.lname_th }} {{ personDetails.reward }}</div>
+                    </h3>
+                </span>
                 <span class="text-sm text-gray-500 break-words">{{ personDetails.position_division }}</span>
-                <span class="text-sm text-gray-500">({{ isLeader() }}) ({{ isType() }}) ({{ personDetails.display_order }})</span>
-                <!-- ดู/ปิด ข้อมูลส่วนบุคคล -->
-                <!-- <span>
-                    <a href="#"
-                        @click="togglePdpaData"
-                        class="flex items-center text-sm hover:bg-gray-100 text-orange-500"
-                    >
-                        <svg v-if="pdpa_protect" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                        </svg>
-                    </a>
-                </span> -->
+                <span class="text-sm text-gray-500 ">{{ isLeader() }} </span>
+                <span class="text-sm text-gray-500">{{ isType() }} </span>
+                <span class="text-sm text-gray-500">ลำดับการแสดงผล {{ personDetails.display_order }}</span>
             </div>
-            <!-- <div class="flex flex-row sm:flex-col w-full justify-center items-baseline px-1 sm:px-2 py-1 sm:py-0">
-                <div class="px-1 place-self-center">รหัส SAP:</div>
-                <div class="text-sm text-gray-500 place-self-center">
-                     <div v-if="pdpa_protect">{{ replaced(personDetails.sap_id, "sap") }}</div>
-                     <div v-else>{{ personDetails.sap_id }}</div>
-                </div>
-            </div> -->
+
             <div class="flex flex-row sm:flex-col w-full justify-center items-baseline px-1 sm:px-2 py-1 sm:py-0">
                 <div class="px-1 place-self-center">สาขา/หน่วย:</div>
                 <div class="text-sm text-gray-500 place-self-center">{{ personDetails.division.division_type }}{{ personDetails.division.name_th }}</div>
@@ -129,8 +77,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                             </svg>
                         </div>
-                        <!-- <ToggleSwitch v-model:status="personDetails.status" @button-is-toggle="switchButtonToggle(personDetails)" /> -->
-                        <ToggleSwitch v-model:status="personDetails.status" @button-is-toggle="confirmModal = ! confirmModal" />
+                        <ToggleSwitch v-model:status="personDetails.status" @button-is-toggle="confirmDisplayChange" />
                         <div class="text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -151,24 +98,7 @@
 
                     <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 -top-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
                         <ul class="py-1" aria-labelledby="dropdownButton">
-                            <!-- <li>
-                                <a href="#"
-                                    @click="togglePdpaData"
-                                    class="flex items-center text-sm hover:bg-gray-100 text-orange-500 px-4 py-2"
-                                >
-
-                                    <svg v-if="pdpa_protect" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 px-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                                    </svg>
-                                    ดู/ปิด ข้อมูลส่วนบุคคล
-
-                                </a>
-                            </li> -->
-                            <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
+                            <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content') && $page.props.auth.abilities.includes('view_log')">
                                 <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
                                     <DatabaseIcon :class="['w-6 h-6 px-1']" />
                                     ประวัติการแก้ไข
@@ -198,33 +128,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal สำหรับ confirm publish, unpublish  -->
-    <teleport to="body">
-    <Modal :isModalOpen="confirmModal" >
-        <template v-slot:header>
-            <div v-if="personDetails.status" class="text-gray-900 text-xl font-medium dark:text-white">คุณต้องการ ปิด การแสดงผลบุคลากร</div>
-            <div v-else class="text-gray-900 text-xl font-medium dark:text-white">คุณต้องการ เปิด การแสดงผลบุคลากร</div>
-        </template>
-
-        <template v-slot:body>
-            <div class="flex flex-row justify-start items-center">
-                <img :src="personDetails.image_url" alt="" class="h-20 w-20 rounded-full object-cover mr-4" />
-                <div class="text-gray-900 text-md font-medium dark:text-white">
-                    {{ personDetails.fname_th }} {{ personDetails.lname_th }}
-                </div>
-            </div>
-        </template>
-
-        <template v-slot:footer>
-            <button @click="switchButtonToggle(personDetails)" type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                ตกลง
-            </button>
-            <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">ยกเลิก</button>
-        </template>
-    </Modal>
-    </teleport>
 </template>
 
 <script setup>
@@ -233,14 +136,14 @@ import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import { IdentificationIcon, PencilAltIcon, TrashIcon, DatabaseIcon } from "@heroicons/vue/outline"
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
-import Modal from '@/Components/Modal.vue'
 
 // API Service
-import TraceLogService from '@/Services/TraceLogService'
+//import TraceLogService from '@/Services/TraceLogService'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
+import Swal  from 'sweetalert2';
 
 const props = defineProps({
     personDetails: { type: Object, required: true },
@@ -257,12 +160,10 @@ onUnmounted(() => {
     window.removeEventListener('click', closeDropdownWhenClickOutSide)
 })
 
-const traceLogService = ref(new TraceLogService())
+//const traceLogService = ref(new TraceLogService())
 const baseUrl = ref(base_url)
 const isDropDownOpen = ref(false)
-const pdpa_protect = ref(false)
 const section = "Person Management (จัดการบุคคลากร)"
-const confirmModal = ref(false)
 
 const toggleDropDown = () => {
     isDropDownOpen.value = !isDropDownOpen.value
@@ -323,23 +224,27 @@ const switchButtonToggle = (person) => {
             }
             toast('danger', 'พบข้อผิดพลาด', error_display);
         },
-        onFinish: () => {
-            confirmModal.value = false
-        }
+        onFinish: () => {}
     })
 }
 
-const togglePdpaData = () => {
-    pdpa_protect.value = ! pdpa_protect.value
-    if( ! pdpa_protect.value ) {
-        // มีการเปิดดูข้อมูลส่วนบุคคล
-        traceLogService.value.storeLog(
-            section,
-            "view",
-            "มีการเปิดดูข้อมูลส่วนบุคคลของ sap_id:" + props.personDetails.sap_id,
-            "pdpa"
-        )
-    }
+const confirmDisplayChange = () => {
+    Swal.fire({
+        title: 'ต้องการเปลี่ยนการแสดงผลบุคลากร?',
+        html: `<div class="mt-1 font-semibold">${props.personDetails.title_th}${props.personDetails.fname_th} ${props.personDetails.lname_th}</div>  <div class="mt-1">จาก <b>${isStatus(props.personDetails.status)}</b> เป็น <b>${isStatus(! props.personDetails.status)}</b></div>`,
+        imageUrl: props.personDetails.image_url,
+        imageWidth: 80,
+        imageHeight: 80,
+        showCancelButton: true,
+        confirmButtonColor: '#1e40af',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            switchButtonToggle(props.personDetails)
+        }
+    })
 }
 
 const orderPerson = () => {
@@ -357,22 +262,30 @@ const isDoctor = (person) => {
 
 const isLeader = () => {
     if( props.personDetails.profiles.leader ) {
-        return "L"
+        return "(หัวหน้าหน่วย/สาขา)"
     } else {
-        return "M"
+        return ""
     }
 }
 
 const isType = () => {
     //console.log(props.personDetails)
     if( props.personDetails.type === 'a' ) {
-        return "อาจารย์"
+        return "(อาจารย์)"
     } else if ( props.personDetails.type === 'z' ) {
-        return "ที่ปรึกษา"
+        return "(ที่ปรึกษา)"
     } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic !== 0) {
-        return "แพทย์"
+        return "(แพทย์)"
     } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic === 0) {
-        return "เจ้าหน้าที่"
+        return "(เจ้าหน้าที่)"
+    }
+}
+
+const isStatus = ( status ) => {
+    if( status ) {
+        return "เปิด"
+    } else {
+        return "ปิด"
     }
 }
 
@@ -388,10 +301,6 @@ const replaced = ( str, use_case ) => {
 
     return firstStr+markStr+lastStr
     //return str.slice(0, -5) + '*****';
-}
-
-const original_str = ( str ) => {
-    alert(str)
 }
 
 </script>
