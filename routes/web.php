@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbilityController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -449,6 +450,15 @@ Route::prefix('admin')
         Route::get('/role/edit/{role}', 'edit')->name('admin.role.edit');
         Route::patch('/role/update/{role}', 'update')->name('admin.role.update');
         Route::delete('/role/delete/{role}', 'destroy')->name('admin.role.delete');
+    });
+
+//AbilityController => จัดการสิทธิ์ (Ability)
+Route::prefix('admin')
+    ->middleware(['auth', 'can:manage_ability_role'])
+    ->controller(AbilityController::class)
+    ->group(function () {
+        Route::get('/ability', 'index')->name('admin.ability.index');
+        Route::patch('/ability/update/{ability}', 'update')->name('admin.ability.update');
     });
 
 //TraceLogController => จัดการ log ต่างๆ ผ่าน UI
