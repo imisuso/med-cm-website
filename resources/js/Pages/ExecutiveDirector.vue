@@ -50,7 +50,7 @@ import { ref, reactive } from 'vue';
 
 let DirectorData = reactive([
             { position_id: 1, position_eng: 'manager', position_thai: 'หัวหน้าภาควิชาอายุรศาสตร์', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ไชยรัตน์ เพิ่มพิกุล', image: 'images/executive_director/u10003260.jpg', },
-            { position_id: 2, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์', rname_full_th: 'ศาสตราจารย์ดอกเตอร์นายแพทย์', name: 'เกรียงศักดิ์ วารีแสงทิพย์', image: 'images/executive_director/u10004913.jpg', },
+            { position_id: 2, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'ทวีศักดิ์ แทนวันดี', image: 'images/executive_director/u10003532.jpg', },
             { position_id: 3, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ 2', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'วันชัย เดชสมฤทธิ์ฤทัย', image: 'images/executive_director/u10004598.jpg', },
             { position_id: 4, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ 3', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'ธีระ ฤชุตระกูล', image: 'images/executive_director/u10004688.jpg', },
             { position_id: 5, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ 4', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'วีรนุช รอบสันติสุข', image: 'images/executive_director/u10006246.jpg', },

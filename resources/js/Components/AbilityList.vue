@@ -10,7 +10,7 @@
         </div>
         <div class="col-span-12 md:col-span-2 flex items-center space-x-2 font-semibold">
             <button @click="editButton = !editButton" v-if="!editButton" class="border bg-orange-400 p-1 mx-2 rounded-md text-white">edit</button>
-            <button @click="saveAbility(ability.id)" v-if="editButton" class="border bg-orange-500 p-1 mx-2 rounded-md text-white">save</button>
+            <button @click="confirmUpdateAbility(ability)" v-if="editButton" class="border bg-orange-500 p-1 mx-2 rounded-md text-white">save</button>
             <button v-if="editButton" @click="editButton = !editButton" class="border bg-gray-500 p-1 rounded-md text-white">cancel</button>
         </div>
     </div>
@@ -32,7 +32,7 @@ const props = defineProps({
 })
 
 const form = useForm({
-    ability_label: ref(props.ability.label)
+    ability_label: props.ability.label ? ref(props.ability.label) : ''
 });
 
 const editButton = ref(false)
@@ -50,6 +50,21 @@ const toast = (severity, summary, detail) => {
             timeout: 3000,
             //toastBackgroundColor: bg_color,
         })
+}
+
+const confirmUpdateAbility = ( ability ) => {
+    Swal.fire({
+        title: `คุณต้องการแก้ไขราละเอียด Ability ที่ชื่อ ${ability.name} ?`,
+        showCancelButton: true,
+        confirmButtonColor: '#b91c1c',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'แก้ไข',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            saveAbility(ability.id)
+        }
+    })
 }
 
 const saveAbility = (id) => {
