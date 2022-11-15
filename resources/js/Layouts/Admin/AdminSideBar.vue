@@ -282,7 +282,7 @@ const navItems = [
     {href: "admin.index", active: true, label:"จัดการเนื้อหา", children: [
             {href: "admin.division", active: true, label:"สาขา/หน่วย", children: [], ability:['manage_divisions'], icon: CubeIcon},
             {href: "admin.branch_template_editor", active: true, label:"เนื้อหาสาขา", children: [], ability:['manage_division_content'], icon: DocumentTextIcon},
-            {href: "admin.person", active: true, label:"บุคลากร", children: [], ability:['manage_person'], icon: UserGroupIcon},
+            {href: "admin.person", active: true, label:"บุคลากร", children: [], ability:['view_person'], icon: UserGroupIcon},
             {href: "admin.announce", active: true, label:"ข่าวประกาศ", children: [], ability:['manage_announce'], icon: SpeakerphoneIcon},
             {href: "admin.poster", active: true, label:"โปสเตอร์", children: [], ability:['manage_posters'], icon: PresentationChartLineIcon},
             {href: "admin.gallery", active: true, label:"รูปกิจกรรม", children: [], ability:['manage_galleries'], icon: PhotographIcon},

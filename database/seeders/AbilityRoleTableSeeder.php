@@ -17,17 +17,18 @@ class AbilityRoleTableSeeder extends Seeder
     {
         $abilities = [
             'goto_admin_panel', // สามารถ login เข้ามาที่ หน้า Admin ได้
-            
+
             // กลุ่มการเห็นข้อมูลต่างๆ
             'view_all_content',             // เห็นได้ทุก content
             'view_division_content',   // จะเห็นได้แต่ content ของสาขาตัวเองเท่านั้น
             'view_owner_content',      // จะเห็นได้แต่ content ของตัวเองเท่านั้น
+            'view_person',             // จะดูข้อมูลบุคลากรได้
 
             'manage_branch_main_menu', // จัดการเพิ่ม ลด เมนูหลักในการเพิ่ม content ของสาขา
             'manage_branch_sub_menu', // จัดการเพิ่ม ลด เมนูย่อยของเมนูต่างๆในการเพิ่ม content ของสาขา
-            
+
             'manage_divisions',     // จัดการสาขา หรือ หน่วยงานต่างๆ  create, update, delete
-            
+
             'manage_person',        // จัดการบุคคลากร create, update, delete
 
             // จัดการเมนูหลักทั้งหมดของสาขา enable, disable
@@ -42,7 +43,7 @@ class AbilityRoleTableSeeder extends Seeder
             'manage_announce', // จัดการข่าวประกาศ create, update, delete,
             'publish_unpublish_announce', // เผยแพร่ ยกเลิกเผยแพร่ ข่าวประกาศ
             'pin_unpin_announce',  // จัดการเรื่องการปักหมุด ยกเลิกปักหมุด ข่าวประกาศ
-            
+
             'manage_posters', // จัดการ poster ต่างๆ ที่จะแสดงผลที่หน้าแรกของ website
 
             'manage_users', // จัดการผู้ใช้งานระบบ
@@ -63,7 +64,7 @@ class AbilityRoleTableSeeder extends Seeder
         foreach ($abilities as $ability) {
             Ability::create(['name' => $ability]);
         }
-        
+
         $roles = [
             'super_admin',
             'general_admin',
@@ -103,7 +104,10 @@ class AbilityRoleTableSeeder extends Seeder
             if ($ability === "view_all_content" ||
                 $ability === "manage_divisions" ||
                 $ability === "view_owner_content" ||
+                $ability === "manage_person" ||
                 $ability === "manage_users" ||
+                $ability === "manage_announce" ||
+                $ability === "publish_unpublish_announce" ||
                 $ability === "pin_unpin_announce" ||
                 $ability === "manage_branch_main_menu" ||
                 $ability === "manage_branch_sub_menu" ||

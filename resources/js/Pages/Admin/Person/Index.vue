@@ -16,7 +16,7 @@
         <div class="flex space-x-2 w-full place-self-center">
           <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
         </div>
-        <div class="flex space-x-2">
+        <div class="flex space-x-2" v-if="$page.props.auth.abilities.includes('manage_person')">
           <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
               class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
           >
