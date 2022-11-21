@@ -54,7 +54,10 @@
 
         <div id="links">
             <section class="w-full py-2 bg-gradient-to-r from-slate-100">
-                <Links />
+                <Links
+                    :medcon_current_year=medcon_current_year
+                    :medcon_other_year=medcon_other_year
+                />
             </section>
         </div>
 
@@ -88,7 +91,9 @@ const props = defineProps({
     announce_show_limit: { type: Number },
     announcement_all: { type: Number },
     gallery_show_limit: { type: Number },
-    gallery_all: { type: Number }
+    gallery_all: { type: Number },
+    medcon_current_year: {type: Number},
+    medcon_other_year: {type: Number}
 })
 
 // const posters = ref([])
