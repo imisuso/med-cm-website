@@ -62,9 +62,14 @@ Route::middleware(['visitor'])->get('/', function () {
     $gallery_show_limit = (int)env('GALLERY_LIMIT', 8);  // ส่ง limit ในการแสดงผลสำหรับหน้าแรกของ website ถ้า = 0 จะแสดงทั้งหมด
     $gallery_all = Gallery::whereStatus(true)->orderBy('event_date', 'desc')->get()->count(); //ส่งจำนวน gallery ทั้งหมดที่เปิดแสดงผลอยู่
 
+    // สำหรับ component Link (Link)
+    $medcon_current_year = (int)env('MEDCON_CURRENT_YEAR', 0);  // ส่ง limit ในการแสดงผลสำหรับหน้าแรกของ website ถ้า = 0 จะแสดงทั้งหมด
+    $medcon_other_year = (int)env('MEDCON_OTHER_YEAR', 1);  // ส่ง limit ในการแสดงผลสำหรับหน้าแรกของ website ถ้า = 0 จะแสดงทั้งหมด
+
     return Inertia::render('Index', [
         'announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all,
-        'gallery_show_limit' => $gallery_show_limit,  'gallery_all' => $gallery_all
+        'gallery_show_limit' => $gallery_show_limit,  'gallery_all' => $gallery_all,
+        'medcon_current_year' => $medcon_current_year, 'medcon_other_year' => $medcon_other_year
     ]);
     // return Inertia::render('Index', ['announce_show_limit' => $announce_show_limit, 'announcements' => $announcements, 'announcement_all' => $announcement_all ]);
 })->name('index');
