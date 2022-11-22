@@ -53,9 +53,11 @@
 
     </div>
 
-    <Line :chart-data="chartData"
-         :chart-options="chartOptions"
-         class="mb-4"
+    <Line
+        v-if="$page.props.auth.abilities.includes('view_all_content')"
+        :chart-data="chartData"
+        :chart-options="chartOptions"
+        class="mb-4"
     />
 
     <!-- <div class="grid grid-cols-3 shadow-md rounded-md">
