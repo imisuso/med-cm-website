@@ -5,21 +5,21 @@
             <QuillEditor
                 id="quill_e"
                 ref="quill_e"
-                v-model:content="contentForm.detail_delta" 
+                v-model:content="contentForm.detail_delta"
                 contentType="delta"
                 @ready="initialQuill"
-                @textChange="textChange"        
+                @textChange="textChange"
             />
             <!--
-            theme="snow" 
-            :toolbar="quill_custom" 
+            theme="snow"
+            :toolbar="quill_custom"
             :modules="quill_modules"  
             -->
 
             <!-- <QuillEditor ref="quill" theme="snow" :content="sub_header.html_content" contentType="html" :toolbar="quill_options_full" :modules="quill_modules" /> -->
             <!-- <QuillEditor ref="quill" theme="snow" :content="sub_header.html_content" contentType="html" toolbar="full" /> -->
             <div class="flex items-center space-x-2 mt-2 mb-4">
-                <button @click="saveContent()" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
+                <button @click="confirmChange" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                     </svg>
@@ -27,7 +27,7 @@
                 </button>
                 <!-- <Link :href="route('admin.show_branch_main_menu', sub_header.division_id)" method="post" as="button" type="button"  preserve-scroll> -->
                     <button @click="cancelEditContent" class="flex items-center mx-1 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2 hover:text-gray-900 focus:z-10">
-                        <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  
+                        <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                         ยกเลิก
@@ -50,6 +50,8 @@ import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } fro
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
+
+import Swal  from 'sweetalert2';
 
 class CustomImageSpec extends ImageSpec {
     getActions() {
@@ -80,14 +82,14 @@ const contentForm = useForm({
 const htmlContent = ref(props.sub_header.detail_html)
 
 const quill_modules = {
-                name: 'blotFormatter',  
-                module: BlotFormatter, 
+                name: 'blotFormatter',
+                module: BlotFormatter,
                     options: {/* options */}
             }
 
 const quill_e = ref()
 const imgDeleted = reactive([])
-const imgInserted = reactive([])  
+const imgInserted = reactive([])
 
 const quill_custom = ref([
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -121,6 +123,25 @@ const initialQuill = () => {
   quill_e.value.getQuill().enable(true)
 }
 
+const confirmChange = () => {
+    Swal.fire({
+        title: `คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?`,
+        showCancelButton: true,
+        confirmButtonColor: '#1e40af',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            saveContent()
+        } else {
+            quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
+            cancelEditContent()
+            return false
+        }
+    })
+}
+
 const toast = (severity, summary, detail) => {
     createToast({
       title: summary,
@@ -143,10 +164,10 @@ const textChange = (e) => {
 
   // หา url ของรูปที่ถูกลบไป
   const deleted = getImgUrls(quill_e.value.getContents().diff(e.oldContents))
-  
+
   //inserted.length && console.log('insert', inserted)
   //inserted.length && imgInserted.push(inserted) && console.log('insert', imgInserted)
-  
+
   // เพิ่มข้อมูลรูปที่ถูกลบ ลงไปใน list
   deleted.length && imgDeleted.push(deleted[0]) && console.log('delete', imgDeleted)
 }
@@ -167,7 +188,7 @@ const pasteImage = (e) => {
         return
     } else if (item.type.match(/^application\//i)) {
         e.preventDefault()
-    } 
+    }
     else if (item.type.startsWith('text/html')) {
       nextTick(() => {
         let editor = document.querySelector(`#quill_e .ql-editor`)
@@ -189,7 +210,7 @@ const pasteImage = (e) => {
 }
 
 const cancelEditContent = () => {
-  
+
   // ถ้ามีไฟล์รูปที่ insert เข้ามาเก็บที่ server แล้ว ต้องลบออกเพราะได้ยกเลิกการแก้ไข
   if( imgInserted.length ) {
     deleteFromServer(imgInserted)
@@ -205,7 +226,7 @@ const cancelEditContent = () => {
 
 //
 //  * Step1. select local image
-//  
+//
 const selectLocalImage = () => {
   const input = document.createElement('input');
   input.setAttribute('type', 'file');
@@ -229,10 +250,10 @@ const selectLocalImage = () => {
 //  * Step2. save to server
 //  *
 //  * @param {File} file
-//  
+//
 const saveToServer = ( file ) => {
   const fd = new FormData()
-  
+
   // แนบรูป ที่จะเก็บไปด้วยเมื่อเรียกใช้ api
   fd.append('image_file', file)
 
@@ -247,9 +268,9 @@ const saveToServer = ( file ) => {
   })
   .then( res => {
     //console.log(res.data)
- 
+
     // หลังจาก upload รูปขึ้น server สำเร็จ จะได้เป็น url ของรูปกลับมาจาก api
-    // จากนั้นจึงเรียกใช้งาน function insertToEditor() และส่ง url เข้าไปยัง function เพื่อเพิ่มรูปเข้าไปยัง rich-text  
+    // จากนั้นจึงเรียกใช้งาน function insertToEditor() และส่ง url เข้าไปยัง function เพื่อเพิ่มรูปเข้าไปยัง rich-text
     insertToEditor(res.data.url)
   })
   .catch( (error) => {
@@ -312,22 +333,22 @@ const saveContent = () => {
     contentForm.transform(data => ({
         ...data,
         detail_html: htmlContent.value,
-        division_id: props.sub_header.division_id,   
+        division_id: props.sub_header.division_id,
     })).patch( route('admin.richtext_content_update', contentForm.id), {
         //preserveState: false,
-        onBefore: () => {    
-          if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
-              quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
-              cancelEditContent()
-              return false
-          }
-        },
+        // onBefore: () => {
+        //   if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
+        //       quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
+        //       cancelEditContent()
+        //       return false
+        //   }
+        // },
         onSuccess: () => {
           toast('success', 'แก้ไขสำเร็จ', `แก้ไขข้อมูล ${props.sub_header.sub_header_name_th} เรียบร้อย`)
           if( imgDeleted.length ) {
               deleteFromServer(imgDeleted)
           }
-          contentForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+          contentForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
         },
         onError: (errors) => {
           let error_display = ''
