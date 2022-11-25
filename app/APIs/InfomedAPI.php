@@ -500,7 +500,9 @@ class InfomedAPI
         $person->type = $type ?: $person->type;
 
         $person->group = $group ?: $person->group;
-        $person->position_division = $position_division ?: $person->position_division;
+
+        // ยกเลิก การ update ส่วนนี้ไปก่อน เนื่องจาก website นำไปแสดงผล แต่ ข้อมูลที่มาจาก infomed ยังไม่สัมพันธ์กัน ต้องนำไปหารือ อีกครั้ง
+//        $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
         $profiles = $person->profiles;
 
@@ -539,11 +541,19 @@ class InfomedAPI
 
         logger("ทำการแก้ไขข้อมูลงานของบุคลากรที่ได้รับมาจาก Infomed เรียบร้อย กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
 
+        // เปลี่ยนการเก็บ log ไปก่อน เนื่องจาก website นำไปแสดงผล แต่ ข้อมูลที่มาจาก infomed ยังไม่สัมพันธ์กัน ต้องนำไปหารือ อีกครั้ง
+//        $logdata = '[{"sap":"'.$sap.'",
+//            "division_id":"'.$division_id.'",
+//            "type":"'.$type.'",
+//            "group":"'.$group.'",
+//            "position_division":"'.$position_division.'",
+//            "reward":"'.$reward.'",
+//            "leader":"'.$manager_flag.'"
+//        }]';
         $logdata = '[{"sap":"'.$sap.'",
             "division_id":"'.$division_id.'",
             "type":"'.$type.'",
             "group":"'.$group.'",
-            "position_division":"'.$position_division.'",
             "reward":"'.$reward.'",
             "leader":"'.$manager_flag.'"
         }]';
