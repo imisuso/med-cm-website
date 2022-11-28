@@ -197,15 +197,21 @@
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
                                         <select v-model="personForm.position_academic" id="position_academic" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <template v-for="option in position_academic_list" :key="option.value">
+                                            <template v-for="option in position_academic_list.sort((a,b) => a.order - b.order)" :key="option.value">
                                                 <!-- กรณีกลุ่มวิชาการ จะแสดงตำแหน่งทางวิชาการเท่านั้น -->
-                                                <option v-if="(personForm.group === 1) && ([1, 2, 3, 4].includes(option.value))"
+<!--                                                <option v-if="(personForm.group === 1) && ([1, 2, 3, 4].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+                                                <option v-if="(personForm.group === 1) && ([1, 2, 3, 4, 5, 7].includes(option.value))"
                                                         :value="option.value"
                                                 >
                                                 {{ option.desc }}
                                                 </option>
                                                 <!-- กรณีกลุ่มวิชาชีพเฉพาะ จะไม่แสดงตำแหน่งทางวิชาการ -->
-                                                <option v-else-if="(personForm.group === 2) && ([0, 5, 6].includes(option.value))"
+<!--                                                <option v-else-if="(personForm.group === 2) && ([0, 5, 6].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+                                                <option v-else-if="(personForm.group === 2) && ([0, 6].includes(option.value))"
                                                         :value="option.value"
                                                 >
                                                 {{ option.desc }}
@@ -430,14 +436,36 @@ const group_list = ref([
                         { value: 4, desc: "สนับสนุนทั่วไป(ปฏิบัติการ)" },
                         { value: 5, desc: "สนับสนุนทั่วไป(ช่วยปฏิบัติการ)" }
                       ])
+// const position_academic_list = ref([
+//                                     { value: 0, desc: "ไม่ระบุตำแหน่ง" },
+//                                     { value: 1, desc: "ศาสตราจารย์" },
+//                                     { value: 2, desc: "รองศาสตราจารย์" },
+//                                     { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
+//                                     { value: 4, desc: "อาจารย์" },
+//                                     { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
+//                                     { value: 6, desc: "แพทย์" }
+//                                   ])
+
+// const position_academic_list = ref([
+//                                     { value: 0, desc: "ไม่ระบุตำแหน่ง" },
+//                                     { value: 1, desc: "ศาสตราจารย์" },
+//                                     { value: 2, desc: "รองศาสตราจารย์" },
+//                                     { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
+//                                     { value: 4, desc: "อาจารย์" },
+//                                     { value: 5, desc: "อาจารย์ไม่เต็มเวลา" },
+//                                     { value: 6, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
+//                                     { value: 7, desc: "แพทย์" }
+//                                 ])
+
 const position_academic_list = ref([
-                                    { value: 0, desc: "ไม่ระบุตำแหน่ง" },
-                                    { value: 1, desc: "ศาสตราจารย์" },
-                                    { value: 2, desc: "รองศาสตราจารย์" },
-                                    { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
-                                    { value: 4, desc: "อาจารย์" },
-                                    { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
-                                    { value: 6, desc: "แพทย์" }
+                                    { value: 0, desc: "ไม่ระบุตำแหน่ง", order: 0 },
+                                    { value: 1, desc: "ศาสตราจารย์", order: 1 },
+                                    { value: 2, desc: "รองศาสตราจารย์", order: 2 },
+                                    { value: 3, desc: "ผู้ช่วยศาสตราจารย์", order: 3 },
+                                    { value: 4, desc: "อาจารย์", order: 4 },
+                                    { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)", order: 6 },
+                                    { value: 6, desc: "แพทย์", order: 7 },
+                                    { value: 7, desc: "อาจารย์ไม่เต็มเวลา", order: 5 }
                                   ])
 
 switch(props.action) {
