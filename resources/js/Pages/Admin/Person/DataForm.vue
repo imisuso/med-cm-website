@@ -156,8 +156,13 @@
                                         <label for="type" class="block text-sm font-medium text-gray-700">ประเภทบุคลากร</label>
                                         <select v-model="personForm.type" id="type" @change="personForm.group=99" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="z">ที่ปรึกษา</option>
-                                            <option value="a">สายวิชาการ</option>
-                                            <option value="b">สายสนับสนุน</option>
+                                            <option value="a">สายวิชาการ (ก)</option>
+                                            <option value="b">สายสนับสนุน (ข)(แพทย์)</option>
+                                            <option value="c">สายสนับสนุน (ข)(เจ้าหน้าที่)</option>
+                                            <option value="d">สายสนับสนุน (ค)(เจ้าหน้าที่)</option>
+<!--                                            <option value="z">ที่ปรึกษา</option>-->
+<!--                                            <option value="a">สายวิชาการ</option>-->
+<!--                                            <option value="b">สายสนับสนุน</option>-->
                                         </select>
                                     </div>
 
@@ -168,24 +173,34 @@
                                         </div>
                                         <select v-model="personForm.group" id="group" @change="personForm.position_academic=99" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <template v-for="option in group_list" :key="option.value">
-                                                <!-- กรณีสายวิชาการ หรือ ที่ปรึกษา จะให้อยู่ในกลุ่มวิชาการ (ของจริงสายวิชาการจะไม่มีกลุ่ม สร้างขึ้นเพื่อไว้ใช้เฉพาะ app นี้) -->
-                                                <option v-if="(personForm.type !== 'b') && ([1].includes(option.value))"
+                                                <option v-if="(personForm.type === 'a') && (option.value == 1)"
                                                         :value="option.value"
                                                 >
-                                                {{ option.desc }}
+                                                    {{ option.desc }}
                                                 </option>
-                                                <!-- กรณีที่ปรึกษา จะมีทุกกลุ่มให้เลือก -->
-                                                <option v-else-if="personForm.type === 'z'"
+                                                <option v-else
                                                         :value="option.value"
                                                 >
-                                                {{ option.desc }}
+                                                    {{ option.desc }}
                                                 </option>
-                                                <!-- กรณีสายสนับสนุนจะต้องไม่มี กลุ่มวิชาการให้เลือก -->
-                                                <option v-else-if="(personForm.type === 'b') && (! [1].includes(option.value))"
-                                                        :value="option.value"
-                                                >
-                                                {{ option.desc }}
-                                                </option>
+<!--                                                &lt;!&ndash; กรณีสายวิชาการ หรือ ที่ปรึกษา จะให้อยู่ในกลุ่มวิชาการ (ของจริงสายวิชาการจะไม่มีกลุ่ม สร้างขึ้นเพื่อไว้ใช้เฉพาะ app นี้) &ndash;&gt;-->
+<!--                                                <option v-if="(personForm.type !== 'b') && ([1].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+<!--                                                {{ option.desc }}-->
+<!--                                                </option>-->
+<!--                                                &lt;!&ndash; กรณีที่ปรึกษา จะมีทุกกลุ่มให้เลือก &ndash;&gt;-->
+<!--                                                <option v-else-if="personForm.type === 'z'"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+<!--                                                {{ option.desc }}-->
+<!--                                                </option>-->
+<!--                                                &lt;!&ndash; กรณีสายสนับสนุนจะต้องไม่มี กลุ่มวิชาการให้เลือก &ndash;&gt;-->
+<!--                                                <option v-else-if="(personForm.type === 'b') && (! [1].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+<!--                                                {{ option.desc }}-->
+<!--                                                </option>-->
                                             </template>
                                         </select>
                                         <div class="p-error" v-if="submitted && (personForm.group === 99)">จำเป็นต้องเลือกกลุ่มงาน</div>
@@ -198,24 +213,29 @@
                                         </div>
                                         <select v-model="personForm.position_academic" id="position_academic" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <template v-for="option in position_academic_list" :key="option.value">
-                                                <!-- กรณีกลุ่มวิชาการ จะแสดงตำแหน่งทางวิชาการเท่านั้น -->
-                                                <option v-if="(personForm.group === 1) && ([1, 2, 3, 4].includes(option.value))"
+                                                <option
                                                         :value="option.value"
                                                 >
-                                                {{ option.desc }}
+                                                    {{ option.desc }}
                                                 </option>
-                                                <!-- กรณีกลุ่มวิชาชีพเฉพาะ จะไม่แสดงตำแหน่งทางวิชาการ -->
-                                                <option v-else-if="(personForm.group === 2) && ([0, 5, 6].includes(option.value))"
-                                                        :value="option.value"
-                                                >
-                                                {{ option.desc }}
-                                                </option>
-                                                <!-- กรณีกลุ่มที่เหลือ จะแสดงแค่ไม่ระบุตำแหน่ง -->
-                                                <option v-else-if="(personForm.group > 2) && ([0].includes(option.value))"
-                                                        :value="option.value"
-                                                >
-                                                {{ option.desc }}
-                                                </option>
+<!--                                                &lt;!&ndash; กรณีกลุ่มวิชาการ จะแสดงตำแหน่งทางวิชาการเท่านั้น &ndash;&gt;-->
+<!--                                                <option v-if="(personForm.group === 1) && ([1, 2, 3, 4].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+<!--                                                {{ option.desc }}-->
+<!--                                                </option>-->
+<!--                                                &lt;!&ndash; กรณีกลุ่มวิชาชีพเฉพาะ จะไม่แสดงตำแหน่งทางวิชาการ &ndash;&gt;-->
+<!--                                                <option v-else-if="(personForm.group === 2) && ([0, 5, 6].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+<!--                                                {{ option.desc }}-->
+<!--                                                </option>-->
+<!--                                                &lt;!&ndash; กรณีกลุ่มที่เหลือ จะแสดงแค่ไม่ระบุตำแหน่ง &ndash;&gt;-->
+<!--                                                <option v-else-if="(personForm.group > 2) && ([0].includes(option.value))"-->
+<!--                                                        :value="option.value"-->
+<!--                                                >-->
+<!--                                                {{ option.desc }}-->
+<!--                                                </option>-->
                                             </template>
                                         </select>
                                         <div class="p-error" v-if="submitted && (personForm.position_academic === 99)">จำเป็นต้องระบุตำแหน่งงาน</div>
@@ -223,31 +243,31 @@
 
                                     <!-- แสดงข้อมูลส่วนนี้เมื่อบุคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
                                     <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3"> -->
-                                    <div v-if="personForm.position_academic !== 0" class="col-span-6">
+                                    <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <div class="flex">
                                             <label for="rname_full_th" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
-                                            <div v-if="personForm.position_academic !== 0" class=" text-red-500 px-2">*</div>
+                                            <div v-if="personForm.position_academic !== 3" class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_full_th" id="rname_full_th" placeholder="เช่น ศาสตราจารย์ คลินิก เกียรติคุณ นายแพทย์ หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                         <div class="p-error" v-if="submitted && !personForm.rname_full_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบเต็มภาษาไทย</div>
                                     </div>
 
                                     <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3"> -->
-                                    <div v-if="personForm.position_academic !== 0" class="col-span-6">
+                                    <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <label for="rname_full_en" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ EN)</label>
                                         <input type="text" v-model.trim="personForm.rname_full_en" id="rname_full_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
+                                    <div v-if="personForm.position_academic !== 3" class="col-span-6 sm:col-span-3">
                                         <div class="flex">
                                             <label for="rname_short_th" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ TH)</label>
-                                            <div v-if="personForm.position_academic !== 0" class=" text-red-500 px-2">*</div>
+                                            <div v-if="personForm.position_academic !== 3" class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_short_th" id="rname_short_th" placeholder="เช่น ศ. คลินิก เกียรติคุณ พญ. หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                         <div class="p-error" v-if="submitted && !personForm.rname_short_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบย่อภาษาไทย</div>
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
+                                    <div v-if="personForm.position_academic !== 3" class="col-span-6 sm:col-span-3">
                                         <div class="flex">
                                             <label for="rname_short_en" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ EN)</label>
                                             <div class=" text-white">.</div>
@@ -256,12 +276,12 @@
                                     </div>
 
                                     <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-4"> -->
-                                    <div v-if="personForm.position_academic !== 0" class="col-span-6">
+                                    <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <label for="position_mgnt" class="block text-sm font-medium text-gray-700">ตำแหน่งทางการบริหารในภาควิชา (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.position_mgnt" id="position_mgnt" placeholder="เช่น รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
+                                    <div v-if="personForm.position_academic !== 3" class="col-span-6 sm:col-span-3">
                                         <label for="reward" class="block text-sm font-medium text-gray-700">คำต่อท้ายชื่อ (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.reward" id="reward" placeholder="เช่น ศ.11 หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
@@ -423,22 +443,32 @@ const personForm = useForm({
   certificateList: props.person ? JSON.parse(props.person.cert) : []
 });
 
+// const group_list = ref([
+//                         { value: 1, desc: "วิชาการ" },
+//                         { value: 2, desc: "วิชาชีพเฉพาะ" },
+//                         { value: 3, desc: "สนับสนุนวิชาการ" },
+//                         { value: 4, desc: "สนับสนุนทั่วไป(ปฏิบัติการ)" },
+//                         { value: 5, desc: "สนับสนุนทั่วไป(ช่วยปฏิบัติการ)" }
+//                       ])
 const group_list = ref([
-                        { value: 1, desc: "วิชาการ" },
-                        { value: 2, desc: "วิชาชีพเฉพาะ" },
-                        { value: 3, desc: "สนับสนุนวิชาการ" },
-                        { value: 4, desc: "สนับสนุนทั่วไป(ปฏิบัติการ)" },
-                        { value: 5, desc: "สนับสนุนทั่วไป(ช่วยปฏิบัติการ)" }
-                      ])
+    { value: 1, desc: "วิชาการ" },
+    { value: 2, desc: "สนับสนุน" },
+])
+
 const position_academic_list = ref([
-                                    { value: 0, desc: "ไม่ระบุตำแหน่ง" },
-                                    { value: 1, desc: "ศาสตราจารย์" },
-                                    { value: 2, desc: "รองศาสตราจารย์" },
-                                    { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
-                                    { value: 4, desc: "อาจารย์" },
-                                    { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
-                                    { value: 6, desc: "แพทย์" }
-                                  ])
+    { value: 1, desc: "อาจารย์แพทย์" },
+    { value: 2, desc: "แพทย์" },
+    { value: 3, desc: "เจ้าหน้าที่" }
+])
+// const position_academic_list = ref([
+//                                     { value: 0, desc: "ไม่ระบุตำแหน่ง" },
+//                                     { value: 1, desc: "ศาสตราจารย์" },
+//                                     { value: 2, desc: "รองศาสตราจารย์" },
+//                                     { value: 3, desc: "ผู้ช่วยศาสตราจารย์" },
+//                                     { value: 4, desc: "อาจารย์" },
+//                                     { value: 5, desc: "แพทย์ (ผู้ช่วยอาจารย์คลินิก)" },
+//                                     { value: 6, desc: "แพทย์" }
+//                                   ])
 
 switch(props.action) {
     case 'insert':
@@ -532,7 +562,7 @@ const checkRequireData = () => {
     return false
   }
   // ถ้ามีตำแหน่งทางวิชาการ ต้องระบุให้ครบทั้งชื่อ นามสกุล คำนำหน้าชื่อแบบเต็ม คำนำหน้าชื่อแบบย่อ
-  else if(personForm.position_academic !== 0) {
+  else if(personForm.position_academic !== 3) {
     if( personForm.fname_th && personForm.lname_th && personForm.rname_full_th && personForm.rname_short_th ) {
       return true
     } else {

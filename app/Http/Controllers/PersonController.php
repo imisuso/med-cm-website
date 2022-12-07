@@ -81,14 +81,22 @@ class PersonController extends Controller
         //     });
         // }
 
+//        $persons = $query->with('division')
+//                        ->with('versions')
+//                        ->orderBy('type')
+//                        ->orderBy('profiles->leader', 'desc')
+//                        ->orderBy('display_order', 'asc')
+//                        ->orderBy('fname_th', 'asc')
+//                        ->paginate(6)
+//                        ->withQueryString();
         $persons = $query->with('division')
-                        ->with('versions')
-                        ->orderBy('type')
-                        ->orderBy('profiles->leader', 'desc')
-                        ->orderBy('display_order', 'asc')
-                        ->orderBy('fname_th', 'asc')
-                        ->paginate(6)
-                        ->withQueryString();
+            ->with('versions')
+            ->orderBy('profiles->leader', 'desc')
+            ->orderBy('type')
+            ->orderBy('display_order', 'asc')
+            ->orderBy('fname_th', 'asc')
+            ->paginate(6)
+            ->withQueryString();
 
         return Inertia::render('Admin/Person/Index', [
             'persons' => $persons,
@@ -627,40 +635,57 @@ class PersonController extends Controller
         //         ->limit(1);
         // }, 'Pro')->get();
 
-        // $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
-        //                 ->where('division_id', $id)->where('status', true)->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
-        //                 ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true)
-        //                 ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
+//        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
+//                        ->where('division_id', $id)->where('status', true)
+//                        ->where(function ($query) {
+//                            $query->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
+//                                ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true);
+//                        })
+//                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
-                        ->where('division_id', $id)->where('status', true)
-                        ->where(function ($query) {
-                            $query->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
-                                ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true);
-                        })
-                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
+            ->where('division_id', $id)->where('status', true)
+            ->where(function ($query) {
+                $query->where('type', 'a')
+                    ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true);
+            })
+            ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
 
     public function listDoctorByDivisionId($id)
     {
+//        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
+//                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->whereIn('position_academic', [5, 6])
+//                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
-                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->whereIn('position_academic', [5, 6])
-                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
+            ->where('division_id', $id)->where('status', true)
+            ->where('type', 'b')
+            ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
 
     public function listOfficerByDivisionId($id)
     {
+//        $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'position_division', 'profiles')
+//                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->where('position_academic', 0)
+//                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'position_division', 'profiles')
-                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->where('position_academic', 0)
-                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
+            ->where('division_id', $id)->where('status', true)
+            ->where(function ($query) {
+                $query->where('type', 'c')->orWhere('type', 'd');
+            })
+            ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
 
     public function listPersonDisplayByDivisionId($id)
     {
-        $listPerson = Person::where('division_id', $id)->where('status', true)->orderBy('type')
-                        ->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
+//        $listPerson = Person::where('division_id', $id)->where('status', true)->orderBy('type')
+//                        ->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
+        $listPerson = Person::where('division_id', $id)->where('status', true)
+            ->orderBy('display_order', 'asc')
+            ->orderBy('type')
+            ->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
 
