@@ -17,14 +17,14 @@
           <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
         </div>
         <div class="flex space-x-2" v-if="$page.props.auth.abilities.includes('manage_person')">
-          <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
-              class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
-          >
-            <div>
-                <PlusSmIcon :class="['h-6 w-6']"/>
-            </div>
-            <div>เพิ่ม</div>
-          </Link>
+<!--          <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"-->
+<!--              class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"-->
+<!--          >-->
+<!--            <div>-->
+<!--                <PlusSmIcon :class="['h-6 w-6']"/>-->
+<!--            </div>-->
+<!--            <div>เพิ่ม</div>-->
+<!--          </Link>-->
 
           <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
             <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">

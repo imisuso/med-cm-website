@@ -89,10 +89,16 @@ class Person extends Model
     {
         switch ($this->type) {
             case 'a':
-                $person_type = 'วิชาการ';
+                $person_type = 'สายวิชาการ (ก)';
                 break;
             case 'b':
-                $person_type = 'สนับสนุน';
+                $person_type = 'สายสนับสนุน (ข)(แพทย์)';
+                break;
+            case 'c':
+                $person_type = 'สายสนับสนุน (ข)(เจ้าหน้าที่)';
+                break;
+            case 'd':
+                $person_type = 'สายสนับสนุน (ค)(เจ้าหน้าที่)';
                 break;
             case 'z':
                 $person_type = 'ที่ปรึกษา';

@@ -27,12 +27,12 @@
                             แก้ไข
                         </Link>
                     </li>
-                    <li v-if="$page.props.auth.abilities.includes('manage_person')">
-                        <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-                            <TrashIcon :class="['w-6 h-6 px-1']" />
-                            ลบ
-                        </Link>
-                    </li>
+<!--                    <li v-if="$page.props.auth.abilities.includes('manage_person')">-->
+<!--                        <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">-->
+<!--                            <TrashIcon :class="['w-6 h-6 px-1']" />-->
+<!--                            ลบ-->
+<!--                        </Link>-->
+<!--                    </li>-->
                 </ul>
             </div>
         </div>
@@ -109,12 +109,12 @@
                                     แก้ไข
                                 </Link>
                             </li>
-                            <li v-if="$page.props.auth.abilities.includes('manage_person')">
-                                <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-                                    <TrashIcon :class="['w-6 h-6 px-1']" />
-                                    ลบ
-                                </Link>
-                            </li>
+<!--                            <li v-if="$page.props.auth.abilities.includes('manage_person')">-->
+<!--                                <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">-->
+<!--                                    <TrashIcon :class="['w-6 h-6 px-1']" />-->
+<!--                                    ลบ-->
+<!--                                </Link>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </div>

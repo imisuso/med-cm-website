@@ -4,9 +4,6 @@
             <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลบุคลากร</div>
-<!--                <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"-->
-<!--                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"-->
-<!--                >-->
                 <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button">
                     <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
                         <ReplyIcon :class="['h-6 w-6 mr-2']" />
@@ -37,36 +34,30 @@
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <fieldset :disabled="viewDataInfomation">
-                                <div class="gap-6 mb-6">
-                                    <label class="block text-sm font-medium text-gray-700">
-                                    รูปบุคลากร
+                            <div class="gap-6 mb-6">
+                                <label class="block text-sm font-medium text-gray-700">
+                                รูปบุคลากร
+                                </label>
+                                <div class="mt-1 flex items-center">
+                                    <span class="inline-block h-32 w-28 rounded-md overflow-hidden bg-gray-100">
+                                        <img v-if="! url" :src="`${baseUrl}/fallbackimage/default-blank-image.jpg`" class="h-full w-full rounded-md"/>
+                                        <img v-else :src="url" />
+                                    </span>
+                                    <label class="flex flex-col w-24 items-center mx-2 px-2 bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer hover:bg-blue-400 hover:text-white">
+                                        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                        </svg>
+                                        <span class="mt-2 text-base leading-normal">เลือกรูป</span>
+                                        <input type="file" @input="personForm.image = $event.target.files[0]" @change="previewImage" class="hidden">
                                     </label>
-                                    <div class="mt-1 flex items-center">
-                                        <span class="inline-block h-32 w-28 rounded-md overflow-hidden bg-gray-100">
-                                            <!-- <svg v-if="! personForm.image" class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                            </svg> -->
-                                            <img v-if="! url" :src="`${baseUrl}/fallbackimage/default-blank-image.jpg`" class="h-full w-full rounded-md"/>
-                                            <img v-else :src="url" />
-                                        </span>
-                                        <label class="flex flex-col w-24 items-center mx-2 px-2 bg-white text-blue-400 rounded-lg shadow-lg tracking-wide uppercase border border-blue-400 cursor-pointer hover:bg-blue-400 hover:text-white">
-                                            <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                                            </svg>
-                                            <span class="mt-2 text-base leading-normal">เลือกรูป</span>
-                                            <input type="file" @input="personForm.image = $event.target.files[0]" @change="previewImage" class="hidden">
-                                        </label>
-                                    </div>
-                                    <button class="border bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 text-sm font-medium text-white mt-2 p-1 rounded-md shadow-md" v-if="! viewDataInfomation && personForm.image" @click="emptyImage"> นำรูปออก </button>
                                 </div>
-
+                                <button class="border bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 text-sm font-medium text-white mt-2 p-1 rounded-md shadow-md" v-if="! viewDataInfomation && personForm.image" @click="emptyImage"> นำรูปออก </button>
+                            </div>
+                            </fieldset>
+                            <fieldset disabled="true">
                                 <div class="grid grid-cols-6 gap-6 mb-6">
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="sap_id" class="block text-sm font-medium text-gray-700">รหัส SAP-ID</label>
-                                        <!-- <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
-                                        /> -->
                                         <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
@@ -96,10 +87,6 @@
                                             <label for="fname_th" class="block text-sm font-medium text-gray-700">ชื่อ (TH)</label>
                                             <div class="text-red-500 px-2">*</div>
                                         </div>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true"
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
-                                        /> -->
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true"
                                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
@@ -111,10 +98,6 @@
                                             <label for="lname_th" class="block text-sm font-medium text-gray-700">นามสกุล (TH)</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th"
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
-                                        /> -->
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th"
                                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
@@ -132,10 +115,6 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="fname_en" class="block text-sm font-medium text-gray-700">ชื่อ (EN)</label>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
-                                        /> -->
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
@@ -143,10 +122,6 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="lname_en" class="block text-sm font-medium text-gray-700">นามสกุล (EN)</label>
-                                        <!-- <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                :class="[viewDataInfomation && !pdpa_protect ? 'border-red-500 ring-red-500' : '']"
-                                        /> -->
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
@@ -160,9 +135,6 @@
                                             <option value="b">สายสนับสนุน (ข)(แพทย์)</option>
                                             <option value="c">สายสนับสนุน (ข)(เจ้าหน้าที่)</option>
                                             <option value="d">สายสนับสนุน (ค)(เจ้าหน้าที่)</option>
-<!--                                            <option value="z">ที่ปรึกษา</option>-->
-<!--                                            <option value="a">สายวิชาการ</option>-->
-<!--                                            <option value="b">สายสนับสนุน</option>-->
                                         </select>
                                     </div>
 
@@ -183,24 +155,6 @@
                                                 >
                                                     {{ option.desc }}
                                                 </option>
-<!--                                                &lt;!&ndash; กรณีสายวิชาการ หรือ ที่ปรึกษา จะให้อยู่ในกลุ่มวิชาการ (ของจริงสายวิชาการจะไม่มีกลุ่ม สร้างขึ้นเพื่อไว้ใช้เฉพาะ app นี้) &ndash;&gt;-->
-<!--                                                <option v-if="(personForm.type !== 'b') && ([1].includes(option.value))"-->
-<!--                                                        :value="option.value"-->
-<!--                                                >-->
-<!--                                                {{ option.desc }}-->
-<!--                                                </option>-->
-<!--                                                &lt;!&ndash; กรณีที่ปรึกษา จะมีทุกกลุ่มให้เลือก &ndash;&gt;-->
-<!--                                                <option v-else-if="personForm.type === 'z'"-->
-<!--                                                        :value="option.value"-->
-<!--                                                >-->
-<!--                                                {{ option.desc }}-->
-<!--                                                </option>-->
-<!--                                                &lt;!&ndash; กรณีสายสนับสนุนจะต้องไม่มี กลุ่มวิชาการให้เลือก &ndash;&gt;-->
-<!--                                                <option v-else-if="(personForm.type === 'b') && (! [1].includes(option.value))"-->
-<!--                                                        :value="option.value"-->
-<!--                                                >-->
-<!--                                                {{ option.desc }}-->
-<!--                                                </option>-->
                                             </template>
                                         </select>
                                         <div class="p-error" v-if="submitted && (personForm.group === 99)">จำเป็นต้องเลือกกลุ่มงาน</div>
@@ -218,31 +172,12 @@
                                                 >
                                                     {{ option.desc }}
                                                 </option>
-<!--                                                &lt;!&ndash; กรณีกลุ่มวิชาการ จะแสดงตำแหน่งทางวิชาการเท่านั้น &ndash;&gt;-->
-<!--                                                <option v-if="(personForm.group === 1) && ([1, 2, 3, 4].includes(option.value))"-->
-<!--                                                        :value="option.value"-->
-<!--                                                >-->
-<!--                                                {{ option.desc }}-->
-<!--                                                </option>-->
-<!--                                                &lt;!&ndash; กรณีกลุ่มวิชาชีพเฉพาะ จะไม่แสดงตำแหน่งทางวิชาการ &ndash;&gt;-->
-<!--                                                <option v-else-if="(personForm.group === 2) && ([0, 5, 6].includes(option.value))"-->
-<!--                                                        :value="option.value"-->
-<!--                                                >-->
-<!--                                                {{ option.desc }}-->
-<!--                                                </option>-->
-<!--                                                &lt;!&ndash; กรณีกลุ่มที่เหลือ จะแสดงแค่ไม่ระบุตำแหน่ง &ndash;&gt;-->
-<!--                                                <option v-else-if="(personForm.group > 2) && ([0].includes(option.value))"-->
-<!--                                                        :value="option.value"-->
-<!--                                                >-->
-<!--                                                {{ option.desc }}-->
-<!--                                                </option>-->
                                             </template>
                                         </select>
                                         <div class="p-error" v-if="submitted && (personForm.position_academic === 99)">จำเป็นต้องระบุตำแหน่งงาน</div>
                                     </div>
 
                                     <!-- แสดงข้อมูลส่วนนี้เมื่อบุคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
-                                    <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3"> -->
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <div class="flex">
                                             <label for="rname_full_th" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
@@ -252,7 +187,6 @@
                                         <div class="p-error" v-if="submitted && !personForm.rname_full_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบเต็มภาษาไทย</div>
                                     </div>
 
-                                    <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-3"> -->
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <label for="rname_full_en" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ EN)</label>
                                         <input type="text" v-model.trim="personForm.rname_full_en" id="rname_full_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
@@ -275,7 +209,6 @@
                                         <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
-                                    <!-- <div v-if="personForm.position_academic !== 0" class="col-span-6 sm:col-span-4"> -->
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <label for="position_mgnt" class="block text-sm font-medium text-gray-700">ตำแหน่งทางการบริหารในภาควิชา (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.position_mgnt" id="position_mgnt" placeholder="เช่น รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
@@ -305,17 +238,29 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-span-6 sm:col-span-2">
+<!--                                    <div class="col-span-6 sm:col-span-2">-->
+<!--                                        <div class="flex items-center justify-start">-->
+<!--                                            <div class="text-sm"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>-->
+<!--                                            <svg-->
+<!--                                            v-show="!viewDataInfomation"-->
+<!--                                            xmlns="http://www.w3.org/2000/svg" @click="createCertificate(personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">-->
+<!--                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />-->
+<!--                                            </svg>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                </div>
+                            </fieldset>
+                            <fieldset :disabled="viewDataInfomation">
+                                    <div class="col-span-6 sm:col-span-2 mb-2">
                                         <div class="flex items-center justify-start">
                                             <div class="text-sm"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>
                                             <svg
-                                            v-show="!viewDataInfomation"
-                                            xmlns="http://www.w3.org/2000/svg" @click="createCertificate(personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                                v-show="!viewDataInfomation"
+                                                xmlns="http://www.w3.org/2000/svg" @click="createCertificate(personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                                             </svg>
                                         </div>
                                     </div>
-                                </div>
 
                                 <div class="flex flex-col">
                                     <div
@@ -335,28 +280,18 @@
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-
                                 </div>
                             </fieldset>
+
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="flex flex-row mt-2 space-x-4">
-                <!-- <button v-if="action === 'view' && viewDataInfomation" @click="togglePdpaData" type="button"
-                    class="bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600"
-                    :class="[pdpa_protect ? 'text-green-700' : 'text-red-700']"
-                    >
-                    ดู/ปิด ข้อมูลส่วนบุคคล
-                </button> -->
                 <button v-if="action === 'insert'" type="button" @click="savePerson" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">จัดเก็บ</button>
                 <button v-if="action === 'edit'" type="button" @click="savePerson" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">แก้ไข</button>
-                <!-- <Link :href="route('admin.person')" :data="{ 'fdivision_selected': personForm.division_selected }" method="get" as="button" type="button"
-                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
-                >
-                    ยกเลิก
-                </Link> -->
+
                 <!-- ใช้ remember middleware แล้วมันจะจำ query string ล่าสุดให้เอง -->
                 <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"

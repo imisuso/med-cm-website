@@ -115,7 +115,24 @@ class PersonController extends Controller
             return Inertia::render('Admin/Errors/ErrorPermission'); //ไม่มีสิทธิเข้าถึงข้อมูลของ สาขา/หน่วย อื่นๆ
         }
 
-        $person_types = Person::select('type')->where('division_id', $division_id)->groupBy('type')->orderBy('type', 'asc')->get();
+        $list_types = Person::select('type')->where('division_id', $division_id)->groupBy('type')->orderBy('type', 'asc')->get();
+//        logger(json_decode($person_types));
+
+        $is_support = false;
+        $person_types = [];
+        foreach ($list_types as $item) {
+            //logger($item->type);
+            if( (strcmp('c', $item->type) === 0) || (strcmp('d', $item->type) === 0) ) {
+                if(!$is_support) {
+                    $person_types[] = array("type" => 'cd', "person_type" => 'สายสนับสนุน (ข และ ค)(เจ้าหน้าที่)');
+                    $is_support = true;
+                }
+            } else {
+                $person_types[] = array("type" => $item->type, "person_type" => $item->person_type);
+            }
+        }
+
+        //logger(json_encode($person_types));
 
         return Inertia::render('Admin/Person/PersonOrder', compact('person_types', 'division_id', 'division_slug'));
         //return Inertia::render('Admin/Person/PersonOrder', ['person_types' => $person_types, 'division_id' => $division_id, 'division_slug' => $division_slug]);
@@ -264,6 +281,7 @@ class PersonController extends Controller
                 'action' => $action,
                 'divisions' => $divisions,
                 'person' => $Person,
+                'fdivision_selected' => $fdivision_selected,
             ]);
         }
 
@@ -694,9 +712,18 @@ class PersonController extends Controller
         $division_id = Request::input('division_id');
         $type = Request::input('type');
 
-        $listPerson = Person::with('division')->where('division_id', $division_id)->where('type', $type)
-                            ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')
-                            ->orderBy('fname_th', 'asc')->get();
+        if( strcmp($type, 'cd') === 0 ) {
+            $listPerson = Person::with('division')->where('division_id', $division_id)
+                ->where(function ($query) {
+                    $query->where('type', 'c')->orWhere('type', 'd');
+                })
+                ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')
+                ->orderBy('fname_th', 'asc')->get();
+        } else {
+            $listPerson = Person::with('division')->where('division_id', $division_id)->where('type', $type)
+                ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')
+                ->orderBy('fname_th', 'asc')->get();
+        }
 
         return $listPerson;
     }
