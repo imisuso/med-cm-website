@@ -476,6 +476,7 @@ class InfomedAPI
 
         $resp = (new LogManager());
 
+        logger("มีการแก้ไขข้อมูลงานของบุคลากรมาจาก infomed-api");
         // ตรวจสอบว่าพบข้อมูลบุคลากรที่ต้องการแก้ไขหรือไม่ ถ้าไม่พบให้ return 404
         if (! $person) {
             logger("ไม่พบข้อมูลบุคลากรที่ต้องการแก้ไข SAP-ID => ".$sap);
@@ -483,15 +484,19 @@ class InfomedAPI
             return response()->json([
                 'status' => false,
                 'message' => 'Not Found emp => '. $sap
-            ], 404);
+                ], 404);
         }
 
         // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
         $logslack = $person->title_th.$person->fname_th.' หน่วย/สาขา : '.$person->division->name_th;
+        logger($logslack);
 
-        // Update to Object
+        // Update to DB
         $person->division_id = $division_id ?: $person->division_id;
 
+        if (strcmp($person->type, "z") === 0) {
+            $type = 'z';
+        }
         $person->type = $type ?: $person->type;
 
         $person->group = $group ?: $person->group;
@@ -499,33 +504,22 @@ class InfomedAPI
         // ยกเลิก การ update ส่วนนี้ไปก่อน เนื่องจาก website นำไปแสดงผล แต่ ข้อมูลที่มาจาก infomed ยังไม่สัมพันธ์กัน ต้องนำไปหารือ อีกครั้ง
 //        $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
+        $profiles = $person->profiles;
 
-        // ยกเลิกการ update manager flag ไปก่อนเนื่องจากตัว infomed ไม่ได้ มีเก็บลง database ไว้ซึ่งทำให้พบข้อมูลส่งมา update ผิดพลาด เพราะ user จำเป็นต้องเลือกทุกครั้งถ้าเป็นหัวหน้าหน่วย ในตอนทำการ update ที่ infomed
-//        $profiles = $person->profiles;
-//
-//        if ($manager_flag) {
-//            $profiles['leader'] = true;
-//        } else {
-//            $profiles['leader'] = false;
-//        }
-//
-//        $person->profiles = $profiles;
-
-        // ตรวจสอบว่าข้อมูลที่ส่งมา update มีอะไรเปลี่ยนแปลงไหม ถ้าเป็นข้อมูลเดิม ไม่ต้องแจ้งทาง slack และให้จบการทำงานเลย
-        if( $person->isClean() ) {
-            return response()->json([
-                'status' => true,
-                'message' => 'User is clean update => '. $sap
-            ], 200);
+        if ($manager_flag) {
+            $profiles['leader'] = true;
+        } else {
+            $profiles['leader'] = false;
         }
 
+        $person->profiles = $profiles;
         $person->user_previous_act = $person->user_last_act;
         $person->user_last_act = $user_in;
 
         try {
             // เก็บค่าเก่าก่อนทำการแก้ไข
             $old = $person->getOriginal();
-            // จัดเก็บค่าใหม่ (Update to DB)
+            // จัดเก็บค่าใหม่
             $person->save();
         } catch (\Exception  $e) {
             $log_message = "แก้ไขข้อมูลงานของบุคลากร ".$logslack." ไม่สำเร็จเนื่องจาก => ".$e;
@@ -545,9 +539,7 @@ class InfomedAPI
                 ], 500);
         }
 
-        logger("มีการแก้ไขข้อมูลงานของบุคลากร => {$logslack} มาจาก infomed-api");
-        //logger($logslack);
-        //logger("ทำการแก้ไขข้อมูลงานของบุคลากรที่ได้รับมาจาก Infomed เรียบร้อย กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
+        logger("ทำการแก้ไขข้อมูลงานของบุคลากรที่ได้รับมาจาก Infomed เรียบร้อย กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง");
 
         // เปลี่ยนการเก็บ log ไปก่อน เนื่องจาก website นำไปแสดงผล แต่ ข้อมูลที่มาจาก infomed ยังไม่สัมพันธ์กัน ต้องนำไปหารือ อีกครั้ง
 //        $logdata = '[{"sap":"'.$sap.'",

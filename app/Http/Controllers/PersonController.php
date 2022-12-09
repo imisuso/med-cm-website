@@ -437,9 +437,14 @@ class PersonController extends Controller
 
         // ถ้า sap_id ไม่เท่ากับเลขเดิม และ พบเลขนี้ในระบบแล้ว ให้ return error กลับไป
         if (($person_sap_id !== $Person->sap_id) && Person::where('sap_id', $person_sap_id)->first()) {
-            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคลากร ได้เนื่องจากพบหมายเลข sap_id ' .$person_sap_id.' นี้ถูกใช้งานในระบบแล้ว']);
+            return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูลบุคลากรได้ เนื่องจากพบหมายเลข sap_id ' .$person_sap_id.' ในระบบแล้ว']);
         }
 
+        // เป็นการ Update จาก UI ซึ่งจะทำการ update ได้เฉพาะ field ต่างๆดังนี้ เท่านั้น (จากการหารือกับทาง HR ภาควิชาฯ และหน่วย IT)
+        // $profiles['leader']
+        // $profiles['teacher']
+        // $Person->image
+        // $Person->cert
         try {
             //$certificateList = Request::input('certificateList');
             //  \Log::info($certificateList);
@@ -449,24 +454,24 @@ class PersonController extends Controller
             $profiles['teacher'] = (bool)Request::input('teacher');
 
             $Person->image = $imgDB;
-            $Person->division_id = (int)Request::input('division_selected');
-            $Person->sap_id = $person_sap_id;
-            $Person->title_th = Request::input('title_th');
-            $Person->title_en = Request::input('title_en');
-            $Person->fname_th = Request::input('fname_th');
-            $Person->fname_en = Request::input('fname_en');
-            $Person->lname_th = Request::input('lname_th');
-            $Person->lname_en = Request::input('lname_en');
-            $Person->rname_full_th = Request::input('rname_full_th');
-            $Person->rname_full_en = Request::input('rname_full_en');
-            $Person->rname_short_th = Request::input('rname_short_th');
-            $Person->rname_short_en = Request::input('rname_short_en');
-            $Person->type = Request::input('type');
-            $Person->group = (int)Request::input('group');
-            $Person->position_mgnt = Request::input('position_mgnt');
-            $Person->position_division = Request::input('position_division');
-            $Person->position_academic =  (int)Request::input('position_academic');
-            $Person->reward = Request::input('reward');
+//            $Person->division_id = (int)Request::input('division_selected');
+//            $Person->sap_id = $person_sap_id;
+//            $Person->title_th = Request::input('title_th');
+//            $Person->title_en = Request::input('title_en');
+//            $Person->fname_th = Request::input('fname_th');
+//            $Person->fname_en = Request::input('fname_en');
+//            $Person->lname_th = Request::input('lname_th');
+//            $Person->lname_en = Request::input('lname_en');
+//            $Person->rname_full_th = Request::input('rname_full_th');
+//            $Person->rname_full_en = Request::input('rname_full_en');
+//            $Person->rname_short_th = Request::input('rname_short_th');
+//            $Person->rname_short_en = Request::input('rname_short_en');
+//            $Person->type = Request::input('type');
+//            $Person->group = (int)Request::input('group');
+//            $Person->position_mgnt = Request::input('position_mgnt');
+//            $Person->position_division = Request::input('position_division');
+//            $Person->position_academic =  (int)Request::input('position_academic');
+//            $Person->reward = Request::input('reward');
             $Person->profiles = $profiles;
             $Person->cert = Request::input('certificateList');
             $Person->user_previous_act = $Person->user_last_act;

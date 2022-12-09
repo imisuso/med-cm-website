@@ -35,7 +35,7 @@
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <fieldset :disabled="viewDataInfomation">
                             <div class="gap-6 mb-6">
-                                <label class="block text-sm font-medium text-gray-700">
+                                <label class="block text-sm font-semibold text-gray-900">
                                 รูปบุคลากร
                                 </label>
                                 <div class="mt-1 flex items-center">
@@ -57,14 +57,14 @@
                             <fieldset disabled="true">
                                 <div class="grid grid-cols-6 gap-6 mb-6">
                                     <div class="col-span-6 sm:col-span-3">
-                                        <label for="sap_id" class="block text-sm font-medium text-gray-700">รหัส SAP-ID</label>
+                                        <label for="sap_id" class="block text-sm font-semibold text-gray-900">รหัส SAP-ID</label>
                                         <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
-                                        <label for="division_selected" class="block text-sm font-medium text-gray-700">สาขา/หน่วยงาน</label>
+                                        <label for="division_selected" class="block text-sm font-semibold text-gray-900">สาขา/หน่วยงาน</label>
                                         <select v-model="personForm.division_selected" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <template v-for="(option, index) in divisions" :key="index">
                                             <option v-if="$page.props.auth.abilities.includes('view_all_content')" :value="option.division_id">{{ option.name_th }}</option>
@@ -74,7 +74,7 @@
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
-                                        <label for="title_th" class="block text-sm font-medium text-gray-700">คำนำหน้าตามบัตร ปชช. (TH)</label>
+                                        <label for="title_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าตามบัตร ปชช. (TH)</label>
                                         <select v-model="personForm.title_th" id="title_th" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="นาย">นาย</option>
                                             <option value="นาง">นาง</option>
@@ -84,28 +84,28 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <div class="flex">
-                                            <label for="fname_th" class="block text-sm font-medium text-gray-700">ชื่อ (TH)</label>
+                                            <label for="fname_th" class="block text-sm font-semibold text-gray-900">ชื่อ (TH)</label>
                                             <div class="text-red-500 px-2">*</div>
                                         </div>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true"
                                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
-                                        <div class="p-error" v-if="submitted && !personForm.fname_th">จำเป็นต้องใส่ ชื่อภาษาไทย</div>
+<!--                                        <div class="p-error" v-if="submitted && !personForm.fname_th">จำเป็นต้องใส่ ชื่อภาษาไทย</div>-->
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <div class="flex">
-                                            <label for="lname_th" class="block text-sm font-medium text-gray-700">นามสกุล (TH)</label>
+                                            <label for="lname_th" class="block text-sm font-semibold text-gray-900">นามสกุล (TH)</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th"
                                                 class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
-                                        <div class="p-error" v-if="submitted && !personForm.lname_th">จำเป็นต้องใส่ นามสกุลภาษาไทย</div>
+<!--                                        <div class="p-error" v-if="submitted && !personForm.lname_th">จำเป็นต้องใส่ นามสกุลภาษาไทย</div>-->
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
-                                        <label for="title_en" class="block text-sm font-medium text-gray-700">คำนำหน้าตามบัตร ปชช. (EN)</label>
+                                        <label for="title_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าตามบัตร ปชช. (EN)</label>
                                         <select v-model="personForm.title_en" id="title_en" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="Mr.">Mr.</option>
                                             <option value="Mrs.">Mrs.</option>
@@ -114,21 +114,21 @@
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
-                                        <label for="fname_en" class="block text-sm font-medium text-gray-700">ชื่อ (EN)</label>
+                                        <label for="fname_en" class="block text-sm font-semibold text-gray-900">ชื่อ (EN)</label>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
-                                        <label for="lname_en" class="block text-sm font-medium text-gray-700">นามสกุล (EN)</label>
+                                        <label for="lname_en" class="block text-sm font-semibold text-gray-900">นามสกุล (EN)</label>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
-                                        <label for="type" class="block text-sm font-medium text-gray-700">ประเภทบุคลากร</label>
+                                        <label for="type" class="block text-sm font-semibold text-gray-900">ประเภทบุคลากร</label>
                                         <select v-model="personForm.type" id="type" @change="personForm.group=99" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="z">ที่ปรึกษา</option>
                                             <option value="a">สายวิชาการ (ก)</option>
@@ -140,7 +140,7 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <div class="flex">
-                                            <label for="group" class="block text-sm font-medium text-gray-700">กลุ่มงาน</label>
+                                            <label for="group" class="block text-sm font-semibold text-gray-900">กลุ่มงาน</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
                                         <select v-model="personForm.group" id="group" @change="personForm.position_academic=99" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -157,12 +157,12 @@
                                                 </option>
                                             </template>
                                         </select>
-                                        <div class="p-error" v-if="submitted && (personForm.group === 99)">จำเป็นต้องเลือกกลุ่มงาน</div>
+<!--                                        <div class="p-error" v-if="submitted && (personForm.group === 99)">จำเป็นต้องเลือกกลุ่มงาน</div>-->
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <div class="flex">
-                                            <label for="position_academic" class="block text-sm font-medium text-gray-700">ตำแหน่งงาน</label>
+                                            <label for="position_academic" class="block text-sm font-semibold text-gray-900">ตำแหน่งงาน</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
                                         <select v-model="personForm.position_academic" id="position_academic" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -174,27 +174,27 @@
                                                 </option>
                                             </template>
                                         </select>
-                                        <div class="p-error" v-if="submitted && (personForm.position_academic === 99)">จำเป็นต้องระบุตำแหน่งงาน</div>
+<!--                                        <div class="p-error" v-if="submitted && (personForm.position_academic === 99)">จำเป็นต้องระบุตำแหน่งงาน</div>-->
                                     </div>
 
                                     <!-- แสดงข้อมูลส่วนนี้เมื่อบุคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6">
                                         <div class="flex">
-                                            <label for="rname_full_th" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
+                                            <label for="rname_full_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
                                             <div v-if="personForm.position_academic !== 3" class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_full_th" id="rname_full_th" placeholder="เช่น ศาสตราจารย์ คลินิก เกียรติคุณ นายแพทย์ หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                                        <div class="p-error" v-if="submitted && !personForm.rname_full_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบเต็มภาษาไทย</div>
+<!--                                        <div class="p-error" v-if="submitted && !personForm.rname_full_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบเต็มภาษาไทย</div>-->
                                     </div>
 
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6">
-                                        <label for="rname_full_en" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ EN)</label>
+                                        <label for="rname_full_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ EN)</label>
                                         <input type="text" v-model.trim="personForm.rname_full_en" id="rname_full_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6 sm:col-span-3">
                                         <div class="flex">
-                                            <label for="rname_short_th" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ TH)</label>
+                                            <label for="rname_short_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ TH)</label>
                                             <div v-if="personForm.position_academic !== 3" class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_short_th" id="rname_short_th" placeholder="เช่น ศ. คลินิก เกียรติคุณ พญ. หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
@@ -203,57 +203,50 @@
 
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6 sm:col-span-3">
                                         <div class="flex">
-                                            <label for="rname_short_en" class="block text-sm font-medium text-gray-700">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ EN)</label>
+                                            <label for="rname_short_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ EN)</label>
                                             <div class=" text-white">.</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6">
-                                        <label for="position_mgnt" class="block text-sm font-medium text-gray-700">ตำแหน่งทางการบริหารในภาควิชา (แสดงผล สำหรับแพทย์)</label>
+                                        <label for="position_mgnt" class="block text-sm font-semibold text-gray-900">ตำแหน่งทางการบริหารในภาควิชา (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.position_mgnt" id="position_mgnt" placeholder="เช่น รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="personForm.position_academic !== 3" class="col-span-6 sm:col-span-3">
-                                        <label for="reward" class="block text-sm font-medium text-gray-700">คำต่อท้ายชื่อ (แสดงผล สำหรับแพทย์)</label>
+                                        <label for="reward" class="block text-sm font-semibold text-gray-900">คำต่อท้ายชื่อ (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.reward" id="reward" placeholder="เช่น ศ.11 หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
-                                        <label for="position_division" class="block text-sm font-medium text-gray-700">ตำแหน่งใน สาขา/หน่วยงาน (แสดงผล)</label>
+                                        <label for="position_division" class="block text-sm font-semibold text-gray-900">ตำแหน่งใน สาขา/หน่วยงาน (แสดงผล)</label>
                                         <input type="text" v-model.trim="personForm.position_division" id="position_division" placeholder="เช่น หัวหน้าสาขา หรือ หัวหน้าหน่วย หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
-
+                                </div>
+                            </fieldset>
+                            <fieldset :disabled="viewDataInfomation">
+                                <div class="grid grid-cols-6 gap-6 mb-6">
                                     <div class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center space-x-2">
-                                            <label for="leader" class="block text-sm font-medium text-gray-700">เป็นหัวหน้า สาขา/หน่วยงาน</label>
+                                            <label for="leader" class="block text-sm font-semibold text-gray-900">เป็นหัวหน้า สาขา/หน่วยงาน</label>
                                             <input type="checkbox" v-model="personForm.leader" id="leader" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                         </div>
                                     </div>
 
                                     <div v-if="personForm.type == 'z'" class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center space-x-2">
-                                            <label for="teacher" class="block text-sm font-medium text-gray-700">เป็นอาจารย์ประจำสาขา</label>
+                                            <label for="teacher" class="block text-sm font-semibold text-gray-900">เป็นอาจารย์ประจำสาขา</label>
                                             <input type="checkbox" v-model="personForm.teacher" id="teacher" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                         </div>
                                     </div>
-
-<!--                                    <div class="col-span-6 sm:col-span-2">-->
-<!--                                        <div class="flex items-center justify-start">-->
-<!--                                            <div class="text-sm"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>-->
-<!--                                            <svg-->
-<!--                                            v-show="!viewDataInfomation"-->
-<!--                                            xmlns="http://www.w3.org/2000/svg" @click="createCertificate(personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">-->
-<!--                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />-->
-<!--                                            </svg>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
                                 </div>
                             </fieldset>
                             <fieldset :disabled="viewDataInfomation">
-                                    <div class="col-span-6 sm:col-span-2 mb-2">
+                                <div class="grid grid-cols-6 gap-6 mb-6">
+                                    <div class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center justify-start">
-                                            <div class="text-sm"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>
+                                            <div class="text-sm font-semibold text-gray-900"> รายละเอียดใบประกาศ / วุฒิบัตรต่างๆ : </div>
                                             <svg
                                                 v-show="!viewDataInfomation"
                                                 xmlns="http://www.w3.org/2000/svg" @click="createCertificate(personForm.certificateList)" class="h-5 w-5 ml-2 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
@@ -261,7 +254,7 @@
                                             </svg>
                                         </div>
                                     </div>
-
+                                </div>
                                 <div class="flex flex-col">
                                     <div
                                         v-for="(input, index) in personForm.certificateList"
