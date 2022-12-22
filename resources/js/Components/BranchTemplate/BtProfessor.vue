@@ -6,10 +6,6 @@
   <div v-else class="flex flex-col border-green-200 gap-2 p-2 rounded-md mt-5">
     <div v-for="doctor in doctorList" :key="doctor.id" class="flex flex-col sm:flex-row p-2 gap-4 bg-gradient-to-r from-gray-50 to-gray-200 rounded-lg shadow-lg">
       <div class="flex flex-shrink-0 justify-center">
-        <!-- <svg v-if="! doctor.image" class="h-36 w-28 object-cover rounded-sm text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <img v-else :src="`${doctor.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm"> -->
         <img :src="`${doctor.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm" />
       </div>
       <div class="flex flex-col w-full space-y-2 mb-2 text-black">
@@ -19,19 +15,17 @@
             <div class="mr-1 ">{{ doctor.fname_th }} {{doctor.lname_th}}</div>
             <div class="px-1 ">{{ doctor.reward }}</div>
           </div>
-          <div class="flex items-center italic text-sm">
-            <div v-if="doctor.position_division && doctor.position_division !== 'NULL'" class="mr-1 ">{{ doctor.position_division }}</div>
-            <div v-else class="mr-1 ">ไม่พบข้อมูลตำแหน่งงาน</div>
+          <div v-if="doctor.profiles.leader" class="flex items-center italic text-sm">
+            <div class="mr-1 ">หัวหน้าสาขาวิชา{{ division_name }}</div>
           </div>
-          <!-- <div v-if="doctor.profiles.leader" class="flex items-center italic text-sm">
-            <div class="mr-1 ">(หัวหน้าสาขา)</div>
-          </div> -->
+          <div class="flex items-center italic text-sm">
+            <div class="mr-1 ">อาจารย์</div>
+          </div>
           <div v-for="(cert, index) in sortCertificate(doctor.cert)" :key="index" class="py-1 flex items-center text-sm text-gray-600 italic">
             <div class="px-2">-</div>
             <div>{{ cert.cert }}</div>
           </div>
         </div>
-        <!-- <div class="w-full border ">3</div> -->
       </div>
     </div>
   </div>
@@ -45,13 +39,10 @@ import PersonService from '@/Services/PersonService';
 // ถูกส่งเป็น props เข้ามาจากหน้า BranchTemplateEditor หรือ BranchDetails เพราะใช้หน้านี้ในการแสดงผลร่วมกัน
 const props = defineProps({
     division_id: { type: Number, required: true  },
+    division_name: { type: String, required: true},
 })
 
 onMounted(() => {
-    // personService.value.listPersonDisplayByDivisionId(props.division_id).then(data => {
-    //   doctorList.value = data
-    // });
-
     personService.value.listProfessorByDivisionId(props.division_id).then(data => {
       doctorList.value = data
     });
@@ -62,11 +53,7 @@ const doctorList = ref([])
 const baseUrl = ref(base_url)
 
 const sortCertificate = ( cert ) => {
-  //if( JSON.parse(cert).length ) {
     return JSON.parse(cert).sort( (a, b) => { return b.cert_year - a.cert_year });
-  //} else {
-  //  return {}
-  //}
 }
 
 </script>

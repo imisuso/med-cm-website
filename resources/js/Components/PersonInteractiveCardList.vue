@@ -27,12 +27,12 @@
                             แก้ไข
                         </Link>
                     </li>
-                    <li v-if="$page.props.auth.abilities.includes('manage_person')">
-                        <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-                            <TrashIcon :class="['w-6 h-6 px-1']" />
-                            ลบ
-                        </Link>
-                    </li>
+<!--                    <li v-if="$page.props.auth.abilities.includes('manage_person')">-->
+<!--                        <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">-->
+<!--                            <TrashIcon :class="['w-6 h-6 px-1']" />-->
+<!--                            ลบ-->
+<!--                        </Link>-->
+<!--                    </li>-->
                 </ul>
             </div>
         </div>
@@ -50,7 +50,7 @@
                         <div>{{ personDetails.rname_short_th }} {{ personDetails.fname_th }} {{ personDetails.lname_th }} {{ personDetails.reward }}</div>
                     </h3>
                 </span>
-                <span class="text-sm text-gray-500 break-words">{{ personDetails.position_division }}</span>
+<!--                <span class="text-sm text-gray-500 break-words">{{ personDetails.position_division }}</span>-->
                 <span class="text-sm text-gray-500 ">{{ isLeader() }} </span>
                 <span class="text-sm text-gray-500">{{ isType() }} </span>
                 <span class="text-sm text-gray-500">ลำดับการแสดงผล {{ personDetails.display_order }}</span>
@@ -109,12 +109,12 @@
                                     แก้ไข
                                 </Link>
                             </li>
-                            <li v-if="$page.props.auth.abilities.includes('manage_person')">
-                                <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">
-                                    <TrashIcon :class="['w-6 h-6 px-1']" />
-                                    ลบ
-                                </Link>
-                            </li>
+<!--                            <li v-if="$page.props.auth.abilities.includes('manage_person')">-->
+<!--                                <Link href="#" @click="$emit('delete-person')" class="flex items-center text-sm hover:bg-gray-100 text-red-600 px-4 py-2">-->
+<!--                                    <TrashIcon :class="['w-6 h-6 px-1']" />-->
+<!--                                    ลบ-->
+<!--                                </Link>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </div>
@@ -245,8 +245,16 @@ const orderPerson = () => {
     emit('order-person')
 }
 
+// const isDoctor = (person) => {
+//     if( person.position_academic !== 0 ) {
+//         return true
+//     } else {
+//         return false
+//     }
+// }
+
 const isDoctor = (person) => {
-    if( person.position_academic !== 0 ) {
+    if( person.type === 'a' || person.type === 'b' ) {
         return true
     } else {
         return false
@@ -261,15 +269,28 @@ const isLeader = () => {
     }
 }
 
+// const isType = () => {
+//     //console.log(props.personDetails)
+//     if( props.personDetails.type === 'a' ) {
+//         return "(อาจารย์)"
+//     } else if ( props.personDetails.type === 'z' ) {
+//         return "(ที่ปรึกษา)"
+//     } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic !== 0) {
+//         return "(แพทย์)"
+//     } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic === 0) {
+//         return "(เจ้าหน้าที่)"
+//     }
+// }
+
 const isType = () => {
     //console.log(props.personDetails)
     if( props.personDetails.type === 'a' ) {
         return "(อาจารย์)"
     } else if ( props.personDetails.type === 'z' ) {
         return "(ที่ปรึกษา)"
-    } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic !== 0) {
+    } else if ( props.personDetails.type === 'b') {
         return "(แพทย์)"
-    } else if ( props.personDetails.type === 'b' && props.personDetails.position_academic === 0) {
+    } else {
         return "(เจ้าหน้าที่)"
     }
 }

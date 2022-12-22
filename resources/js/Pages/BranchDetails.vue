@@ -105,7 +105,7 @@
                                             </div>
                                         </template>
                                     </div>
-                                    <BtProfessor v-if="mainMenu.component_name === 'BtProfessor'" :division_id="parseInt(branch.division_id)" />
+                                    <BtProfessor v-if="mainMenu.component_name === 'BtProfessor'" :division_id="parseInt(branch.division_id)" :division_name="branch.name_th" />
                                     <BtDoctor v-if="mainMenu.component_name === 'BtDoctor'" :division_id="parseInt(branch.division_id)" />
                                     <BtOfficer v-if="mainMenu.component_name === 'BtOfficer'" :division_id="parseInt(branch.division_id)" />
                                     <BtResearch v-if="mainMenu.component_name === 'BtResearch'" :division_id="parseInt(branch.division_id)" :branchSubMenu="getOneBranchSubMenu( mainMenu.main_header_id )" display_content="" />
