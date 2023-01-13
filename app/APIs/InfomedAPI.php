@@ -237,6 +237,9 @@ class InfomedAPI
         $person->user_previous_act = $person->user_last_act;
         $person->user_last_act = $user_in;
 
+        // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
+        $logslack = $person->title_th.$person->fname_th.' หน่วย/สาขา : '.$person->division->name_th;
+
         $resp = (new LogManager());
 
         try {
@@ -263,9 +266,7 @@ class InfomedAPI
                 ], 500);
         }
 
-        // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
-        $logslack = 'มีการแก้ไขข้อมูลบุคลากรมาจาก infomed-api => '.$title_th.$fname_th.' หน่วย/สาขา : '.$person->division->name_th.' กรุณาตรวจสอบข้อมูลการทำงานหรือตำแหน่งให้ตรงความเป็นจริงทุกครั้งที่ได้ข้อความแจ้งเตือนนี้ เพื่อให้ website แสดงผลได้ถูกต้อง';
-        logger($logslack);
+        logger("มีการแก้ไขข้อมูลบุคลากร => {$logslack} มาจาก infomed-api");
 
         $log_id = $resp->store(
                         $user_in, // มาจากใคร
@@ -312,6 +313,105 @@ class InfomedAPI
 //        ], 200);
 //    }
 
+    // การแก้ไข sap จะมีปัญหาก็ต่อเมื่อ ถ้าทำการ update ข้อมูลไปแล้ว แต่ sap_id ที่ AD ยังไม่ได้ถูกแก้ไข และ sap_id นี้เป็น user ที่ใช้งาน website โดยมีสิทธิ์ login เข้ามาจะทำให้ ไม่พบข้อมูลของ user นี้ในในตาราง person
+    // เนื่องจากเมื่อทำการ authen จาก service hannah ผ่านแล้ว จะใช้ sap_id จาก AD มาทำงานต่อเพื่อนำมาหาข้อมูล บุคลากรในตาราง person ต่อไป
+    // แต่ข้อมูล sap_id ใน ตาราง person ถูก update ไปแล้ว จะทำให้ไม่พบข้อมูลและทำให้ website เกิด error เวลา user นั้น login เข้ามาใช้งาน
+    public function updSap($data)
+    {
+        $current_sap = $data['old_sap'];
+        $new_sap = $data['new_sap'];
+        $user_in = $data['userin'];
+
+        $person = Person::where('sap_id', $current_sap)->first();
+
+        $resp = (new LogManager());
+
+        // ตรวจสอบว่าพบข้อมูลบุคลากรที่ต้องการแก้ไข sap หรือไม่ ถ้าไม่พบให้ return 404
+        if (! $person) {
+            logger("ไม่พบข้อมูลบุคลากรที่ต้องการแก้ไข SAP-ID => ".$current_sap);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found emp => '. $current_sap
+            ], 404);
+        }
+
+        $exist_sap = Person::where('sap_id', $new_sap)->first();
+        // ตรวจสอบ sap ที่ต้องการเปลี่ยนแปลงว ว่าเป็นของบุคลากรคนอื่นๆในระบบบ หรือไม่ ถ้ามีอยู่แล้วให้ return 404
+        if ( $exist_sap ) {
+            logger("พบข้อมูล sap ที่ต้องการแก้ไขในระบบอยู่แล้ว SAP-ID => ".$new_sap);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'This SAP ID is used by another person => '. $new_sap
+            ], 404);
+        }
+
+        // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
+        $logslack = $person->title_th.$person->fname_th.' หน่วย/สาขา : '.$person->division->name_th;
+
+        // Update to Object
+        $person->sap_id = $new_sap ?: $person->sap_id;
+
+        // ตรวจสอบว่าข้อมูลที่ส่งมา update มีอะไรเปลี่ยนแปลงไหม ถ้าเป็นข้อมูลเดิม ไม่ต้องแจ้งทาง slack และให้จบการทำงานเลย
+        if( $person->isClean() ) {
+            return response()->json([
+                'status' => true,
+                'message' => 'User is clean update'
+            ], 200);
+        }
+
+        $person->user_previous_act = $person->user_last_act;
+        $person->user_last_act = $user_in;
+
+        try {
+            // เก็บค่าเก่าก่อนทำการแก้ไข
+            $old = $person->getOriginal();
+            // จัดเก็บค่าใหม่ (Update to DB)
+            $person->save();
+        } catch (\Exception  $e) {
+            $log_message = "แก้ไขข้อมูล sap_id ของบุคลากร ".$logslack." ไม่สำเร็จเนื่องจาก => ".$e;
+            logger($log_message);
+
+            $resp->store(
+                $user_in, // มาจากใคร
+                'Person Management (จัดการบุคลากร)', // section ของงานอะไร
+                'update',  // action
+                $log_message, // details
+                'api' // type
+            );
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Update sap id fail'
+            ], 500);
+        }
+
+        logger("มีการแก้ไขข้อมูล sap_id ของบุคลากร => {$logslack} มาจาก infomed-api");
+
+        // log ที่จะเก็บลง db
+        $logdata = '[{"old_sap":"'.$current_sap.'", "new_sap":"'.$new_sap.'"}]';
+
+        $log_id = $resp->store(
+            $user_in, // มาจากใคร
+            'Person Management (จัดการบุคลากร)', // section ของงานอะไร
+            'update',  // action
+            '(แก้ไขข้อมูล sap id ของบุคลากร) | '.$logdata, // details
+            'api' // type
+        );
+
+        // สร้าง backup version ของ person model หลังจากสร้าง log แล้วเพื่อ เอาค่า id ของ log เก็บเข้าไปด้วย
+        $old['trace_log_id'] = $log_id ?: 0;
+        $old['person_id'] = $old['id'];
+        $old['record_updated'] = $old['updated_at'];
+        PersonVersion::query()->create($old);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Update sap id success'
+        ], 200);
+    }
+
     public function updateWork($data)
     {
         // return response()->json([
@@ -336,7 +436,6 @@ class InfomedAPI
             $reward = iconv('TIS-620', 'UTF-8', trim($data['technic_name'])) ?: null;
         }
 
-        $manager_flag = (int)$data['manager_flag'];
         $user_in = $data['userin'];
 
         // ข้อมูลที่จะเก็บลงฐานข้อมูล log ในส่วนของข้อมูลที่ได้รับมาจากฝั่ง infomed
@@ -346,7 +445,6 @@ class InfomedAPI
             "group":"'.$group.'",
             "position_division":"'.$position_division.'",
             "technic_name":"'.$reward.'",
-            "manager_flag":"'.$manager_flag.'",
             "user_in":"'.$user_in.'"
         }]';
 
@@ -374,15 +472,6 @@ class InfomedAPI
         $person->group = $group ?: $person->group;
         $person->position_division = $position_division ?: $person->position_division;
         $person->reward = $reward ?: $person->reward;
-
-        //update manager flag
-        if ($manager_flag) {
-            $profiles['leader'] = true;
-        } else {
-            $profiles['leader'] = false;
-        }
-
-        $person->profiles = $profiles;
 
         // ตรวจสอบว่าข้อมูลที่ส่งมา update มีอะไรเปลี่ยนแปลงไหม ถ้าเป็นข้อมูลเดิม ไม่ต้องแจ้งทาง slack และให้จบการทำงานเลย
         if( $person->isClean() ) {
@@ -426,8 +515,7 @@ class InfomedAPI
             "type":"'.$type.'",
             "group":"'.$group.'",
             "position_division":"'.$position_division.'",
-            "reward":"'.$reward.'",
-            "leader":"'.$manager_flag.'"
+            "reward":"'.$reward.'"
         }]';
 
         $log_id = $resp->store(
