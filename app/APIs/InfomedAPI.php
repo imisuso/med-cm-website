@@ -3,8 +3,8 @@
 namespace App\APIs;
 
 use App\Models\Person;
+use App\Models\User;
 use App\Managers\LogManager;
-use App\Models\PersonLog;
 use App\Models\PersonVersion;
 
 class InfomedAPI
@@ -337,7 +337,7 @@ class InfomedAPI
         }
 
         $exist_sap = Person::where('sap_id', $new_sap)->first();
-        // ตรวจสอบ sap ที่ต้องการเปลี่ยนแปลงว ว่าเป็นของบุคลากรคนอื่นๆในระบบบ หรือไม่ ถ้ามีอยู่แล้วให้ return 404
+        // ตรวจสอบ sap ที่ต้องการเปลี่ยนแปลง ว่าเป็นของบุคลากรคนอื่นๆในระบบบ หรือไม่ ถ้ามีอยู่แล้วให้ return 404
         if ( $exist_sap ) {
             logger("พบข้อมูล sap ที่ต้องการแก้ไขในระบบอยู่แล้ว SAP-ID => ".$new_sap);
 
@@ -405,6 +405,25 @@ class InfomedAPI
         $old['person_id'] = $old['id'];
         $old['record_updated'] = $old['updated_at'];
         PersonVersion::query()->create($old);
+
+        // แก้ไขข้อมูล sap_id ในตาราง user ด้วยถ้า user นั้นเป็น user ที่สามารถเข้าใช้งานระบบหลังบ้านได้
+        $user = User::where('sap_id', $current_sap)->first();
+        if ( $user ) {
+            $user->sap_id = $new_sap;
+            try {
+                // จัดเก็บค่าใหม่ (Update to DB)
+                $user->save();
+            } catch (\Exception  $e) {
+                $log_message = "แก้ไขข้อมูล sap_id = ". $current_sap ." ในตาราง user ไม่สำเร็จเนื่องจาก => ".$e;
+                $resp->store(
+                    $user_in, // มาจากใคร
+                    'Person Management (จัดการบุคลากร)', // section ของงานอะไร
+                    'update',  // action
+                    $log_message, // details
+                    'api' // type
+                );
+            }
+        }
 
         return response()->json([
             'status' => true,
