@@ -87,9 +87,12 @@ Route::get('/department_leader', function () {
 })->name('department_leader');
 
 Route::get('/consultant', function () {
+//    $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division')
+//                        ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1, 2, 3, 4])
+//                        ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
     $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division')
-                        ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1, 2, 3, 4])
-                        ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
+        ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1])
+        ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
 
     //Log::channel('single')->info($listConsultant);
     return Inertia::render('Consultant', compact('listConsultant'));

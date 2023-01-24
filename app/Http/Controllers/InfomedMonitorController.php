@@ -51,6 +51,8 @@ class InfomedMonitorController extends Controller
                 $resp = $infomed->updateWork(Request::input('data_person'));
             } elseif (strcmp(Request::header('action'), 'delemp') === 0) {
                 $resp = $infomed->deleteEmp(Request::input('data_person'));
+            }  elseif (strcmp(Request::header('action'), 'updsap') === 0) {
+                $resp = $infomed->updSap(Request::input('data_person'));
             } elseif (strcmp(Request::header('action'), 'testlog') === 0) {
                 $resp = $infomed->testPersonLog(Request::input('data_person'));
             } else {
