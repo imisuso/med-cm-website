@@ -255,6 +255,7 @@ class PersonController extends Controller
             return Inertia::render('Admin/Person/DataForm', [
                 'action' => $action,
                 'divisions' => $divisions,
+                'fdivision_selected' => $fdivision_selected,
                 'person' => $Person,
             ]);
         }
@@ -631,10 +632,10 @@ class PersonController extends Controller
         //                 ->where('division_id', $id)->where('status', true)->where('type', 'a')->whereIn('position_academic', [1, 2, 3, 4])
         //                 ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true)
         //                 ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
-        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
+        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'group', 'position_division')
                         ->where('division_id', $id)->where('status', true)
                         ->where(function ($query) {
-                            $query->where('type', 'a')->where('position_academic', 1)
+                            $query->where('type', 'a')->where('group', 1)
                                 ->orWhere('type', 'z')->whereJsonContains('profiles->teacher', true);
                         })
                         ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
@@ -646,8 +647,8 @@ class PersonController extends Controller
 //        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
 //                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->whereIn('position_academic', [5, 6])
 //                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
-        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'position_division')
-            ->where('division_id', $id)->where('status', true)->where('type', 'b')->where('position_academic', 2)
+        $listPerson = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'cert', 'profiles', 'group', 'position_division')
+            ->where('division_id', $id)->where('status', true)->where('type', 'b')->where('group', 2)
             ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }
@@ -657,8 +658,8 @@ class PersonController extends Controller
 //        $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'position_division', 'profiles')
 //                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->where('position_academic', 0)
 //                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
-        $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'position_division', 'profiles')
-            ->where('division_id', $id)->where('status', true)->whereIn('type', ['c','d', 'z'])->where('position_academic', 3)
+        $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'group', 'profiles', 'position_division')
+            ->where('division_id', $id)->where('status', true)->whereIn('type', ['c','d', 'z'])->where('group', 2)
             ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
     }

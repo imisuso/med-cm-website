@@ -183,31 +183,31 @@
 <!--&lt;!&ndash;                                        <div class="p-error" v-if="submitted && (personForm.position_academic === 99)">จำเป็นต้องระบุตำแหน่งงาน</div>&ndash;&gt;-->
 <!--                                    </div>-->
 
-                                    <!-- แสดงข้อมูลส่วนนี้เมื่อบุคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
-                                    <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class="col-span-6">
+                                    <!-- แสดงข้อมูลส่วนนี้เมื่อบุคลากรคนนั้นเป็น อาจารย์แพทย์ แพทย์ หรือ ที่ปรึกษา ที่เป็นแพทย์ (เป็นข้อมูลสำหรับหมอ เท่านั้น เพราะไม่ได้เอาคำนำหน้าตามปกติไปแสดง เลยต้องมีส่วนนี้) -->
+                                    <div v-if="isDoctor(person)" class="col-span-6">
                                         <div class="flex">
                                             <label for="rname_full_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
-                                            <div v-if="personForm.position_academic !== 3" class=" text-red-500 px-2">*</div>
+                                            <div v-if="isDoctor(person)" class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_full_th" id="rname_full_th" placeholder="เช่น ศาสตราจารย์ คลินิก เกียรติคุณ นายแพทย์ หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
 <!--                                        <div class="p-error" v-if="submitted && !personForm.rname_full_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบเต็มภาษาไทย</div>-->
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class="col-span-6">
+                                    <div v-if="isDoctor(person)" class="col-span-6">
                                         <label for="rname_full_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ EN)</label>
                                         <input type="text" v-model.trim="personForm.rname_full_en" id="rname_full_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
+                                    <div v-if="isDoctor(person)" class="col-span-6 sm:col-span-3">
                                         <div class="flex">
                                             <label for="rname_short_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ TH)</label>
-                                            <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class=" text-red-500 px-2">*</div>
+                                            <div v-if="isDoctor(person)" class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input type="text" v-model.trim="personForm.rname_short_th" id="rname_short_th" placeholder="เช่น ศ. คลินิก เกียรติคุณ พญ. หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                         <div class="p-error" v-if="submitted && !personForm.rname_short_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบย่อภาษาไทย</div>
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
+                                    <div v-if="isDoctor(person)" class="col-span-6 sm:col-span-3">
                                         <div class="flex">
                                             <label for="rname_short_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ EN)</label>
                                             <div class=" text-white">.</div>
@@ -215,12 +215,12 @@
                                         <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class="col-span-6">
+                                    <div v-if="isDoctor(person)" class="col-span-6">
                                         <label for="position_mgnt" class="block text-sm font-semibold text-gray-900">ตำแหน่งทางการบริหารในภาควิชา (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.position_mgnt" id="position_mgnt" placeholder="เช่น รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
-                                    <div v-if="personForm.position_academic !== 3 && personForm.position_academic !== 0" class="col-span-6 sm:col-span-3">
+                                    <div v-if="isDoctor(person)" class="col-span-6 sm:col-span-3">
                                         <label for="reward" class="block text-sm font-semibold text-gray-900">คำต่อท้ายชื่อ (แสดงผล สำหรับแพทย์)</label>
                                         <input type="text" v-model.trim="personForm.reward" id="reward" placeholder="เช่น ศ.11 หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                     </div>
@@ -240,7 +240,7 @@
                                         </div>
                                     </div>
 
-                                    <div v-if="personForm.type == 'z'" class="col-span-6 sm:col-span-2">
+                                    <div v-if="personForm.type == 'z' && personForm.group == 1" class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center space-x-2">
                                             <label for="teacher" class="block text-sm font-semibold text-gray-900">เป็นอาจารย์ประจำสาขา</label>
                                             <input type="checkbox" v-model="personForm.teacher" id="teacher" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
@@ -569,6 +569,13 @@ const savePerson = () => {
     }
 }
 
+const isDoctor = (person) => {
+    if( person.type === 'a' || person.type === 'b'  || (person.type === 'z' && person.group === 1) ) {
+        return true
+    } else {
+        return false
+    }
+}
 
 </script>
 
