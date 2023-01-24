@@ -85,7 +85,7 @@ const props = defineProps({
 const baseUrl = ref(base_url)
 
 const isDoctor = (person) => {
-    if( person.position_academic !== 0 ) {
+    if( person.position_academic === 1 || person.position_academic === 2 ) {
         return true
     } else {
         return false
