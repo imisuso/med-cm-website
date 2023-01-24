@@ -254,12 +254,7 @@ const orderPerson = () => {
 // }
 
 const isDoctor = (person) => {
-    // if( person.type === 'a' || person.type === 'b' ) {
-    //     return true
-    // } else {
-    //     return false
-    // }
-    if( person.position_academic === 1 || person.position_academic === 2 ) {
+    if( person.type === 'a' || person.type === 'b'  || (person.type === 'z' && person.group === 1) ) {
         return true
     } else {
         return false
