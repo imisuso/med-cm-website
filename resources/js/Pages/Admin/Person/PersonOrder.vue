@@ -22,6 +22,9 @@
                 <option v-for="(option, index) in person_types" :key="index" :value="option.type">
                   {{ option.person_type }}
                 </option>
+<!--                  <option v-for="(option, index) in person_define_type" :key="index" :value="option.value">-->
+<!--                      {{ option.desc }}-->
+<!--                  </option>-->
               </select>
             </div>
           </div>
@@ -82,6 +85,13 @@ const props = defineProps({
 
 const personService = ref(new PersonService())
 const personList = ref([])
+
+// const person_define_type = ref([
+//     { value: 'a', desc: "อาจารย์" },
+//     { value: 'b', desc: "แพทย์" },
+//     { value: 'cd', desc: "เจ้าหน้าที่" },
+//     { value: 'z', desc: "ที่ปรึกษา" }
+// ])
 
 const Form = useForm({
   type: null,
