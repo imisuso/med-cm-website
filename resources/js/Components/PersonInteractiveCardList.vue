@@ -125,8 +125,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router, Link } from '@inertiajs/vue3'
 import { IdentificationIcon, PencilAltIcon, TrashIcon, DatabaseIcon, EyeOffIcon, EyeIcon } from "@heroicons/vue/outline"
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 
@@ -191,7 +190,7 @@ const toast = (severity, summary, detail) => {
 }
 
 const switchButtonToggle = (person) => {
-    Inertia.patch(route('admin.person.update_display_status', person.id), { fdivision: props.personDetails.division_id }, {
+    router.patch(route('admin.person.update_display_status', person.id), { fdivision: props.personDetails.division_id }, {
         // onBefore: () => {
         //     let display = ''
         //     if( person.type === 'b' && person.position_academic === 0 ) {

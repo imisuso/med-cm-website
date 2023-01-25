@@ -39,8 +39,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router, Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
 
 import dayjs from 'dayjs'
@@ -54,7 +53,7 @@ const props = defineProps({
 dayjs.extend(buddhistEra)
 
 const acceptAgreement = () => {
-    Inertia.post(route('admin.accept-agreement'), { agreement_id: props.agreement.id },
+    router.post(route('admin.accept-agreement'), { agreement_id: props.agreement.id },
     {
         preserveState: false,
     });

@@ -13,7 +13,7 @@
             <!--
             theme="snow"
             :toolbar="quill_custom"
-            :modules="quill_modules"  
+            :modules="quill_modules"
             -->
 
             <!-- <QuillEditor ref="quill" theme="snow" :content="sub_header.html_content" contentType="html" :toolbar="quill_options_full" :modules="quill_modules" /> -->
@@ -45,7 +45,7 @@
 
 <script setup>
 import { ref, onUnmounted, reactive, computed, nextTick } from 'vue'
-import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
 
 import { createToast } from 'mosha-vue-toastify'

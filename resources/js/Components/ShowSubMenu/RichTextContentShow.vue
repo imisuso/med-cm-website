@@ -38,8 +38,7 @@
 
 <script setup>
 import { ref, } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
-import { Inertia } from '@inertiajs/inertia'
+import { router, Link } from '@inertiajs/vue3'
 import { EyeOffIcon, EyeIcon } from "@heroicons/vue/outline"
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 
@@ -92,7 +91,7 @@ const confirmSwitchChange = ( menu ) => {
 }
 
 const switchButtonToggle = (menu) => {
-    Inertia.patch(route('admin.change_status_branch_sub_menu', menu.id), {}, {
+    router.patch(route('admin.change_status_branch_sub_menu', menu.id), {}, {
         onSuccess: () => {
             //console.log("onSuccess state")
             menu.status = ! menu.status

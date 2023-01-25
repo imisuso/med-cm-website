@@ -38,7 +38,7 @@ export default {
 </script>
 
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import PersonVersionInteractiveTable from '@/Components/PersonVersionInteractiveTable.vue'
 import Pagination from '@/Components/Paginations.vue'
 import { ReplyIcon } from "@heroicons/vue/outline"

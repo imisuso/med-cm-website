@@ -84,8 +84,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router, Link } from '@inertiajs/vue3'
 
 import Pagination from '@/Components/Paginations.vue'
 
@@ -146,7 +145,7 @@ const confirmDeleteUser = ( user ) => {
 }
 
 const deleteUser = () => {
-    Inertia.delete(route('admin.user.delete', userId.value), {
+    router.delete(route('admin.user.delete', userId.value), {
         preserveState: false,
         onSuccess: () => {
             toast('success', 'สำเร็จ', 'ลบข้อมูลผู้ใช้งาน เรียบร้อย')

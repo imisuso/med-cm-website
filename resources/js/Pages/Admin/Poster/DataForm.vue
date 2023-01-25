@@ -74,8 +74,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 
 import { createToast } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast

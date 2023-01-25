@@ -1,14 +1,14 @@
-<template>  
+<template>
     <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div class="flex flex-col items-start">
-            
+
             <div class="text-2xl font-medium text-white title-font mb-2 p-2 bg-gradient-to-r from-green-800 to-green-600 rounded-md shadow-md flex items-center w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
                 <div class="flex items-center ml-2">ข่าวประชาสัมพันธ์</div>
             </div>
-            
+
             <div v-for="item in announcements" :key="item.id" class="flex flex-wrap md:flex-nowrap w-full">
                 <div v-if="item.publish_status" class="w-full mb-2 bg-white rounded-md border border-gray-400 border-l-4 border-l-teal-600">
                     <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs(item.publish_date).locale('th').format('D MMMM BBBB เวลา H:mm') }}</a>
@@ -22,19 +22,19 @@
                             </g>
                         </svg>
                         <a :href="route(`announce_details`, item.slug)" target="_blank">
-                            <p class="leading-relaxed text-md text-black font-bold p-2  hover:text-indigo-700 cursor-pointer">{{ item.topic }}</p>    
+                            <p class="leading-relaxed text-md text-black font-bold p-2  hover:text-indigo-700 cursor-pointer">{{ item.topic }}</p>
                         </a>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <!-- <div v-show="announcement_all > limit" class="text-md mt-4 hover:text-indigo-700 cursor-pointer">
                 <a :href="route(`announce_all_publish`)" target="_blank">
                     ดูทั้งหมด...
                 </a>
             </div> -->
-            <div v-show="announcement_all > limit" 
+            <div v-show="announcement_all > limit"
                 class="border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
             >
                 <Link :href="route(`announce_all_publish`)">
@@ -43,14 +43,14 @@
                 <!-- <a :href="route(`announce_all_publish`)" target="_blank">
                     ข่าวประชาสัมพันธ์ ทั้งหมด
                 </a> -->
-            </div>              
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, } from 'vue';
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
@@ -80,7 +80,7 @@ dayjs.extend(buddhistEra)
 
 const announceService = ref(new AnnounceService())
 const announcements = ref([])
-        
+
 </script>
 
 <style scoped>

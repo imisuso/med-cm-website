@@ -263,7 +263,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import AdminNavSideBar from "@/Layouts/Admin/AdminNavSideBar.vue";
 import {
             UsersIcon, ShieldCheckIcon, InformationCircleIcon, CubeIcon, DocumentTextIcon,

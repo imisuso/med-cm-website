@@ -250,7 +250,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import MobileMainMenu from '@/Components/MobileMainMenu.vue'
 
 onMounted(() => {

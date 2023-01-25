@@ -32,8 +32,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router, Link } from '@inertiajs/vue3'
 
 import { ReplyIcon } from "@heroicons/vue/outline"
 
@@ -85,7 +84,7 @@ const confirmDeleteRole = ( role ) => {
 }
 
 const deleteRole = () => {
-    Inertia.delete(route('admin.role.delete', roleId.value), {
+    router.delete(route('admin.role.delete', roleId.value), {
         preserveState: false,
         onSuccess: () => {
             toast('success', 'สำเร็จ', 'ลบข้อมูล Role เรียบร้อย')

@@ -9,9 +9,8 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { InertiaProgress } from '@inertiajs/progress'
 
 import { Quill, QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.core.css';
@@ -68,6 +67,10 @@ QuillEditor.props.globalOptions.default = () => globalOptions
 
 createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    progress: {
+        includeCSS: false,
+        showSpinner: true,
+    },
     setup({ el, App, props, plugin }) {
       createApp({ render: () => h(App, props) })
         // .config.compilerOptions.isCustomElement = tag => tag.startsWith('trix-')
@@ -83,14 +86,14 @@ createInertiaApp({
     },
   })
 
-InertiaProgress.init({
-  // The color of the progress bar.
-  //color: '#dd6722',
-  // color: '#f53333',
-
-  // Whether to include the default NProgress styles.
-  includeCSS: false,
-
-  // Whether the NProgress spinner will be shown.
-  showSpinner: true,
-});
+// InertiaProgress.init({
+//   // The color of the progress bar.
+//   //color: '#dd6722',
+//   // color: '#f53333',
+//
+//   // Whether to include the default NProgress styles.
+//   includeCSS: false,
+//
+//   // Whether the NProgress spinner will be shown.
+//   showSpinner: true,
+// });

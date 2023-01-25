@@ -80,8 +80,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { usePage, useForm } from '@inertiajs/inertia-vue3'
+import { router, useForm } from '@inertiajs/vue3'
 import { EyeOffIcon, EyeIcon } from "@heroicons/vue/outline"
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import BtAbout from '@/Components/BranchTemplate/BtAbout.vue'
@@ -189,7 +188,7 @@ const confirmSwitchChange = ( menu ) => {
 
 const switchButtonToggle = (menu) => {
     // console.log(menu.id);
-    Inertia.patch(route('admin.change_status_branch_main_menu', menu.id), {}, {
+    router.patch(route('admin.change_status_branch_main_menu', menu.id), {}, {
         // onBefore: () => {
         //     if( menu.status ) {
         //         return confirm('คุณต้องการปิดการแสดงผลเมนูนี้ ใช่ หรือ ไม่ ?')
@@ -223,7 +222,7 @@ const allTabExpandOrCollapse = ( flag ) => {
 }
 
 const showBranchMainMenu = () => {
-    Inertia.post(route('admin.show_branch_main_menu', Form.division_selected), {}, {
+    router.post(route('admin.show_branch_main_menu', Form.division_selected), {}, {
         preserveState: false,
         onSuccess: () => {},
         onError: (errors) => {},

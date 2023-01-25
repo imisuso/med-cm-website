@@ -56,7 +56,7 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 
 <script setup>
 import { ref } from 'vue';
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 
 const baseUrl = ref(base_url)
 </script>

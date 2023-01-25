@@ -6,7 +6,7 @@
                     <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                 </svg>
             </button>
-            
+
             <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                 <ul class="py-1" aria-labelledby="dropdownButton">
                 <li>
@@ -46,7 +46,7 @@
                 <div class="px-1 place-self-center text-md text-indigo-500 font-bold">วันจัดเก็บ:</div>
                 <div class="text-sm text-gray-500 place-self-center">{{ dayjs(posterDetails.created_at).locale('th').format('D/MM/BBBB H:mm') }}</div>
             </div>
-            
+
             <div class="flex flex-row sm:flex-col w-full justify-center items-baseline px-1 sm:px-2 py-1 sm:py-0">
                 <div class="px-1 place-self-center text-md text-indigo-500 font-bold">การแสดงผล:</div>
                 <div class="text-sm text-gray-500 place-self-center">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-           
+
             <div class="hidden sm:block">
                 <div class="px-4 pt-4 relative">
                     <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
@@ -74,7 +74,7 @@
                             <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                         </svg>
                     </button>
-                    
+
                     <!-- <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 -top-38 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44"> -->
                     <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                         <ul class="py-1" aria-labelledby="dropdownButton">
@@ -89,8 +89,8 @@
                         </ul>
                     </div>
                 </div>
-            </div>  
-           
+            </div>
+
         </div>
     </div>
 
@@ -106,13 +106,13 @@
             <div class="flex flex-row justify-start items-center">
                 <img class="shadow-lg rounded-md h-20 w-16 mb-1 mt-1 mr-4" :src="`${posterDetails.cover_url}`" alt=""/>
                 <div class="text-gray-900 text-md font-medium dark:text-white truncate">
-                    {{ posterDetails.desc }} 
+                    {{ posterDetails.desc }}
                 </div>
             </div>
         </template>
 
         <template v-slot:footer>
-            <button @click="switchButtonToggle(posterDetails)" type="button" 
+            <button @click="switchButtonToggle(posterDetails)" type="button"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 ตกลง
             </button>
@@ -124,7 +124,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import Modal from '@/Components/Modal.vue'
 
@@ -164,7 +164,7 @@ const closeDropdownWhenClickOutSide = (event) => {
             isDropDownOpen.value = false
         }
     }
-  
+
 }
 
 const toast = (severity, summary, detail) => {
@@ -183,7 +183,7 @@ const toast = (severity, summary, detail) => {
 }
 
 const switchButtonToggle = (poster) => {
-    Inertia.patch(route('admin.poster.update_display_status', poster.id), {}, {
+    router.patch(route('admin.poster.update_display_status', poster.id), {}, {
         onSuccess: () => {
             poster.status = ! poster.status
             toast('success', 'สำเร็จ', 'เปลี่ยนสถานะการแสดงผลบนหน้า website เรียบร้อย')

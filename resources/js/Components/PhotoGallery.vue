@@ -44,7 +44,7 @@
     </div>
 
     <div class="flex justify-center">
-      <div v-show="gallery_all > limit" 
+      <div v-show="gallery_all > limit"
           class="w-32 border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
       >
         <div>
@@ -55,12 +55,12 @@
       </div>
     </div>
   </div>
-  
+
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'

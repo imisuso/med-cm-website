@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref, onUnmounted, nextTick, reactive } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast

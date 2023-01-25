@@ -64,8 +64,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { router, useForm, Link } from '@inertiajs/vue3'
 import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList.vue'
 
 import Swal  from 'sweetalert2';
@@ -140,7 +139,7 @@ const orderPerson = (personData) => {
 }
 
 const updateOrderPerson = () => {
-  Inertia.post(route('admin.person.update_display_order'),
+  router.post(route('admin.person.update_display_order'),
     { person_list: personList.value,
       division_slug: props.division_slug
     },

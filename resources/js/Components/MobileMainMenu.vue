@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
     has_sub_menu: { type: Boolean, required: true },

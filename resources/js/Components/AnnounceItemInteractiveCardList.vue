@@ -242,7 +242,7 @@ import DownloadPdfFile from '@/Components/DownloadPdfFile.vue'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
 
 onMounted(() => {
     window.addEventListener('click', closeDropdownWhenClickOutSide)
@@ -312,7 +312,7 @@ const process_announce = () => {
         msgProcess = "ลบข่าวประกาศ"
     }
 
-    // Inertia.get(route(routeName, props.announceDetails.id), {
+    // router.get(route(routeName, props.announceDetails.id), {
     //     data: {
     //         // publish_status: props.announceDetails.publish_status,
     //         // pinned: props.announceDetails.pinned,
@@ -338,7 +338,7 @@ const process_announce = () => {
     //     }
     // })
 
-    Inertia.get(route(routeName, props.announceDetails.id), {
+    router.get(route(routeName, props.announceDetails.id), {
         ftopic: props.filter.ftopic,
         fexpire_type: props.filter.fexpire_type,
         fdivision_selected: props.filter.fdivision_selected

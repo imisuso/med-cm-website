@@ -36,7 +36,7 @@
             </button>
         </Link>
     </div>
-    
+
 
     <Link href="/login-as/10037332">
     <button class="flex items-center px-3 py-1 text-sm font-bold text-black transition-colors duration-200 transform bg-yellow-500 rounded cursor-pointer hover:bg-yellow-300">
@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 </script>
 
 <style>

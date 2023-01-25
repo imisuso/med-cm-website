@@ -322,7 +322,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref } from 'vue'
-import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
+import { useForm, usePage, Link } from '@inertiajs/vue3'
 import { ReplyIcon } from "@heroicons/vue/outline"
 
 // API Service
@@ -352,7 +352,7 @@ const traceLogService = ref(new TraceLogService())
 
 const personForm = useForm({
   id: props.person ? props.person.id : null,
-  division_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id,
+  division_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.auth.division_id,
   sap_id: props.person ? props.person.sap_id : '99999999',
   title_th: props.person ? props.person.title_th : 'นาย',
   title_en: props.person ? props.person.title_en :  'Mr.',

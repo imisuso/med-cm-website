@@ -63,8 +63,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { usePage } from '@inertiajs/inertia-vue3'
+import { router, usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
     pagination: { type: Object, required: true, default: {} },
@@ -73,8 +72,8 @@ const props = defineProps({
 const cpage = ref(props.pagination.current_page)
 
 const loadPage = (page) => {
-    //console.log(usePage().url.value)
-    Inertia.get(usePage().url.value, {page: page}, {
+    //console.log(usePage().url)
+    router.get(usePage().url, {page: page}, {
         preserveState: true,
         preserveScroll: true
     });

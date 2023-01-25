@@ -37,7 +37,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 // import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter';
 //
 // class CustomImageSpec extends ImageSpec {

@@ -18,8 +18,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import {Link, useForm} from '@inertiajs/inertia-vue3'
+import { router } from '@inertiajs/vue3'
+import {Link, useForm} from '@inertiajs/vue3'
 
 import { ReplyIcon } from "@heroicons/vue/outline"
 

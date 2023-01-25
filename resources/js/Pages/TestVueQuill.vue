@@ -5,7 +5,7 @@
             theme="snow"
             v-model:content="form.deltaContent"
             contentType="delta"
-            toolbar="full" 
+            toolbar="full"
             :options="options"
         />
     </div>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import { reactive } from '@vue/reactivity'
 //import { QuillEditor } from '@vueup/vue-quill'
 //import '@vueup/vue-quill/dist/vue-quill.snow.css'
@@ -27,7 +27,7 @@ const form = useForm({
     deltaContent: props.deltaContent
 });
 
-const options = reactive({     
+const options = reactive({
         readOnly: false,
       })
 
