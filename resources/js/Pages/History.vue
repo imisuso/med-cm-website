@@ -21,7 +21,7 @@
 
                 <div class="flex flex-col justify-between gap-8 pt-12">
                     <div class="w-full flex flex-col justify-center">
-                        <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">ประวัติภาควิชา</h1>
+                        <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">ประวัติภาควิชาฯ</h1>
                         <div class="inline-block font-normal text-base leading-6 text-gray-600 mb-3 indent-8">
                             ภาควิชาอายุรศาสตร์ อาจนับได้ว่าเริ่มมีขึ้นตั้งแต่มีการเปิดสอนหลักสูตรแพทย์แผนปัจจุบันขึ้นในโรงพยาบาลศิริราชจากจุดเริ่มต้นของการสอน
                             ภาควิชาอายุรศาสตร์จึงได้เปิดการฝึกอบรมระดับหลังปริญญาให้แก่แพทยที่มีความต้องการเป็นแพทย์เฉพาะทางอายุรศาสตร์

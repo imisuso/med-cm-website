@@ -242,7 +242,7 @@
 
                                     <div v-if="personForm.type == 'z' && personForm.group == 1" class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center space-x-2">
-                                            <label for="teacher" class="block text-sm font-semibold text-gray-900">เป็นอาจารย์ประจำสาขา</label>
+                                            <label for="teacher" class="block text-sm font-semibold text-gray-900">เป็นอาจารย์ประจำสาขาวิชา</label>
                                             <input type="checkbox" v-model="personForm.teacher" id="teacher" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                         </div>
                                     </div>
