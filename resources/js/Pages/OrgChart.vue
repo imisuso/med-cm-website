@@ -2,7 +2,7 @@
 <!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
-                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">โครงสร้างภาควิชาฯ</h4>
+                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">โครงสร้างภาควิชา</h4>
 
             </div>
             <div class="mt-6 md:mt-0">
