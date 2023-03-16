@@ -21,9 +21,17 @@
           <div class="flex items-center italic text-sm">
             <div class="mr-1 ">อาจารย์</div>
           </div>
-          <div v-for="(cert, index) in sortCertificate(doctor.cert)" :key="index" class="py-1 flex items-center text-sm text-gray-600 italic">
-            <div class="px-2">-</div>
-            <div>{{ cert.cert }}</div>
+          <div v-if="DivisionIdAscSortList.includes(division_id)" >
+              <div v-for="(cert, index) in sortCertificateAsc(doctor.cert)" :key="index" class="py-1 flex items-center text-sm text-gray-600 italic">
+                <div class="px-2">-</div>
+                <div>{{ cert.cert }}</div>
+              </div>
+          </div>
+          <div v-else >
+            <div v-for="(cert, index) in sortCertificateDesc(doctor.cert)" :key="index" class="py-1 flex items-center text-sm text-gray-600 italic">
+                <div class="px-2">-</div>
+                <div>{{ cert.cert }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -52,8 +60,14 @@ const personService = ref(new PersonService());
 const doctorList = ref([])
 const baseUrl = ref(base_url)
 
-const sortCertificate = ( cert ) => {
+const DivisionIdAscSortList = ref([7,8])
+
+const sortCertificateDesc = ( cert ) => {
     return JSON.parse(cert).sort( (a, b) => { return b.cert_year - a.cert_year });
+}
+
+const sortCertificateAsc = ( cert ) => {
+    return JSON.parse(cert).sort( (a, b) => { return a.cert_year - b.cert_year });
 }
 
 </script>
