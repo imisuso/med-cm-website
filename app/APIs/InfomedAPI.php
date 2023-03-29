@@ -2,6 +2,7 @@
 
 namespace App\APIs;
 
+use App\Models\Division;
 use App\Models\Person;
 use App\Models\User;
 use App\Managers\LogManager;
@@ -483,7 +484,15 @@ class InfomedAPI
         }
 
         // ข้อมูลที่อยากให้แสดงตอนแจ้งเตือนผ่าน slack
-        $logslack = $person->title_th.$person->fname_th.' หน่วย/สาขา : '.$person->division->name_th;
+        if( $division_id === $person->division_id ) {
+            $logslack = $person->title_th . $person->fname_th . ' หน่วย/สาขา : ' . $person->division->name_th;
+        } else if( $division_id === 0 ) {
+            $logslack = $person->title_th . $person->fname_th . ' หน่วย/สาขา : ' . $person->division->name_th. ' ( กรณี infomed ส่ง division_id มาเป็น : '.$division_id.' )';
+        } else {
+            $division_name = Division::where('division_id', $division_id)->first();
+            $logslack = $person->title_th.$person->fname_th.' จาก หน่วย/สาขา : '.$person->division->name_th.' ไปสังกัด หน่วย/สาขา : '.$division_name->name_th;
+        }
+
 
         // Update to Object
         $person->division_id = $division_id ?: $person->division_id;

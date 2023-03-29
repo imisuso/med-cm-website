@@ -65,7 +65,7 @@ class LoginController extends Controller
                     'ถูก disable สถานะการใช้งาน',
                     'security'
                 );
-                return Redirect::back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ถูก disable สถานะการใช้งาน <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
+                return Redirect::back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ไม่มีสิทธิ์ในการใช้งานระบบ <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
             }
 
             Auth::login($user);
