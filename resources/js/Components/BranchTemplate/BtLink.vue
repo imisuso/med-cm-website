@@ -14,9 +14,9 @@
     <div class="flex flex-col">
       <div
         v-for="(input, index) in form.linkList"
-        :key="`linkInput-${index}`" 
+        :key="`linkInput-${index}`"
         class="flex items-center shrink-0 mb-2"
-        > 
+        >
         <div class="w-full mr-1">
           <label for="link_detail" class="block text-sm font-medium text-gray-700">หัวข้อลิงก์</label>
           <input v-model="input.name" type="text" :readonly="!editButton" name="" id="link_detail" placeholder="ใส่หัวข้อลิ้งก์ที่ต้องการ" class="w-full border rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300">
@@ -29,8 +29,8 @@
           v-show="editButton"
           xmlns="http://www.w3.org/2000/svg" @click="deleteLink(index, form.linkList)" class="h-5 w-5 ml-2 shrink-0 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-        </svg>    
-      </div>  
+        </svg>
+      </div>
     </div>
 
     <div class="mt-2">
@@ -48,12 +48,12 @@
         บันทึก
       </button>
       <button v-show="editButton" @click="clickCancle" class="flex items-center mx-1 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2 hover:text-gray-900 focus:z-10">
-        <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  
+        <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
         ยกเลิก
       </button>
-      </div>   
+      </div>
     </div>
   </div>
 
@@ -61,9 +61,9 @@
     <div class="flex flex-col">
       <div
         v-for="(input, index) in form.linkList"
-        :key="`linkInput-${index}`" 
+        :key="`linkInput-${index}`"
         class="flex items-center shrink-0 mb-2"
-        > 
+        >
         <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 group hover:shadow-2xl">
           <div class="p-1">
               <div class="flex items-center justify-center w-full h-5">
@@ -75,14 +75,14 @@
           </div>
           <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-green-700 group-hover:scale-x-100"></div>
         </div>
-      </div>  
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
@@ -138,7 +138,7 @@ const saveLink = () => {
     preserveScroll: true,
     onSuccess: () => {
       toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลลิ้งก์ที่เกี่ยวข้อง เรียบร้อย')
-      form.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+      form.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
     },
     onError: (errors) => {
       let error_display = ''

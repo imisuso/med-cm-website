@@ -93,8 +93,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, reactive, computed, defineAsyncComponent } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'

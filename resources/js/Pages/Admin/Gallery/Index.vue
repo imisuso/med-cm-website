@@ -70,8 +70,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { router, useForm, Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
 import GalleryInteractiveCardList from '@/Components/GalleryInteractiveCardList.vue'
 import Paginations from '@/Components/Paginations.vue'
@@ -93,7 +92,7 @@ let search = ref(props.filters.search)
 
 watch( search, value => {
     //console.log('changed ' + value)
-    Inertia.get(route('admin.gallery'), { search: value }, {
+    router.get(route('admin.gallery'), { search: value }, {
         preserveState: true,
         replace: true
     })
@@ -148,7 +147,7 @@ const confirmDeleteGallery = ( galleryData ) => {
 }
 
 const editGallery = ( item ) => {
-  Inertia.get(route('admin.gallery.edit', item.id), {}, {
+  router.get(route('admin.gallery.edit', item.id), {}, {
     preserveState: true,
     replace: true
   })

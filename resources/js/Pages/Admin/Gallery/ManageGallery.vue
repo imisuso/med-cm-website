@@ -7,23 +7,23 @@
                         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                         </svg>
-                        <span class="mt-2 text-base leading-normal">เลือกรูป</span> 
-                        <input 
-                            type="file"  
-                            accept="image/jpeg" 
+                        <span class="mt-2 text-base leading-normal">เลือกรูป</span>
+                        <input
+                            type="file"
+                            accept="image/jpeg"
                             @change="onFileChange" class="hidden"
                             :disabled="images_url.length >= 4 || images.length >= limit_image_per_gallery"
                         >
-                        <!-- <input 
-                            type="file" 
-                            multiple 
-                            accept="image/jpeg" 
+                        <!-- <input
+                            type="file"
+                            multiple
+                            accept="image/jpeg"
                             @change="onFileChange" class="hidden"
                             :disabled="images_url.length >= 4"
                         > -->
                     </label>
                 </div>
-                
+
                 <div class="text-xl font-bold underline">{{ desc }}</div>
             </div>
 
@@ -37,8 +37,8 @@
                     </div>
             </div>
             </div>
-       
-            
+
+
             <a :class="{ 'hidden': !images_url.length || images_url.length > 4 || images_url.length + images.length > limit_image_per_gallery }" href="#" @click="uploadImage" >
                 <div class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                     อัพโหลด
@@ -56,7 +56,7 @@
                     <ToggleSwitch v-model:status="delete_gallery_image" @button-is-toggle="delete_gallery_image = !delete_gallery_image" />
                 </div>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-4">
                 <div v-for="(item, index) in images" :key="index">
                     <img class=" rounded-md shadow-md w-full h-40" :src="item.image_url" alt="">
@@ -70,8 +70,7 @@
 <script setup>
 
 import { ref } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 
 import { createToast } from 'mosha-vue-toastify'
@@ -150,14 +149,14 @@ const uploadImage = () => {
     //console.log(images_url.value)
     form.transform(data => ({
         ...data,
-        imageFiles: images_url.value.map(file => file.File)     
+        imageFiles: images_url.value.map(file => file.File)
     })).post(route('admin.gallery.upload_image_to_gallery', form.id), {
         _method: 'patch',
         preserveState: true,
         only: ['images'],
         onSuccess: () => {
             toast('success', 'สำเร็จ', 'อัพโหลดรูปเข้าแกลลอรี่ เรียบร้อย')
-            form.reset()  // ทำการ reset form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+            form.reset()  // ทำการ reset form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
         },
         onError: (errors) => {
             let error_display = ''
@@ -176,13 +175,13 @@ const uploadImage = () => {
 const deleteImage = (file_path) => {
     form.transform(data => ({
         ...data,
-        file_path: file_path     
+        file_path: file_path
     })).delete(route('admin.gallery.delete_image'), {
         preserveState: true,
         only: ['images'],
         onSuccess: () => {
             toast('success', 'สำเร็จ', 'ทำการลบรูปจากแกลลอรี่ เรียบร้อย')
-            form.reset()  // ทำการ reset form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว       
+            form.reset()  // ทำการ reset form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
         },
         onError: (errors) => {
             let error_display = ''

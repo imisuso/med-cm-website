@@ -120,8 +120,7 @@ export default {
 
 <script setup>
 import {ref, watch, reactive, nextTick} from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
+import { router } from '@inertiajs/vue3'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
@@ -142,7 +141,7 @@ let search = ref(props.filters.search)
 
 watch( search, value => {
     //console.log('changed ' + value)
-    Inertia.get(route('admin.log.index'), { search: value }, {
+    router.get(route('admin.log.index'), { search: value }, {
         preserveState: true,
         replace: true
     })
@@ -183,7 +182,7 @@ const listHint = ( type ) => {
 //     // console.log({page: parseInt(props.filters.page) + 1})
 //     // console.log(location.pathname)
 //     let data = {page: parseInt(props.filters?.page ?? 1) + direction}
-//     Inertia.get(location.pathname, data, {preserveScroll: true})
+//     router.get(location.pathname, data, {preserveScroll: true})
 // }
 
 

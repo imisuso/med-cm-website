@@ -11,7 +11,7 @@
           เพิ่มไฟล์แนบ
         </button>
       </div>
-      
+
       <div class="flex">
         <button @click="saveContent" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -21,7 +21,7 @@
         </button>
         <Link :href="route('admin.show_branch_main_menu', props.sub_header.division_id)" method="post" as="button" type="button"  preserve-scroll>
           <button class="flex items-center mx-1 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2 hover:text-gray-900 focus:z-10">
-            <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  
+            <svg class="h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
             ยกเลิก
@@ -45,7 +45,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </a>
-              </div>       
+              </div>
             </div>
             <div class="flex justify-center">
               <embed :src="`${sub_header.json_array_field_transform[index].url}`" width="800px" height="800px" />
@@ -55,7 +55,7 @@
           </div>
         </li>
       </ul>
-    </div>  
+    </div>
 
     <div class="col-span-6">
       <ul>
@@ -77,7 +77,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </a>
-              </div>       
+              </div>
             </div>
             <div v-if="attachments[index].name !== 'กรุณาเลือกไฟล์'" class="flex justify-center">
               <!-- {{ attachments[index].File.name }} -->
@@ -86,13 +86,13 @@
           </div>
         </li>
       </ul>
-    </div>           
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed,  nextTick, reactive } from 'vue'
-import { useForm, Link, usePage } from '@inertiajs/inertia-vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
@@ -116,7 +116,7 @@ const addFile = () => {
   nextTick(() => {
       var inputId = "file-" + (attachments.length - 1);
       document.getElementById(inputId).click();
-  });  
+  });
 }
 
 const deleteFile = ( itemArray, index ) => {
@@ -168,7 +168,7 @@ const checkRequireData = () => {
   //     return false
   //   }
   // } else {
-  //   if( personForm.fname_th && personForm.lname_th && personForm.display_order && personForm.rname_full_th 
+  //   if( personForm.fname_th && personForm.lname_th && personForm.display_order && personForm.rname_full_th
   //       && personForm.rname_short_th && (personForm.position_academic !== 0) )
   //   {
   //     return true
@@ -190,7 +190,7 @@ const saveContent = () => {
     })).post(route('admin.update_edu_branch_content', form.id), {
       preserveState: false,
       onSuccess: () => {
-        toast('success', 'จัดเก็บสำเร็จ', `จัดเก็บไฟล์ PDF ${props.sub_header.sub_header_name_th} เรียบร้อย`) 
+        toast('success', 'จัดเก็บสำเร็จ', `จัดเก็บไฟล์ PDF ${props.sub_header.sub_header_name_th} เรียบร้อย`)
       },
       onError: (errors) => {
         toast('danger', errors.msg, errors.sysmsg)
@@ -201,18 +201,18 @@ const saveContent = () => {
   }
 
 
-  // } else { 
+  // } else {
   //   if(announceForm.id) {  // Edit
   //     console.log("Edit")
   //     //announceForm.detail_delta = JSON.stringify(announceForm.detail_delta);
   //     announceForm.transform(data => ({
   //         ...data,
-  //         atFiles: attachments.map(file => file.File)     
+  //         atFiles: attachments.map(file => file.File)
   //     })).post( route('admin.update_announce', announceForm.id), {
   //       _method: 'patch',
   //       //preserveState: false,
   //       onSuccess: () => {
-  //         toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย') 
+  //         toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')
   //       },
   //       onError: (errors) => {
   //         toast('danger', errors.msg, errors.sysmsg)

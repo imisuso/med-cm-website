@@ -74,8 +74,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { router, useForm, Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
 import PosterInteractiveCardList from '@/Components/PosterInteractiveCardList.vue'
 import Pagination from '@/Components/Paginations.vue'
@@ -92,7 +91,7 @@ const props = defineProps({
 let search = ref(props.filters.search)
 
 watch( search, value => {
-    Inertia.get(route('admin.poster'), { search: value }, {
+    router.get(route('admin.poster'), { search: value }, {
         preserveState: true,
         replace: true
     })

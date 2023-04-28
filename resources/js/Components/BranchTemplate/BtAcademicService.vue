@@ -22,7 +22,7 @@
         แก้ไข
       </button>
       <div class="flex">
-      <button v-show="!editButton" @click="saveContent" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
+      <button v-show="!editButton" @click="confirmChange" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
         </svg>
@@ -50,12 +50,13 @@
 
 <script setup>
 import { ref, onUnmounted, nextTick, reactive } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
 import ComingSoon from '@/Components/ComingSoon.vue'
+import Swal from "sweetalert2";
 
 // ถูกส่งเป็น props เข้ามาจากหน้า BranchTemplateEditor หรือ BranchDetails เพราะใช้หน้านี้ในการแสดงผลร่วมกัน
 const props = defineProps({
@@ -140,6 +141,25 @@ const initialQuill = () => {
   quill_academic_service.value.getEditor().addEventListener('paste', pasteImage, false)
   quill_academic_service.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
   quill_academic_service.value.getQuill().enable(false)
+}
+
+const confirmChange = () => {
+    Swal.fire({
+        title: `คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?`,
+        showCancelButton: true,
+        confirmButtonColor: '#1e40af',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            saveContent()
+        } else {
+            quill_academic_service.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
+            cancelEditContent()
+            return false
+        }
+    })
 }
 
 const editContent = () => {
@@ -251,13 +271,13 @@ const saveContent = () => {
 
   form.patch(route('admin.update_content_branch_sub_menu', form.id), {
     preserveState: false,
-    onBefore: () => {
-       if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
-          quill_academic_service.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
-          cancelEditContent()
-          return false
-       }
-    },
+    // onBefore: () => {
+    //    if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
+    //       quill_academic_service.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
+    //       cancelEditContent()
+    //       return false
+    //    }
+    // },
     onSuccess: () => {
       toast('success', 'สำเร็จ', 'จัดเก็บข้อมูลเรียบร้อย')
       if( imgDeleted.length ) {

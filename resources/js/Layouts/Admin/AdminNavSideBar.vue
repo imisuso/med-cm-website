@@ -75,7 +75,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue"
 import { ChevronRightIcon } from "@heroicons/vue/solid"
 import { computed } from "vue";
-import { usePage, Link } from "@inertiajs/inertia-vue3";
+import { usePage, Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     item: {type: Object }
@@ -91,13 +91,13 @@ const hasActiveChild = computed(() =>  {
 const canUseMenu = ( ability ) => {
     let hasAbility = false
     // for ( let i = 0; i < ability.length; i++ ) {
-    //     if( usePage().props.value.auth.abilities.includes(ability[i]) ) {
+    //     if( usePage().props.auth.abilities.includes(ability[i]) ) {
     //         hasAbility = true
     //         break
     //     }
     // }
 
-    hasAbility = ability.some( item =>  usePage().props.value.auth.abilities.includes(item) )
+    hasAbility = ability.some( item =>  usePage().props.auth.abilities.includes(item) )
     // console.log(ability)
     // console.log(hasAbility)
     return hasAbility

@@ -46,7 +46,7 @@
 
 <script setup>
 import { ref, onUnmounted, nextTick, reactive } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
 //import QuillBetterTable from 'quill-better-table'
 

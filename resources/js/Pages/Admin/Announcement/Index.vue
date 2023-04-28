@@ -85,13 +85,11 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link, usePage } from '@inertiajs/inertia-vue3'
+import { router, useForm, Link, usePage } from '@inertiajs/vue3'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 
-import Modal from '@/Components/Modal.vue'
 import AnnounceCard from '@/Components/AnnounceItemInteractiveCardList.vue'
 import Pagination from '@/Components/Paginations.vue'
 import { SearchIcon } from '@heroicons/vue/outline';
@@ -119,7 +117,7 @@ const divisions = ref([])
 const filterForm = useForm({
   ftopic: null,
   fexpire_type: 'all',
-  fdivision_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id
+  fdivision_selected: props.fdivision_selected ? props.fdivision_selected : usePage().props.auth.division_id
 });
 
 const toast = (severity, summary, detail) => {
@@ -155,7 +153,7 @@ const filterAnnounce = () => {
 }
 
 const editAnnounce = ( announceData ) => {
-  Inertia.get(route('admin.announce.edit', announceData.id), {}, {
+  router.get(route('admin.announce.edit', announceData.id), {}, {
     preserveState: true,
     replace: true
   })

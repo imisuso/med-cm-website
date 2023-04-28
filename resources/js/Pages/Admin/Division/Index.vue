@@ -88,8 +88,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, watch } from 'vue';
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, Link } from '@inertiajs/inertia-vue3'
+import { router, useForm, Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
 import Paginations from '@/Components/Paginations.vue'
 
@@ -114,7 +113,7 @@ const divisionForm = useForm({
 
 watch( search, value => {
     //console.log('changed ' + value)
-    Inertia.get(route('admin.division'), { search: value }, {
+    router.get(route('admin.division'), { search: value }, {
         preserveState: true,
         replace: true
     })
@@ -150,7 +149,7 @@ const confirmDeleteDivision = (item) => {
 }
 
 const deleteDivision = () => {
-  Inertia.delete(route('admin.division.delete', divisionForm.id), {
+  router.delete(route('admin.division.delete', divisionForm.id), {
     preserveState: true,
     //onBefore: () => { return confirm('Are you sure you want to delete this division?') },
     onSuccess: () => {

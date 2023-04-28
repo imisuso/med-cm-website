@@ -67,7 +67,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/vue3'
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import { UserCircleIcon, CheckIcon, XIcon } from "@heroicons/vue/outline"
 

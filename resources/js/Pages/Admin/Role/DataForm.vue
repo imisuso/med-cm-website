@@ -106,8 +106,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import {computed, ref} from 'vue'
-import {useForm, Link } from '@inertiajs/inertia-vue3'
-import {Inertia} from "@inertiajs/inertia"
+import {useForm, Link } from '@inertiajs/vue3'
 
 import VueMultiselect from 'vue-multiselect'
 import { createToast } from 'mosha-vue-toastify'

@@ -109,8 +109,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref } from 'vue'
-import {useForm, Link } from '@inertiajs/inertia-vue3'
-import {Inertia} from "@inertiajs/inertia"
+import {router, useForm, Link } from '@inertiajs/vue3'
 
 import ToggleSwitch from '@/Components/ToggleSwitch.vue'
 import VueMultiselect from 'vue-multiselect'
@@ -176,7 +175,7 @@ const customLabelRole = ({ name }) => {
 }
 
 const onSearchUserChange = throttle((term) => {
-    Inertia.get(route('admin.user.create'), {term}, {
+    router.get(route('admin.user.create'), {term}, {
         preserveState: true,
         preserveScroll: true,
         replace: true

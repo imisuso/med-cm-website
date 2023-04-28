@@ -6,7 +6,7 @@
                     <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                 </svg>
             </button>
-            
+
             <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                 <ul class="py-1" aria-labelledby="dropdownButton">
                     <li>
@@ -39,16 +39,16 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                 </svg>
             </div>
-         
+
             <div class="flex flex-col w-full px-2 space-y-1 items-start">
                     <div class="flex flex-row">
-                        <div class="mr-1 shrink-0">{{ index }} :</div> 
+                        <div class="mr-1 shrink-0">{{ index }} :</div>
                         <div class="text-ellipsis overflow-hidden">{{ downloadItem.title }}</div>
                     </div>
                     <div class="hidden md:block ml-5 text-xs text-gray-900 break-all"><a :href="downloadItem.link" target="_blank" class="hover:underline">{{ downloadItem.link }}</a></div>
-                    <div class="ml-5 text-xs text-gray-900">เลขลำดับ : {{ downloadItem.order_number }}</div>  
+                    <div class="ml-5 text-xs text-gray-900">เลขลำดับ : {{ downloadItem.order_number }}</div>
             </div>
-           
+
             <div class="hidden sm:block">
                 <div class="px-4 pt-4 relative">
                     <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
@@ -56,7 +56,7 @@
                             <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                         </svg>
                     </button>
-                    
+
                     <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content -left-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-44">
                         <ul class="py-1" aria-labelledby="dropdownButton">
                             <li>
@@ -78,7 +78,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 
@@ -100,7 +100,7 @@
             </div>
         </template>
 
-        <template v-slot:footer>   
+        <template v-slot:footer>
             <button @click="deleteItem(downloadItem)" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-red-800">ลบ</button>
             <button @click="confirmModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">ยกเลิก</button>
         </template>
@@ -110,8 +110,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router, Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
 
 import dayjs from 'dayjs'
@@ -170,15 +169,15 @@ const toast = (severity, summary, detail) => {
 }
 
 const deleteItem = ( item ) => {
-    Inertia.delete(route('admin.download.delete', item.id), {
+    router.delete(route('admin.download.delete', item.id), {
         // onBefore: () => { return confirm('คุณต้องการลบรายการนี้ ใช่ หรือ ไม่ ?') },
         onSuccess: () => { toast('success', 'สำเร็จ', 'ลบข้อมูลดาวน์โหลด เรียบร้อย') },
-        onError: (errors) => { 
+        onError: (errors) => {
             let error_display = ''
             for ( let p in errors ) {
                 error_display = error_display + `- ${errors[p]}<br/>`
             }
-            toast('danger', 'พบข้อผิดพลาด', error_display); 
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {}
     });

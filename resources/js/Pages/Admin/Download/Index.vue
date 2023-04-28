@@ -45,8 +45,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router, Link } from '@inertiajs/vue3'
 
 import DownloadItemInteractiveCardList from '@/Components/DownloadItemInteractiveCardList.vue'
 import Pagination from '@/Components/Paginations.vue'
@@ -63,7 +62,7 @@ let search = ref(props.filters.search)
 
 watch( search, value => {
     //console.log('changed ' + value)
-    Inertia.get(route('admin.download'), { search: value }, {
+    router.get(route('admin.download'), { search: value }, {
         preserveState: true,
         replace: true
     })
@@ -89,7 +88,7 @@ const toast = (severity, summary, detail) => {
 // }
 
 // const deleteItem = ( item ) => {
-//     Inertia.delete(route('admin.download.delete', item.id), {
+//     router.delete(route('admin.download.delete', item.id), {
 //         onBefore: () => { return confirm('คุณต้องการลบรายการนี้ ใช่ หรือ ไม่ ?') },
 //         onSuccess: () => { toast('success', 'สำเร็จ', 'ลบข้อมูลดาวน์โหลด เรียบร้อย') },
 //         onError: (errors) => { console.log(errors) },

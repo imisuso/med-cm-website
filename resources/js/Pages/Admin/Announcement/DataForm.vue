@@ -168,7 +168,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
-import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
+import { useForm, usePage, Link } from '@inertiajs/vue3'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
@@ -222,7 +222,7 @@ const announceForm = useForm({
   topic: props.announce ? props.announce.topic : null,
   detail_delta: props.announce ? JSON.parse(props.announce.detail_delta) : {},
   expire_date: props.announce ? dayjs(props.announce.expire_date).toDate() : ref(dayjs(current_date.value).add(30, 'day').toDate()),
-  division_id: props.fdivision_selected ? props.fdivision_selected : usePage().props.value.auth.division_id,
+  division_id: props.fdivision_selected ? props.fdivision_selected : usePage().props.auth.division_id,
   type: props.announce ? props.announce.type : 1,  // type ตอนนี้มีแบบเดียว แค่ออกแบบ db เพื่อรองรับประกาศ หลายๆแบบ
   old_attachments: props.announce ? props.announce.attach_files.length > 0 ? props.announce.attach_files : [] : []
   //announceData.attach_files.length > 0 ? announceData.attach_files : []

@@ -65,8 +65,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import { ref, onMounted, reactive, watch, nextTick, inject } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { useForm, usePage, Link } from '@inertiajs/inertia-vue3'
+import { router, useForm, usePage, Link } from '@inertiajs/vue3'
 import PersonInteractiveCardList from '@/Components/PersonInteractiveCardList.vue'
 import Pagination from '@/Components/Paginations.vue'
 
@@ -100,7 +99,7 @@ const divisions = ref([])
 const url = ref(null)
 const baseUrl = ref(base_url)
 
-let fdivision_selected = props.filters.fdivision_selected ? ref(props.filters.fdivision_selected) : ref(usePage().props.value.auth.division_id)
+let fdivision_selected = props.filters.fdivision_selected ? ref(props.filters.fdivision_selected) : ref(usePage().props.auth.division_id)
 let search = ref(props.filters.search)
 
 const personForm = useForm({
@@ -110,7 +109,7 @@ const personForm = useForm({
 
 watch( search, value => {
     //console.log('changed ' + value)
-    Inertia.get(route('admin.person'), { search: value, fdivision_selected: fdivision_selected.value }, {
+    router.get(route('admin.person'), { search: value, fdivision_selected: fdivision_selected.value }, {
         preserveState: true,
         replace: true
     })
@@ -132,7 +131,7 @@ const toast = (severity, summary, detail) => {
 }
 
 const deletePerson = () => {
-  Inertia.delete(route('admin.person.delete', personForm.id), {
+  router.delete(route('admin.person.delete', personForm.id), {
     preserveState: true,
     onSuccess: () => {
         toast('success', 'สำเร็จ', 'ลบข้อมูลบุคลากร เรียบร้อย')
@@ -151,14 +150,14 @@ const deletePerson = () => {
 }
 
 const getPersonList = () => {
-  Inertia.get(route('admin.person'), { fdivision_selected: fdivision_selected.value }, {
+  router.get(route('admin.person'), { fdivision_selected: fdivision_selected.value }, {
       preserveState: true,
       replace: true,
   })
 }
 
 const viewPerson = ( personData ) => {
-  Inertia.get(route('admin.person.view', personData.id), {}, {
+  router.get(route('admin.person.view', personData.id), {}, {
     preserveState: true,
     replace: true
   })
@@ -167,7 +166,7 @@ const viewPerson = ( personData ) => {
 }
 
 const editPerson = ( personData ) => {
-  Inertia.get(route('admin.person.edit', personData.id), {}, {
+  router.get(route('admin.person.edit', personData.id), {}, {
     preserveState: true,
     replace: true
   })
