@@ -21,10 +21,9 @@ class PortalAPI implements AuthUserAPI
 
         $response = Http::withToken($token)
             ->acceptJson()
-            ->post($baseUrl.'authenticate', ['login' => $orgId, 'password' => $password])
-            ->json();
+            ->post($baseUrl.'authenticate', ['login' => $orgId, 'password' => $password]);
 
-        dd($response);
+        //dd($response);
         $data = json_decode($response->getBody(),true);
 
         if($response->status()!=200){
