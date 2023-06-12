@@ -33,7 +33,7 @@
     </div>
 
     <div class="flex flex-col sm:flex-row ">
-        <button v-show="personList.length > 1" @click="confirmOrderChange" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
+        <button v-show="personList.length >= 1" @click="confirmOrderChange" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
             <SaveIcon :class="['h-6 w-6 mr-2']" />
             บันทึก
       </button>
