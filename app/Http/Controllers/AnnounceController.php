@@ -426,10 +426,10 @@ class AnnounceController extends Controller
         $topic_search = request()->input('ftopic') ? request()->input('ftopic') : '';
         $expire_type = request()->input('fexpire_type') ? request()->input('fexpire_type') : '';
         if ( request()->input('fdivision_selected') !== '' ) {
-            logger('เลือกแผนก');
+            // logger('เลือกแผนก');
             $division_selected = (int)request()->input('fdivision_selected');
         } else {
-            logger('ไม่เลือกแผนก');
+            // logger('ไม่เลือกแผนก');
             $division_selected = $Announce->division_id;
         }
 
@@ -468,10 +468,10 @@ class AnnounceController extends Controller
         $topic_search = request()->input('ftopic') ? request()->input('ftopic') : '';
         $expire_type = request()->input('fexpire_type') ? request()->input('fexpire_type') : '';
         if ( request()->input('fdivision_selected') !== '' ) {
-            logger('เลือกแผนก');
+            // logger('เลือกแผนก');
             $division_selected = (int)request()->input('fdivision_selected');
         } else {
-            logger('ไม่เลือกแผนก');
+            // logger('ไม่เลือกแผนก');
             $division_selected = $Announce->division_id;
         }
 
