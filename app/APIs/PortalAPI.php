@@ -33,7 +33,7 @@ class PortalAPI implements AuthUserAPI
             return ['reply_code' => '2', 'reply_text' => 'ไม่สามารถเรียกใช้งาน service สำหรับยืนยันตัวตนของคณะแพทย์ฯศิริราชได้','found'=>false];
         }
         if(!$data['found']) {
-            return ['reply_code' => '3', 'reply_text' => $data['body'],'found'=>false];
+            return ['reply_code' => '3', 'reply_text' => $data['message'],'found'=>false];
         }
 
         $data['name'] = $data['full_name'];
