@@ -15,28 +15,36 @@
                 รายละเอียดข้อมูลแกลลอรี่รูปกิจกรรม
             </div>
 
-            <div class="shadow overflow-hidden sm:rounded-md">
+            <div class="shadow sm:rounded-md">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <fieldset>
                         <div class="grid grid-cols-6 gap-6 mb-6">
                             <div class="col-span-6">
                                 <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">วันที่จัดกิจกรรม</label>
                                 <Datepicker
-                                    inputClassName="dp-custom-input"
+                                    menu-class-name="shadow-lg shadow-stone-800/50"
                                     placeholder="default 30 วัน"
                                     v-model="galleryForm.event_date"
                                     locale="th"
                                     cancelText="ยกเลิก"
                                     selectText="เลือก"
-                                    :month-year-component="monthYear"
                                     :yearRange="[new Date().getFullYear() - 5, new Date().getFullYear()]"
                                     :enableTimePicker="false"
                                     :format="dateFormat"
                                     :previewFormat="dateFormat"
                                     :maxDate="new Date()"
                                     :clearable="false"
+                                    :auto-position="true"
                                     autoApply
-                                />
+                                >
+                                    <template #year="{ year }">
+                                        {{ parseInt(year)+543  }}
+                                    </template>
+
+                                    <template #year-overlay-value="{ text, value }">
+                                        {{ parseInt(text)+543 }}
+                                    </template>
+                                </Datepicker>
                             </div>
 
                             <div class="col-span-6">

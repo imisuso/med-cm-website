@@ -23,13 +23,12 @@
                                     <div class="col-span-6">
                                         <label for="topic" class="block text-sm font-medium text-gray-700 mb-2">วันที่ประกาศหมดอายุ</label>
                                         <Datepicker
-                                            inputClassName="dp-custom-input"
+                                            menu-class-name="shadow-lg shadow-stone-800/50"
                                             placeholder="default 30 วัน"
                                             v-model="announceForm.expire_date"
                                             locale="th"
                                             cancelText="ยกเลิก"
                                             selectText="เลือก"
-                                            :month-year-component="monthYear"
                                             :yearRange="[new Date().getFullYear() - 2, new Date().getFullYear() + 5]"
                                             :enableTimePicker="false"
                                             :format="dateFormat"
@@ -37,7 +36,15 @@
                                             :minDate="new Date()"
                                             :clearable="false"
                                             autoApply
-                                        />
+                                        >
+                                            <template #year="{ year }">
+                                                {{ parseInt(year)+543  }}
+                                            </template>
+
+                                            <template #year-overlay-value="{ text, value }">
+                                                {{ parseInt(text)+543 }}
+                                            </template>
+                                        </Datepicker>
                                     </div>
 
                                     <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="col-span-6">
@@ -207,8 +214,9 @@ const quill_options_full = ref([
     ['clean']                                         // remove formatting button
 ])
 
-const MonthYear = defineAsyncComponent(() => import('@/Components/MonthYearCustom.vue'));
-const monthYear = computed(() => MonthYear);
+// ไม่ใช้งานแล้ว เนื่องจากตัว vue3-datepicker มีการปรับการใช้งานรูปแบบใหม่ ยัง comment ไว้ก่อนรอดูผลการใช้งานซักระยะ
+// const MonthYear = defineAsyncComponent(() => import('@/Components/MonthYearCustom.vue'));
+// const monthYear = computed(() => MonthYear);
 
 const actionWord = ref(null)
 const viewDataInfomation = ref(false)
@@ -220,7 +228,7 @@ const announceForm = useForm({
   id: props.announce ? props.announce.id : null,
   pinned: props.announce ? props.announce.pinned : false,
   topic: props.announce ? props.announce.topic : null,
-  detail_delta: props.announce ? JSON.parse(props.announce.detail_delta) : {},
+  detail_delta: props.announce?.detail_delta ? JSON.parse(props.announce.detail_delta) : {},
   expire_date: props.announce ? dayjs(props.announce.expire_date).toDate() : ref(dayjs(current_date.value).add(30, 'day').toDate()),
   division_id: props.fdivision_selected ? props.fdivision_selected : usePage().props.auth.division_id,
   type: props.announce ? props.announce.type : 1,  // type ตอนนี้มีแบบเดียว แค่ออกแบบ db เพื่อรองรับประกาศ หลายๆแบบ
