@@ -496,7 +496,8 @@ const checkRequireData = () => {
     return false
   }
   // ถ้ามีตำแหน่งทางวิชาการ ต้องระบุให้ครบทั้งชื่อ นามสกุล คำนำหน้าชื่อแบบเต็ม คำนำหน้าชื่อแบบย่อ
-  else if(personForm.position_academic !== 3) {
+  //else if(personForm.position_academic !== 3) {
+  else if(personForm.type === 'a' || personForm.type === 'b' || personForm.type === 'z') {
     if( personForm.fname_th && personForm.lname_th && personForm.rname_full_th && personForm.rname_short_th ) {
       return true
     } else {
