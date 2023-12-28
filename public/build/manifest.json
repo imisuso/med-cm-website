@@ -165,7 +165,7 @@
       "_index.dc52edff.js"
     ],
     "css": [
-      "assets/BranchDetails.72b31ebf.css"
+      "assets/RichTextEditor.66b1ef9d.css"
     ]
   },
   "_BtContact.d0dd774b.js": {
@@ -418,7 +418,7 @@
       "resources/js/app.js"
     ],
     "css": [
-      "assets/BranchDetails.72b31ebf.css"
+      "assets/RichTextEditor.66b1ef9d.css"
     ]
   },
   "resources/js/Pages/Admin/Announcement/DataForm.vue": {
@@ -466,7 +466,7 @@
       "_index.dc52edff.js"
     ],
     "css": [
-      "assets/BranchDetails.72b31ebf.css"
+      "assets/RichTextEditor.66b1ef9d.css"
     ]
   },
   "_ToggleSwitch.faef6303.js": {
@@ -475,7 +475,7 @@
       "resources/js/app.js"
     ],
     "css": [
-      "assets/BranchDetails.72b31ebf.css"
+      "assets/RichTextEditor.66b1ef9d.css"
     ]
   },
   "_EyeIcon.c6e2e713.js": {
