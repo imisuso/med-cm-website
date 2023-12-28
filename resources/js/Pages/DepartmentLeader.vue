@@ -17,7 +17,7 @@
                 <template v-for="leader in leaders" :key="leader.id">
                     <!-- left -->
                     <div v-if="leader.id%2" class="flex flex-row-reverse md:contents">
-                        <div class="flex flex-col sm:flex-row items-center bg-blue-500 col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
+                        <div class="flex flex-col w-full sm:flex-row items-center bg-blue-500 col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                             <div class="h-20 w-20 mr-2 mb-1 sm:mb-0 shrink-0">
                                 <!-- <img src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="" class="rounded-full object-cover h-full w-full shadow-md" /> -->
                                 <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover h-full w-full shadow-md" />
@@ -43,7 +43,7 @@
                             <div class="h-full w-1 bg-blue-800 pointer-events-none"></div></div>
                             <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow text-center">{{ leader.id }}</div>
                         </div>
-                        <div class="flex flex-col sm:flex-row items-center bg-blue-500 col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
+                        <div class="flex flex-col w-full sm:flex-row items-center bg-blue-500 col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                             <div class="h-20 w-20 mr-2 mb-1 sm:mb-0 shrink-0">
                                 <!-- <img src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="" class="rounded-full object-cover h-full w-full shadow-md" /> -->
                                 <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover h-full w-full shadow-md" />
@@ -84,12 +84,13 @@ const leaders = ref(
                 {"id": 7, "position":"ศาสตราจารย์นายแพทย์", "name": "ประเวศ วะสี","time_tenure": "1 ตุลาคม 2528 - 30 พฤศจิกายน 2530", "image":"images/department_leaders/07.gif"},
                 {"id": 8, "position":"ศาสตราจารย์นายแพทย์", "name": "อุกฤษต์ เปล่งวาณิช","time_tenure": "1 ธันวาคม 2530 - 30 พฤษภาคม 2532", "image":"images/department_leaders/08.gif"},
                 {"id": 9, "position":"ศาสตราจารย์นายแพทย์", "name": "ประพาฬ ยงใจยุทธ","time_tenure": "1 มิถุนายน 2532 - 30 กันยายน 2536", "image":"images/department_leaders/09.gif"},
-                {"id": 10, "position":"ศาสตราจารย์นายแพทย์", "name": "ศุภชัย ไชยธีระพันธ์","time_tenure": "1 ตุลาคม 2536 - 19 กุมภาพันธ์ 2540", "image":"images/department_leaders/010.gif"},
-                {"id": 11, "position":"ศาสตราจารย์แพทย์หญิง", "name": "สุมาลี นิมมานนิตย์","time_tenure": "20 กุมภาพันธ์ 2540 - 19 กุมภาพันธ์ 2544", "image":"images/department_leaders/011.gif"},
-                {"id": 12, "position":"ศาสตราจารย์นายแพทย์", "name": "อมร ลีลารัศมี","time_tenure": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "image":"images/department_leaders/012.gif"},
-                {"id": 13, "position":"ศาสตราจารย์คลีนิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/013.gif"},
-                {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "name": "วันชัย วนะชิวนาวิน","time_tenure": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image":"images/department_leaders/014.jpg"},
-                {"id": 15, "position":"รองศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - ปัจจุบัน", "image":"images/department_leaders/015.jpg"},
+                {"id": 10, "position":"ศาสตราจารย์นายแพทย์", "name": "ศุภชัย ไชยธีระพันธ์","time_tenure": "1 ตุลาคม 2536 - 19 กุมภาพันธ์ 2540", "image":"images/department_leaders/10.gif"},
+                {"id": 11, "position":"ศาสตราจารย์แพทย์หญิง", "name": "สุมาลี นิมมานนิตย์","time_tenure": "20 กุมภาพันธ์ 2540 - 19 กุมภาพันธ์ 2544", "image":"images/department_leaders/11.gif"},
+                {"id": 12, "position":"ศาสตราจารย์นายแพทย์", "name": "อมร ลีลารัศมี","time_tenure": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "image":"images/department_leaders/12.gif"},
+                {"id": 13, "position":"ศาสตราจารย์คลีนิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/13.gif"},
+                {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "name": "วันชัย วนะชิวนาวิน","time_tenure": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image":"images/department_leaders/14.jpg"},
+                {"id": 15, "position":"รองศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "image":"images/department_leaders/15.jpg"},
+                {"id": 16, "position":"ศาสตราจารย์นายแพทย์", "name": "สมชาย ลีลากุศลวงศ์","time_tenure": "16 ธันวาคม 2566 - ปัจจุบัน", "image":"images/department_leaders/16.jpg"},
 
             ]
 )
