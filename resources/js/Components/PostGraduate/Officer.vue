@@ -17,11 +17,11 @@
 			<p class="max-w-2xl text-center dark:text-coolGray-400">At a assumenda quas cum earum ut itaque commodi saepe rem aspernatur quam natus quis nihil quod, hic explicabo doloribus magnam neque, exercitationem eius sunt!</p> -->
 			<!-- <div class="flex flex-row flex-wrap justify-center"> -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-				<div class="flex flex-col justify-center m-4 text-center">
-					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/1.jpg">
-					<p class="text-xl font-semibold leading-tight">นางเรวดี พีรวัฒนฒึก</p>
-					<p class="text-md text-gray-600 italic">เจ้าหน้าที่บริหารงานทั่วไป ชำนาญการ</p>
-				</div>
+<!--				<div class="flex flex-col justify-center m-4 text-center">-->
+<!--					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/1.jpg">-->
+<!--					<p class="text-xl font-semibold leading-tight">นางเรวดี พีรวัฒนฒึก</p>-->
+<!--					<p class="text-md text-gray-600 italic">เจ้าหน้าที่บริหารงานทั่วไป ชำนาญการ</p>-->
+<!--				</div>-->
 				<div class="flex flex-col justify-center m-4 text-center">
 					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/2.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาวสุภาพร สุรัตน์</p>
