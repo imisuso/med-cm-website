@@ -115,7 +115,7 @@ Route::get('/officer', function () {
     #$secretary_sap_id = env('SECRETARY_SAP_ID', '00000000');
 
     $units = Division::select('slug', 'name_th', 'division_id', 'type')
-                        ->where('type', 'u')->orderBy('division_id', 'asc')->get();
+                        ->where('type', 'u')->orderBy('display_order', 'asc')->orderBy('division_id', 'asc')->get();
 
     // $secretary = Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type')
     //                     ->where('sap_id', $secretary_sap_id)->where('status', true)->first();
@@ -210,7 +210,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'can:manage_divisions'])
     ->controller(DivisionController::class)
     ->group(function () {
-        Route::get('/division', 'index')->name('admin.division');
+        Route::get('/division', 'index')->middleware(['remember'])->name('admin.division');
         Route::get('/division/create', 'create')->name('admin.division.create');
         Route::get('/division/edit/{division}', 'edit')->name('admin.division.edit');
         Route::post('/division/store', 'store')->name('admin.division.store');
