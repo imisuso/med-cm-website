@@ -35,6 +35,9 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-6 gap-2 md:gap-6 mt-6 mb-6">
+                    <label for="division_id" class="col-span-6 md:col-span-2 mr-2 self-end">ลำดับแสดงผล :</label>
+                    <input type="number" id="division_id" v-model="divisionForm.display_order" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
                     <label for="division_id" class="col-span-6 md:col-span-2 mr-2 self-end">เลข สาขา/หน่วยงาน :</label>
                     <input type="number" id="division_id" v-model="divisionForm.division_id" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
@@ -119,6 +122,7 @@ switch(props.action) {
 
 const divisionForm = useForm({
   id: props.division ? props.division.id : null,
+  display_order : props.division ? props.division.display_order : 999,
   division_id: props.division ? props.division.division_id : null,
   type: props.division ? props.division.type : null,
   name_th: props.division ? props.division.name_th : null,
