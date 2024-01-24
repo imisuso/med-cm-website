@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Managers\LogManager;
 use App\Managers\UploadManager;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -12,13 +13,14 @@ use App\Models\Division;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Inertia\Response;
 
 class DivisionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -27,6 +29,7 @@ class DivisionController extends Controller
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name_th', 'like', "%{$search}%");
                 })
+                ->orderBy('display_order', 'asc')
                 ->orderBy('division_id', 'asc')
                 ->paginate(5)
                 ->withQueryString(),
@@ -44,7 +47,7 @@ class DivisionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -55,7 +58,7 @@ class DivisionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function store()
     {
@@ -74,6 +77,7 @@ class DivisionController extends Controller
             'type.required' => 'ต้องระบุประเภทของ สาขา/หน่วยงาน ทุกครั้ง',
         ]);
 
+        $display_order = (int) Request::input('display_order');
         $division_id = (int) Request::input('division_id');
         $type = Request::input('type');
         $name_th = Request::input('name_th');
@@ -98,6 +102,7 @@ class DivisionController extends Controller
         try {
             Division::create([
                 'image'=>$imgDB,
+                'display_order'=>$display_order,
                 'division_id'=>$division_id,
                 'type'=>$type,
                 'name_th'=>$name_th,
@@ -113,7 +118,7 @@ class DivisionController extends Controller
             }
             return Redirect::back()->withErrors(['msg' => 'เนื่องจาก ' . $e->getMessage()]);
         }
-        
+
         // เก็บ Log หลังจาก Insert เรียบร้อยแล้ว
         $resp = (new LogManager)->store(
             $sap_id,
@@ -141,7 +146,7 @@ class DivisionController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Division $division)
     {
@@ -153,13 +158,14 @@ class DivisionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function update(Division $division)
     {
         $user = Auth::user();
         $sap_id = $user->sap_id;
 
+        $display_order = (int) Request::input('display_order');
         $division_id = (int) Request::input('division_id');
         $type = Request::input('type');
         $name_th = Request::input('name_th');
@@ -192,6 +198,7 @@ class DivisionController extends Controller
 
         try {
             $division->image = $imgDB;
+            $division->display_order = $display_order;
             $division->division_id = $division_id;
             $division->type = $type;
             $division->name_th = $name_th;
@@ -217,7 +224,7 @@ class DivisionController extends Controller
             }
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถแก้ไขข้อมูล สาขา/หน่วยงาน ได้เนื่องจาก '. $e->getMessage()]);
         }
-        
+
         // หากมีการ update รูป และเคยมีรูปเก่าแล้ว จึงจะทำการลบรูปเก่าหลังจาก update ข้อมูลทุกอย่างเรียบร้อยแล้ว
         if ($has_update_image && $oldimage) {
             Storage::delete($oldimage);
@@ -239,7 +246,7 @@ class DivisionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
@@ -252,7 +259,7 @@ class DivisionController extends Controller
         } catch (\Exception  $e) {
             return Redirect::back()->withErrors(['msg' => 'ไม่สามารถลบข้อมูล สาขา/หน่วยงาน ได้เนื่องจาก '. $e->getMessage()]);
         }
-        
+
         // ถ้าเคยมีการเก็บรูปมาแล้ว
         if ($data['image']) {
             Storage::delete($data['image']);
@@ -277,6 +284,6 @@ class DivisionController extends Controller
 
     public function listAll()
     {
-        return Division::orderBy('division_id', 'asc')->get();
+        return Division::orderBy('display_order', 'asc')->orderBy('division_id', 'asc')->get();
     }
 }

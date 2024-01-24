@@ -14,7 +14,7 @@ class AddGroupColumnToPersonsTable extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->tinyInteger('group')->nullable()->default(0)->after('type');
+            $table->tinyInteger('group')->nullable()->default(999)->after('type');
         });
     }
 
