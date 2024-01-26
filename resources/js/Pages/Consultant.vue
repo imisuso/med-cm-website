@@ -22,7 +22,7 @@
 
                     <h1 class="mt-4 text-center text-md font-semibold text-gray-700 capitalize ">{{ consultant.rname_short_th }}<br class="block md:hidden" />{{ consultant.fname_th }} {{ consultant.lname_th }}</h1>
 
-                    <p class="mt-2 text-center text-gray-500 capitalize dark:text-gray-500 ">{{ consultant.division.division_type }}{{ consultant.division.name_th }}</p>
+                    <p class="mt-2 text-center text-gray-500 capitalize dark:text-gray-500 ">{{ consultant.division.division_type }}วิชา{{ consultant.division.name_th }}</p>
                 </div>
             </div>
         </div>
