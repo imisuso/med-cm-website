@@ -1,7 +1,7 @@
 <template>
     <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-8">
         <h2 class="text-3xl font-semibold text-center text-gray-800">ติดต่อเราได้ที่</h2>
-        <p class="mt-3 text-center text-gray-600">คุณเรวดี พีรวัฒนฒึก ฝ่ายการศึกษาหลังปริญญา</p>
+        <p class="mt-3 text-center text-gray-600">คุณสุภาพร สุรัตน์ ฝ่ายการศึกษาหลังปริญญา</p>
 
         <div class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3">
             <div class="flex flex-col items-center px-4 py-3 text-gray-700 transition-colors duration-200 transform rounded-md group hover:bg-blue-500">
@@ -18,7 +18,7 @@
                 </svg>
 
                 <span class="w-full flex mt-2 group-hover:text-white">โทรศัพท์ 02-419-8302, 02-419-7778, 02-419-9695</span>
-                <span class="w-full flex mt-2 group-hover:text-white">โทรสาร 0-2419-7773</span>
+                <span class="w-full flex mt-2 group-hover:text-white">โทรสาร 0-2411-1103</span>
             </div>
 
             <div class="flex flex-col items-center px-4 py-3 text-gray-700 transition-colors duration-200 transform rounded-md group hover:bg-blue-500">
@@ -27,7 +27,7 @@
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                 </svg>
 
-                <span class="mt-2 group-hover:text-white">eaung1963@hotmail.com</span>
+                <span class="mt-2 group-hover:text-white">supaporn.kip@gmail.com</span>
             </div>
         </div>
     </div>

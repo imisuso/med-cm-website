@@ -13,9 +13,6 @@
             </div>
         </div>
         <div class="flex flex-col items-center justify-center p-4 mx-auto space-y-8 sm:p-10">
-			<!-- <h1 class="text-4xl font-bold leading-none text-center sm:text-5xl">Our team</h1>
-			<p class="max-w-2xl text-center dark:text-coolGray-400">At a assumenda quas cum earum ut itaque commodi saepe rem aspernatur quam natus quis nihil quod, hic explicabo doloribus magnam neque, exercitationem eius sunt!</p> -->
-			<!-- <div class="flex flex-row flex-wrap justify-center"> -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
 <!--				<div class="flex flex-col justify-center m-4 text-center">-->
 <!--					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/1.jpg">-->
@@ -37,6 +34,11 @@
 					<p class="text-xl font-semibold leading-tight">นางสาวสุภาภรณ์ จุลเศียร</p>
 					<p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
 				</div>
+                <div class="flex flex-col justify-center m-4 text-center">
+                    <img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../../public/fallbackimage/default-blank-image.jpg">
+                    <p class="text-xl font-semibold leading-tight">นางสาวอรนิตย์ ศรีพรหม</p>
+                    <p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
+                </div>
 				<div class="flex flex-col justify-center m-4 text-center">
 					<img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/5.jpg">
 					<p class="text-xl font-semibold leading-tight">นางสาวเพ็ญศิริ สีดีจริง</p>

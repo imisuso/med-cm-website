@@ -64,14 +64,14 @@
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
-                            <div>วุฒิบัตรเพื่อแสดงความรู้ความชำนาญในการประกอบวิชาชีพเวชกรรม สาขาอายุรศาสตร์</div>
+                            <div>วุฒิบัตรแสดงความรู้ความชำนาญในการประกอบวิชาชีพเวชกรรม สาขาอายุรศาสตร์</div>
                         </div>
 
 					</div>
                     <div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาอังกฤษ)</div>
-                            <div>Diploma of the Thai Board of Internal Medicine</div>
+                            <div>Diploma, Thai Board of Internal Medicine</div>
                         </div>
 
 					</div>
