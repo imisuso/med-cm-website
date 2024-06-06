@@ -35,7 +35,7 @@
 					<p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
 				</div>
                 <div class="flex flex-col justify-center m-4 text-center">
-                    <img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../../public/fallbackimage/default-blank-image.jpg">
+                    <img alt="" class="self-center flex-shrink-0 w-20 h-20 mb-4 bg-center object-cover object-top rounded-full" src="../../../asset/images/post_graduate/officer/7.jpg">
                     <p class="text-xl font-semibold leading-tight">นางสาวอรนิตย์ ศรีพรหม</p>
                     <p class="text-md text-gray-600 italic">นักวิชาการศึกษา</p>
                 </div>
