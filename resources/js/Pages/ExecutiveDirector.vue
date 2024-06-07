@@ -68,7 +68,7 @@ import { ref, reactive } from 'vue';
 let DirectorData = reactive([
     { position_id: 1, position_eng: 'manager', position_thai: 'หัวหน้าภาควิชาอายุรศาสตร์', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'สมชาย ลีลากุศลวงศ์', image: 'images/executive_director/10004803.jpg', },
     { position_id: 2, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ คนที่ 1', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'ทวีศักดิ์ แทนวันดี', image: 'images/executive_director/10003532.jpg', },
-    { position_id: 3, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ คนที่ 2', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/executive_director/10008561.jpg', },
+    { position_id: 3, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ คนที่ 2', rname_full_th: 'ศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/executive_director/10008561.jpg', },
     { position_id: 4, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายการศึกษาก่อนปริญญา', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'เอกพันธ์ ครุพงศ์', image: 'images/executive_director/10016067.jpg', },
     { position_id: 5, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายการศึกษาหลังปริญญา', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'สุพจน์ พงศ์ประสบชัย', image: 'images/executive_director/10006188.jpg', },
     { position_id: 6, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายทรัพยากรบุคคล', rname_full_th: 'อาจารย์นายแพทย์', name: 'ชนินทร์ ลิ่มวงศ์', image: 'images/executive_director/10003610.jpg', },
