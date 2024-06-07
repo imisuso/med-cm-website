@@ -3,30 +3,36 @@
         <div class="grid gap-5 row-gap-8 lg:grid-cols-2">
             <div class="flex flex-col justify-center">
                 <div class="max-w-xl mb-6">
-                <h2 class="max-w-lg mb-6 font-sans text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl sm:leading-none">
-                    เกณฑ์การคัดเลือก  แพทย์ประจำบ้าน  ภาควิชาอายุรศาสตร์
-                    คณะแพทยศาสตร์
-                    <span class="relative px-1">
-                    <div class="absolute inset-x-0 bottom-0 h-3 transform -skew-x-12 bg-yellow-400"></div>
-                    <span class="relative inline-block text-green-800">ศิริราชพยาบาล</span>
-                    </span>
-                </h2>
+                    <h2 class="max-w-lg mb-6 font-sans text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl sm:leading-none">
+                        เกณฑ์การคัดเลือก  แพทย์ประจำบ้าน  ภาควิชาอายุรศาสตร์
+                        คณะแพทยศาสตร์
+                        <span class="relative px-1">
+                        <div class="absolute inset-x-0 bottom-0 h-3 transform -skew-x-12 bg-yellow-400"></div>
+                        <span class="relative inline-block text-green-800">ศิริราชพยาบาล</span>
+                        </span>
+                    </h2>
                 </div>
                 <div class="grid gap-5 row-gap-8 sm:grid-cols-2">
-                <div class="bg-white border-l-4 shadow-sm border-green-800">
-                    <div class="h-full p-5 border border-l-0 rounded-r">
-                    <h6 @click="criteriaModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
-                        เกณฑ์การคัดเลือก
-                    </h6>
+                    <div class="bg-white border-l-4 shadow-sm border-green-800">
+                        <div class="h-full p-5 border border-l-0 rounded-r">
+                        <h6 @click="criteriaModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
+                            เกณฑ์การคัดเลือก
+                        </h6>
+                        </div>
+                    </div>
+                    <div class="bg-white border-l-4 shadow-sm border-green-800">
+                        <div class="h-full p-5 border border-l-0 rounded-r">
+                        <h6 @click="selectMethodModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
+                            วิธีการคัดเลือก
+                        </h6>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-white border-l-4 shadow-sm border-green-800">
-                    <div class="h-full p-5 border border-l-0 rounded-r">
-                    <h6 @click="selectMethodModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
-                        วิธีการคัดเลือก
-                    </h6>
-                    </div>
-                </div>
+                <div class="max-w-xl mt-6 mb-6">
+                    <h2 class="max-w-lg mb-3 font-sans text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl sm:leading-none">
+                        การอุทธรณ์ผลการคัดเลือก
+                    </h2>
+                    ผู้สมัครที่ไม่ได้รับการคัดเลือก สามารถอุทธรณ์ผลการคัดเลือก หรือขอทราบรายละเอียดและเหตุผลที่ไม่ได้รับการคัดเลือกได้โดยตรงที่ ศ.นพ.สุพจน์ พงศ์ประสบชัย ประธานฝ่ายการศึกษาหลังปริญญา ภาควิชาอายุรศาสตร์โดยทาง E-mail: supotpong@gmail.com หรือ LINE ID: supotpong
                 </div>
             </div>
             <div>
@@ -88,12 +94,12 @@
                     </li>
                     <li class=" leading-5">
                         <div class="flex justify-between items-center">
-                            <div class="mr-4">คะแนนการสัมภาษณ์</div>
+                            <div class="mr-4">คะแนนจากการสัมภาษณ์</div>
                             <div>30%</div>
                         </div>
                     </li>
                 </ul>
-                <li class=" leading-5">การสอบสัมภาษณ์ กระทำโดยคณาจารย์และผู้แทนแพทย์ประจำบ้าน แต่ละท่านให้คะแนนอย่างเป็นอิสระแล้วนำมาคิดเป็นคะแนนเฉลี่ยของการสอบสัมภาษณ์ของผู้สมัคร โดยกรรมการทุกท่านไม่มีส่วนได้ส่วนเสียกับผู้สมัครใดๆ</li>
+                <li class=" leading-5">การสอบสัมภาษณ์ กระทำโดยคณะกรรมการคัดเลือกแพทย์ประจำบ้าน ซึ่งประกอบด้วยคณะกรรมการการศึกษาหลังปริญญา อาจารย์ภาควิชาฯ และผู้แทนแพทย์ประจำบ้าน แต่ละท่านให้คะแนนอย่างเป็นอิสระ แล้วนำมาคิดเป็นคะแนนเฉลี่ยของการสอบสัมภาษณ์ของผู้สมัคร โดยกรรมการทุกท่านลงนามแสดงความโปร่งใสว่าไม่มีส่วนได้ส่วนเสียกับผู้สมัครรายใด ๆ</li>
             </ol>
 
         </div>
@@ -116,8 +122,8 @@
         <div class="flex flex-col text-gray-900 text-md font-medium px-5">
             <ol class="list-decimal list-outside space-y-2">
                 <li class=" leading-5">ผู้สมัครส่งใบสมัครเป็นทางการให้ราชวิทยาลัยอายุรแพทย์ฯ ตามกำหนดการรับสมัคร พร้อมส่งหลักฐานประกอบการสมัครให้ภาควิชาฯ</li>
-                <li class=" leading-5">สอบสัมภาษณ์ผู้สมัครโดยคณะกรรมการการศึกษาหลังปริญญาและคณาจารย์ภาควิชาอายุรศาสตร์ ตามกำหนดเวลาและหลักเกณฑ์ของราชวิทยาลัยอายุรแพทย์ฯ</li>
-                <li class=" leading-5">ตัดสินผลการคัดเลือกตามเกณฑ์การคัดเลือกข้างต้น กรณีที่คะแนนใกล้เคียงกันขึ้นอยู่กับดุลยพินิจของคณะกรรมการการศึกษาหลังปริญญา</li>
+                <li class=" leading-5">สอบสัมภาษณ์ผู้สมัครโดยคณะกรรมการคัดเลือกแพทย์ประจำบ้าน ซึ่งประกอบด้วยคณะกรรมการการศึกษาหลังปริญญา อาจารย์ภาควิชาฯ และผู้แทนแพทย์ประจำบ้าน ตามกำหนดเวลาและหลักเกณฑ์ของราชวิทยาลัยอายุรแพทย์ฯ</li>
+                <li class=" leading-5">ตัดสินผลการคัดเลือกตามเกณฑ์การคัดเลือกดังกล่าวข้างต้น ในกรณีที่คะแนนเท่ากัน จะขึ้นอยู่กับดุลยพินิจของคณะกรรมการการศึกษาหลังปริญญา</li>
                 <li class=" leading-5">แจ้งผลการคัดเลือกให้ผู้สมัครรับทราบตามกำหนดเวลาของราชวิทยาลัยอายุรแพทย์ฯ และส่งรายชื่อผู้ที่ได้รับคัดเลือกให้แพทยสภาโดยผ่านราชวิทยาลัยอายุรแพทย์ฯ</li>
             </ol>
         </div>
@@ -135,6 +141,7 @@ import Modal from '@/Components/Modal.vue'
 
 const criteriaModal = ref(false)
 const selectMethodModal = ref(false)
+
 
 const modalHandler = (val) => {
             let modal = document.getElementById("modal");

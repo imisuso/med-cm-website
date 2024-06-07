@@ -19,8 +19,8 @@
             <!-- <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/80x80"> -->
             <img alt="team" class="w-20 h-20 object-cover object-top flex-shrink-0 rounded-full mr-4" :src="`${person.image_url}`" />
             <div class="flex-grow">
-                <h2 class="text-gray-900 group-hover:text-white title-font font-medium">{{ person.rname_full_th }}</h2>
-                <h2 class="text-gray-900 group-hover:text-white title-font font-medium">{{ person.fullname }}</h2>
+<!--                <h2 class="text-gray-900 group-hover:text-white title-font font-medium">{{ person.rname_full_th }}</h2>-->
+                <h2 class="text-gray-900 group-hover:text-white title-font font-medium">{{ person.rname_short_th }} {{ person.fullname }}</h2>
                 <p class="text-gray-500 group-hover:text-gray-900 italic">{{ person.position_thai }}</p>
             </div>
             </div>
