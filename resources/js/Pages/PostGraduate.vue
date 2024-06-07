@@ -29,7 +29,7 @@
 
         <div id="committee">
             <section class="w-full bg-white">
-                <Committee 
+                <Committee
                     :committees="CommitteeData"
                 />
             </section>
@@ -38,6 +38,12 @@
         <div id="officer">
             <section class="w-full py-2 bg-gray-50">
                 <Officer />
+            </section>
+        </div>
+
+        <div id="criteria_detail">
+            <section class="w-full py-2 bg-white">
+                <ReportCommittee />
             </section>
         </div>
 
@@ -75,6 +81,7 @@ import Committee from '@/Components/PostGraduate/Committee.vue'
 import Officer from '@/Components/PostGraduate/Officer.vue'
 import CriteriaDetail from '@/Components/PostGraduate/CriteriaDetail.vue'
 import ContactUs from '@/Components/PostGraduate/ContactUs.vue'
+import ReportCommittee from "@/Components/PostGraduate/ReportCommittee.vue";
 
 const props = defineProps({
     CommitteeData: { type: Array, default: [] },
