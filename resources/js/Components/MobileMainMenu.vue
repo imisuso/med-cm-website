@@ -20,7 +20,7 @@
         <template v-for="sub_menu_item in sub_menu" :key="sub_menu_item.sub_menu_id">
             <li class="flex flex-row items-baseline mb-1 py-1 rounded-sm shadow-md dropsidemenu">
                 <div v-html="pic_heading_submenu" class="inline-block"></div>
-                <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" @click="true">{{ sub_menu_item.sub_menu_name }}</a>
+                <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" @click="$emit('clickTag')">{{ sub_menu_item.sub_menu_name }}</a>
                 <a v-else-if="sub_menu_item.sub_menu_link.startsWith('http')" :href="sub_menu_item.sub_menu_link" target="_blank" @click="true">{{ sub_menu_item.sub_menu_name }}</a>
 <!--                <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)" @click="true">{{ sub_menu_item.sub_menu_name }}</Link>-->
                 <a v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</a>
@@ -32,6 +32,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
+defineEmits(['clickTag'])
 
 const props = defineProps({
     has_sub_menu: { type: Boolean, required: true },
