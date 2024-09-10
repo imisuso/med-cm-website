@@ -1,0 +1,1 @@
+import{E as i}from"./app.a6848ba1.js";class r{listAll(){return i.get(route("admin.list_division_all")).then(t=>t.data)}listBranchOnly(){return i.get(route("admin.list_branch_only")).then(t=>t.data)}}export{r as D};
