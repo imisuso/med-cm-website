@@ -37,8 +37,8 @@
                                             :clearable="false"
                                             autoApply
                                         >
-                                            <template #year="{ year }">
-                                                {{ parseInt(year)+543  }}
+                                            <template #year="{ value }">
+                                                {{ parseInt(value)+543  }}
                                             </template>
 
                                             <template #year-overlay-value="{ text, value }">
