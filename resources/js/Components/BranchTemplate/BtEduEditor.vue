@@ -47,7 +47,7 @@
 <script setup>
 import { ref, onUnmounted, nextTick, reactive } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
+// import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
 //import QuillBetterTable from 'quill-better-table'
 
 import { createToast } from 'mosha-vue-toastify'
@@ -55,17 +55,17 @@ import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
 import ComingSoon from '@/Components/ComingSoon.vue'
 
-class CustomImageSpec extends ImageSpec {
-    getActions() {
-      return [AlignAction, DeleteAction, ResizeAction];
-    }
-}
+// class CustomImageSpec extends ImageSpec {
+//     getActions() {
+//       return [AlignAction, DeleteAction, ResizeAction];
+//     }
+// }
 
-class RemoveImageSpec extends ImageSpec {
-    getActions() {
-      return [];
-    }
-}
+// class RemoveImageSpec extends ImageSpec {
+//     getActions() {
+//       return [];
+//     }
+// }
 
 // ถูกส่งเป็น props เข้ามาจากหน้า BranchTemplateEditor หรือ BranchDetails เพราะใช้หน้านี้ในการแสดงผลร่วมกัน
 const props = defineProps({
@@ -93,18 +93,18 @@ const form = useForm({
 
 const quill_modules = ref([
   {
-    name: 'blotFormatter',
-    module: BlotFormatter,
-    options: {
-      specs: [
-        RemoveImageSpec,
-      ],
-      overlay: {
-        style: {
-          border: '2px solid red',
-        }
-      },
-    }
+    // name: 'blotFormatter',
+    // module: BlotFormatter,
+    // options: {
+    //   specs: [
+    //     RemoveImageSpec,
+    //   ],
+    //   overlay: {
+    //     style: {
+    //       border: '2px solid red',
+    //     }
+    //   },
+    // }
   },
   // {
   //   name: 'tableUI',
