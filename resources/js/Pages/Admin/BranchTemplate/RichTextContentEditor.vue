@@ -46,24 +46,24 @@
 <script setup>
 import { ref, onUnmounted, reactive, computed, nextTick } from 'vue'
 import { useForm, Link } from '@inertiajs/vue3'
-import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
+// import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
 
 import Swal  from 'sweetalert2';
 
-class CustomImageSpec extends ImageSpec {
-    getActions() {
-      return [AlignAction, DeleteAction, ResizeAction];
-    }
-}
+// class CustomImageSpec extends ImageSpec {
+//     getActions() {
+//       return [AlignAction, DeleteAction, ResizeAction];
+//     }
+// }
 
-class RemoveImageSpec extends ImageSpec {
-    getActions() {
-      return [];
-    }
-}
+// class RemoveImageSpec extends ImageSpec {
+//     getActions() {
+//       return [];
+//     }
+// }
 
 const props = defineProps({
     sub_header: { type: Object, required: true }
@@ -81,11 +81,11 @@ const contentForm = useForm({
 //const deltaContent = ref(JSON.parse(props.sub_header.delta_content))
 const htmlContent = ref(props.sub_header.detail_html)
 
-const quill_modules = {
-                name: 'blotFormatter',
-                module: BlotFormatter,
-                    options: {/* options */}
-            }
+// const quill_modules = {
+//                 name: 'blotFormatter',
+//                 module: BlotFormatter,
+//                     options: {/* options */}
+//             }
 
 const quill_e = ref()
 const imgDeleted = reactive([])
