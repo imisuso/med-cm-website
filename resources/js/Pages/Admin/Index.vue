@@ -53,12 +53,13 @@
 
     </div>
 
+    <div class="mb-4 h-1/4">
     <Line
         v-if="$page.props.auth.abilities.includes('view_all_content')"
-        :chart-data="chartData"
-        :chart-options="chartOptions"
-        class="mb-4"
+        :data="chartData"
+        :options="chartOptions"
     />
+    </div>
 
     <!-- <div class="grid grid-cols-3 shadow-md rounded-md">
         <div class=" bg-cyan-400 border-b rounded-t-md col-span-3 mb-1 p-4">Page Visits</div>
@@ -138,10 +139,10 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 
 <script setup>
 import {onMounted, ref} from "vue";
-import { Bar, Line } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale,
         LineElement, PointElement
 } from 'chart.js'
+import { Bar, Line } from 'vue-chartjs'
 import { ChartSquareBarIcon, SpeakerphoneIcon, PresentationChartLineIcon } from "@heroicons/vue/outline"
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement)

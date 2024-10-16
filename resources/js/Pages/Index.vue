@@ -76,7 +76,7 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 
 import { ref, onMounted, onUnmounted } from 'vue';
 import TempLogin from '@/Components/TemporaryLogin.vue'
-import KnowledgeForPeople from '@/Components/KnowledgeForPeople.vue'
+// import KnowledgeForPeople from '@/Components/KnowledgeForPeople.vue'
 import MedPoster from '@/Components/MedPoster.vue'
 import PhotoGallery from '@/Components/PhotoGallery.vue'
 import Cov19Service from '@/Components/Cov19Service.vue'
