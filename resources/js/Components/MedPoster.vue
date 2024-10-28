@@ -1,5 +1,26 @@
 <template>
     <div class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-16">
+<!--        <swiper-->
+<!--            :slides-per-view="3"-->
+<!--            :space-between="spaceBetween"-->
+<!--            :centered-slides="true"-->
+<!--            :pagination="{-->
+<!--              hideOnClick: true-->
+<!--            }"-->
+<!--            :breakpoints="{-->
+<!--              768: {-->
+<!--                slidesPerView: 3,-->
+<!--              },-->
+<!--            }"-->
+<!--            @swiperprogress="onProgress"-->
+<!--            @swiperslidechange="onSlideChange"-->
+<!--        >-->
+<!--            <swiper-slide>Slide 1</swiper-slide>-->
+<!--            <swiper-slide>Slide 2</swiper-slide>-->
+<!--            <swiper-slide>Slide 3</swiper-slide>-->
+<!--        </swiper>-->
+
+
         <Swiper
             :effect="'coverflow'"
             :slidesPerView="3"
@@ -36,16 +57,16 @@
                     slidesPerView: 3,
                     spaceBetween: 30,
                 },
-            }"      
+            }"
             class="mySwiper"
         >
             <SwiperSlide v-for="(poster, key) in posters" :key="key">
                 <a :href="`${poster.content_url}`" target="_blank">
                     <img :src="`${poster.cover_url}`" :alt="poster.desc" class="carousel__item"/>
                 </a>
-                <!-- <div class="p-1 bg-blue-500 text-white rounded-md shadow-md">
+                <!-- ไม่ได้ ใช้ <div class="p-1 bg-blue-500 text-white rounded-md shadow-md">
                     เผยแพร่ : {{ dayjs(poster.created_at).locale('th').format('วันddddที่ D MMMM BBBB เวลา H:mm') }}
-				</div> -->
+				</div> ไม่ได้ใช้ -->
             </SwiperSlide>
         </Swiper>
     </div>
@@ -57,7 +78,7 @@ import { ref, onMounted } from 'vue';
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
 // import required modules
-import { Autoplay, Pagination, Navigation, EffectCoverflow } from "swiper";
+import { Autoplay, Pagination, Navigation, EffectCoverflow } from "swiper/modules";
 // Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
