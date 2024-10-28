@@ -42,7 +42,7 @@ class Division extends Model
 
     public function getDivisionTypeAttribute()
     {
-        return $division_type = $this->type === "u" ? "หน่วย" : "สาขา";
+        return $division_type = $this->type === "u" ? "หน่วย" : "สาขาวิชา";
     }
 
     public function getImageUrlAttribute()
