@@ -62,7 +62,8 @@ class PosterController extends Controller
     {
         request()->validate([
             'cover' => ['required', 'mimes:jpg,jpeg', 'max:2305'],
-            'content' => ['required','mimes:jpg,jpeg,pdf','max:2305'],
+            'content' => ['required','mimes:jpg,jpeg,pdf','max:16384'],
+//            'content' => ['required','mimes:jpg,jpeg,pdf','max:2305'],
             'desc' => ['required'],
         ], [
             'cover.required' => 'ต้องใส่รูปหน้าปก ทุกครั้ง',
@@ -70,7 +71,7 @@ class PosterController extends Controller
             'cover.max' => 'ต้องใส่รูปหน้าปกขนาดไม่เกิน 2 MB เท่านั้น',
             'content.required' => 'ต้องใส่เนื้อหาไฟล์ ทุกครั้ง',
             'content.mimes' => 'ต้องใส่เนื้อหาไฟล์ที่เป็น jpg, jpeg หรือ pdf เท่านั้น',
-            'contentr.max' => 'ต้องใส่เนื้อหาไฟล์ขนาดไม่เกิน 2 MB เท่านั้น',
+            'content.max' => 'ต้องใส่เนื้อหาไฟล์ขนาดไม่เกิน 15 MB เท่านั้น',
             'desc.required' => 'ต้องใส่รายละเอียดของโปสเตอร์ ทุกครั้ง',
         ]);
 

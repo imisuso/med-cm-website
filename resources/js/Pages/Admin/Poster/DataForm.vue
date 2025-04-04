@@ -134,9 +134,9 @@ const uploadFile = (index, file, e) => {
   file.name = f.name;
   file.size = f.size;
 
-  if (file.size > 1024 * 1024 * 2) {
+  if (file.size > 1024 * 1024 * 16) {
     checkFileSize.value = false
-    toast('warning', 'คำเตือน', 'เพิ่มไฟล์ไม่ได้ เนื่องจากไฟล์ของคุณมีขนาดใหญ่กว่า 2MB')
+    toast('warning', 'คำเตือน', 'เพิ่มไฟล์ไม่ได้ เนื่องจากไฟล์ของคุณมีขนาดใหญ่กว่า 16MB')
   } else {
       checkFileSize.value = true
   }
