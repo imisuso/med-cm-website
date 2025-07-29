@@ -87,7 +87,7 @@ const leaders = ref(
                 {"id": 10, "position":"ศาสตราจารย์นายแพทย์", "name": "ศุภชัย ไชยธีระพันธ์","time_tenure": "1 ตุลาคม 2536 - 19 กุมภาพันธ์ 2540", "image":"images/department_leaders/10.gif"},
                 {"id": 11, "position":"ศาสตราจารย์แพทย์หญิง", "name": "สุมาลี นิมมานนิตย์","time_tenure": "20 กุมภาพันธ์ 2540 - 19 กุมภาพันธ์ 2544", "image":"images/department_leaders/11.gif"},
                 {"id": 12, "position":"ศาสตราจารย์นายแพทย์", "name": "อมร ลีลารัศมี","time_tenure": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "image":"images/department_leaders/12.gif"},
-                {"id": 13, "position":"ศาสตราจารย์คลีนิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/13.gif"},
+                {"id": 13, "position":"ศาสตราจารย์คลินิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/13.gif"},
                 {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "name": "วันชัย วนะชิวนาวิน","time_tenure": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image":"images/department_leaders/14.jpg"},
                 {"id": 15, "position":"รองศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "image":"images/department_leaders/15.jpg"},
                 {"id": 16, "position":"ศาสตราจารย์นายแพทย์", "name": "สมชาย ลีลากุศลวงศ์","time_tenure": "16 ธันวาคม 2566 - ปัจจุบัน", "image":"images/department_leaders/16.jpg"},
