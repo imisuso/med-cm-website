@@ -2,7 +2,7 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold w-full md:w-1/3">ข้อมูลการใช้งาน</div>
                 <input type="text" v-model="search" class="text rounded-md border-gray-400 w-full" placeholder="ค้นจาก Type, Action, Section หรือ Details" />
             </div>
@@ -39,7 +39,7 @@
                 class="bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600 mb-1"
             >
                 <div v-if="log.person">
-                    <div class="grid grid-cols-2 border p-2 rounded-md shadow-md">
+                    <div class="grid grid-cols-2 border border-gray-200 p-2 rounded-md shadow-md">
                         <div class=" col-span-2 text-sm text-black font-semibold">#{{log.id}}</div>
                         <div class=" col-span-2 text-sm text-gray-700 italic">{{ dayjs(log.created_at).locale('th').format('D/MM/BBBB H:mm') }}</div>
                         <div class=" col-span-2">{{ log.person.fname_th }} {{ log.person.lname_th }}</div>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <div class="grid grid-cols-2 border p-2 rounded-md shadow-md">
+                    <div class="grid grid-cols-2 border border-gray-200 p-2 rounded-md shadow-md">
                         <div class=" col-span-2 text-sm text-black font-semibold">#{{log.id}}</div>
                         <div class=" col-span-2 text-sm text-gray-700 italic ">{{ dayjs(log.created_at).locale('th').format('D/MM/BBBB H:mm') }}</div>
                         <div class=" col-span-2">Unknow-User ({{ log.user }})</div>

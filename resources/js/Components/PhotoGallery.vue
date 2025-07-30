@@ -15,17 +15,17 @@
     <div class="grid gap-8 lg:grid-cols-4 sm:max-w-sm sm:mx-auto lg:max-w-full">
       <div v-for="gl in gelleries" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-lg">
         <!-- <a :href="route(`show_gallery`, date_tranform(gl.event_date))" target="_blank"> -->
-        <div class="">
+        <div class="border-0">
           <!-- <a :href="route(`show_gallery`, gl.id)" target="_blank">
             <img class="object-contain bg-gray-300 backdrop-blur-lg drop-shadow-lg border rounded-md w-full md:h-40" :src="gl.cover_url" alt="" />
           </a> -->
           <Link
             :href="route(`show_gallery`, gl.id)"
           >
-            <img class="object-contain bg-gray-300 backdrop-blur-lg drop-shadow-lg border rounded-md w-full md:h-40" :src="gl.cover_url" alt="" />
+            <img class="object-contain bg-gray-300 backdrop-blur-lg drop-shadow-lg border-0 rounded-md w-full md:h-40" :src="gl.cover_url" alt="" />
           </Link>
         </div>
-        <div class="p-5 border border-b-0">
+        <div class="p-5 border-0">
           <p class="mb-3 text-sm font-semibold tracking-wide uppercase">
             <span class="text-gray-600 underline">{{ dayjs(gl.event_date).locale('th').format('D MMMM BBBB') }}</span>
           </p>

@@ -163,7 +163,9 @@
                 <div class="col-span-6 border-b-2"></div>
 
                 <div class=" col-span-6 sm:col-span-1 mt-2 font-bold text-emerald-700 sm:justify-self-end">รายละเอียดข่าว :</div>
-                <div class=" col-span-6 sm:col-span-5 ql-editor" v-html="announceDetails.detail_html"></div>
+                <div class="col-span-6 sm:col-span-5 ql-container ql-snow" style="border: 0;">
+                    <div class="border-0 ql-editor" v-html="announceDetails.detail_html"></div>
+                </div>
 
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ส่วนงาน :</div>
                 <div class=" col-span-6 sm:col-span-5 ml-3 font-bold">{{announceDetails.division.division_type}}{{ announceDetails.division.name_th }}</div>
