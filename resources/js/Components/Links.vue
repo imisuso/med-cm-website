@@ -31,8 +31,15 @@
         </div>
         <div class="flex items-center justify-between">
             <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 content-start">
-                <div v-for="item in other_links" :key="item.id" class="flex items-start justify-center w-full max-w-xs text-center">
-                    <a :href="item.link" target="_blank" class="space-y-2" >
+                <div
+                    v-for="item in other_links" :key="item.id"
+                    :class="[
+                        item.id === 4 && !props.medcon_current_year ? 'hidden' : '',
+                        item.id === 5 && !props.medcon_other_year ? 'hidden' : ''
+                    ]"
+                    class="flex items-start justify-center w-full max-w-xs text-center"
+                >
+                    <a :href="item.link" target="_blank" class="space-y-2">
                         <!-- <img class="object-none object-center w-full h-20 mx-auto rounded-lg shadow-md " :src="item.image" alt="avatar"/> -->
                         <!-- <img class=" object-cover w-full h-20 rounded-lg shadow-md " :src="item.image" alt="avatar"/> -->
                         <div v-html="item.image" class="flex grow-0 items-center justify-center"></div>
