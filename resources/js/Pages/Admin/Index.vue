@@ -6,7 +6,7 @@
 <!--    />-->
 
     <div class="grid grid-cols-12 p-2 space-y-2 md:space-y-0 space-x-0 md:space-x-2 mb-4">
-        <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
+        <div class=" col-span-12 md:col-span-4 border border-gray-200 rounded-md shadow-md p-4">
             <div class="flex items-start justify-between">
                 <div class="flex flex-col">
                     <div class=" text-gray-500 font-medium">ผู้เข้าชมเว็บไซต์ทั้งหมด</div>
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
+        <div class=" col-span-12 md:col-span-4 border border-gray-200 rounded-md shadow-md p-4">
             <div class="flex items-start justify-between">
                 <div class="flex flex-col">
                     <div class=" text-gray-500 font-medium">ข่าวประกาศ</div>
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class=" col-span-12 md:col-span-4 border rounded-md shadow-md p-4">
+        <div class=" col-span-12 md:col-span-4 border border-gray-200 rounded-md shadow-md p-4">
             <div class="flex items-start justify-between">
                 <div class="flex flex-col">
                     <div class=" text-gray-500 font-medium">โปสเตอร์</div>
@@ -72,7 +72,7 @@
         <div class=" border-gray-200 hidden md:block px-4"> Other</div>
     </div> -->
 
-    <div class="p-4 border rounded-md shadow-md text-2xl font-semibold bg-green-100">ผู้เข้าชมแยกตามหน้าเว็บไซต์</div>
+    <div class="p-4 border border-gray-200 rounded-md shadow-md text-2xl font-semibold bg-green-100">ผู้เข้าชมแยกตามหน้าเว็บไซต์</div>
     <div class=" overflow-auto rounded-lg shadow hidden md:block mb-4">
         <table class="w-full">
             <thead class="bg-gray-50 border-b-2 border-gray-200 ">

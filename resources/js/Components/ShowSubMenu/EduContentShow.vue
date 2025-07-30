@@ -1,10 +1,10 @@
 <template>
-    <div class="flex items-center justify-between text-md text-green-900 font-bold border-b-2">
+    <div class="flex items-center justify-between text-md text-green-900 font-bold border-b-2 border-gray-200">
         <div class="flex items-center">
             <EyeOffIcon :class="['w-6 h-6 px-1 text-blue-600 shrink-0']" />
             <ToggleSwitch v-model:status="sub_header.status" @button-is-toggle="confirmSwitchChange(sub_header)" />
             <EyeIcon :class="['w-6 h-6 px-1 text-blue-600 shrink-0']" />
-            <div class="ml-3 border-l-2 px-4">
+            <div class="ml-3 border-l-2 border-gray-300 px-4">
                 <!-- {{ `${sub_header.sub_header_id}. ${sub_header.sub_header_name_th}` }} -->
                 {{ `${index}. ${sub_header.sub_header_name_th}` }}
             </div>
