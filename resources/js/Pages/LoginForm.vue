@@ -19,7 +19,7 @@
                         <div class="relative">
                         <input
                             v-model="form.username"
-                            class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                            class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-xs"
                             placeholder="ระบุ username"
                             type="text"
                         />
@@ -53,7 +53,7 @@
                             v-model="form.password"
                             :type="[showPass ? 'text' : 'password']"
                             @keyup.enter="focusLoginBtn"
-                            class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                            class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-xs"
                             placeholder="ระบุ password"
                         />
 

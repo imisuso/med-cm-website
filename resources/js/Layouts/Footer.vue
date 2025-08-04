@@ -31,7 +31,7 @@
               <img src="../../asset/images/map.jpg" alt="">
             </a>
           </div>
-          <div class="absolute mt-6 px-6 py-6 transition-opacity duration-200 bg-black bg-opacity-75 opacity-0 hover:opacity-100 cursor-pointer">
+          <div class="absolute mt-6 px-6 py-6 transition-opacity duration-200 bg-black/75 opacity-0 hover:opacity-100 cursor-pointer">
               <a :href="route('image_preview')" target="_blank">
               <svg xmlns="http://www.w3.org/2000/svg" class=" h-10 w-28 text-white -ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />

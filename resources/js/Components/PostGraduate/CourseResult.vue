@@ -1,7 +1,7 @@
 <template>
     <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-8">
         <div class="flex justify-center mb-8">
-            <div class="inline-flex w-full mt-4 overflow-hidden rounded-lg shadow sm:w-auto sm:mx-2 sm:mt-0">
+            <div class="inline-flex w-full mt-4 overflow-hidden rounded-lg shadow-sm sm:w-auto sm:mx-2 sm:mt-0">
                 <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform sm:w-auto bg-gradient-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-2 fill-current shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -23,7 +23,7 @@
         </svg>
         </div> -->
         <div class="relative grid gap-5 sm:grid-cols-1 lg:grid-cols-2">
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-blue-200">
                         <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -46,7 +46,7 @@
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-blue-500 group-hover:scale-x-100"></div>
             </div>
 
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-blue-200">
                         <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -69,7 +69,7 @@
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-blue-500 group-hover:scale-x-100"></div>
             </div>
 
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-blue-200">
                         <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -93,7 +93,7 @@
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-blue-500 group-hover:scale-x-100"></div>
             </div>
 
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-blue-200">
                         <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -116,7 +116,7 @@
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-blue-500 group-hover:scale-x-100"></div>
             </div>
 
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-blue-200">
                         <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -140,7 +140,7 @@
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-blue-500 group-hover:scale-x-100"></div>
             </div>
 
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                     <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-blue-200">
                         <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -163,7 +163,7 @@
             </div>
 
 
-            <!-- <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <!-- <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -177,7 +177,7 @@
                 </div>
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100"></div>
             </div>
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -191,7 +191,7 @@
                 </div>
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100"></div>
             </div>
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -205,7 +205,7 @@
                 </div>
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100"></div>
             </div>
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -219,7 +219,7 @@
                 </div>
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100"></div>
             </div>
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -233,7 +233,7 @@
                 </div>
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100"></div>
             </div>
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">
@@ -247,7 +247,7 @@
                 </div>
                 <div class="w-full h-1 ml-auto duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100"></div>
             </div>
-            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded shadow-xl group hover:shadow-2xl">
+            <div class="flex flex-col justify-between overflow-hidden text-left transition-shadow duration-200 bg-white rounded-sm shadow-xl group hover:shadow-2xl">
                 <div class="p-5">
                 <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-indigo-50">
                     <svg class="w-8 h-8 text-deep-purple-accent-400" stroke="currentColor" viewBox="0 0 52 52">

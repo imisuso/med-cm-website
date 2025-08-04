@@ -13,7 +13,7 @@
     </div>
 
     <div class="grid gap-8 lg:grid-cols-4 sm:max-w-sm sm:mx-auto lg:max-w-full">
-      <div v-for="gl in gelleries" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-lg">
+      <div v-for="gl in gelleries" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded-sm shadow-lg">
         <!-- <a :href="route(`show_gallery`, date_tranform(gl.event_date))" target="_blank"> -->
         <div class="border-0">
           <!-- <a :href="route(`show_gallery`, gl.id)" target="_blank">
@@ -45,7 +45,7 @@
 
     <div class="flex justify-center">
       <div v-show="gallery_all > limit"
-          class="w-32 border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+          class="w-32 border rounded-xl shadow-sm bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
       >
         <div>
           <Link :href="route(`gallery_all_publish`)">

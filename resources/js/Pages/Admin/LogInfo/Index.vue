@@ -10,7 +10,7 @@
             <div class="grid grid-cols-3 gap-2 sm:gap-6 mb-2">
                 <div class="col-span-3 sm:col-span-1">
                   <label @click='listHint("type")' for="type" class="block cursor-pointer text-sm text-white text-center font-medium  bg-slate-700 tracking-wide border border-gray-700 rounded-2xl px-2">Type</label>
-<!--                  <select v-model="Form.type" id="type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+<!--                  <select v-model="Form.type" id="type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
 <!--                    <template v-for="(type, type_index) in types" :key="type_index">-->
 <!--                      <option :value="type.type">{{ type.type }}</option>-->
 <!--                    </template>-->
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-span-3 sm:col-span-1">
                     <label @click='listHint("action")' for="action" class="block cursor-pointer text-sm text-white text-center font-medium bg-amber-700 tracking-wide border border-gray-700 rounded-2xl px-2">Action</label>
-                    <!--                  <select v-model="Form.action" id="action" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+                    <!--                  <select v-model="Form.action" id="action" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
                     <!--                    <template v-for="(action, action_index) in actions" :key="action_index">-->
                     <!--                      <option :value="action.action">{{ action.action }}</option>-->
                     <!--                    </template>-->
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-span-3 sm:col-span-1">
                     <label @click='listHint("section")' for="section" class="block cursor-pointer text-sm text-white text-center font-medium bg-sky-700 tracking-wide border border-gray-700 rounded-2xl px-2">Section</label>
-<!--                    <select v-model="Form.section" id="section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+<!--                    <select v-model="Form.section" id="section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
 <!--                        <template v-for="(section, section_index) in sections" :key="section_index">-->
 <!--                            <option :value="section.section">{{ section.section }}</option>-->
 <!--                        </template>-->
@@ -46,9 +46,9 @@
                         <div class=" col-span-2">{{ log.details }}</div>
                         <div class=" col-span-2">
                             <div class="flex flex-col md:flex-row space-x-0 md:space-x-2 space-y-1 md:space-y-0 items-start md:items-center text-sm mt-2">
-                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow px-2 text-white bg-slate-700"> {{ log.type }}</div>
-                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow px-2 text-white bg-amber-700"> {{ log.action }}</div>
-                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow px-2 text-white bg-sky-700"> {{ log.section }}</div>
+                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow-sm px-2 text-white bg-slate-700"> {{ log.type }}</div>
+                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow-sm px-2 text-white bg-amber-700"> {{ log.action }}</div>
+                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow-sm px-2 text-white bg-sky-700"> {{ log.section }}</div>
                             </div>
                         </div>
                     </div>
@@ -61,9 +61,9 @@
                         <div class=" col-span-2">{{ log.details }}</div>
                         <div class=" col-span-2">
                             <div class="flex space-x-2 items-center text-sm mt-2">
-                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow px-2 text-white bg-slate-700"> {{ log.type }}</div>
-                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow px-2 text-white bg-amber-700"> {{ log.action }}</div>
-                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow px-2 text-white bg-sky-700"> {{ log.section }}</div>
+                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow-sm px-2 text-white bg-slate-700"> {{ log.type }}</div>
+                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow-sm px-2 text-white bg-amber-700"> {{ log.action }}</div>
+                                <div class="whitespace-nowrap tracking-wide border border-gray-700 rounded-2xl shadow-sm px-2 text-white bg-sky-700"> {{ log.section }}</div>
                             </div>
                         </div>
                     </div>

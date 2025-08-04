@@ -18,9 +18,9 @@
       </div>
       <div class="grid gap-4 row-gap-8 mx-auto sm:row-gap-8 lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-3 ">
         <div class="flex space-x-4 items-center" v-for="branch in branchs" :key="branch.division_id" >
-          <!-- <Link :href="route('branch_details')" method="post" :data="{ branch_id: branch.division_id }"><img class="object-cover w-20 h-20 mr-4 rounded-full shadow" :src="`${baseUrl}/storage/${branch.image}`" /></Link> -->
-          <!-- <Link :href="route('branch_details', branch.division_id)"><img class="object-cover w-20 h-20 mr-4 rounded-full shadow" :src="`${baseUrl}/storage/${branch.image}`" /></Link> -->
-          <Link class="shrink-0" :href="route('branch_details', branch.slug)"><img class="object-cover w-20 h-20 rounded-full shadow shrink-0" :src="`${branch.image_url}`" /></Link>
+          <!-- <Link :href="route('branch_details')" method="post" :data="{ branch_id: branch.division_id }"><img class="object-cover w-20 h-20 mr-4 rounded-full shadow-sm" :src="`${baseUrl}/storage/${branch.image}`" /></Link> -->
+          <!-- <Link :href="route('branch_details', branch.division_id)"><img class="object-cover w-20 h-20 mr-4 rounded-full shadow-sm" :src="`${baseUrl}/storage/${branch.image}`" /></Link> -->
+          <Link class="shrink-0" :href="route('branch_details', branch.slug)"><img class="object-cover w-20 h-20 rounded-full shadow-sm shrink-0" :src="`${branch.image_url}`" /></Link>
           <div class="flex flex-col">
             <Link :href="route('branch_details', branch.slug)">
               <p class="text-lg font-bold">{{branch.name_th}}</p>

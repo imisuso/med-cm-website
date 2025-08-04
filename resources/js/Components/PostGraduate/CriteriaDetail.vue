@@ -13,14 +13,14 @@
                     </h2>
                 </div>
                 <div class="grid gap-5 row-gap-8 sm:grid-cols-2">
-                    <div class="bg-white border-l-4 shadow-sm border-green-800">
+                    <div class="bg-white border-l-4 shadow-xs border-green-800">
                         <div class="h-full p-5 border border-l-0 rounded-r">
                         <h6 @click="criteriaModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
                             เกณฑ์การคัดเลือก
                         </h6>
                         </div>
                     </div>
-                    <div class="bg-white border-l-4 shadow-sm border-green-800">
+                    <div class="bg-white border-l-4 shadow-xs border-green-800">
                         <div class="h-full p-5 border border-l-0 rounded-r">
                         <h6 @click="selectMethodModal = true" class="mb-2 font-semibold leading-5 cursor-pointer">
                             วิธีการคัดเลือก
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div>
-                <img class="object-cover w-full h-56 rounded shadow-lg sm:h-96" src="../../../asset/images/post_graduate/criteria.jpg" alt="" />
+                <img class="object-cover w-full h-56 rounded-sm shadow-lg sm:h-96" src="../../../asset/images/post_graduate/criteria.jpg" alt="" />
             </div>
         </div>
     </div>

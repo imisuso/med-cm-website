@@ -73,7 +73,7 @@
     </div> -->
 
     <div class="p-4 border border-gray-200 rounded-md shadow-md text-2xl font-semibold bg-green-100">ผู้เข้าชมแยกตามหน้าเว็บไซต์</div>
-    <div class=" overflow-auto rounded-lg shadow hidden md:block mb-4">
+    <div class=" overflow-auto rounded-lg shadow-sm hidden md:block mb-4">
         <table class="w-full">
             <thead class="bg-gray-50 border-b-2 border-gray-200 ">
                 <tr>

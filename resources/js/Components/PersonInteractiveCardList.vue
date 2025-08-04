@@ -1,13 +1,13 @@
 <template>
     <div class=" bg-gradient-to-l from-sky-100 shadow-md border-2 border-gray-200 rounded-lg flex flex-col w-full space-y-1 mt-2">
         <div v-if="!orderInput" class="block sm:hidden px-4 pt-4 relative">
-            <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
+            <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
                 <svg class="w-6 h-6 dropbtn" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                 </svg>
             </button>
 
-            <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
+            <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden']" class="absolute dropdown-content left-0 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded-sm shadow-sm w-48">
                 <ul class="py-1" aria-labelledby="dropdownButton">
                     <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content')">
                         <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">
@@ -64,7 +64,7 @@
                 <div class="px-1 place-self-center">จัดลำดับ:</div>
                 <div class="text-sm text-gray-500 place-self-center">
                     <!-- <label for="filter_fname" class="block text-sm font-medium text-gray-700">ชื่อ</label> -->
-                    <input type="text" v-model="personDetails.display_order" @change="orderPerson" id="order_text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 w-24 block shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    <input type="text" v-model="personDetails.display_order" @change="orderPerson" id="order_text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 w-24 block shadow-xs sm:text-sm border-gray-300 rounded-md" />
                     <!-- <input type="text" name="" id="" v-model="personDetails.display_order"> -->
                 </div>
             </div>
@@ -83,13 +83,13 @@
 
             <div v-if="!orderInput" class="hidden sm:block">
                 <div class="px-4 pt-4 relative">
-                    <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
+                    <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
                         <svg class="w-6 h-6 dropbtn" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path class="dropbtn" d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                         </svg>
                     </button>
 
-                    <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden', $page.props.auth.abilities.includes('manage_person') ? '-top-28' : '-top-10']" class="absolute dropdown-content -left-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow w-48">
+                    <div id="dropdown" :class="[isDropDownOpen ? '' : 'hidden', $page.props.auth.abilities.includes('manage_person') ? '-top-28' : '-top-10']" class="absolute dropdown-content -left-28 bg-white text-base z-10 list-none divide-y divide-gray-100 rounded-sm shadow-sm w-48">
                         <ul class="py-1" aria-labelledby="dropdownButton">
                             <li v-if="personDetails.versions.length && $page.props.auth.abilities.includes('view_all_content') && $page.props.auth.abilities.includes('view_log')">
                                 <Link :href='route("admin.person.show_backup_history", personDetails.id)' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-2">

@@ -35,7 +35,7 @@
                 </a>
             </div> -->
             <div v-show="announcement_all > limit"
-                class="border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+                class="border rounded-xl shadow-sm bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
             >
                 <Link :href="route(`announce_all_publish`)">
                     ข่าวประชาสัมพันธ์ ทั้งหมด

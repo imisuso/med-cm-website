@@ -16,7 +16,7 @@
             <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-col ">
                 <template v-for="(mainMenu, index) in branchMainMenu" :key="mainMenu.main_header_id" :index="index">
                     <li v-if="mainMenu.status" class="mb-2 mx-2 last:mr-0 flex-auto text-left">
-                        <a class="transition duration-400 ease-in-out transform hover:-translate-y-1 hover:scale-104 text-xl font-bold uppercase px-5 py-2 shadow-lg rounded leading-normal flex items-center cursor-pointer" v-on:click="toggleTabs(mainMenu.main_header_id, index)" v-bind:class="{'text-blue-600 bg-white': openTab !== mainMenu.main_header_id, 'text-white bg-blue-600': openTab === mainMenu.main_header_id}">
+                        <a class="transition duration-400 ease-in-out transform hover:-translate-y-1 hover:scale-104 text-xl font-bold uppercase px-5 py-2 shadow-lg rounded-sm leading-normal flex items-center cursor-pointer" v-on:click="toggleTabs(mainMenu.main_header_id, index)" v-bind:class="{'text-blue-600 bg-white': openTab !== mainMenu.main_header_id, 'text-white bg-blue-600': openTab === mainMenu.main_header_id}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
                             </svg>

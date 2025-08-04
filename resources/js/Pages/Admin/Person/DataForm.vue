@@ -5,20 +5,20 @@
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลบุคลากร</div>
                 <Link v-if="!version && !from_history_page" :href="route('admin.person')" method="get" as="button" type="button">
-                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                         <ReplyIcon :class="['h-6 w-6 mr-2']" />
                         กลับหน้าหลัก
                     </button>
                 </Link>
                 <Link v-else-if="from_history_page" :href="route('admin.person.show_backup_history', person.id)" method="get" as="button" type="button">
-                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                         <ReplyIcon :class="['h-6 w-6 mr-2']" />
                         กลับหน้าดูประวัติ
                     </button>
                 </Link>
 
                 <Link v-else :href="route('admin.person.show_backup_history', person.person_id)" method="get" as="button" type="button">
-                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                    <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                         <ReplyIcon :class="['h-6 w-6 mr-2']" />
                         กลับหน้าดูประวัติ
                     </button>
@@ -31,7 +31,7 @@
 
             <div class="flex flex-col border rounded-lg shadow-lg p-4">
                 <div class="mt-5 md:mt-0 md:col-span-2">
-                    <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="shadow-sm overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <fieldset :disabled="viewDataInfomation">
                             <div class="gap-6 mb-6">
@@ -59,13 +59,13 @@
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="sap_id" class="block text-sm font-semibold text-gray-900">รหัส SAP-ID</label>
                                         <input :type="[pdpa_protect ? 'password' : 'text']" id="sap_id" v-model.trim="personForm.sap_id"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="division_selected" class="block text-sm font-semibold text-gray-900">สาขา/หน่วยงาน</label>
-                                        <select v-model="personForm.division_selected" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <select v-model="personForm.division_selected" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <template v-for="(option, index) in divisions" :key="index">
                                             <option v-if="$page.props.auth.abilities.includes('view_all_content')" :value="option.division_id">{{ option.name_th }}</option>
                                             <option v-else :value="option.division_id" :disabled="personForm.division_selected !== option.division_id">{{ option.name_th }}</option>
@@ -75,13 +75,13 @@
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="title_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าตามบัตร ปชช. (TH)</label>
-<!--                                        <select v-model="personForm.title_th" id="title_th" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+<!--                                        <select v-model="personForm.title_th" id="title_th" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
 <!--                                            <option value="นาย">นาย</option>-->
 <!--                                            <option value="นาง">นาง</option>-->
 <!--                                            <option value="นางสาว">นางสาว</option>-->
 <!--                                        </select>-->
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.title_th" id="title_th" required="true"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
@@ -91,7 +91,7 @@
                                             <div class="text-red-500 px-2">*</div>
                                         </div>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_th" id="fname_th" required="true"
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
 <!--                                        <div class="p-error" v-if="submitted && !personForm.fname_th">จำเป็นต้องใส่ ชื่อภาษาไทย</div>-->
                                     </div>
@@ -102,40 +102,40 @@
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_th" id="lname_th"
-                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
 <!--                                        <div class="p-error" v-if="submitted && !personForm.lname_th">จำเป็นต้องใส่ นามสกุลภาษาไทย</div>-->
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="title_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าตามบัตร ปชช. (EN)</label>
-<!--                                        <select v-model="personForm.title_en" id="title_en" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+<!--                                        <select v-model="personForm.title_en" id="title_en" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
 <!--                                            <option value="Mr.">Mr.</option>-->
 <!--                                            <option value="Mrs.">Mrs.</option>-->
 <!--                                            <option value="Miss.">Miss.</option>-->
 <!--                                        </select>-->
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.title_en" id="title_en"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="fname_en" class="block text-sm font-semibold text-gray-900">ชื่อ (EN)</label>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.fname_en" id="fname_en"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-2">
                                         <label for="lname_en" class="block text-sm font-semibold text-gray-900">นามสกุล (EN)</label>
                                         <input  :type="[pdpa_protect ? 'password' : 'text']" v-model.trim="personForm.lname_en" id="lname_en"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md"
                                         />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="type" class="block text-sm font-semibold text-gray-900">ประเภทบุคลากร</label>
-                                        <select v-model="personForm.type" id="type" @change="personForm.group=99" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <select v-model="personForm.type" id="type" @change="personForm.group=99" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="z">ที่ปรึกษา</option>
                                             <option value="a">สายวิชาการ (ก)</option>
                                             <option value="b">สายสนับสนุน (ข)(แพทย์)</option>
@@ -149,7 +149,7 @@
                                             <label for="group" class="block text-sm font-semibold text-gray-900">กลุ่มงาน</label>
                                             <div class=" text-red-500 px-2">*</div>
                                         </div>
-                                        <select v-model="personForm.group" id="group" @change="personForm.position_academic=99" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <select v-model="personForm.group" id="group" @change="personForm.position_academic=99" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <template v-for="option in group_list" :key="option.value">
                                                 <option v-if="(personForm.type === 'a') && (option.value == 1)"
                                                         :value="option.value"
@@ -171,7 +171,7 @@
 <!--                                            <label for="position_academic" class="block text-sm font-semibold text-gray-900">ตำแหน่งงาน</label>-->
 <!--                                            <div class=" text-red-500 px-2">*</div>-->
 <!--                                        </div>-->
-<!--                                        <select v-model="personForm.position_academic" id="position_academic" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
+<!--                                        <select v-model="personForm.position_academic" id="position_academic" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">-->
 <!--                                            <template v-for="option in position_academic_list" :key="option.value">-->
 <!--                                                <option-->
 <!--                                                        :value="option.value"-->
@@ -189,13 +189,13 @@
                                             <label for="rname_full_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ TH)</label>
                                             <div v-if="isDoctor(person)" class=" text-red-500 px-2">*</div>
                                         </div>
-                                        <input type="text" v-model.trim="personForm.rname_full_th" id="rname_full_th" placeholder="เช่น ศาสตราจารย์ คลินิก เกียรติคุณ นายแพทย์ หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.rname_full_th" id="rname_full_th" placeholder="เช่น ศาสตราจารย์ คลินิก เกียรติคุณ นายแพทย์ หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
 <!--                                        <div class="p-error" v-if="submitted && !personForm.rname_full_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบเต็มภาษาไทย</div>-->
                                     </div>
 
                                     <div v-if="isDoctor(person)" class="col-span-6">
                                         <label for="rname_full_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบเต็ม (แสดงผล สำหรับแพทย์ EN)</label>
-                                        <input type="text" v-model.trim="personForm.rname_full_en" id="rname_full_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.rname_full_en" id="rname_full_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="isDoctor(person)" class="col-span-6 sm:col-span-3">
@@ -203,7 +203,7 @@
                                             <label for="rname_short_th" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ TH)</label>
                                             <div v-if="isDoctor(person)" class=" text-red-500 px-2">*</div>
                                         </div>
-                                        <input type="text" v-model.trim="personForm.rname_short_th" id="rname_short_th" placeholder="เช่น ศ. คลินิก เกียรติคุณ พญ. หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.rname_short_th" id="rname_short_th" placeholder="เช่น ศ. คลินิก เกียรติคุณ พญ. หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                         <div class="p-error" v-if="submitted && !personForm.rname_short_th">จำเป็นต้องใส่ คำนำหน้าชื่อแบบย่อภาษาไทย</div>
                                     </div>
 
@@ -212,22 +212,22 @@
                                             <label for="rname_short_en" class="block text-sm font-semibold text-gray-900">คำนำหน้าชื่อแบบย่อ (แสดงผล สำหรับแพทย์ EN)</label>
                                             <div class=" text-white">.</div>
                                         </div>
-                                        <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.rname_short_en" id="rname_short_en" placeholder="Ex. Emeritus Professor Or etc..." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="isDoctor(person)" class="col-span-6">
                                         <label for="position_mgnt" class="block text-sm font-semibold text-gray-900">ตำแหน่งทางการบริหารในภาควิชา (แสดงผล สำหรับแพทย์)</label>
-                                        <input type="text" v-model.trim="personForm.position_mgnt" id="position_mgnt" placeholder="เช่น รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.position_mgnt" id="position_mgnt" placeholder="เช่น รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายเวชสารสนเทศและเวชระเบียน หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="isDoctor(person)" class="col-span-6 sm:col-span-3">
                                         <label for="reward" class="block text-sm font-semibold text-gray-900">คำต่อท้ายชื่อ (แสดงผล สำหรับแพทย์)</label>
-                                        <input type="text" v-model.trim="personForm.reward" id="reward" placeholder="เช่น ศ.11 หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.reward" id="reward" placeholder="เช่น ศ.11 หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="position_division" class="block text-sm font-semibold text-gray-900">ตำแหน่งใน สาขา/หน่วยงาน (แสดงผล)</label>
-                                        <input type="text" v-model.trim="personForm.position_division" id="position_division" placeholder="เช่น หัวหน้าสาขา หรือ หัวหน้าหน่วย หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" v-model.trim="personForm.position_division" id="position_division" placeholder="เช่น หัวหน้าสาขา หรือ หัวหน้าหน่วย หรือ อื่นๆ" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                     </div>
                                 </div>
                             </fieldset>
@@ -236,14 +236,14 @@
                                     <div class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center space-x-2">
                                             <label for="leader" class="block text-sm font-semibold text-gray-900">เป็นหัวหน้า สาขา/หน่วยงาน</label>
-                                            <input type="checkbox" v-model="personForm.leader" id="leader" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                            <input type="checkbox" v-model="personForm.leader" id="leader" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm" />
                                         </div>
                                     </div>
 
                                     <div v-if="personForm.type == 'z' && personForm.group == 1" class="col-span-6 sm:col-span-2">
                                         <div class="flex items-center space-x-2">
                                             <label for="teacher" class="block text-sm font-semibold text-gray-900">เป็นอาจารย์ประจำสาขาวิชา</label>
-                                            <input type="checkbox" v-model="personForm.teacher" id="teacher" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                            <input type="checkbox" v-model="personForm.teacher" id="teacher" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm" />
                                         </div>
                                     </div>
                                 </div>

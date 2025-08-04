@@ -4,7 +4,7 @@
         <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
             <div class=" text-2xl font-bold">{{ actionWord }} Role</div>
             <Link :href="route('admin.role.index')" method="get" as="button" type="button">
-                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                     <ReplyIcon :class="['h-6 w-6 mr-2']" />
                     กลับหน้าจัดการ Role
                 </button>
@@ -18,7 +18,7 @@
                     <div>
                         <input  type="text" id="role-name"
                                 v-model="form.role_name"
-                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
+                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm rounded-md"
                                 :class="[ $page.props.errors.role_name ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
@@ -30,7 +30,7 @@
                     <div>
                         <textarea id="role-label"
                                   v-model="form.role_label"
-                                  class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
+                                  class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm rounded-md"
                                   :class="[ $page.props.errors.role_label ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>

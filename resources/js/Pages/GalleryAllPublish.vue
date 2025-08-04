@@ -31,7 +31,7 @@
         </div> -->
 
         <div class="grid gap-8 lg:grid-cols-4 sm:max-w-sm sm:mx-auto lg:max-w-full">
-            <div v-for="gl in galleries.data" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-lg">
+            <div v-for="gl in galleries.data" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded-sm shadow-lg">
                 <div class="">
                     <Link
                         :href="route(`show_gallery`, gl.id)"

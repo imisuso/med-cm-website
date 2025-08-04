@@ -83,7 +83,7 @@
                 <li>
                     <a
                     href="/"
-                    class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                    class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded-sm shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-hidden"
                     aria-label="Sign up"
                     title="Sign up"
                     >
@@ -95,7 +95,7 @@
                     <button
                         aria-label="Open Menu"
                         title="Open Menu"
-                        class="p-2 -mr-1 transition duration-200 rounded focus:outline-none focus:shadow-outline"
+                        class="p-2 -mr-1 transition duration-200 rounded-sm focus:outline-hidden focus:shadow-outline"
                         @click="isMenuOpen = true"
                     >
                         <svg class="w-7 text-emerald-400" viewBox="0 0 24 24">
@@ -113,9 +113,9 @@
                         ></path>
                         </svg>
                     </button>
-                    <div v-show="isMenuOpen" id="mobile-overlay" class=" flex overflow-x-hidden overflow-y-auto fixed top-0 left-0 right-0 inset-0 z-50 justify-center sm:h-full bg-gray-800 bg-opacity-25">
+                    <div v-show="isMenuOpen" id="mobile-overlay" class=" flex overflow-x-hidden overflow-y-auto fixed top-0 left-0 right-0 inset-0 z-50 justify-center sm:h-full bg-gray-800/25">
                         <div v-if="isMenuOpen" class="z-10 absolute top-0 left-0 w-full">
-                            <div class="p-5 bg-white border rounded shadow-sm">
+                            <div class="p-5 bg-white border rounded-sm shadow-xs">
                             <div class="flex items-center justify-between mb-4">
                                 <div>
                                 <a
@@ -149,7 +149,7 @@
                                 <button
                                     aria-label="Close Menu"
                                     title="Close Menu"
-                                    class="p-2 -mt-2 -mr-2 transition duration-200 rounded hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    class="p-2 -mt-2 -mr-2 transition duration-200 rounded-sm hover:bg-gray-200 focus:bg-gray-200 focus:outline-hidden focus:shadow-outline"
                                     @click="isMenuOpen = false"
                                 >
                                     <svg class="w-5 text-gray-600" viewBox="0 0 24 24">
@@ -261,7 +261,7 @@
 <!--                                    <Link-->
 <!--                                        as="button" type="button"-->
 <!--                                        :href="route('logout')"-->
-<!--                                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide transition duration-200 rounded shadow-md bg-emerald-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"-->
+<!--                                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide transition duration-200 rounded-sm shadow-md bg-emerald-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-hidden"-->
 <!--                                        aria-label="Sign out"-->
 <!--                                        title="Sign out"-->
 <!--                                    >-->

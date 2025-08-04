@@ -6,13 +6,13 @@
                 <div class=" text-2xl font-bold">จัดการหน้าที่ (Role)</div>
                  <div class="space-x-2">
                     <Link :href="route('admin.role.create')" method="get" as="button" type="button">
-                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                             <PlusSmIcon :class="['h-6 w-6 mr-2']" />
                             เพิ่ม Role
                         </button>
                     </Link>
                      <Link :href="route('admin.ability.index')" method="get" as="button" type="button">
-                         <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-orange-600 rounded cursor-pointer hover:bg-orange-500">
+                         <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-orange-600 rounded-sm cursor-pointer hover:bg-orange-500">
                              <PencilIcon :class="['h-6 w-6 mr-2']" />
                              จัดการ Ability
                          </button>
@@ -26,7 +26,7 @@
 
             <div class="grid grid-cols-1 gap-2">
                 <div v-for="role in roles.data" :key="role.id"
-                    class="p-4 rounded-md shadow bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
+                    class="p-4 rounded-md shadow-sm bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
                 >
                     <div class="grid grid-cols-12">
                         <div class="col-span-10 md:col-span-11">

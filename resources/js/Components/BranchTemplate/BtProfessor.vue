@@ -5,7 +5,7 @@
   <!-- Display List สำหรับแสดงผลรายชื่ออาจารย์และแพทย์ -->
   <div v-else class="flex flex-col border-green-200 gap-2 p-2 rounded-md mt-5">
     <div v-for="doctor in doctorList" :key="doctor.id" class="flex flex-col sm:flex-row p-2 gap-4 bg-gradient-to-r from-gray-50 to-gray-200 rounded-lg shadow-lg">
-      <div class="flex flex-shrink-0 justify-center">
+      <div class="flex shrink-0 justify-center">
         <img :src="`${doctor.image_url}`" alt="" class="object-cover w-28 h-36 rounded-sm" />
       </div>
       <div class="flex flex-col w-full space-y-2 mb-2 text-black">
