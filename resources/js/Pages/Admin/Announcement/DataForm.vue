@@ -5,7 +5,7 @@
             <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลข่าวประกาศ</div>
                 <Link :href="route('admin.announce')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"
-                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
                 </Link>
@@ -16,7 +16,7 @@
             </div>
             <div class="grid grid-cols-6 gap-2">
                 <div class="mt-5 md:mt-0 col-span-6">
-                    <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="shadow-sm overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <fieldset :disabled="viewDataInfomation">
                                 <div class="grid grid-cols-6 gap-6 mb-6">
@@ -49,7 +49,7 @@
 
                                     <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="col-span-6">
                                         <label for="division_selected" class="block text-sm font-medium text-gray-700">สาขา/หน่วยงาน</label>
-                                        <select v-model="announceForm.division_id" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <select v-model="announceForm.division_id" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value=0>ตามสาขา/หน่วยงานผู้ประกาศ</option>
                                             <template v-for="(option, index) in divisions" :key="index">
                                                 <option :value="option.division_id">
@@ -78,7 +78,7 @@
                                             <label for="pinned" class="ml-2 text-sm font-medium text-gray-700">ปักหมุด</label>
                                             </div> -->
                                         </div>
-                                        <input type="text" id="topic" v-model.trim="announceForm.topic" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        <input type="text" id="topic" v-model.trim="announceForm.topic" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                                     </div>
 
                                     <div v-if="announceForm.old_attachments" class="col-span-6">

@@ -27,7 +27,7 @@
 
   <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 w-full gap-1 md:gap-2">
     <template v-for="person in personList" :key="person.id">
-      <div class="flex flex-row mt-2 sm:mt-0  rounded-lg shadow-lg bg-gradient-to-r from-gray-50 to-gray-200">
+      <div class="flex flex-row mt-2 sm:mt-0  rounded-lg shadow-lg bg-linear-to-r from-gray-50 to-gray-200">
           <div class="flex items-center p-2">
             <img class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300" :src="`${person.image_url}`" alt="" />
           </div>

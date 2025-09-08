@@ -1,6 +1,6 @@
 <template>
 <!--  <AppLayout>-->
-    <div class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-12">
+    <div class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-12">
       <div class="mx-auto mb-10 lg:max-w-xl sm:text-center">
         <p class="text-base text-blue-900 md:text-3xl font-bold">
           กรรมการบริหารภาควิชาอายุรศาสตร์
@@ -8,7 +8,7 @@
       </div>
 
       <!-- Fix สำหรับหัวหน้าภาค -->
-      <div class="grid gap-10 mx-auto lg:max-w-screen-lg mb-4">
+      <div class="grid gap-10 mx-auto lg:max-w-(--breakpoint-lg) mb-4">
         <div class="flex flex-col items-center">
           <img class="object-cover w-24 h-28 mb-2 rounded-xl shadow" :src="`${baseUrl}/${DirectorData[0].image}`" />
           <div class="flex flex-col items-center">
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-        <div class="grid gap-4 mx-auto lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-2 mb-4">
+        <div class="grid gap-4 mx-auto lg:max-w-(--breakpoint-lg) sm:grid-cols-2 lg:grid-cols-2 mb-4">
             <div class="flex flex-col items-center">
                 <img class="object-cover object-top w-24 h-24 mb-2 rounded-full shadow" :src="`${baseUrl}/${DirectorData[1].image}`" />
                 <div class="flex flex-col items-center">
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-      <div class="grid gap-4 mx-auto lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-4">
+      <div class="grid gap-4 mx-auto lg:max-w-(--breakpoint-lg) sm:grid-cols-2 lg:grid-cols-4">
           <template v-for="director in DirectorData" :key="director.position_id">
               <div class="flex flex-col items-center" v-if="director.position_id >= 4">
                   <img class="object-cover object-top w-24 h-24 mb-2 rounded-full shadow" :src="`${baseUrl}/${director.image}`" />

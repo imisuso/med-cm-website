@@ -7,7 +7,7 @@
             </div>
             <div class="mt-6 md:mt-0">
                 <Link :href="route('index')">
-                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
+                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-hidden transition duration-150 ease-in-out rounded-sm px-5 py-2 text-sm">กลับหน้าหลัก</button>
                 </Link>
             </div>
         </div>
@@ -33,7 +33,7 @@
                             <div class="h-full w-6 flex items-center justify-center">
                                 <div class="h-full w-1 bg-blue-800 pointer-events-none"></div>
                             </div>
-                            <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow text-center">{{ leader.id }}</div>
+                            <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow-sm text-center">{{ leader.id }}</div>
                         </div>
                     </div>
                     <!-- right -->
@@ -41,7 +41,7 @@
                         <div class="col-start-5 col-end-6 mr-10 md:mx-auto relative">
                             <div class="h-full w-6 flex items-center justify-center">
                             <div class="h-full w-1 bg-blue-800 pointer-events-none"></div></div>
-                            <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow text-center">{{ leader.id }}</div>
+                            <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow-sm text-center">{{ leader.id }}</div>
                         </div>
                         <div class="flex flex-col w-full sm:flex-row items-center bg-blue-500 col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                             <div class="h-20 w-20 mr-2 mb-1 sm:mb-0 shrink-0">

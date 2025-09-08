@@ -5,7 +5,7 @@
   </div>
   <div v-else-if="display_content === 'template'" class="flex flex-col">
 
-    <div class="flex-grow">
+    <div class="grow">
       <QuillEditor ref="quill_research"
                   theme="snow"
                   contentType="delta"
@@ -40,7 +40,7 @@
   </div>
 
   <div v-else class="flex flex-col">
-    <div class="flex-grow">
+    <div class="grow">
       <div class="ql-container ql-snow">
         <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>
       </div>

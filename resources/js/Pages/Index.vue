@@ -8,32 +8,32 @@
         </div> -->
 
         <div id="carousel">
-            <section class="w-full bg-gradient-to-r from-slate-100">
+            <section class="w-full bg-linear-to-r from-slate-100">
                 <!-- <MedPoster :posters="posters" /> -->
                 <MedPoster />
             </section>
         </div>
 
         <div id="cov19" >
-            <section class="w-full bg-gradient-to-l from-slate-100">
+            <section class="w-full bg-linear-to-l from-slate-100">
                 <Cov19Service />
             </section>
         </div>
 
         <!-- <div id="knowledge_for_people" >
-            <section class="w-full bg-gradient-to-r from-slate-100">
+            <section class="w-full bg-linear-to-r from-slate-100">
                 <KnowledgeForPeople />
             </section>
         </div> -->
 
         <div id="download">
-            <section class="w-full bg-gradient-to-l from-slate-100">
+            <section class="w-full bg-linear-to-l from-slate-100">
                 <Download />
             </section>
         </div>
 
         <div id="announcement">
-            <section class="w-full bg-gradient-to-r from-slate-100">
+            <section class="w-full bg-linear-to-r from-slate-100">
                 <Announcement
                     :limit=announce_show_limit
                     :announcement_all=announcement_all
@@ -42,7 +42,7 @@
         </div>
 
         <div id="photo_gallery">
-            <section class="w-full py-2 bg-gradient-to-l from-slate-100">
+            <section class="w-full py-2 bg-linear-to-l from-slate-100">
                 <PhotoGallery
                     data-aos="zoom-in"
                     data-aos-duration="2000"
@@ -53,7 +53,7 @@
         </div>
 
         <div id="links">
-            <section class="w-full py-2 bg-gradient-to-r from-slate-100">
+            <section class="w-full py-2 bg-linear-to-r from-slate-100">
                 <Links
                     :medcon_current_year=medcon_current_year
                     :medcon_other_year=medcon_other_year

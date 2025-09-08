@@ -3,7 +3,7 @@
     <ComingSoon />
   </div>
   <div v-else-if="display_content === 'template'" class="flex flex-col">
-    <div class="flex-grow">
+    <div class="grow">
       <QuillEditor
         id="quill_edueditor"
         ref="quill_edueditor"
@@ -38,7 +38,7 @@
   </div>
 
   <div v-else class="flex flex-col ">
-    <div class="flex-grow">
+    <div class="grow">
       <div class="ql-container ql-snow ql-editor" v-html="branchSubMenu.detail_html"></div>
     </div>
   </div>

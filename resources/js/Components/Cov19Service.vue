@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
+  <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-10">
     <div class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
       <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
         <span class="relative inline-block">
@@ -23,7 +23,7 @@
 
       <div class="duration-300 transform bg-white border-l-4 border-green-700 hover:-translate-y-2">
         <a href="https://med-cm-website.s3.ap-southeast-1.amazonaws.com/public/resource-files/html/covid_survival_guide.html" target="_blank">
-          <div class="h-full p-5 border border-l-0  border-gray-100 rounded-r shadow-sm">
+          <div class="h-full p-5 border border-l-0  border-gray-100 rounded-r shadow-xs">
             <h6 class="mb-2 font-semibold leading-5">Survival Guide.</h6>
             <p class="text-sm text-gray-900">
               แนวทางการดูแลผู้ป่วย COVID-19
@@ -34,7 +34,7 @@
 
       <div class="duration-300 transform bg-white border-l-4 border-green-700 hover:-translate-y-2">
         <a href="https://www.facebook.com/watch/?v=232398127871009" target="_blank">
-          <div class="h-full p-5 border border-l-0 border-gray-100 rounded-r shadow-sm">
+          <div class="h-full p-5 border border-l-0 border-gray-100 rounded-r shadow-xs">
             <h6 class="mb-2 font-semibold leading-5">สาระดีศิริราช ตอนที่ 1</h6>
             <p class="text-sm text-gray-900">
               อุปกรณ์ป้องกันบุคลากรทางการแพทย์  Airborne / Droplet + Contact PPE set
@@ -45,7 +45,7 @@
 
       <div class="duration-300 transform bg-white border-l-4 border-green-700 hover:-translate-y-2">
         <a href="https://www.facebook.com/watch/?v=658939604917989" target="_blank">
-          <div class="h-full p-5 border border-l-0 border-gray-100 rounded-r shadow-sm">
+          <div class="h-full p-5 border border-l-0 border-gray-100 rounded-r shadow-xs">
             <h6 class="mb-2 font-semibold leading-5">สาระดีศิริราช ตอนที่ 2 </h6>
             <p class="text-sm text-gray-900">
               อุปกรณ์ป้องกันบุคลากรทางการแพทย์ Maximal PPE Set 1 (ชุด Cover All)
@@ -56,7 +56,7 @@
 
       <div class="duration-300 transform bg-white border-l-4 border-green-700 hover:-translate-y-2">
         <a href="https://www.facebook.com/watch/?v=232588717858238" target="_blank">
-          <div class="h-full p-5 border border-l-0 border-gray-100 rounded-r shadow-sm">
+          <div class="h-full p-5 border border-l-0 border-gray-100 rounded-r shadow-xs">
             <h6 class="mb-2 font-semibold leading-5">สาระดีศิริราช ตอนที่ 3</h6>
             <p class="text-sm text-gray-900">
               อุปกรณ์ป้องกันบุคลากรทางการแพทย์  Maximal PPE Set 2 (ชุดเสื้อกาวน์และหมวกคลุมแยกชิ้น)
@@ -68,7 +68,7 @@
     <!-- <div class="text-center">
       <a
         href="/"
-        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md md:w-auto bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded-sm shadow-md md:w-auto bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
       >
         Learn more
       </a>

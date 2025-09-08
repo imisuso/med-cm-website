@@ -3,9 +3,9 @@
         <div class="flex flex-row justify-between px-2 py-2 space-y-2 mt-2 mb-2 w-full border rounded-md shadow-md items-baseline">
             <div class="text-2xl font-bold">ประวัติการแก้ไขข้อมูล</div>
             <Link :href="route('admin.person')" method="get" as="button" type="button"
-                  class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                  class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
             >
-                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                     <ReplyIcon :class="['h-6 w-6 mr-2']" />
                     กลับหน้าบุคคลากร
                 </button>

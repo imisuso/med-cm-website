@@ -5,7 +5,7 @@
     <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
       <div class=" text-2xl font-bold">จัดการข่าวประกาศ</div>
       <Link :href="route('admin.announce.create')" :data="{ 'fdivision_selected': filterForm.fdivision_selected }" method="get" as="button" type="button"
-          class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+          class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
       >
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,17 +17,17 @@
     </div>
 
     <div class="mt-0 mb-2 md:col-span-2">
-      <div class="shadow overflow-hidden sm:rounded-md">
+      <div class="shadow-sm overflow-hidden sm:rounded-md">
         <div class="px-4 py-5 bg-white sm:p-6">
           <div class="grid grid-cols-6 gap-2">
             <div class="col-span-6">
               <label for="filter_topic" class="block text-sm font-medium text-gray-700">หัวข้อข่าว</label>
-              <input type="text" v-model="filterForm.ftopic" id="filter_topic" placeholder="ค้นหาจากหัวข้อข่าว" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+              <input type="text" v-model="filterForm.ftopic" id="filter_topic" placeholder="ค้นหาจากหัวข้อข่าว" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
             </div>
 
             <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="col-span-6 sm:col-span-3">
               <label for="division_selected" class="block text-sm font-medium text-gray-700">สาขา/หน่วยงาน</label>
-              <select v-model="filterForm.fdivision_selected" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <select v-model="filterForm.fdivision_selected" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <option value="0">ทุกสาขา/หน่วยงาน</option>
                 <option v-for="(option, index) in divisions" :key="index" :value="option.division_id">
                   {{ option.name_th }}
@@ -37,7 +37,7 @@
 
             <div class="col-span-6 sm:col-span-3">
               <label for="division_selected" class="block text-sm font-medium text-gray-700">ประเภทประกาศ</label>
-              <select v-model="filterForm.fexpire_type" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <select v-model="filterForm.fexpire_type" id="division_selected" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <option value="all">ทั้งหมด</option>
                 <option value="alive">ประกาศที่ยังไม่หมดอายุเท่านั้น</option>
                 <option value="expire">ประกาศที่หมดอายุเท่านั้น</option>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="px-4 py-1 bg-gray-50 text-left sm:px-6">
-          <button type="button" @click="filterAnnounce" class="flex items-center justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button type="button" @click="filterAnnounce" class="flex items-center justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 <!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />-->
 <!--            </svg>-->
