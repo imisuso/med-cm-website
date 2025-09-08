@@ -1,7 +1,7 @@
 <template>
-    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8">
       <div class="flex flex-col items-start">
-        <div class="text-2xl font-medium text-white title-font mb-2 p-3 bg-gradient-to-r from-green-800 to-green-600 rounded-md shadow-md flex flex-col md:flex-row gap-2 md:items-center md:justify-between  w-full">
+        <div class="text-2xl font-medium text-white title-font mb-2 p-3 bg-linear-to-r from-green-800 to-green-600 rounded-md shadow-md flex flex-col md:flex-row gap-2 md:items-center md:justify-between  w-full">
           <div class="flex items-center">
             <PhotographIcon class="h-6 w-6" />
             <div class="flex items-center ml-2">รูปกิจกรรม</div>

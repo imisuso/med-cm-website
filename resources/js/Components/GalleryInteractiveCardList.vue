@@ -1,5 +1,5 @@
 <template>
-    <div class=" bg-gradient-to-l from-sky-100 shadow-md border-2 border-gray-200 rounded-lg flex flex-col w-full space-y-1 mt-2">
+    <div class=" bg-linear-to-l from-sky-100 shadow-md border-2 border-gray-200 rounded-lg flex flex-col w-full space-y-1 mt-2">
         <div class="block sm:hidden px-4 pt-4 relative">
             <button id="dropdownButton" @click="isDropDownOpen = !isDropDownOpen" class="block dropbtn text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-1.5">
                 <svg class="w-6 h-6 dropbtn" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center w-full px-2 bg-gradient-to-l from-sky-100">
+        <div class="flex flex-col sm:flex-row items-center w-full px-2 bg-linear-to-l from-sky-100">
             <div class="flex shrink-0 w-24 items-center justify-center">
                 <!-- <svg v-if="! galleryDetails.cover" class="shadow-lg rounded-md h-16 w-16 mb-1 mt-1 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />

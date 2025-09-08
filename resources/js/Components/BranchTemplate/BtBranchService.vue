@@ -4,7 +4,7 @@
   </div>
   <div v-else-if="display_content === 'template'" class="flex flex-col">
     <!-- <div class="flex "><button @click="insertTable" class="border">Insert Table</button></div> -->
-    <div class="flex-grow">
+    <div class="grow">
 
       <QuillEditor
         id="quill_ourservice"
@@ -49,7 +49,7 @@
   </div>
 
   <div v-else class="flex flex-col ">
-    <div class="flex-grow">
+    <div class="grow">
       <div class="ql-container ql-snow">
         <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>
       </div>

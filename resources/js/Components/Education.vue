@@ -8,7 +8,7 @@
         </div>
 
         <!-- Content -->
-        <div class="box-border order-first w-full text-black border-solid md:w-1/2 md:pl-10 md:order-none">
+        <div class="box-border order-first w-full text-black border-solid md:w-1/2 md:pl-10 md:order-0">
             <h2 class="m-0 text-xl font-semibold leading-tight border-0 border-gray-300 lg:text-3xl md:text-2xl">
                 การศึกษาก่อนปริญญา
             </h2>

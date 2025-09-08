@@ -65,7 +65,7 @@
                 </VueMultiselect>
                 <div class="col-start-1 sm:col-start-2 col-span-6 text-xs text-red-600" v-if="$page.props.errors.abilities">{{ $page.props.errors.abilities }}</div>
             </div>
-            <div class="bg-gradient-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
+            <div class="bg-linear-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
                 <div class="font-semibold text-lg underline tracking-wide">ภาพรวม :</div>
                 <div class="flex items-center py-1" v-for="abt in form.abilities" :key="abt.id">
                     <div class="flex flex-col sm:flex-row sm:items-center">

@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody class=" divide-y divide-gray-100">
-                    <tr class="bg-gradient-to-r from-sky-50">
+                    <tr class="bg-linear-to-r from-sky-50">
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
                             ข้อมูลปัจจุบัน
                             <Link :href='route("admin.person.view", {Person: personCurrent.id, fromHistoryPage: true })' class="flex items-center text-sm hover:bg-gray-100 text-green-700 px-4 py-1 tracking-wide">
@@ -38,7 +38,7 @@
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">{{ dayjs(personCurrent.created_at).locale('th').format('D MMMM BBBB HH:mm:ss') }}</td>
                     </tr>
                     <tr v-for=" personVersion in personHistory" :key="personVersion.id"
-                        class="bg-gradient-to-r from-red-50"
+                        class="bg-linear-to-r from-red-50"
                     >
                         <td class=" w-1/12 p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap">
                             LOG-ID : {{ personVersion.trace_log_id }}

@@ -1,7 +1,7 @@
 <template>
 	<div class="container flex flex-col items-center px-4 md:px-8 py-12 mx-auto xl:flex-row">
 		<div class="flex justify-center xl:w-1/3 shrink-0">
-			<img class="h-72 w-72 sm:w-[24rem] sm:h-[24rem] shrink-0 object-cover rounded-full" src="../../../asset/images/post_graduate/vision.jpg" alt="">
+			<img class="h-72 w-72 sm:w-[24rem] sm:h-96 shrink-0 object-cover rounded-full" src="../../../asset/images/post_graduate/vision.jpg" alt="">
 		</div>
 
 		<div class="flex flex-col items-center mt-6 xl:items-start w-full xl:mt-0 px-8">

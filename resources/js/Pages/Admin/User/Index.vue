@@ -20,7 +20,7 @@
 
             <div class="grid grid-cols-1 gap-2">
                 <div v-for="(user, u_index) in users.data" :key="u_index"
-                    class="p-4 rounded-md shadow-sm bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
+                    class="p-4 rounded-md shadow-sm bg-linear-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
                 >
                     <div class="grid grid-cols-12">
                         <div class="col-span-10 md:col-span-11">

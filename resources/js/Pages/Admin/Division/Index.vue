@@ -46,7 +46,7 @@
       </teleport>
 
       <!-- สำหรับแสดงผล list รายชื่อ สาขา/หน่วยงาน -->
-      <div v-for="item in props.divisions.data" :key="item.id" class="flex flex-col items-center space-y-4 sm:flex-row w-full px-4 py-2 mb-4 mx-auto bg-gradient-to-l from-sky-100 rounded-lg shadow-md">
+      <div v-for="item in props.divisions.data" :key="item.id" class="flex flex-col items-center space-y-4 sm:flex-row w-full px-4 py-2 mb-4 mx-auto bg-linear-to-l from-sky-100 rounded-lg shadow-md">
         <div>
           <img :src="`${item.image_url}`" class="h-20 w-20 rounded-full object-cover mr-4"/>
         </div>

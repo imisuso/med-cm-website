@@ -2,7 +2,7 @@
     <div class="container px-5 py-8 mx-auto">
         <div class="flex justify-center mb-8">
             <div class="inline-flex w-full overflow-hidden rounded-lg shadow-sm sm:w-auto sm:mx-2">
-                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform bg-gradient-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600 sm:w-auto">
+                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform bg-linear-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600 sm:w-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-2 fill-current shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -18,7 +18,7 @@
             <div class="h-full flex items-center border-gray-200 group hover:bg-blue-500 border p-4 rounded-lg">
             <!-- <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center shrink-0 rounded-full mr-4" src="https://dummyimage.com/80x80"> -->
             <img alt="team" class="w-20 h-20 object-cover object-top shrink-0 rounded-full mr-4" :src="`${person.image_url}`" />
-            <div class="flex-grow">
+            <div class="grow">
 <!--                <h2 class="text-gray-900 group-hover:text-white title-font font-medium">{{ person.rname_full_th }}</h2>-->
                 <h2 class="text-gray-900 group-hover:text-white title-font font-medium">{{ person.rname_short_th }} {{ person.fullname }}</h2>
                 <p class="text-gray-500 group-hover:text-gray-900 italic">{{ person.position_thai }}</p>

@@ -2,7 +2,7 @@
     <div class="container px-4 md:px-8 py-8 mx-auto space-y-8 lg:max-w-7xl">
         <div class="flex justify-center">
             <div class="inline-flex w-full overflow-hidden rounded-lg shadow-sm sm:w-auto sm:mx-2">
-                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform bg-gradient-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600 sm:w-auto">
+                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform bg-linear-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600 sm:w-auto">
                     <svg class="w-6 h-6 mx-2 fill-current shrink-0" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
                         <g>
                             <g>

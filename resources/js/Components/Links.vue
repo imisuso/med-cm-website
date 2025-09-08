@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
+    <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-10">
         <div class="flex flex-col mb-6 lg:justify-between lg:flex-row md:mb-8">
             <h2 class="max-w-lg mb-2 font-sans text-xl font-bold tracking-tight text-gray-900 sm:text-2xl sm:leading-none md:mb-2 group">
         <span class="inline-block mb-1 sm:mb-4">

@@ -1,8 +1,8 @@
 <template>
-    <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-8">
+    <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-8">
         <div class="flex justify-center mb-8">
             <div class="inline-flex w-full mt-4 overflow-hidden rounded-lg shadow-sm sm:w-auto sm:mx-2 sm:mt-0">
-                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform sm:w-auto bg-gradient-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600">
+                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform sm:w-auto bg-linear-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-2 fill-current shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                     </svg>
@@ -14,7 +14,7 @@
         </div>
         <p class="text-left mb-8">ผลสัมฤทธิ์ของแผนงานฝึกอบรมมีแนวคิดมาจากคุณลักษณะหลักของอายุรแพทย์ที่พึงประสงค์ในปัจจุบัน สอดคล้องกับความต้องการของสังคม สอดคล้องกับระบบสุขภาพ และต่อยอดคุณลักษณะของแพทยศาสตร์บัณฑิต ดังนั้นแพทย์ประจำบ้านที่จบการฝึกอบรมต้องสามารถปฏิบัติงานได้ด้วยตนเองตามสมรรถนะหลักทั้ง 6 ด้านดังนี้</p>
         <!-- <div class="absolute inset-x-0 top-0 items-center justify-center hidden overflow-hidden md:flex md:inset-y-0">
-        <svg viewBox="0 0 88 88" class="w-full max-w-screen-xl text-indigo-100">
+        <svg viewBox="0 0 88 88" class="w-full max-w-(--breakpoint-xl) text-indigo-100">
             <circle fill="currentColor" cx="44" cy="44" r="15.5"></circle>
             <circle fill-opacity="0.2" fill="currentColor" cx="44" cy="44" r="44"></circle>
             <circle fill-opacity="0.2" fill="currentColor" cx="44" cy="44" r="37.5"></circle>

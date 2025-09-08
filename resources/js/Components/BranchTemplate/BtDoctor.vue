@@ -4,7 +4,7 @@
   </div>
   <!-- Display List สำหรับแสดงผลรายชื่ออาจารย์และแพทย์ -->
   <div v-else class="flex flex-col border-green-200 gap-2 p-2 rounded-md mt-5">
-    <div v-for="doctor in doctorList" :key="doctor.id" class="flex flex-col sm:flex-row p-2 gap-4 bg-gradient-to-r from-gray-50 to-gray-200 rounded-lg shadow-lg">
+    <div v-for="doctor in doctorList" :key="doctor.id" class="flex flex-col sm:flex-row p-2 gap-4 bg-linear-to-r from-gray-50 to-gray-200 rounded-lg shadow-lg">
       <div class="flex shrink-0 justify-center">
         <!-- <svg v-if="! doctor.image" class="h-36 w-28 object-cover rounded-sm text-gray-300" fill="currentColor" viewBox="0 0 24 24">
           <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />

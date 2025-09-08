@@ -36,7 +36,7 @@
 
             <!-- {{ logs.data }} -->
             <div v-for="(log, index) in logs.data" :key="index"
-                class="bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600 mb-1"
+                class="bg-linear-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600 mb-1"
             >
                 <div v-if="log.person">
                     <div class="grid grid-cols-2 border border-gray-200 p-2 rounded-md shadow-md">

@@ -33,7 +33,7 @@
                             </button>
 
                         </div>
-                        <div v-if="unitDetail" class="flex flex-col w-full mt-4 rounded-lg shadow-lg bg-gradient-to-r from-blue-50 to-blue-200">
+                        <div v-if="unitDetail" class="flex flex-col w-full mt-4 rounded-lg shadow-lg bg-linear-to-r from-blue-50 to-blue-200">
                             <div v-if="secretary" class="flex items-center space-x-4">
                                 <div class=" shrink-0 ">
                                     <svg v-if="! secretary.image" class="w-20 h-28 rounded-lg ring-1 ring-gray-300" fill="currentColor" viewBox="0 0 24 24">

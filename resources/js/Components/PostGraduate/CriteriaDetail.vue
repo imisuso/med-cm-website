@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-8">
+    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-8">
         <div class="grid gap-5 row-gap-8 lg:grid-cols-2">
             <div class="flex flex-col justify-center">
                 <div class="max-w-xl mb-6">

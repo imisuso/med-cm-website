@@ -1,5 +1,5 @@
 <template>
-    <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-8">
+    <div class="relative px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-8">
         <h2 class="text-3xl font-semibold text-center text-gray-800">ติดต่อเราได้ที่</h2>
         <p class="mt-3 text-center text-gray-600">คุณสุภาพร สุรัตน์ ฝ่ายการศึกษาหลังปริญญา</p>
 

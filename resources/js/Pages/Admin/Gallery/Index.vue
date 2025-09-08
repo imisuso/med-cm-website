@@ -20,7 +20,7 @@
                 </Link>
             </div>
 
-            <div v-if="galleries.data.length === 0" class="flex flex-col justify-center  mt-10 p-2 text-2xl text-white text-center border rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500">
+            <div v-if="galleries.data.length === 0" class="flex flex-col justify-center  mt-10 p-2 text-2xl text-white text-center border rounded-md bg-linear-to-r from-violet-500 to-fuchsia-500">
                 ไม่พบข้อมูล Galleries รูปกิจกรรม ในระบบ
             </div>
 

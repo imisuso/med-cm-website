@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8">
         <!-- <div class="text-2xl font-medium text-white title-font mb-2 p-2 bg-green-800 rounded-md shadow-md flex items-center w-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <!-- <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
+    <!-- <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-10">
         <div class="flex flex-wrap my-12 dark:text-white">
             <div v-for="(card, idx) in downloadItems" :key="idx" class="w-full border-b border-gray-200 md:w-1/2 md:border-r lg:w-1/3 p-8">
                 <div class="flex items-center mb-6">
