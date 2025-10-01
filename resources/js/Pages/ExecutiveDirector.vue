@@ -49,7 +49,7 @@
 
       <div class="flex items-center justify-center mx-auto mt-10 lg:max-w-xl sm:text-center">
         <p class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-green-900">
-          ปรับปรุงข้อมูล ณ วันที่ 10 กันยายน พ.ศ. 2567
+          ปรับปรุงข้อมูล ณ วันที่ 1 ตุลาคม พ.ศ. 2568
         </p>
       </div>
     </div>
@@ -67,12 +67,12 @@ import { ref, reactive } from 'vue';
 
 let DirectorData = reactive([
     { position_id: 1, position_eng: 'manager', position_thai: 'หัวหน้าภาควิชาอายุรศาสตร์', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'สมชาย ลีลากุศลวงศ์', image: 'images/executive_director/10004803.jpg', },
-    { position_id: 2, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ คนที่ 1', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'ทวีศักดิ์ แทนวันดี', image: 'images/executive_director/10003532.jpg', },
+    { position_id: 2, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ คนที่ 1', rname_full_th: 'อาจารย์นายแพทย์', name: 'ชนินทร์ ลิ่มวงศ์', image: 'images/executive_director/10003610.jpg', },
     { position_id: 3, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ คนที่ 2', rname_full_th: 'ศาสตราจารย์แพทย์หญิง', name: 'อภิรดี ศรีวิจิตรกมล', image: 'images/executive_director/10008561.jpg', },
     { position_id: 4, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายการศึกษาก่อนปริญญา', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'เอกพันธ์ ครุพงศ์', image: 'images/executive_director/10016067.jpg', },
     { position_id: 5, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายการศึกษาหลังปริญญา', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'สุพจน์ พงศ์ประสบชัย', image: 'images/executive_director/10006188.jpg', },
     { position_id: 6, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายทรัพยากรบุคคล', rname_full_th: 'อาจารย์นายแพทย์', name: 'ชนินทร์ ลิ่มวงศ์', image: 'images/executive_director/10003610.jpg', },
-    { position_id: 7, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายบริการผู้ป่วยนอก', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'ทวีศักดิ์ แทนวันดี', image: 'images/executive_director/10003532.jpg', },
+    { position_id: 7, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายบริการผู้ป่วยนอก', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'รัตนา ชวนะสุนทรพจน์', image: 'images/executive_director/10008584.jpg', },
     { position_id: 8, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายบริการผู้ป่วยใน', rname_full_th: 'ผู้ช่วยศาสตราจารย์แพทย์หญิง', name: 'ไกรวิพร เกียรติสุนทร', image: 'images/executive_director/10008475.jpg', },
     { position_id: 9, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายพัฒนาคุณภาพ', rname_full_th: 'รองศาสตราจารย์นายแพทย์', name: 'วีรชัย ศรีวณิชชากร', image: 'images/executive_director/10022718.jpg', },
     { position_id: 10, position_eng: 'xxxx', position_thai: 'รองหัวหน้าภาควิชาอายุรศาสตร์ฝ่ายวิจัยและวิชาการ', rname_full_th: 'ศาสตราจารย์นายแพทย์', name: 'พูลชัย จรัสเจริญวิทยา', image: 'images/executive_director/10007752.jpg', },

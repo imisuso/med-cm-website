@@ -89,7 +89,7 @@ const leaders = ref(
                 {"id": 12, "position":"ศาสตราจารย์นายแพทย์", "name": "อมร ลีลารัศมี","time_tenure": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "image":"images/department_leaders/12.gif"},
                 {"id": 13, "position":"ศาสตราจารย์คลินิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/13.gif"},
                 {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "name": "วันชัย วนะชิวนาวิน","time_tenure": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image":"images/department_leaders/14.jpg"},
-                {"id": 15, "position":"รองศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "image":"images/department_leaders/15.jpg"},
+                {"id": 15, "position":"ศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "image":"images/department_leaders/15.jpg"},
                 {"id": 16, "position":"ศาสตราจารย์นายแพทย์", "name": "สมชาย ลีลากุศลวงศ์","time_tenure": "16 ธันวาคม 2566 - ปัจจุบัน", "image":"images/department_leaders/16.jpg"},
 
             ]
