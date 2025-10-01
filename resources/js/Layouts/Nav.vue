@@ -50,7 +50,7 @@
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
                   >{{ main_menu_item.main_menu_name }}
                 </a>
-                <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-sm ">
+                <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-xs ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
                     <div class="flex flex-row items-baseline text-menu-color sub-menu-background-color px-4 py-1">
                       <div v-html="pic_heading_submenu"></div>
@@ -62,7 +62,7 @@
               </li>
               <li v-else-if="main_menu_item.main_menu_id === 1">
                 <Link :href="route('index')" class="font-medium cursor-pointer tracking-wide text-menu-color transition-colors duration-200">
-                  <button class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
+                  <button class="p-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
@@ -83,7 +83,7 @@
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
                 > {{ main_menu_item.main_menu_name }}
                 </Link>
-                <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-sm ">
+                <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-xs ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
                     <div class="flex flex-row items-baseline text-menu-color sub-menu-background-color px-4 py-1">
                       <div v-html="pic_heading_submenu"></div>
@@ -105,7 +105,7 @@
               <div aria-haspopup="true" class="cursor-pointer w-full flex items-center justify-end relative">
                 <Link
                   :href="route('login')"
-                  class="text-white py-2 px-4 uppercase rounded bg-emerald-500 hover:bg-emerald-600 flex items-center shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                  class="text-white py-2 px-4 uppercase rounded-sm bg-emerald-500 hover:bg-emerald-600 flex items-center shadow-sm hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -118,9 +118,9 @@
         </div>
 
         <!-- Mobile Side nav -->
-          <div id="mobile-nav" class="visible lg:hidden flex items-center z-50 bg-gray-800 bg-opacity-25">
-            <div v-show="isMenuOpen" id="mobile-overlay" class=" flex overflow-x-hidden overflow-y-auto fixed top-0 left-0 right-0 inset-0 z-50 justify-center sm:h-full bg-gray-800 bg-opacity-25">
-              <ul v-show="isMenuOpen" class="z-40 w-10/12 md:w-2/5 max-h-screen p-4 border-r bg-green-800 absolute rounded -top-16 left-0 right-0 shadow mt-16 md:mt-16 hidden overflow-scroll">
+          <div id="mobile-nav" class="visible lg:hidden flex items-center z-50 bg-gray-800/25">
+            <div v-show="isMenuOpen" id="mobile-overlay" class=" flex overflow-x-hidden overflow-y-auto fixed top-0 left-0 right-0 inset-0 z-50 justify-center sm:h-full bg-gray-800/25">
+              <ul v-show="isMenuOpen" class="z-40 w-10/12 md:w-2/5 max-h-screen p-4 border-r bg-green-800 absolute rounded-sm -top-16 left-0 right-0 shadow-sm mt-16 md:mt-16 hidden overflow-scroll">
                 <li>
                   <div class="flex items-center w-full justify-between">
                     <div class="flex">
@@ -182,7 +182,7 @@
                   </li>
                   <li v-else-if="main_menu_item.main_menu_id === 1">
                     <Link :href="route('index')" class="font-medium cursor-pointer tracking-wide text-menu-color transition-colors duration-200">
-                      <button class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
+                      <button class="p-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
@@ -206,7 +206,7 @@
                 <Link
                   :href="route('login')"
                   :class="[isMenuOpen ? '' : 'hidden']"
-                  class="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-emerald-500 hover:bg-emerald-600 focus:shadow-outline focus:outline-none"
+                  class="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded-sm shadow-md bg-emerald-500 hover:bg-emerald-600 focus:shadow-outline focus:outline-hidden"
                   aria-label="Sign in"
                   title="Sign in"
                 >
@@ -256,7 +256,7 @@
                 leave-from="translate-x-0"
                 leave-to="-translate-x-full"
                 as="template">
-                <DialogOverlay class="absolute inset-0 bg-black bg-opacity-40"></DialogOverlay>
+                <DialogOverlay class="absolute inset-0 bg-black/40"></DialogOverlay>
             </TransitionChild>
 
             <TransitionChild
@@ -268,7 +268,7 @@
                 leave-to="opacity-0"
                 as="template">
                 <div class="flex flex-col fixed inset-y-0 left-0 w-10/12 md:w-2/5 max-w-sm bg-green-800">
-                    <div class="flex items-center justify-between p-4 shadow ">
+                    <div class="flex items-center justify-between p-4 shadow-sm ">
                         <DialogTitle class="text-lg font-semibold">
                             <div class="flex">
                                 <Link
@@ -303,7 +303,7 @@
                             </div>
                         </DialogTitle>
                         <button @click="setIsOpen(false)"
-                                class="p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                                class="p-1 rounded-full focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-black"
                                 ref="closeMenuButtonRef"
                         >
                             <XIcon class="w-6 h-6"></XIcon>
@@ -328,7 +328,7 @@
                                 </li>
                                 <li v-else-if="main_menu_item.main_menu_id === 1">
                                     <Link :href="route('index')" class="font-medium cursor-pointer tracking-wide text-menu-color transition-colors duration-200">
-                                        <button class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
+                                        <button class="p-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                             </svg>
@@ -350,7 +350,7 @@
                             </li>
                             <Link
                                 :href="route('login')"
-                                class="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-emerald-500 hover:bg-emerald-600 focus:shadow-outline focus:outline-none"
+                                class="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded-sm shadow-md bg-emerald-500 hover:bg-emerald-600 focus:shadow-outline focus:outline-hidden"
                                 aria-label="Sign in"
                                 title="Sign in"
                                 @click="setIsOpen(false)"

@@ -2,17 +2,17 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">จัดการหน้าที่ (Role)</div>
                  <div class="space-x-2">
                     <Link :href="route('admin.role.create')" method="get" as="button" type="button">
-                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                             <PlusSmIcon :class="['h-6 w-6 mr-2']" />
                             เพิ่ม Role
                         </button>
                     </Link>
                      <Link :href="route('admin.ability.index')" method="get" as="button" type="button">
-                         <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-orange-600 rounded cursor-pointer hover:bg-orange-500">
+                         <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-orange-600 rounded-sm cursor-pointer hover:bg-orange-500">
                              <PencilIcon :class="['h-6 w-6 mr-2']" />
                              จัดการ Ability
                          </button>
@@ -26,7 +26,7 @@
 
             <div class="grid grid-cols-1 gap-2">
                 <div v-for="role in roles.data" :key="role.id"
-                    class="p-4 rounded-md shadow bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
+                    class="p-4 rounded-md shadow-sm bg-linear-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
                 >
                     <div class="grid grid-cols-12">
                         <div class="col-span-10 md:col-span-11">
@@ -47,7 +47,7 @@
                                     <div class="flex font-bold w-28">สิทธิดำเนินการ :</div>
                                 </div>
                             </div>
-                            <div class="bg-gradient-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
+                            <div class="bg-linear-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
                                 <div class="flex items-center py-1" v-for="abt in role.abilities" :key="abt.id">
                                     <div class="flex flex-col sm:flex-row sm:items-center">
                                         <div class="border-green-700 text-white bg-green-600 px-1 pb-1 rounded-md mr-1">{{abt.name}}</div>

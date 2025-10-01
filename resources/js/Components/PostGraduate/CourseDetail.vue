@@ -1,8 +1,8 @@
 <template>
     <div class="container px-4 md:px-8 py-8 mx-auto space-y-8 lg:max-w-7xl">
         <div class="flex justify-center">
-            <div class="inline-flex w-full overflow-hidden rounded-lg shadow sm:w-auto sm:mx-2">
-                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform bg-gradient-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600 sm:w-auto">
+            <div class="inline-flex w-full overflow-hidden rounded-lg shadow-sm sm:w-auto sm:mx-2">
+                <div class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white transition-colors duration-150 transform bg-linear-to-r from-green-700 to-green-900 hover:from-green-600 hover:to-green-600 sm:w-auto">
                     <svg class="w-6 h-6 mx-2 fill-current shrink-0" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
                         <g>
                             <g>
@@ -43,7 +43,7 @@
         <div class="flex flex-col justify-center p-4 mx-auto md:px-8">
 			<div class="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-gray-200">
 				<details>
-					<summary class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl">ชื่อหลักสูตร</summary>
+					<summary class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl">ชื่อหลักสูตร</summary>
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
@@ -60,7 +60,7 @@
 					</div>
 				</details>
 				<details>
-					<summary class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl">ชื่อวุฒิบัตร</summary>
+					<summary class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl">ชื่อวุฒิบัตร</summary>
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
@@ -77,7 +77,7 @@
 					</div>
 				</details>
 				<details>
-					<summary class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl">ชื่อย่อ</summary>
+					<summary class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl">ชื่อย่อ</summary>
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
@@ -94,7 +94,7 @@
 					</div>
 				</details>
                 <details>
-					<summary class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl">คำแสดงวุฒิการฝึกอบรมท้ายชื่อ</summary>
+					<summary class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl">คำแสดงวุฒิการฝึกอบรมท้ายชื่อ</summary>
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div>
@@ -111,7 +111,7 @@
 					</div>
 				</details>
                 <details>
-					<summary class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl">หน่วยงานที่รับผิดชอบ</summary>
+					<summary class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl">หน่วยงานที่รับผิดชอบ</summary>
 					<div class="flex flex-col px-4 pb-4">
 						<div class="flex flex-col md:flex-row items-center border border-dashed border-blue-500 p-2 rounded-md">
                             <!-- <div class="w-full md:w-1/3 text-center md:text-left shrink-0 font-bold">(ภาษาไทย)</div> -->
@@ -120,8 +120,8 @@
 
 					</div>
 				</details>
-<!--                <a :href="`${baseUrl}/images/post_graduate/เกณฑ์หลักสูตรอายุรศาสตร์_RCPT.pdf`" target="_blank" class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>-->
-                <a href="../../../../images/post_graduate/course_details.pdf" target="_blank" class="py-2 outline-none cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>
+<!--                <a :href="`${baseUrl}/images/post_graduate/เกณฑ์หลักสูตรอายุรศาสตร์_RCPT.pdf`" target="_blank" class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>-->
+                <a href="../../../../images/post_graduate/course_details.pdf" target="_blank" class="py-2 outline-hidden cursor-pointer focus:underline text-lg font-bold md:text-xl text-blue-500">รายละเอียดเพิ่มเติม</a>
             </div>
 		</div>
     </div>

@@ -7,7 +7,7 @@
             </div>
             <div class="mt-6 md:mt-0">
                 <Link :href="route('index')">
-                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
+                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-hidden transition duration-150 ease-in-out rounded-sm px-5 py-2 text-sm">กลับหน้าหลัก</button>
                 </Link>
             </div>
         </div>

@@ -2,10 +2,10 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}สาขา / หน่วยงาน</div>
                 <Link :href="route('admin.division')" method="get" as="button" type="button"
-                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
                 </Link>
@@ -36,16 +36,16 @@
                 </div>
                 <div class="grid grid-cols-6 gap-2 md:gap-6 mt-6 mb-6">
                     <label for="division_id" class="col-span-6 md:col-span-2 mr-2 self-end">ลำดับแสดงผล :</label>
-                    <input type="number" id="division_id" v-model="divisionForm.display_order" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="number" id="division_id" v-model="divisionForm.display_order" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
 
                     <label for="division_id" class="col-span-6 md:col-span-2 mr-2 self-end">เลข สาขา/หน่วยงาน :</label>
-                    <input type="number" id="division_id" v-model="divisionForm.division_id" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="number" id="division_id" v-model="divisionForm.division_id" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
 
                     <label for="name_thai" class="col-span-6 md:col-span-2 mr-2 self-end">ชื่อ สาขา/หน่วยงาน (ไทย) :</label>
-                    <input type="text" id="name_thai" v-model="divisionForm.name_th" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" id="name_thai" v-model="divisionForm.name_th" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
 
                     <label for="name_eng" class="col-span-6 md:col-span-2 mr-2 self-end">ชื่อ สาขา/หน่วยงาน (อังกฤษ) :</label>
-                    <input type="text" id="name_eng" v-model="divisionForm.name_en" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" id="name_eng" v-model="divisionForm.name_en" required="true" class="col-span-6 md:col-span-4 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
 
                 </div>
                 <fieldset class="py-3">

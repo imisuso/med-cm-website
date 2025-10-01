@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
+  <div class="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8 lg:py-10">
     <div class="flex flex-col mb-6 lg:justify-between lg:flex-row md:mb-8">
       <h2 class="max-w-lg mb-2 font-sans text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none md:mb-2 group">
         <span class="inline-block mb-1 sm:mb-4">
@@ -13,19 +13,19 @@
     </div>
 
     <div class="grid gap-8 lg:grid-cols-4 sm:max-w-sm sm:mx-auto lg:max-w-full">
-      <div v-for="gl in gelleries" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-lg">
+      <div v-for="gl in gelleries" :key="gl.id" class="overflow-hidden transition-shadow duration-300 bg-white rounded-sm shadow-lg">
         <!-- <a :href="route(`show_gallery`, date_tranform(gl.event_date))" target="_blank"> -->
-        <div class="">
+        <div class="border-0">
           <!-- <a :href="route(`show_gallery`, gl.id)" target="_blank">
             <img class="object-contain bg-gray-300 backdrop-blur-lg drop-shadow-lg border rounded-md w-full md:h-40" :src="gl.cover_url" alt="" />
           </a> -->
           <Link
             :href="route(`show_gallery`, gl.id)"
           >
-            <img class="object-contain bg-gray-300 backdrop-blur-lg drop-shadow-lg border rounded-md w-full md:h-40" :src="gl.cover_url" alt="" />
+            <img class="object-contain bg-gray-300 backdrop-blur-lg drop-shadow-lg border-0 rounded-md w-full md:h-40" :src="gl.cover_url" alt="" />
           </Link>
         </div>
-        <div class="p-5 border border-b-0">
+        <div class="p-5 border-0">
           <p class="mb-3 text-sm font-semibold tracking-wide uppercase">
             <span class="text-gray-600 underline">{{ dayjs(gl.event_date).locale('th').format('D MMMM BBBB') }}</span>
           </p>
@@ -45,7 +45,7 @@
 
     <div class="flex justify-center">
       <div v-show="gallery_all > limit"
-          class="w-32 border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+          class="w-32 border rounded-xl shadow-sm bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
       >
         <div>
           <Link :href="route(`gallery_all_publish`)">

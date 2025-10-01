@@ -2,14 +2,14 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">จัดการ Galleries รูปกิจกรรม</div>
                 <input type="text" v-model="search" class="text rounded-md border-gray-400" placeholder="ค้นหาจากรายละเอียด">
             </div>
 
             <div class="flex space-x-2">
                 <Link :href="route('admin.gallery.create')" method="get" as="button" type="button"
-                    class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                    class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
                 >
                     <div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,7 +20,7 @@
                 </Link>
             </div>
 
-            <div v-if="galleries.data.length === 0" class="flex flex-col justify-center  mt-10 p-2 text-2xl text-white text-center border rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500">
+            <div v-if="galleries.data.length === 0" class="flex flex-col justify-center  mt-10 p-2 text-2xl text-white text-center border rounded-md bg-linear-to-r from-violet-500 to-fuchsia-500">
                 ไม่พบข้อมูล Galleries รูปกิจกรรม ในระบบ
             </div>
 

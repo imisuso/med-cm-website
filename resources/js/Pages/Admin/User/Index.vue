@@ -2,11 +2,11 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">จัดการผู้ใช้งาน</div>
                  <div class="">
                     <Link :href="route('admin.user.create')" method="get" as="button" type="button">
-                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                        <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                             <PlusSmIcon :class="['h-6 w-6 mr-2']" />
                             เพิ่มผู้ใช้งาน
                         </button>
@@ -20,13 +20,13 @@
 
             <div class="grid grid-cols-1 gap-2">
                 <div v-for="(user, u_index) in users.data" :key="u_index"
-                    class="p-4 rounded-md shadow bg-gradient-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
+                    class="p-4 rounded-md shadow-sm bg-linear-to-l from-sky-100 border-l-4 rounded-l-md border-l-blue-600"
                 >
                     <div class="grid grid-cols-12">
                         <div class="col-span-10 md:col-span-11">
                             <div class="flex items-center space-x-2">
                                 <div class="font-bold">สถานะ :</div>
-                                <div class="text-sm italic font-medium tracking-wider rounded-lg bg-opacity-50 p-1"
+                                <div class="text-sm italic font-medium tracking-wider rounded-lg p-1"
                                      :class="[user.status ? 'text-green-800 bg-green-200' : 'text-red-800 bg-red-200']"
                                 >
                                     {{ statusText(user.status) }}

@@ -5,20 +5,20 @@
       <!-- Toolbar -->
       <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
         <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
-        <select v-model="fdivision_selected" @change="getPersonList" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <select v-model="fdivision_selected" @change="getPersonList" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
           <!-- <option value="0">ทุกสาขา/หน่วยงาน</option> -->
           <option v-for="(option, index) in divisions" :key="index" :value="option.division_id">
             {{ option.name_th }}
           </option>
         </select>
       </div>
-      <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+      <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
         <div class="flex space-x-2 w-full place-self-center">
-          <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+          <input v-model="search" type="text" id="search" placeholder="ค้นหาด้วย ชื่อ หรือ นามสกุล" class="block mx-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
         </div>
         <div class="flex space-x-2" v-if="$page.props.auth.abilities.includes('manage_person')">
 <!--          <Link :href="route('admin.person.create')" :data="{ 'fdivision_selected': fdivision_selected }" method="get" as="button" type="button"-->
-<!--              class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"-->
+<!--              class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"-->
 <!--          >-->
 <!--            <div>-->
 <!--                <PlusSmIcon :class="['h-6 w-6']"/>-->
@@ -27,7 +27,7 @@
 <!--          </Link>-->
 
           <Link v-if="fdivision_selected != 0 && persons.total > 1" :href="route('admin.person_order', getDivisionSlugFromId(parseInt(fdivision_selected)))">
-            <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+            <button class="flex items-center w-28 py-1 px-3 border border-transparent shadow-xs text-sm font-medium rounded-md text-white bg-black hover:bg-gray-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
               <div>
                   <SwitchVerticalIcon :class="['h-6 w-6']"/>
               </div>

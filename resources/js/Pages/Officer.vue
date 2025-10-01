@@ -7,7 +7,7 @@
             </div>
             <div class="mt-6 md:mt-0">
                 <Link :href="route('index')">
-                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
+                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-hidden transition duration-150 ease-in-out rounded-sm px-5 py-2 text-sm">กลับหน้าหลัก</button>
                 </Link>
             </div>
         </div>
@@ -17,7 +17,7 @@
                 <div class=" w-full mt-0">
                     <div>
                         <div class=" flex justify-start items-center space-x-4 cursor-pointer">
-                            <button aria-label="too" class="flex items-center space-x-4 p-1 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hover:bg-blue-400" @click="unitDetail=!unitDetail">
+                            <button aria-label="too" class="flex items-center space-x-4 p-1 rounded-md cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hover:bg-blue-400" @click="unitDetail=!unitDetail">
                                 <div class="flex justify-start space-x-4">
                                     <svg v-if="unitDetail" class=" shrink-0" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4.16602 10H15.8327" stroke="#1F2937" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
@@ -33,7 +33,7 @@
                             </button>
 
                         </div>
-                        <div v-if="unitDetail" class="flex flex-col w-full mt-4 rounded-lg shadow-lg bg-gradient-to-r from-blue-50 to-blue-200">
+                        <div v-if="unitDetail" class="flex flex-col w-full mt-4 rounded-lg shadow-lg bg-linear-to-r from-blue-50 to-blue-200">
                             <div v-if="secretary" class="flex items-center space-x-4">
                                 <div class=" shrink-0 ">
                                     <svg v-if="! secretary.image" class="w-20 h-28 rounded-lg ring-1 ring-gray-300" fill="currentColor" viewBox="0 0 24 24">
