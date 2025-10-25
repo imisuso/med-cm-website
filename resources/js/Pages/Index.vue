@@ -7,6 +7,51 @@
             </section>
         </div> -->
 
+    <WelcomePopup
+        :open="isPopupVisible"
+        @close="isPopupVisible = false"
+    >
+<!--        <template #title>-->
+<!--            &nbsp;-->
+<!--        </template>-->
+
+        <template #default>
+            <div class="text-center mt-2 bg-gradient-to-b from-gray-200 to-black text-white rounded-lg">
+                <div class="mt-2">
+                    <br>
+                </div>
+                    <img
+                        src="../../asset/images/queen_mother.jpg"
+                        alt="พระบรมฉายาลักษณ์"
+                        class="h-96 m-auto rounded-lg"
+                    >
+                <!--                        w-auto h-96 mx-auto mb-4 border border-gray-300 p-1-->
+
+                <p class="text-xl text-white font-semibold mt-2 ">
+                    น้อมรำลึกในพระมหากรุณาธิคุณตราบนิรันดร์
+                </p>
+                <br />
+                <p class="text-xl text-white font-semibold">
+                    สมเด็จพระนางเจ้าสิริกิติ์
+                    <br class="block md:hidden">
+                    พระบรมราชินีนาถ
+                    <br>
+                    พระบรมราชชนนีพันปีหลวง
+                </p>
+
+                <p class="text-md text-white font-semibold mt-2 py-4">
+                    ข้าพระพุทธเจ้า ผู้บริหาร คณาจารย์ บุคลากร และนักศึกษา
+                    <br>
+                    ภาควิชาอายุรศาสตร์
+                    <br class="block md:hidden">
+                    คณะแพทยศาสตร์ศิริราชพยาบาล
+                    <br>
+                    มหาวิทยาลัยมหิดล
+                </p>
+            </div>
+        </template>
+    </WelcomePopup>
+
         <div id="carousel">
             <section class="w-full bg-linear-to-r from-slate-100">
                 <!-- <MedPoster :posters="posters" /> -->
@@ -83,6 +128,7 @@ import Cov19Service from '@/Components/Cov19Service.vue'
 import Download from '@/Components/Download.vue'
 import Announcement from '@/Components/Announcement.vue'
 import Links from '@/Components/Links.vue'
+import WelcomePopup from '@/Components/Popup.vue'
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -99,6 +145,8 @@ const props = defineProps({
 // const posters = ref([])
 // axios.get(route('list_enabled_poster')).then(res => {posters.value = [...res.data]} );
 
+const isPopupVisible = ref(false);
+
 const handleAos = ({ detail }) => {
     if (!detail.dataset.statCounting) {
         return;
@@ -110,6 +158,21 @@ const handleAos = ({ detail }) => {
 onMounted(() => {
     AOS.init({duration: 1200, once: false});
     document.addEventListener('aos:in', handleAos);
+
+    // ตั้งชื่อ Key ที่จะใช้เก็บ
+    const popupKey = 'hasSeenWelcomePopup';
+
+    // 1. ตรวจสอบว่าผู้ใช้เคยเห็น Popup นี้แล้วหรือยัง
+    const hasSeen = sessionStorage.getItem(popupKey);
+
+    // 2. ถ้ายังไม่เคยเห็น (hasSeen เป็น null)
+    if (!hasSeen) {
+        // 3. ให้แสดง Popup
+        isPopupVisible.value = true;
+
+        // 4. และ "บันทึก" ว่าเห็นแล้ว (ครั้งต่อไปจะได้ไม่แสดงอีก)
+        sessionStorage.setItem(popupKey, 'true');
+    }
 });
 onUnmounted(() => {
     document.removeEventListener('aos:in', handleAos);
