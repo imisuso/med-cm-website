@@ -71,6 +71,8 @@ return [
 
     'timezone' => 'UTC',
 
+    'grayscale_mode' => env('APP_GRAYSCALE_MODE', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
