@@ -2,10 +2,10 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-4 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-4 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลดาวน์โหลด</div>
                 <Link :href="route('admin.download')" method="get" as="button" type="button"
-                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
                 </Link>
@@ -18,19 +18,19 @@
             <div class="flex flex-col">
                 <label for="title" class="text-gray-600">รายละเอียด :</label>
                 <div class="mb-4">
-                    <input type="text" id="title" v-model="form.title" required="true" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" id="title" v-model="form.title" required="true" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
                     <span v-if="$page.props.errors.title" class="p-error">{{ $page.props.errors.title }}</span>
                 </div>
 
                 <label for="link" class="text-gray-600">URL ของข้อมูล :</label>
                 <div class="mb-4">
-                    <input type="text" id="link" v-model="form.link" required="true" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" id="link" v-model="form.link" required="true" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
                     <span v-if="$page.props.errors.link" class="p-error">{{ $page.props.errors.link }}</span>
                 </div>
 
                 <label for="order_number" class="text-gray-600">ลำดับการแสดง :</label>
                 <div class="mb-4">
-                    <input type="number" id="order_number" v-model="form.order_number" required="true" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="number" id="order_number" v-model="form.order_number" required="true" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md">
                     <span v-if="$page.props.errors.order_number" class="p-error">{{ $page.props.errors.order_number }}</span>
                 </div>
 

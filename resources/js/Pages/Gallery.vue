@@ -8,7 +8,7 @@
         <!-- <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in images" :key="src" :src="src">
         </div> -->
-        
+
         <div class="px-4 py-2 mb-4 border-none text-lg font-bold text-black bg-amber-400 shadow-lg rounded-2xl">
             {{ desc }}
         </div>
@@ -19,11 +19,11 @@
             <template #default="scope">
                 <div class=" grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     <!-- <img class="object-cover border rounded-md w-full h-40 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`"> -->
-                    <img class="object-contain bg-white bg-opacity-20 backdrop-blur-lg drop-shadow-lg border rounded-md w-full md:h-60 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`" />
+                    <img class="object-contain bg-white/20 backdrop-blur-lg drop-shadow-lg border rounded-md w-full md:h-60 cursor-pointer" v-for="src in scope.images" :key="src" :src="`${src}`" />
                 </div>
             </template>
         </VueViewer>
-        
+
         <!-- api -->
         <!-- <button type="button" @click="show">Click to show</button> -->
     </div>

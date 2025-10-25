@@ -1,10 +1,10 @@
 <template xmlns:slot="http://www.w3.org/1999/XSL/Transform">
     <div class="flex flex-col p-4 w-full">
         <!-- Toolbar -->
-        <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border rounded-md shadow-md items-baseline">
+        <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-2 w-full border border-gray-200 rounded-md shadow-md items-baseline">
             <div class=" text-2xl font-bold">{{ actionWord }} Role</div>
             <Link :href="route('admin.role.index')" method="get" as="button" type="button">
-                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800">
+                <button class="flex items-center px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800">
                     <ReplyIcon :class="['h-6 w-6 mr-2']" />
                     กลับหน้าจัดการ Role
                 </button>
@@ -18,7 +18,7 @@
                     <div>
                         <input  type="text" id="role-name"
                                 v-model="form.role_name"
-                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
+                                class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm rounded-md"
                                 :class="[ $page.props.errors.role_name ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
@@ -30,7 +30,7 @@
                     <div>
                         <textarea id="role-label"
                                   v-model="form.role_label"
-                                  class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md"
+                                  class=" focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm rounded-md"
                                   :class="[ $page.props.errors.role_label ? 'border-red-600' : 'border-gray-300']"
                         />
                     </div>
@@ -65,7 +65,7 @@
                 </VueMultiselect>
                 <div class="col-start-1 sm:col-start-2 col-span-6 text-xs text-red-600" v-if="$page.props.errors.abilities">{{ $page.props.errors.abilities }}</div>
             </div>
-            <div class="bg-gradient-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
+            <div class="bg-linear-to-r from-blue-100 via-yellow-100 to-pink-100 px-2 py-1 rounded-lg font-normal text-sm tracking-wide text-gray-800 shadow-lg">
                 <div class="font-semibold text-lg underline tracking-wide">ภาพรวม :</div>
                 <div class="flex items-center py-1" v-for="abt in form.abilities" :key="abt.id">
                     <div class="flex flex-col sm:flex-row sm:items-center">

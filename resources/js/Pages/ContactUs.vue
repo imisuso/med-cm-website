@@ -7,7 +7,7 @@
             </div>
             <div class="mt-6 md:mt-0">
                 <Link :href="route('index')">
-                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded px-5 py-2 text-sm">กลับหน้าหลัก</button>
+                    <button class="mr-3 bg-gray-200 text-indigo-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 focus:outline-hidden transition duration-150 ease-in-out rounded-sm px-5 py-2 text-sm">กลับหน้าหลัก</button>
                 </Link>
             </div>
         </div>
@@ -152,7 +152,7 @@ const UnitPhone = ref([
         {'name' : 'หน่วยบริการและพัฒนาคุณภาพ', 'phone' : ['0-2419-7767-69 ต่อ 104', '0-2419-7767-69 ต่อ 105', '0-2419-7767-69 ต่อ 109', '0-2419-7767-69 ต่อ 113'], 'fax' : ['-']},
         {'name' : 'หน่วยบุคคลและการจัดการความรู้', 'phone' : ['0-2419-7767-69 ต่อ 103', '0-2419-8258'], 'fax' : ['-']},
         {'name' : 'หน่วยเวชระเบียน', 'phone' : ['0-2419-7043 ต่อ 101', '0-2419-7781'], 'fax' : ['-']},
-        {'name' : 'หน่วยเวชสารสนเทศ', 'phone' : ['0-2419-8260 ต่อ 104 - 108'], 'fax' : ['-']},
+        {'name' : 'หน่วยสารสนเทศ', 'phone' : ['0-2419-8260 ต่อ 104 - 108, 110, 111'], 'fax' : ['-']},
         {'name' : 'หน่วยงบประมาณพัสดุและการเงิน', 'phone' : ['0-2419-7767-69 ต่อ 102', '0-2419-8700'], 'fax' : ['-']},
         {'name' : 'หน่วยบริหารสำนักงาน', 'phone' : ['0-2419-7767-69 ต่อ 101', '0-2419-7767-69 ต่อ 106', '0-2419-7191'], 'fax' : ['-']},
     ])

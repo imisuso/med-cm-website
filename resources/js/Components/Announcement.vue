@@ -1,8 +1,8 @@
 <template>
-    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8">
         <div class="flex flex-col items-start">
 
-            <div class="text-2xl font-medium text-white title-font mb-2 p-2 bg-gradient-to-r from-green-800 to-green-600 rounded-md shadow-md flex items-center w-full">
+            <div class="text-2xl font-medium text-white title-font mb-2 p-2 bg-linear-to-r from-green-800 to-green-600 rounded-md shadow-md flex items-center w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
@@ -35,7 +35,7 @@
                 </a>
             </div> -->
             <div v-show="announcement_all > limit"
-                class="border rounded-xl shadow bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+                class="border rounded-xl shadow-sm bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
             >
                 <Link :href="route(`announce_all_publish`)">
                     ข่าวประชาสัมพันธ์ ทั้งหมด

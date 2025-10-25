@@ -2,10 +2,10 @@
 <!--    <AdminAppLayout>-->
         <div class="flex flex-col p-4 w-full">
             <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-4 w-full border rounded-md shadow-md items-baseline">
+            <div class="flex flex-col sm:flex-row sm:justify-between px-2 py-2 space-y-2 mb-4 w-full border border-gray-200 rounded-md shadow-md items-baseline">
                 <div class=" text-2xl font-bold">{{ actionWord }}ข้อมูลแกลลอรี่รูปกิจกรรม</div>
                 <Link :href="route('admin.gallery')" method="get" as="button" type="button"
-                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded cursor-pointer hover:bg-green-800"
+                    class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-green-900 rounded-sm cursor-pointer hover:bg-green-800"
                 >
                     กลับหน้าหลัก
                 </Link>
@@ -15,7 +15,7 @@
                 รายละเอียดข้อมูลแกลลอรี่รูปกิจกรรม
             </div>
 
-            <div class="shadow sm:rounded-md">
+            <div class="shadow-sm sm:rounded-md">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <fieldset>
                         <div class="grid grid-cols-6 gap-6 mb-6">
@@ -52,7 +52,7 @@
                                     <label for="desc" class="block text-sm font-medium text-gray-700">รายละเอียดกิจกรรม</label>
 
                                 </div>
-                                <input type="text" id="desc" v-model.trim="galleryForm.desc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                <input type="text" id="desc" v-model.trim="galleryForm.desc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs sm:text-sm border-gray-300 rounded-md" />
                             </div>
 
                             <ul class="col-span-6">

@@ -4,7 +4,7 @@
     <div class="w-full lg:w-11/12">
         <div v-if="$page.props.auth.abilities.includes('view_all_content')" class="flex flex-col sm:flex-row items-start sm:items-center mb-2">
             <div class="sm:w-32 text-sm font-medium text-gray-700">สาขา/หน่วยงาน:</div>
-            <select v-model="Form.division_selected" @change="showBranchMainMenu" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <select v-model="Form.division_selected" @change="showBranchMainMenu" id="form_division_id" class="mt-1 w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <template v-for="(option, index) in divisions" :key="index">
                     <option v-if="option.division_id < 19" :value="option.division_id">
                     {{ option.name_th }}
@@ -29,7 +29,7 @@
                 <!-- {{ getBranchSubMenu( menu.main_header_id ) }} -->
                 <li class="mb-2 mx-2 last:mr-0 flex-auto text-left">
                     <div class="flex justify-between flex-wrap sm:flex-nowrap">
-                        <a class="w-full mr-2 transition duration-400 ease-in-out transform hover:-translate-y-1 hover:scale-104 text-lg font-bold uppercase px-5 py-2 shadow-lg rounded leading-normal flex items-center cursor-pointer" v-on:click="toggleTabs(menu.main_header_id, index)" v-bind:class="{'text-blue-600 bg-white': openTab !== menu.main_header_id, 'text-white bg-blue-600': openTab === menu.main_header_id}">
+                        <a class="w-full mr-2 transition duration-400 ease-in-out transform hover:-translate-y-1 hover:scale-104 text-lg font-bold uppercase px-5 py-2 shadow-lg rounded-sm leading-normal flex items-center cursor-pointer" v-on:click="toggleTabs(menu.main_header_id, index)" v-bind:class="{'text-blue-600 bg-white': openTab !== menu.main_header_id, 'text-white bg-blue-600': openTab === menu.main_header_id}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
                             </svg>

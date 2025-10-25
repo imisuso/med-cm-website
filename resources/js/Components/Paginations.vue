@@ -6,7 +6,7 @@
           :disabled="noPreviousPage"
           :class="{'opacity-50': noPreviousPage}"
           @click="loadPage(1)"
-          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded border border-gray-200 shadow-sm outline-none hover:bg-gray-50 lg:h-9 lg:w-9 lg:text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded-sm border border-gray-200 shadow-xs outline-hidden hover:bg-gray-50 lg:h-9 lg:w-9 lg:text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
@@ -16,7 +16,7 @@
           :disabled="noPreviousPage"
           :class="{'opacity-50': noPreviousPage}"
           @click="loadPage(pagination.current_page - 1)"
-          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded border border-gray-200 shadow-sm outline-none hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded-sm border border-gray-200 shadow-xs outline-hidden hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -30,7 +30,7 @@
             @change="loadPage(cpage)"
             v-model="cpage"
             min="1" :max="pagination.last_page"
-            class="px-2 w-16 h-11 text-center rounded border border-gray-400 shadow-sm lg:h-9 lg:w-16 lg:text-sm focus:ring-blue-500 focus:border-blue-500"
+            class="px-2 w-16 h-11 text-center rounded-sm border border-gray-400 shadow-xs lg:h-9 lg:w-16 lg:text-sm focus:ring-blue-500 focus:border-blue-500"
         />
         <div class="px-2 text-gray-600 lg:text-sm">จาก {{ pagination.last_page }}</div>
       </div>
@@ -39,7 +39,7 @@
           :disabled="noNextPage"
           :class="{'opacity-50': noNextPage}"
           @click="loadPage(pagination.current_page + 1)"
-          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded border border-gray-300 shadow-sm outline-none hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded-sm border border-gray-300 shadow-xs outline-hidden hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -50,7 +50,7 @@
           :disabled="noNextPage"
           :class="{'opacity-50': noNextPage}"
           @click="loadPage(pagination.last_page)"
-          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded border border-gray-300 shadow-sm outline-none hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+          class="inline-flex justify-center items-center w-11 h-11 text-gray-700 bg-white rounded-sm border border-gray-300 shadow-xs outline-hidden hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>

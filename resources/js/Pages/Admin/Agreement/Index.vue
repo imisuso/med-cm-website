@@ -16,9 +16,9 @@
     <!-- Modal Body -->
     <template v-slot:body>
         <div class="flex flex-row justify-start items-center">
-        <div class="ql-editor" v-html="agreement.detail_html">
-
-        </div>
+            <div class="ql-container ql-snow" style="border: 0;">
+                <div class="ql-editor" v-html="agreement.detail_html"></div>
+            </div>
         </div>
     </template>
     <!-- Modal Footer -->
