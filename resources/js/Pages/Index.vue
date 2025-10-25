@@ -25,8 +25,6 @@
                         alt="พระบรมฉายาลักษณ์"
                         class="h-96 m-auto rounded-lg"
                     >
-                <!--                        w-auto h-96 mx-auto mb-4 border border-gray-300 p-1-->
-
                 <p class="text-xl text-white font-semibold mt-2 ">
                     น้อมรำลึกในพระมหากรุณาธิคุณตราบนิรันดร์
                 </p>
@@ -38,9 +36,15 @@
                     <br>
                     พระบรมราชชนนีพันปีหลวง
                 </p>
-
+                <img
+                    src="../../asset/images/line_thai.png"
+                    alt="เส้นลายไทย"
+                    class="h-14 w-full m-auto"
+                >
                 <p class="text-md text-white font-semibold mt-2 py-4">
-                    ข้าพระพุทธเจ้า ผู้บริหาร คณาจารย์ บุคลากร และนักศึกษา
+                    ข้าพระพุทธเจ้า ผู้บริหาร คณาจารย์ บุคลากร แพทย์ประจำบ้าน
+                    <br>
+                    แพทย์ประจำบ้านต่อยอด และนักศึกษา
                     <br>
                     ภาควิชาอายุรศาสตร์
                     <br class="block md:hidden">
