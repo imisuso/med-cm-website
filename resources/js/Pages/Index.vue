@@ -26,7 +26,9 @@
                         class="h-96 m-auto rounded-lg"
                     >
                 <p class="text-xl text-white font-semibold mt-2 ">
-                    น้อมรำลึกในพระมหากรุณาธิคุณตราบนิรันดร์
+                    น้อมรำลึกในพระมหากรุณาธิคุณ
+                    <br class="block md:hidden">
+                    ตราบนิรันดร์
                 </p>
                 <br />
                 <p class="text-xl text-white font-semibold">
