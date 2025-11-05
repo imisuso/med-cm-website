@@ -26,6 +26,18 @@ p.ql-align-right {
     /* background-color: blue; */
 }
 
+@layer base {
+    html {
+        /*
+         * นี่คือจุดที่ CSS อ่านค่าจากตัวแปร (--web-saturation)
+         * ที่เราส่งมาจาก Blade
+         */
+        filter: saturate(var(--web-saturation))
+        brightness(var(--web-brightness))
+        contrast(var(--web-contrast));
+    }
+}
+
 /*p.ql-align-left {*/
 /*    display: inline;*/
 /*    margin: 0px 1em 1em 0px;*/

@@ -73,6 +73,9 @@ return [
 
     'grayscale_mode' => env('APP_GRAYSCALE_MODE', false),
     'first_popup' => env('APP_FIRST_POPUP', false),
+    'web_saturation' => env('WEB_SATURATION', 100),
+    'web_brightness' => env('WEB_BRIGHTNESS', 100),
+    'web_contrast'   => env('WEB_CONTRAST', 100),
 
     /*
     |--------------------------------------------------------------------------

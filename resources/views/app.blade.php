@@ -3,6 +3,12 @@
     lang="en"
     {{-- [!!!] เพิ่ม Blade Directive นี้ --}}
     class="@if(config('app.grayscale_mode')) grayscale @endif"
+
+    style="
+        --web-saturation: {{ config('app.web_saturation', 100) }}%;
+        --web-brightness: {{ config('app.web_brightness', 100) }}%;
+        --web-contrast: {{ config('app.web_contrast', 100) }}%;
+    "
 >
 <head>
     <meta charset="UTF-8">
