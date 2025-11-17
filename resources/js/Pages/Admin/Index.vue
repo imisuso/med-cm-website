@@ -53,13 +53,13 @@
 
     </div>
 
-    <div class="mb-4 h-1/4">
-    <Line
-        v-if="$page.props.auth.abilities.includes('view_all_content')"
-        :data="chartData"
-        :options="chartOptions"
-    />
-    </div>
+<!--    <div class="mb-4 h-1/4">-->
+<!--    <Line-->
+<!--        v-if="$page.props.auth.abilities.includes('view_all_content')"-->
+<!--        :data="chartData"-->
+<!--        :options="chartOptions"-->
+<!--    />-->
+<!--    </div>-->
 
     <!-- <div class="grid grid-cols-3 shadow-md rounded-md">
         <div class=" bg-cyan-400 border-b rounded-t-md col-span-3 mb-1 p-4">Page Visits</div>
@@ -147,9 +147,9 @@ import { ChartSquareBarIcon, SpeakerphoneIcon, PresentationChartLineIcon } from 
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement)
 
-onMounted(() => {
-    fillChartData()
-})
+// onMounted(() => {
+//     fillChartData()
+// })
 
 const props = defineProps({
     total_visitor: { type: Number, default: 0 },

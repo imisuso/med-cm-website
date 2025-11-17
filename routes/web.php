@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AbilityController;
+use App\Models\Poster;
+use App\Models\Visitor;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -231,19 +233,22 @@ Route::get('/image_preview', function () {
     return Inertia::render('ImagePreview');
 })->name('image_preview');
 
+//Route::get('/admin_first_page', function () {
+//    return Inertia::render('Admin/AdminFirstPage');
+//})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
+
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
 Route::get('/admin', function () {
     return Inertia::render('Admin/Index', [
-        'total_visitor' => \App\Models\Visitor::where('route_name', 'index')->get()->count(),
-        'branch_visitor' => \App\Models\Visitor::where('route_name', 'branch')->get()->count(),
-        'total_announce' => Announce::all()->count(),
-        'total_poster' => \App\Models\Poster::all()->count()
+        'total_visitor' => Visitor::query()->where('route_name', 'index')->count(),
+        'branch_visitor' => Visitor::query()->where('route_name', 'branch')->count(),
+        'total_announce' => Announce::query()->count(),
+        'total_poster' => Poster::query()->count()
+//        'total_visitor' => 999,
+//        'branch_visitor' => 888,
+//        'total_announce' => 777,
+//        'total_poster' => 666
     ]);
-//    return Inertia::render('Admin/Index', [
-//        'announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all,
-//        'gallery_show_limit' => $gallery_show_limit,  'gallery_all' => $gallery_all
-//    ]);
-//    return Inertia::render('Admin/Index');
 })->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
 
 //LoginController =>

@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.2.0",
+        "php": "^8.3",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
@@ -14,7 +14,8 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "reinink/remember-query-strings": "^0.1.0",
         "spatie/laravel-google-fonts": "^1.2",
-        "tightenco/ziggy": "^1.4"
+        "tightenco/ziggy": "^1.4",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
