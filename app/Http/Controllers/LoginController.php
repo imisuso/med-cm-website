@@ -31,12 +31,12 @@ class LoginController extends Controller
 
         //กรณีเรียกใช้ serviec hannah ไม่ได้
         if( strcmp($getUserFromAPI['reply_code'], '1') === 0 ) {
-            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+            return redirect()->back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
         }
 
         // กรณี hannah เรียกใช้ serviec ของ AD ไม่ได้
         if( strcmp($getUserFromAPI['reply_code'], '2') === 0 ) {
-            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
+            return redirect()->back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
         }
 
         // กรณีไม่พบ username หรือ username หรือ password ของ AD ไม่ถูกต้อง หรือ password หมดอายุ (ทุกกรณีที่กล่าวมา จะไม่พบข้อมูล user เลย ไม่สามารถแยก case ได้)
@@ -50,7 +50,7 @@ class LoginController extends Controller
             );
 
 //            return Redirect::back()->withErrors(['msg' => $getUserFromAPI['reply_text']]);
-            return Redirect::back()->withErrors(['msg' => '<u>ไม่สามารถเข้าใช้งานระบบได้ ซึ่งอาจเกิดจาก</u> <br>1. กรอก Username หรือ Password ไม่ถูกต้อง หรือ<br>2. Password หมดอายุ']);
+            return redirect()->back()->withErrors(['msg' => '<u>ไม่สามารถเข้าใช้งานระบบได้ ซึ่งอาจเกิดจาก</u> <br>1. กรอก Username หรือ Password ไม่ถูกต้อง หรือ<br>2. Password หมดอายุ']);
         }
 
         $user = User::where('sap_id', $getUserFromAPI['org_id'])->first();
@@ -65,7 +65,7 @@ class LoginController extends Controller
                     'ถูก disable สถานะการใช้งาน',
                     'security'
                 );
-                return Redirect::back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ไม่มีสิทธิ์ในการใช้งานระบบ <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
+                return redirect()->back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ไม่มีสิทธิ์ในการใช้งานระบบ <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
             }
 
             Auth::login($user);
@@ -94,7 +94,7 @@ class LoginController extends Controller
                 'security'
             );
 
-            return Redirect::back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ยังไม่มีสิทธิ์ในการเข้าจัดการเนื้อหาของ website <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
+            return redirect()->back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ยังไม่มีสิทธิ์ในการเข้าจัดการเนื้อหาของ website <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
         }
 
         return redirect()->route('admin.index');
