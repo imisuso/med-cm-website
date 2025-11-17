@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AbilityController;
+use App\Models\Poster;
+use App\Models\Visitor;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -234,10 +236,10 @@ Route::get('/image_preview', function () {
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
 Route::get('/admin', function () {
     return Inertia::render('Admin/Index', [
-        'total_visitor' => \App\Models\Visitor::where('route_name', 'index')->get()->count(),
-        'branch_visitor' => \App\Models\Visitor::where('route_name', 'branch')->get()->count(),
+        'total_visitor' => Visitor::query()->where('route_name', 'index')->get()->count(),
+        'branch_visitor' => Visitor::query()->where('route_name', 'branch')->get()->count(),
         'total_announce' => Announce::all()->count(),
-        'total_poster' => \App\Models\Poster::all()->count()
+        'total_poster' => Poster::all()->count()
     ]);
 //    return Inertia::render('Admin/Index', [
 //        'announce_show_limit' => $announce_show_limit, 'announcement_all' => $announcement_all,
