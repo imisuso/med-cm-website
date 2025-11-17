@@ -233,19 +233,23 @@ Route::get('/image_preview', function () {
     return Inertia::render('ImagePreview');
 })->name('image_preview');
 
-Route::get('/admin_first_page', function () {
-    return Inertia::render('Admin/AdminFirstPage');
-})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
+//Route::get('/admin_first_page', function () {
+//    return Inertia::render('Admin/AdminFirstPage');
+//})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
 
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
-//Route::get('/admin', function () {
-//    return Inertia::render('Admin/Index', [
+Route::get('/admin', function () {
+    return Inertia::render('Admin/Index', [
 //        'total_visitor' => Visitor::query()->where('route_name', 'index')->get()->count(),
 //        'branch_visitor' => Visitor::query()->where('route_name', 'branch')->get()->count(),
 //        'total_announce' => Announce::all()->count(),
 //        'total_poster' => Poster::all()->count()
-//    ]);
-//})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
+        'total_visitor' => 999,
+        'branch_visitor' => 888,
+        'total_announce' => 777,
+        'total_poster' => 666
+    ]);
+})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
 
 //LoginController =>
 Route::controller(LoginController::class)
