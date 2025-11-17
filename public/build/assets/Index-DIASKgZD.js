@@ -1,1 +1,0 @@
-const a={__name:"Index",props:{total_visitor:{type:Number,default:0},branch_visitor:{type:Number,default:0},total_announce:{type:Number,default:0},total_poster:{type:Number,default:0}},setup(t){return(e,r)=>" Hello "}};export{a as default};
