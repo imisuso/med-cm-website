@@ -54,8 +54,9 @@ class LoginController extends Controller
         }
 
         $user = User::where('sap_id', $getUserFromAPI['org_id'])->first();
-
+        logger($user);
         if ($user) {
+            logger($user->status);
             // กรณี user ถูก disable การใช้งานชั่วคราว
             if( ! $user->status ) {
                 $resp = (new LogManager)->store(
@@ -81,6 +82,7 @@ class LoginController extends Controller
             if( strcmp($getUserFromAPI['login'], $user->name) !== 0
                 || strcmp($getUserFromAPI['email'], $user->email) !== 0 )
             {
+                logger('aaaa');
                 $user->name = $getUserFromAPI['login'];
                 $user->email = $getUserFromAPI['email'];
                 $user->save();
