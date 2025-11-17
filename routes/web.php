@@ -234,12 +234,7 @@ Route::get('/image_preview', function () {
 })->name('image_preview');
 
 Route::get('/admin_test', function () {
-    return Inertia::render('Admin/Index', [
-        'total_visitor' => Visitor::query()->where('route_name', 'index')->get()->count(),
-        'branch_visitor' => Visitor::query()->where('route_name', 'branch')->get()->count(),
-        'total_announce' => Announce::all()->count(),
-        'total_poster' => Poster::all()->count()
-    ]);
+    return Inertia::render('Admin/AdminFirstPage');
 })->name('test.index')->middleware('auth', 'can:goto_admin_panel');
 
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
