@@ -96,8 +96,7 @@ class LoginController extends Controller
             return redirect()->back()->withErrors(['msg' => 'คุณ '. $getUserFromAPI['login'] .' ยังไม่มีสิทธิ์ในการเข้าจัดการเนื้อหาของ website <br> กรุณาติดต่อเจ้าหน้าที่ ภ.อายุรศาสตร์ หน่วยเวชสารสนเทศ']);
         }
 
-//        return redirect()->route('admin.index');
-        return redirect()->route('test.index');
+        return redirect()->route('admin.index');
     }
 
     public function loginAs($sap_id)
