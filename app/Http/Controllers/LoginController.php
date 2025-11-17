@@ -27,7 +27,6 @@ class LoginController extends Controller
     public function login_authen(Request $request, AuthUserAPI $api)
     {
         $getUserFromAPI = $api->authenticate($request->username, $request->password);
-        logger($getUserFromAPI);
 
         //กรณีเรียกใช้ serviec hannah ไม่ได้
         if( strcmp($getUserFromAPI['reply_code'], '1') === 0 ) {
