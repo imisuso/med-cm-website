@@ -1,0 +1,1 @@
+import{_ as t}from"./app-BtKoeNII.js";const e={layout:t},u=Object.assign(e,{__name:"Index",props:{total_visitor:{type:Number,default:0},branch_visitor:{type:Number,default:0},total_announce:{type:Number,default:0},total_poster:{type:Number,default:0}},setup(a){return(_,r)=>" Hello "}});export{u as default};
