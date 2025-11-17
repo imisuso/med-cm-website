@@ -2,12 +2,12 @@
 Hello
 </template>
 
-<script>
-import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
-    export default {
-        layout: AdminAppLayout,
-    }
-</script>
+<!--<script>-->
+<!--import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"-->
+<!--    export default {-->
+<!--        layout: AdminAppLayout,-->
+<!--    }-->
+<!--</script>-->
 
 <script setup>
 import {onMounted, ref} from "vue";

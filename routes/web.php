@@ -233,6 +233,10 @@ Route::get('/image_preview', function () {
     return Inertia::render('ImagePreview');
 })->name('image_preview');
 
+Route::get('/admin_test', function () {
+    return Inertia::render('Admin/Index');
+})->name('test.index')->middleware('auth', 'can:goto_admin_panel');
+
 // ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
 Route::get('/admin', function () {
     return Inertia::render('Admin/Index', [
