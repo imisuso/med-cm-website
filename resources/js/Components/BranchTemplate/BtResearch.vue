@@ -41,9 +41,10 @@
 
   <div v-else class="flex flex-col">
     <div class="grow">
-      <div class="ql-container ql-snow">
-        <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>
-      </div>
+        <QuillRichTextEditor v-model="branchSubMenu.detail_html" read-only />
+<!--      <div class="ql-container ql-snow">-->
+<!--        <div class="ql-editor" v-html="branchSubMenu.detail_html"></div>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -51,6 +52,7 @@
 <script setup>
 import { ref, onUnmounted, nextTick, reactive } from 'vue'
 import { useForm } from '@inertiajs/vue3'
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast

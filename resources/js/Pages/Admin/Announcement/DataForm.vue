@@ -142,15 +142,29 @@
             </div>
             <div class="">
                 <label for="topic" class="block text-sm font-medium text-gray-700 mt-2 mb-2">เนื้อหาข่าวประกาศ</label>
-                <QuillEditor
-                    id="quill_e"
-                    ref="quill_e"
-                    theme="snow"
-                    v-model:content="announceForm.detail_delta"
-                    contentType="delta"
-                    :toolbar="quill_options_full"
-                    @ready="initialQuill"
-                />
+<!--                <QuillEditor-->
+<!--                    id="quill_e"-->
+<!--                    ref="quill_e"-->
+<!--                    theme="snow"-->
+<!--                    v-model:content="announceForm.detail_delta"-->
+<!--                    contentType="delta"-->
+<!--                    :toolbar="quill_options_full"-->
+<!--                    @ready="initialQuill"-->
+<!--                />-->
+                <QuillRichTextEditor v-model="announceForm.detail_delta"/>
+
+<!--                การเลือก toolbar ใช้งานแบบ Presets (simple, standard, full)-->
+<!--                <QuillRichTextEditor v-model="announceForm.detail_delta" toolbar="simple"/>-->
+
+<!--                การเลือกเฉพาะ toolbar มาใช้งาน -->
+<!--                <QuillRichTextEditor-->
+<!--                    v-model="form.note"-->
+<!--                    :toolbar="[-->
+<!--                        ['bold', 'italic'], -->
+<!--                        [{ 'color': [] }], -->
+<!--                        ['image']-->
+<!--                    ]"-->
+<!--                />-->
             </div>
 
             <div class="flex flex-row mt-4 space-x-4">
@@ -176,6 +190,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 <script setup>
 import { ref, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
 import { useForm, usePage, Link } from '@inertiajs/vue3'
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
