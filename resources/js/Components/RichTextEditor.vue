@@ -4,6 +4,16 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import axios from 'axios';
 
+import BlotFormatter from 'quill-blot-formatter';
+
+// แยกตัวแปรออกมาจาก Library Object
+// const BlotFormatter = BlotFormatterLib.default || BlotFormatterLib;
+// const ResizeAction = BlotFormatterLib.ResizeAction;
+// const DeleteAction = BlotFormatterLib.DeleteAction;
+
+// [Debug] ลอง Log ดูครับ ถ้าแก้ไขถูก ต้องไม่ขึ้น undefined
+// console.log('Actions Check:', { ResizeAction, DeleteAction });
+
 const props = defineProps({
     // รับค่าได้ทั้ง Object (Delta) หรือ String (เผื่อเป็น JSON String หรือ HTML เดิม)
     modelValue: {
@@ -22,10 +32,17 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'update:html', 'image-added', 'image-removed']);
 const editorRef = ref(null);
 const isUploading = ref(false); // State สำหรับควบคุม Loading
 let quill = null;
+
+// ---Register เข้ากับ Quill ---
+// ต้อง Register ก่อนเรียก new Quill()
+// --- [แก้จุดที่ 1] เช็คก่อน Register เพื่อแก้ Warning ---
+if (!Quill.imports['modules/blotFormatter']) {
+    Quill.register('modules/blotFormatter', BlotFormatter);
+}
 
 // --- 1. กำหนด Presets ของ Toolbar ---
 const toolbarPresets = {
@@ -35,9 +52,12 @@ const toolbarPresets = {
         ['clean']
     ],
     standard: [
-        [{ header: [1, 2, 3, false] }],
+        [{ header: [1, 2, 3, 4, false] }],
         ['bold', 'italic', 'underline', 'strike'],
         [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        [{ align: [] }],
         ['link', 'image'],
         ['clean'],
     ],
@@ -54,6 +74,14 @@ const toolbarPresets = {
         ['clean'],
     ]
 };
+
+watch(() => props.readOnly, (val) => {
+    if (quill) {
+        // ถ้า readOnly = true -> quill.enable(false)
+        // ถ้า readOnly = false -> quill.enable(true)
+        quill.enable(!val);
+    }
+});
 
 // --- Computed เพื่อเลือก Config ที่ถูกต้อง ---
 const toolbarConfig = computed(() => {
@@ -117,7 +145,7 @@ const uploadImageAndInsert = async (file) => {
     }
     isUploading.value = true;
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('image_file', file);
 
     try {
         const response = await axios.post('/uploading_file_api', formData, {
@@ -125,8 +153,11 @@ const uploadImageAndInsert = async (file) => {
         });
         const url = response.data.url;
         const range = quill.getSelection(true);
-        quill.insertEmbed(range.index, 'image', url);
-        quill.setSelection(range.index + 1);
+        quill.insertEmbed(range.index, 'image', url, 'user');
+        quill.setSelection(range.index + 1, 'user');
+
+        // --- Emit event บอก parent ว่ามีรูปเพิ่มเข้ามา ---
+        emit('image-added', url);
     } catch (error) {
         console.error('Image upload failed:', error);
         alert('Failed to upload image.');
@@ -147,6 +178,8 @@ const selectLocalImage = () => {
 const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (props.readOnly) return;
 
     // เช็คก่อนเลยว่าอนุญาตให้ใส่รูปไหม ถ้าไม่ ก็จบการทำงาน
     if (!canInsertImage.value) return;
@@ -189,6 +222,8 @@ const handleDrop = (e) => {
 };
 
 const handlePaste = (e) => {
+    if (props.readOnly) return;
+
     const clipboardData = e.clipboardData || window.clipboardData;
     if (clipboardData && clipboardData.items) {
         for (let i = 0; i < clipboardData.items.length; i++) {
@@ -209,18 +244,46 @@ const handlePaste = (e) => {
     }
 };
 
+// --- Helper function ดึงรายการ URL รูปภาพทั้งหมดจาก Delta ---
+const getImagesFromDelta = (delta) => {
+    const images = [];
+    if (delta && delta.ops) {
+        delta.ops.forEach(op => {
+            if (op.insert && typeof op.insert === 'object' && op.insert.image) {
+                images.push(op.insert.image);
+            }
+        });
+    }
+    return images;
+};
+
 onMounted(() => {
+    // 1. [เพิ่มส่วนนี้] ป้องกันกล่องซ้อน: ล้าง Element ให้สะอาดก่อนสร้างใหม่
+    if (editorRef.value) {
+        editorRef.value.innerHTML = '';
+    }
+
     quill = new Quill(editorRef.value, {
         theme: 'snow',
         readOnly: props.readOnly, // ส่งค่า true/false ไปให้ Quill
+        bounds: '#unique-editor-wrapper', // [เพิ่ม] บังคับให้ popup ต่างๆ อยู่ในกรอบ
         modules: {
+            blotFormatter: {
+                overlay: {
+                    style: {
+                        border: '2px solid #3b82f6', // กรอบสีฟ้า
+                    }
+                }
+            },
+            // --------------------------------
+
             // ถ้า readOnly เป็น true ให้ปิด toolbar (ส่งค่า false/null)
-            toolbar: props.readOnly ? false : {
+            toolbar: {
                 container: toolbarConfig.value,
                 handlers: {
                     image: selectLocalImage
                 },
-            },
+            }
         },
     });
 
@@ -235,18 +298,34 @@ onMounted(() => {
         if (source === 'user') {
             // ส่งออกเป็น Object Delta
             emit('update:modelValue', quill.getContents());
+
+            // 2. [เพิ่มใหม่] ส่ง HTML (สำหรับการแสดงผล / เก็บลง DB)
+            // quill.root.innerHTML คือ HTML string ปัจจุบันใน Editor
+            emit('update:html', quill.root.innerHTML);
+        }
+
+        // Logic ตรวจสอบการลบรูป (Check Image Removal)
+        // ทำงานเฉพาะเมื่อ User เป็นคนลบ เพื่อป้องกันการ Loop หรือทำงานซ้ำซ้อนตอนโหลดข้อมูล
+        if (source === 'user') {
+            // ดึง List รูปเก่า (ก่อนแก้ไข)
+            const oldImages = getImagesFromDelta(oldDelta);
+            // ดึง List รูปปัจจุบัน (หลังแก้ไข)
+            const currentImages = getImagesFromDelta(quill.getContents());
+
+            // หาความต่าง: รูปที่มีใน oldImages แต่ไม่มีใน currentImages คือรูปที่ถูกลบ
+            const removedImages = oldImages.filter(imgUrl => !currentImages.includes(imgUrl));
+
+            removedImages.forEach(url => {
+                // Emit event บอก parent ว่ารูปนี้ถูกลบออกจาก Editor แล้วนะ
+                emit('image-removed', url);
+            });
         }
     });
 
-    // สำคัญ: ถ้าเป็น Read-Only ไม่ควรดักจับ Event Drop/Paste เพื่ออัปโหลด
-    if (!props.readOnly) {
-        quill.root.addEventListener('drop', handleDrop, false);
-        quill.root.addEventListener('paste', handlePaste, false);
-    } else {
-        // Bind Events
-        quill.root.addEventListener('drop', handleDrop, false);
-        quill.root.addEventListener('paste', handlePaste, false);
-    }
+    // Bind Events
+    quill.root.addEventListener('drop', handleDrop, false);
+    quill.root.addEventListener('paste', handlePaste, false);
+
 });
 
 onBeforeUnmount(() => {
@@ -272,63 +351,99 @@ watch(() => props.modelValue, (newValue) => {
 </script>
 
 <template>
-    <div class="relative flex flex-col group"
-         :class="[ readOnly ? 'is-read-only' : 'bg-white rounded-md shadow-sm border border-gray-200' ]">
+    <div id="unique-editor-wrapper"
+         class="relative flex flex-col group bg-white"
+         :class="{ 'is-readonly': readOnly }">
 
         <div v-if="isUploading && !readOnly"
              class="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-md cursor-wait">
+            <span class="text-sm text-gray-500">Uploading...</span>
         </div>
 
-        <div ref="editorRef"
-             class="overflow-y-auto"
-             :class="[ readOnly ? 'h-auto' : 'h-64' ]"
-             style="font-family: inherit;">
-        </div>
+        <div ref="editorRef"></div>
 
-        <div v-if="!readOnly" class="px-3 py-1 bg-gray-50 text-xs text-gray-500 border-t rounded-b-md">
+        <div v-if="!readOnly" class="editor-footer px-3 py-1 bg-gray-50 text-xs text-gray-500">
             Tip: Drag & drop images or paste screenshots directly.
         </div>
     </div>
 </template>
 
 <style>
-/* Style เดิม */
-.ql-toolbar {
-    border-top-left-radius: 0.375rem;
-    border-top-right-radius: 0.375rem;
-    border-color: #e5e7eb !important;
+/* ---------------------------------------------------------------
+   GLOBAL CSS (Not Scoped) for Quill Overrides
+   --------------------------------------------------------------- */
+
+/* 1. WRAPPER: กรอบใหญ่สุด */
+#unique-editor-wrapper {
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;   /* rounded-md */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
-.ql-container {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-color: #e5e7eb !important;
-    font-size: 1rem !important;
+
+/* 2. EDITOR SIZE: กำหนดความสูงตรงนี้ */
+#unique-editor-wrapper .ql-container {
+    height: 16rem; /* h-64 */
+    flex-grow: 1;
+    font-family: inherit;
 }
-/* เพิ่ม CSS เพื่อลบ Border ของ Quill ในโหมด Read Only */
-.read-only-editor .ql-container.ql-snow {
+
+/* 3. TOOLBAR & FOOTER BORDERS */
+#unique-editor-wrapper .ql-toolbar.ql-snow {
     border: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    background-color: #f9fafb;
+    z-index: 2;
+}
+#unique-editor-wrapper .editor-footer {
+    border-top: 1px solid #e5e7eb;
+    z-index: 2;
+}
+#unique-editor-wrapper .ql-container.ql-snow {
+    border: none !important; /* ลบเส้นขอบ Container ทิ้ง */
 }
 
-/* ปรับ Padding ให้ชิดขอบซ้ายขวามากขึ้นในโหมดอ่าน */
-.read-only-editor .ql-editor {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    background-color: transparent;
+/* 4. IMAGES & MEDIA */
+#unique-editor-wrapper .ql-editor img {
+    display: inline-block; /* สำคัญ: ต้อง inline-block ถึงจะจัดกลางได้ */
+    max-width: 100%;
+    height: auto;
+    margin: 0.5rem 0;
+    border-radius: 0.375rem;
+}
+#unique-editor-wrapper .ql-editor .ql-video {
+    max-width: 100%;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
 }
 
-/* 1. ลบเส้นขอบของ Container */
-.is-read-only :deep(.ql-container.ql-snow) {
+/* 5. BLOT FORMATTER TWEAKS (ซ่อนแถบ Align ที่รูป) */
+.blot-formatter__toolbar {
+    display: none !important; /* ซ่อนแถบเครื่องมือบนรูป */
+}
+
+/* 6. FOCUS OUTLINE */
+.ql-editor:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------------
+   READ ONLY MODE
+   --------------------------------------------------------------- */
+#unique-editor-wrapper.is-readonly {
     border: none !important;
+    background: transparent;
 }
-
-/* 2. ปรับ Padding ให้ชิดขอบ (เหมือนข้อความปกติ) */
-.is-read-only :deep(.ql-editor) {
-    padding: 0 !important;
-    background-color: transparent;
-}
-
-/* 3. (เผื่อไว้) ซ่อน Toolbar ถ้ามันเผลอหลุดมา */
-.is-read-only :deep(.ql-toolbar) {
+#unique-editor-wrapper.is-readonly .ql-toolbar {
     display: none !important;
+}
+#unique-editor-wrapper.is-readonly .ql-container {
+    height: auto !important; /* ปรับสูงตามเนื้อหา */
+}
+#unique-editor-wrapper.is-readonly .ql-editor {
+    padding: 0 !important;
 }
 </style>
