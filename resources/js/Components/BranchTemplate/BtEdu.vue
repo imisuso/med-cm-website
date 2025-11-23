@@ -31,9 +31,11 @@
 
         <RichTextContentShow v-else :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="ql-container ql-snow">
-              <div class="ql-editor" v-html="sub_menu.detail_html"></div>
-            </div>
+              <QuillRichTextEditor
+                  v-model="sub_menu.detail_delta"
+                  read-only
+                  class="p-4"
+              />
           </template>
         </RichTextContentShow>
 
@@ -43,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 import EduContentShow from '@/Components/ShowSubMenu/EduContentShow.vue'
 import RichTextContentShow from '@/Components/ShowSubMenu/RichTextContentShow.vue'
 

@@ -142,15 +142,26 @@
             </div>
             <div class="">
                 <label for="topic" class="block text-sm font-medium text-gray-700 mt-2 mb-2">เนื้อหาข่าวประกาศ</label>
-                <QuillEditor
-                    id="quill_e"
-                    ref="quill_e"
-                    theme="snow"
-                    v-model:content="announceForm.detail_delta"
-                    contentType="delta"
-                    :toolbar="quill_options_full"
-                    @ready="initialQuill"
+                <QuillRichTextEditor
+                    v-model="content"
+                    toolbar="full"
+                    @image-added="handleImageAdded"
+                    @image-removed="handleImageRemoved"
+                    @update:html="(html) => announceForm.detail_html = html"
                 />
+
+<!--                การเลือก toolbar ใช้งานแบบ Presets (simple, standard, full)-->
+<!--                <QuillRichTextEditor v-model="announceForm.detail_delta" toolbar="simple"/>-->
+
+<!--                การเลือกเฉพาะ toolbar มาใช้งาน -->
+<!--                <QuillRichTextEditor-->
+<!--                    v-model="form.note"-->
+<!--                    :toolbar="[-->
+<!--                        ['bold', 'italic'], -->
+<!--                        [{ 'color': [] }], -->
+<!--                        ['image']-->
+<!--                    ]"-->
+<!--                />-->
             </div>
 
             <div class="flex flex-row mt-4 space-x-4">
@@ -176,6 +187,7 @@ import AdminAppLayout from "@/Layouts/Admin/AdminAppLayout.vue"
 <script setup>
 import { ref, computed, defineAsyncComponent, nextTick, reactive } from 'vue'
 import { useForm, usePage, Link } from '@inertiajs/vue3'
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
@@ -184,7 +196,8 @@ import 'dayjs/locale/th'
 import TraceLogService from '@/Services/TraceLogService'
 
 import { createToast } from 'mosha-vue-toastify';
-import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast
+import 'mosha-vue-toastify/dist/style.css'
+import axios from "axios"; // import the styling for the toast
 
 const props = defineProps({
     action: { type: String, require: true, default: "create" },
@@ -193,30 +206,13 @@ const props = defineProps({
     fdivision_selected: { type: Number},
 })
 
-const quill_e = ref()
-const quill_options_full = ref([
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    //['blockquote', 'code-block'],
-    ['blockquote'],
-    //[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [{ 'header': [1, 2, 3, 4, false] }],
-    //[{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }, { 'header': 4 }],               // custom button values
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    //[{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
-    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
-    //[{ 'direction': 'rtl' }],                         // text direction
-    //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    //[{ 'font': [] }],
-    //[{ 'align': [] }],
-    //['link', 'video', 'image'],
-    ['link'],
-    ['clean']                                         // remove formatting button
-])
-
-// ไม่ใช้งานแล้ว เนื่องจากตัว vue3-datepicker มีการปรับการใช้งานรูปแบบใหม่ ยัง comment ไว้ก่อนรอดูผลการใช้งานซักระยะ
-// const MonthYear = defineAsyncComponent(() => import('@/Components/MonthYearCustom.vue'));
-// const monthYear = computed(() => MonthYear);
+// --- State ---
+// ใช้ content รับค่าจาก Prop Delta (ถ้าไม่มีให้เป็น object ว่าง)
+const content = ref(props.announce?.detail_delta ? JSON.parse(props.announce.detail_delta) : { ops: [] });
+// เก็บ URL ของรูปใหม่ที่เพิ่ง Upload เข้ามาใน Session นี้
+const uploadedImages = ref([]);
+// เก็บ URL ของรูปที่ User ลบออกจาก Editor (เตรียมรอการลบจริง)
+const removedImages = ref([]);
 
 const actionWord = ref(null)
 const viewDataInfomation = ref(false)
@@ -228,7 +224,8 @@ const announceForm = useForm({
   id: props.announce ? props.announce.id : null,
   pinned: props.announce ? props.announce.pinned : false,
   topic: props.announce ? props.announce.topic : null,
-  detail_delta: props.announce?.detail_delta ? JSON.parse(props.announce.detail_delta) : {},
+  detail_delta: null,
+  detail_html: props.announce ? props.announce.detail_html : '',
   expire_date: props.announce ? dayjs(props.announce.expire_date).toDate() : ref(dayjs(current_date.value).add(30, 'day').toDate()),
   division_id: props.fdivision_selected ? props.fdivision_selected : usePage().props.auth.division_id,
   type: props.announce ? props.announce.type : 1,  // type ตอนนี้มีแบบเดียว แค่ออกแบบ db เพื่อรองรับประกาศ หลายๆแบบ
@@ -246,11 +243,6 @@ switch(props.action) {
     case 'view':
         actionWord.value = "ดู"
         break;
-}
-
-const initialQuill = () => {
-  //quill_e.value.setContents(JSON.parse(props.branchSubMenu.detail_delta))
-  quill_e.value.getQuill().enable(true)
 }
 
 const dateFormat = (date) => {
@@ -302,20 +294,72 @@ const uploadFile = (index, file, e) => {
   }
 }
 
+const cancelEditContent = () => {
+
+    // [LOGIC การลบรูปขยะ]
+    // ถ้ายกเลิกการแก้ไข -> รูปที่ "เพิ่ง Upload มาใหม่" (uploadedImages) ถือเป็นขยะทันที ต้องลบทิ้ง
+    if (uploadedImages.value.length > 0) {
+        deleteFromServer(uploadedImages.value);
+    }
+
+    // Reset State
+    uploadedImages.value = [];
+    removedImages.value = [];
+}
+
+const handleImageAdded = (url) => {
+    console.log('Image Added:', url);
+    uploadedImages.value.push(url);
+};
+
+const handleImageRemoved = (url) => {
+    console.log('Image Removed:', url);
+    // เช็คก่อนว่ารูปนี้มีอยู่ใน removedImages หรือยัง (ป้องกันซ้ำ)
+    if (!removedImages.value.includes(url)) {
+        removedImages.value.push(url);
+    }
+};
+
+const deleteFromServer = ( files ) => {
+    // เรียก API ลบไฟล์
+    axios.post(route('delete_file_api'), { imgFiles: files })
+        .then(res => console.log('Deleted:', res.data))
+        .catch(err => console.error(err));
+}
+
 const saveAnnounce = () => {
     let error_display = ''
+    // สำคัญ: ใช้ html ล่าสุดที่ได้จาก event @update:html
+    // (สมมติว่าคุณรับค่ามาเก็บในตัวแปร htmlContent หรือ form.detail_html แล้ว)
+    const finalHtml = announceForm.detail_html || '';
+
     if(announceForm.id) {  // Edit
         announceForm.transform(data => ({
             ...data,
             expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-            detail_delta: JSON.stringify(data.detail_delta),
-            detail_html: quill_e.value.getHTML(),
+            detail_delta: JSON.stringify(content.value),
             atFiles: attachments.map(file => file.File)
         })).post( route('admin.announce.update', announceForm.id), {
             _method: 'patch',
             preserveState: false,
             onSuccess: () => {
                 toast('success', 'แก้ไขสำเร็จ', 'แก้ไขข้อมูลประกาศ เรียบร้อย')
+                // ------------------------------------------------------------
+                // [LOGIC การลบรูปจริง]
+                // ------------------------------------------------------------
+
+                // กรองรายการที่จะลบจริงๆ:
+                // เอาเฉพาะรูปที่อยู่ใน removedImages และ "ต้องไม่มี" อยู่ใน finalHtml แล้วเท่านั้น
+                // (เพื่อกันกรณี User เผลอลบ -> แล้วกด Undo รูปจะกลับมา -> เราห้ามลบไฟล์ทิ้ง)
+                const imagesToDelete = removedImages.value.filter(url => !finalHtml.includes(url));
+
+                if (imagesToDelete.length > 0) {
+                    deleteFromServer(imagesToDelete);
+                }
+
+                // Reset Arrays
+                uploadedImages.value = [];
+                removedImages.value = [];
             },
             onError: (errors) => {
                 for ( let p in errors ) {
@@ -331,13 +375,28 @@ const saveAnnounce = () => {
         announceForm.transform(data => ({
             ...data,
             expire_date: dayjs(data.expire_date).format("YYYY-MM-DD HH:mm:ss"),
-            detail_delta: JSON.stringify(data.detail_delta),
-            detail_html: quill_e.value.getHTML(),
+            detail_delta: JSON.stringify(content.value),
             atFiles: attachments.map(file => file.File)
         })).post(route('admin.announce.store'), {
             preserveState: false,
             onSuccess: () => {
                 toast('success', 'สำเร็จ', 'จัดเก็บประกาศเรียบร้อย')
+                // ------------------------------------------------------------
+                // [LOGIC การลบรูปจริง]
+                // ------------------------------------------------------------
+
+                // กรองรายการที่จะลบจริงๆ:
+                // เอาเฉพาะรูปที่อยู่ใน removedImages และ "ต้องไม่มี" อยู่ใน finalHtml แล้วเท่านั้น
+                // (เพื่อกันกรณี User เผลอลบ -> แล้วกด Undo รูปจะกลับมา -> เราห้ามลบไฟล์ทิ้ง)
+                const imagesToDelete = removedImages.value.filter(url => !finalHtml.includes(url));
+
+                if (imagesToDelete.length > 0) {
+                    deleteFromServer(imagesToDelete);
+                }
+
+                // Reset Arrays
+                uploadedImages.value = [];
+                removedImages.value = [];
             },
             onError: (errors) => {
                 for ( let p in errors ) {
