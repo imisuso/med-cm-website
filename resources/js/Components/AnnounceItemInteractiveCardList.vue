@@ -51,10 +51,24 @@
 
                     <li v-if="announceDetails.pinned && $page.props.auth.abilities.includes('pin_unpin_announce')">
                         <a href="#" @click="confirmAnwser('unpin', true)" class="flex items-center text-sm hover:bg-gray-100 text-gray-500 px-4 py-2">
-                            <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="h-4 w-4 text-gray-500 mr-2 shrink-0" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                                <g transform="translate(128 128) scale(0.72 0.72)" style="">
-                                    <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
-                                    <path d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(115 115 115 / var(--tw-text-opacity)); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                version="1.1"
+                                class="h-4 w-4 text-gray-500 mr-2 shrink-0"
+                                width="256"
+                                height="256"
+                                viewBox="0 0 256 256"
+                                xml:space="preserve"
+                            >
+                                <g transform="translate(128 128) scale(0.72 0.72)">
+                                    <g transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)">
+                                        <path
+                                            d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z"
+                                            style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10;"
+                                            fill="currentColor"
+                                            stroke-linecap="round"
+                                        />
                                     </g>
                                 </g>
                             </svg>
@@ -295,23 +309,25 @@ const confirmAnwser = (type, isOpen) => {
 }
 
 const process_announce = () => {
-    let routeName = ""
-    let msgProcess =""
+    let routeName = "";
+    let msgProcess ="";
+    let method = "get";
     if( confirmType.value === "publish" ) {
-        routeName = "admin.announce.toggle_publish"
-        msgProcess = "เผยแพร่ข่าวประกาศ"
+        routeName = "admin.announce.toggle_publish";
+        msgProcess = "เผยแพร่ข่าวประกาศ";
     } else if( confirmType.value === "unpublish" ) {
-        routeName = "admin.announce.toggle_publish"
-        msgProcess = "ยกเลิกเผยแพร่ข่าวประกาศ"
+        routeName = "admin.announce.toggle_publish";
+        msgProcess = "ยกเลิกเผยแพร่ข่าวประกาศ";
     } else if( confirmType.value === "pin" ) {
-        routeName = "admin.announce.toggle_pin"
-        msgProcess = "ปักหมุดข่าวประกาศ"
+        routeName = "admin.announce.toggle_pin";
+        msgProcess = "ปักหมุดข่าวประกาศ";
     } else if( confirmType.value === "unpin" ) {
-        routeName = "admin.announce.toggle_pin"
-        msgProcess = "ยกเลิกปักหมุดข่าวประกาศ"
+        routeName = "admin.announce.toggle_pin";
+        msgProcess = "ยกเลิกปักหมุดข่าวประกาศ";
     } else if( confirmType.value === "delete" ) {
-        routeName = "admin.announce.delete"
-        msgProcess = "ลบข่าวประกาศ"
+        routeName = "admin.announce.delete";
+        msgProcess = "ลบข่าวประกาศ";
+        method = "post";
     }
 
     // router.get(route(routeName, props.announceDetails.id), {
@@ -340,11 +356,13 @@ const process_announce = () => {
     //     }
     // })
 
-    router.get(route(routeName, props.announceDetails.id), {
-        ftopic: props.filter.ftopic,
-        fexpire_type: props.filter.fexpire_type,
-        fdivision_selected: props.filter.fdivision_selected
-    }, {
+    router.visit(route(routeName, props.announceDetails.id),  {
+        method: method,
+        data: {
+            ftopic: props.filter.ftopic,
+            fexpire_type: props.filter.fexpire_type,
+            fdivision_selected: props.filter.fdivision_selected
+        },
         preserveState: true,
         onSuccess: () => {
             toast('success', 'สำเร็จ', `ดำเนินการ${msgProcess}เรียบร้อย`)

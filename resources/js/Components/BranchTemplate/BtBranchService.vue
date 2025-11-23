@@ -7,14 +7,13 @@
         <div class="grow">
             <QuillRichTextEditor
                 v-model="content"
+                toolbar="full"
                 :readOnly="readOnly"
                 @image-added="handleImageAdded"
                 @image-removed="handleImageRemoved"
                 @update:html="(html) => form.detail_html = html"
             />
         </div>
-
-<!--        <div class="grow" v-html="form.detail_html"></div>-->
 
         <div class="mt-2 flex items-center">
             <button v-show="readOnly" @click="editContent" class="flex items-center mx-1 text-orange-500 bg-white hover:bg-orange-100 focus:ring-4 focus:ring-orange-300 rounded-lg border border-orange-200 text-sm font-medium px-5 py-2">
@@ -50,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 import { createToast } from 'mosha-vue-toastify'
@@ -161,8 +160,11 @@ const saveContent = () => {
             removedImages.value = [];
         },
         onError: (errors) => {
-            // ... handle error
-            toast('danger', 'Error', 'บันทึกไม่สำเร็จ');
+            let error_display = ''
+            for ( let p in errors ) {
+                error_display = error_display + `- ${errors[p]}<br/>`
+            }
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
             form.reset()
@@ -172,7 +174,6 @@ const saveContent = () => {
 }
 
 // --- Image Handlers (รับ Event จาก Child) ---
-
 const handleImageAdded = (url) => {
     console.log('Image Added:', url);
     uploadedImages.value.push(url);

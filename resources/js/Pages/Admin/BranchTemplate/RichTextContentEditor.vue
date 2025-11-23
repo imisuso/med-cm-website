@@ -2,22 +2,14 @@
     <div class="flex flex-col m-2">
         <div class="mt-2 mb-2 text-lg">{{ sub_header.sub_header_name_th }}</div>
         <div>
-            <QuillEditor
-                id="quill_e"
-                ref="quill_e"
-                v-model:content="contentForm.detail_delta"
-                contentType="delta"
-                @ready="initialQuill"
-                @textChange="textChange"
+            <QuillRichTextEditor
+                v-model="content"
+                toolbar="full"
+                @image-added="handleImageAdded"
+                @image-removed="handleImageRemoved"
+                @update:html="(html) => contentForm.detail_html = html"
             />
-            <!--
-            theme="snow"
-            :toolbar="quill_custom"
-            :modules="quill_modules"
-            -->
 
-            <!-- <QuillEditor ref="quill" theme="snow" :content="sub_header.html_content" contentType="html" :toolbar="quill_options_full" :modules="quill_modules" /> -->
-            <!-- <QuillEditor ref="quill" theme="snow" :content="sub_header.html_content" contentType="html" toolbar="full" /> -->
             <div class="flex items-center space-x-2 mt-2 mb-4">
                 <button @click="confirmChange" class="flex items-center mx-1 text-emerald-500 bg-white hover:bg-emerald-100 focus:ring-4 focus:ring-emerald-300 rounded-lg border border-emerald-200 text-sm font-medium px-5 py-2 hover:text-emerald-900 focus:z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,91 +28,79 @@
             </div>
         </div>
         <div class="w-full ql-container ql-snow">
-          {{ getContent }}
-          <div v-html="htmlContent" class="ql-editor border border-red-300 py-4 px-2 focus:outline-none"></div>
-          <!-- <div v-html="content" class="border border-red-300 py-4 px-2 prose prose-sm sm:prose lg:prose-lg xl:prose-2xl p-2  focus:outline-none"></div> -->
+            <QuillRichTextEditor
+                v-model="contentForm.detail_html"
+                read-only
+                class="p-4"
+            />
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onUnmounted, reactive, computed, nextTick } from 'vue'
-import { useForm, Link } from '@inertiajs/vue3'
-// import BlotFormatter, { AlignAction, DeleteAction, ResizeAction, ImageSpec } from 'quill-blot-formatter'
+import { ref } from 'vue'
+import {useForm, router} from '@inertiajs/vue3'
+
 
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'  // import the styling for the toast
-
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 import Swal  from 'sweetalert2';
-
-// class CustomImageSpec extends ImageSpec {
-//     getActions() {
-//       return [AlignAction, DeleteAction, ResizeAction];
-//     }
-// }
-
-// class RemoveImageSpec extends ImageSpec {
-//     getActions() {
-//       return [];
-//     }
-// }
+import axios from "axios";
 
 const props = defineProps({
     sub_header: { type: Object, required: true }
 })
 
-onUnmounted(() => {
-    window.removeEventListener('click', pasteImage, false)
-})
-
 const contentForm = useForm({
     id: props.sub_header.id,
-    detail_delta: JSON.parse(props.sub_header.detail_delta),
+    detail_delta: null,
+    detail_html: props.sub_header.detail_html || '',
+    division_id: props.sub_header.division_id ?? 0,
 });
 
-//const deltaContent = ref(JSON.parse(props.sub_header.delta_content))
-const htmlContent = ref(props.sub_header.detail_html)
+// ใช้ content รับค่าจาก Prop Delta (ถ้าไม่มีให้เป็น object ว่าง)
+const content = ref(props.sub_header.detail_delta ? JSON.parse(props.sub_header.detail_delta) : { ops: [] });
+// เก็บ URL ของรูปใหม่ที่เพิ่ง Upload เข้ามาใน Session นี้
+const uploadedImages = ref([]);
+// เก็บ URL ของรูปที่ User ลบออกจาก Editor (เตรียมรอการลบจริง)
+const removedImages = ref([]);
 
-// const quill_modules = {
-//                 name: 'blotFormatter',
-//                 module: BlotFormatter,
-//                     options: {/* options */}
-//             }
+// --- Image Handlers (รับ Event จาก Child) ---
+const handleImageAdded = (url) => {
+    console.log('Image Added:', url);
+    uploadedImages.value.push(url);
+};
 
-const quill_e = ref()
-const imgDeleted = reactive([])
-const imgInserted = reactive([])
+const handleImageRemoved = (url) => {
+    console.log('Image Removed:', url);
+    // เช็คก่อนว่ารูปนี้มีอยู่ใน removedImages หรือยัง (ป้องกันซ้ำ)
+    if (!removedImages.value.includes(url)) {
+        removedImages.value.push(url);
+    }
+};
 
-const quill_custom = ref([
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    //['blockquote', 'code-block'],
-    ['blockquote'],
-    //[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [{ 'header': [1, 2, 3, 4, false] }],
-    //[{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }, { 'header': 4 }],               // custom button values
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    //[{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
-    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
-    //[{ 'direction': 'rtl' }],                         // text direction
-    //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    //[{ 'font': [] }],
-    //[{ 'align': [] }],
-    //['link', 'video', 'image'],
-    ['link'],
-    ['clean']                                         // remove formatting button
-])
+const cancelEditContent = () => {
+    // [LOGIC การลบรูปขยะ]
+    // ถ้ายกเลิกการแก้ไข -> รูปที่ "เพิ่ง Upload มาใหม่" (uploadedImages) ถือเป็นขยะทันที ต้องลบทิ้ง
+    if (uploadedImages.value.length > 0) {
+        deleteFromServer(uploadedImages.value);
+    }
 
-// const initialQuill = () => {
-//   quill_e.value.getQuill().enable(true)
-// }
+    // 3. Reset State
+    uploadedImages.value = [];
+    removedImages.value = [];
 
-const initialQuill = () => {
-  quill_e.value.getEditor().addEventListener('paste', pasteImage, false)
-  // var toolbar = quill_e.value.getQuill().getModule('toolbar');
-  // toolbar.addHandler('image', selectLocalImage)
-  quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
-  quill_e.value.getQuill().enable(true)
+    router.visit(route('admin.show_branch_main_menu', props.sub_header.division_id), {
+        method: "post"
+    });
+}
+
+const deleteFromServer = ( files ) => {
+    // เรียก API ลบไฟล์
+    axios.post(route('delete_file_api'), { imgFiles: files })
+        .then(res => console.log('Deleted:', res.data))
+        .catch(err => console.error(err));
 }
 
 const confirmChange = () => {
@@ -135,8 +115,7 @@ const confirmChange = () => {
         if (result.isConfirmed) {
             saveContent()
         } else {
-            quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
-            cancelEditContent()
+            // cancelEditContent()
             return false
         }
     })
@@ -157,216 +136,77 @@ const toast = (severity, summary, detail) => {
     })
 }
 
-// ใช้สำหรับ event เมื่อ rich-text มีการเปลี่ยนแปลงข้อความ ซึ่งในที่นี้จะหมายถึงการลบ รูป
-const textChange = (e) => {
-  //console.log(e.delta)
-  //const inserted = getImgUrls(e.delta);
-
-  // หา url ของรูปที่ถูกลบไป
-  const deleted = getImgUrls(quill_e.value.getContents().diff(e.oldContents))
-
-  //inserted.length && console.log('insert', inserted)
-  //inserted.length && imgInserted.push(inserted) && console.log('insert', imgInserted)
-
-  // เพิ่มข้อมูลรูปที่ถูกลบ ลงไปใน list
-  deleted.length && imgDeleted.push(deleted[0]) && console.log('delete', imgDeleted)
-}
-
-const getImgUrls = (delta) => {
-  return delta.ops.filter(i => i.insert && i.insert.image).map(i => i.insert.image)
-}
-
-// ใช้สำหรับ copy patse รูปมาไว้ที่ rich-text
-const pasteImage = (e) => {
-  // console.log(e)
-  // console.log(e.clipboardData)
-  //console.log(e.target)
-  Array.prototype.forEach.call(e.clipboardData.items, item => {
-    if (item.type.match(/^image\/(gif|jpe?g|a?png|svg|webp|bmp)$/i)) {
-        e.preventDefault()
-        saveToServer(item.getAsFile())
-        return
-    } else if (item.type.match(/^application\//i)) {
-        e.preventDefault()
-    }
-    else if (item.type.startsWith('text/html')) {
-      nextTick(() => {
-        let editor = document.querySelector(`#quill_e .ql-editor`)
-        // move to last child to update scrollY
-        setTimeout(() => {
-          editor.lastChild.scrollIntoView()
-
-          let editorRect = document.querySelector(`#quill_e .ql-editor`).getBoundingClientRect()
-          let y = editorRect.top + window.scrollY + editorRect.height
-
-          // wait DOM updated
-          setTimeout(() => {
-            window.scrollTo(0, y - window.innerHeight / 2);
-          }, 100)
-        }, 300)
-      })
-    }
-  })
-}
-
-const cancelEditContent = () => {
-
-  // ถ้ามีไฟล์รูปที่ insert เข้ามาเก็บที่ server แล้ว ต้องลบออกเพราะได้ยกเลิกการแก้ไข
-  if( imgInserted.length ) {
-    deleteFromServer(imgInserted)
-  }
-
-  // ทำการ clear list การ insert และ delete ให้เป็น array ว่าง
-  imgDeleted.splice(0)
-  imgInserted.splice(0)
-  //initialQuill()
-
-  contentForm.post( route('admin.show_branch_main_menu', props.sub_header.division_id) )
-}
-
-//
-//  * Step1. select local image
-//
-const selectLocalImage = () => {
-  const input = document.createElement('input');
-  input.setAttribute('type', 'file');
-  input.click();
-
-  // Listen upload local image and save to server
-  input.onchange = () => {
-    const file = input.files[0];
-
-    // file type is only image.
-    if (/^image\//.test(file.type)) {
-      saveToServer(file);
-      //console.log("Save to Server")
-    } else {
-      toast('warning', 'คำเตือน', 'กรุณาเลือกเฉพาะไฟล์ที่เป็นรูปภาพเท่านั้น')
-      //console.warn('You could only upload images.');
-    }
-  };
-}
-
-//  * Step2. save to server
-//  *
-//  * @param {File} file
-//
-const saveToServer = ( file ) => {
-  const fd = new FormData()
-
-  // แนบรูป ที่จะเก็บไปด้วยเมื่อเรียกใช้ api
-  fd.append('image_file', file)
-
-  // แนบ path ที่จะเก็บรูปไปด้วยเมื่อเรียกใช้ api
-  fd.append('store_path', 'branch_content/' + props.sub_header.division_id + '/images')
-
-  // เรียก api โดยส่ง fd ที่เป็น form-data ที่มีค่าตัวแปรต่างๆ เข้าไปเป็น parameter
-  axios.post(route('uploading_file_api'), fd, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-  .then( res => {
-    //console.log(res.data)
-
-    // หลังจาก upload รูปขึ้น server สำเร็จ จะได้เป็น url ของรูปกลับมาจาก api
-    // จากนั้นจึงเรียกใช้งาน function insertToEditor() และส่ง url เข้าไปยัง function เพื่อเพิ่มรูปเข้าไปยัง rich-text
-    insertToEditor(res.data.url)
-  })
-  .catch( (error) => {
-    if (error.response) {
-      //console.log(error.response.data);
-      if( error.response.status === 401 ) { toast('warning', 'คำเตือน', 'กรุณาเลือกเฉพาะไฟล์ที่เป็นรูปภาพเท่านั้น') }
-      //console.log(error.response.headers);
-    }
-  })
-}
-
-const deleteFromServer = ( files ) => {
-  //console.log(files)
-  axios.post(route('delete_file_api'), {
-    imgFiles: files
-  })
-  .then( res => {
-    console.log(res.data)
-  })
-  .catch( (error) => {
-    if (error.response) {
-      //console.log(error.response.data);
-      if( error.response.status === 401 ) { toast('warning', 'คำเตือน', 'ลบไฟล์ภาพเก่าไม่สำเร็จ') }
-      //console.log(error.response.headers);
-    }
-  })
-}
-
-//  * Step3. insert image url to rich editor.
-//  *
-//  * @param {string} url
-//
-const insertToEditor = ( url ) => {
-  //console.log(url)
-  let editor = quill_e.value.getQuill()
-
-  // push image url to rich editor.
-  const range = editor.getSelection()
-  editor.insertEmbed(range.index, 'image', `${url}`, 'user')
-
-  // เพิ่ม list การ insert ไว้เพื่อใช้ในกรณี ยกเลิกการจัดเก็บก็ต้องลบรูปที่ insert เข้ามาด้วยเพื่อไม่ให้รูปค้างในระบบ
-  imgInserted.push(url) && console.log('insert', imgInserted)
-
-}
-
-const getHtmlContent = () => {
-    console.log(htmlContent.value)
-}
-
-const getContent = computed( () => {
-    contentForm.detail_delta
-    nextTick(() => {
-        htmlContent.value = quill_e.value.getHTML()
-        //return htmlContent.value
-    });
-})
-
 const saveContent = () => {
-    contentForm.detail_delta = JSON.stringify(contentForm.detail_delta);
-    contentForm.transform(data => ({
-        ...data,
-        detail_html: htmlContent.value,
-        division_id: props.sub_header.division_id,
-    })).patch( route('admin.richtext_content_update', contentForm.id), {
-        //preserveState: false,
-        // onBefore: () => {
-        //   if( ! confirm('คุณต้องการจัดเก็บข้อมูล ใช่ หรือ ไม่ ?') ) {
-        //       quill_e.value.setContents(JSON.parse(props.sub_header.detail_delta))
-        //       cancelEditContent()
-        //       return false
-        //   }
-        // },
+
+    // [สำคัญ] แปลง Object Delta กลับเป็น String เพื่อส่งเข้าหลังบ้าน
+    contentForm.detail_delta = JSON.stringify(content.value);
+
+    // สำคัญ: ใช้ html ล่าสุดที่ได้จาก event @update:html
+    // (สมมติว่าคุณรับค่ามาเก็บในตัวแปร htmlContent หรือ contentForm.detail_html แล้ว)
+    const finalHtml = contentForm.detail_html || '';
+
+    contentForm.patch(route('admin.richtext_content_update', contentForm.id), {
+        preserveState: false,
         onSuccess: () => {
-          toast('success', 'แก้ไขสำเร็จ', `แก้ไขข้อมูล ${props.sub_header.sub_header_name_th} เรียบร้อย`)
-          if( imgDeleted.length ) {
-              deleteFromServer(imgDeleted)
-          }
-          contentForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
+            toast('success', 'แก้ไขสำเร็จ', `แก้ไขข้อมูล ${props.sub_header.sub_header_name_th} เรียบร้อย`)
+
+            // ------------------------------------------------------------
+            // [LOGIC การลบรูปจริง]
+            // ------------------------------------------------------------
+
+            // กรองรายการที่จะลบจริงๆ:
+            // เอาเฉพาะรูปที่อยู่ใน removedImages และ "ต้องไม่มี" อยู่ใน finalHtml แล้วเท่านั้น
+            // (เพื่อกันกรณี User เผลอลบ -> แล้วกด Undo รูปจะกลับมา -> เราห้ามลบไฟล์ทิ้ง)
+            const imagesToDelete = removedImages.value.filter(url => !finalHtml.includes(url));
+
+            if (imagesToDelete.length > 0) {
+                deleteFromServer(imagesToDelete);
+            }
+
+            // Reset Arrays
+            uploadedImages.value = [];
+            removedImages.value = [];
         },
         onError: (errors) => {
           let error_display = ''
           for ( let p in errors ) {
               error_display = error_display + `- ${errors[p]}<br/>`
           }
-          toast('danger', 'พบข้อผิดพลาด', error_display);
+            toast('danger', 'พบข้อผิดพลาด', error_display);
         },
         onFinish: () => {
-          contentForm.processing = false
-          imgDeleted.splice(0)
-          imgInserted.splice(0)
+            contentForm.reset()
         }
     })
 }
 
+// const saveContent = () => {
+//     contentForm.detail_delta = JSON.stringify(contentForm.detail_delta);
+//     contentForm.transform(data => ({
+//         ...data,
+//         detail_html: htmlContent.value,
+//         division_id: props.sub_header.division_id,
+//     })).patch( route('admin.richtext_content_update', contentForm.id), {
+//         onSuccess: () => {
+//           toast('success', 'แก้ไขสำเร็จ', `แก้ไขข้อมูล ${props.sub_header.sub_header_name_th} เรียบร้อย`)
+//           if( imgDeleted.length ) {
+//               deleteFromServer(imgDeleted)
+//           }
+//           contentForm.reset()  // ทำการ reset person form ตรงนี้ก่อน ไม่งั้นจะได้ ข้อมูลของเดิมจากที่ได้เพิ่ม หรือแก้ไขไว้แล้ว
+//         },
+//         onError: (errors) => {
+//           let error_display = ''
+//           for ( let p in errors ) {
+//               error_display = error_display + `- ${errors[p]}<br/>`
+//           }
+//           toast('danger', 'พบข้อผิดพลาด', error_display);
+//         },
+//         onFinish: () => {
+//           contentForm.processing = false
+//           imgDeleted.splice(0)
+//           imgInserted.splice(0)
+//         }
+//     })
+// }
+
 </script>
-
-<style>
-
-</style>

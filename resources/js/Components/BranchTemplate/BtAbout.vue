@@ -4,9 +4,14 @@
       <template v-for="(sub_menu, index) in branchSubMenu" :key="sub_menu.sub_header_id" :index="index" >
         <RichTextContentShow v-if="sub_menu.main_header_id === 1" :sub_header="sub_menu" :index="index+1">
           <template v-slot:display_content>
-            <div class="ql-container ql-snow">
-              <div class="ql-editor" v-html="sub_menu.detail_html"></div>
-            </div>
+<!--            <div class="ql-container ql-snow">-->
+<!--              <div class="ql-editor" v-html="sub_menu.detail_html"></div>-->
+<!--            </div>-->
+              <QuillRichTextEditor
+                  v-model="sub_menu.detail_html"
+                  read-only
+                  class="mt-4 mb-4"
+              />
           </template>
         </RichTextContentShow>
       </template>
@@ -17,6 +22,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import RichTextContentShow from '@/Components/ShowSubMenu/RichTextContentShow.vue'
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 
 const props = defineProps({
   division_id: { type: Number, required: true},

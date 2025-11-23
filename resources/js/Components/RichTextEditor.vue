@@ -446,4 +446,46 @@ watch(() => props.modelValue, (newValue) => {
 #unique-editor-wrapper.is-readonly .ql-editor {
     padding: 0 !important;
 }
+
+/* ---------------------------------------------------------------
+   FIX LIST STYLES (ฉบับแก้การซ้อนทับ)
+   --------------------------------------------------------------- */
+
+/* 1. ล้างค่า "ตัวซ้อน" (Ghost Elements) ทิ้งให้หมด */
+/* นี่คือตัวการที่ทำให้เกิด Bullet ซ้อน หรือตัวเลขกลายเป็นอักขระแปลกๆ */
+#unique-editor-wrapper .ql-editor li::before,
+#unique-editor-wrapper .ql-editor li::marker {
+    content: none !important;
+    display: none !important;
+}
+
+/* 2. บังคับให้ List Item กลับมาเป็น Standard Browser Style */
+#unique-editor-wrapper .ql-editor li {
+    display: list-item !important; /* ให้แน่ใจว่าเป็น List Item */
+    padding-left: 0 !important;    /* ลบ Padding เดิมของ Quill ที่ดันตัวหนังสือไปไกล */
+}
+
+/* 3. จัดการ BULLET List (<ul>) ให้เป็น "จุด" */
+#unique-editor-wrapper .ql-editor ul {
+    list-style-type: disc !important; /* จุดกลมทึบ */
+    padding-left: 1.5rem !important;  /* เว้นที่ด้านซ้าย */
+    margin-bottom: 1rem;
+}
+
+/* 4. จัดการ NUMBER List (<ol>) ให้เป็น "ตัวเลข" */
+#unique-editor-wrapper .ql-editor ol {
+    list-style-type: decimal !important; /* ตัวเลข 1. 2. 3. */
+    padding-left: 1.5rem !important;
+    margin-bottom: 1rem;
+}
+
+/* 5. (แถม) จัดการ List ซ้อน (Nested List) */
+/* ถ้ามี Bullet ซ้อน Bullet ให้เป็นวงกลมโปร่ง */
+#unique-editor-wrapper .ql-editor ul ul {
+    list-style-type: circle !important;
+}
+/* ถ้ามี เลข ซ้อน เลข ให้เป็น a. b. c. (หรือจะเอาตัวเลขเหมือนเดิมก็ได้) */
+#unique-editor-wrapper .ql-editor ol ol {
+    list-style-type: lower-alpha !important;
+}
 </style>
