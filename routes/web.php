@@ -94,7 +94,7 @@ Route::get('/consultant', function () {
 //        ->where('status', true)->where('type', 'z')->whereIn('position_academic', [1])
 //        ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
 
-    $listConsultant = Person::select('rname_short_th', 'fname_th', 'lname_th', 'reward', 'image', 'division_id', 'position_division', 'group')
+    $listConsultant = Person::select('rname_short_th', 'rname_short_en', 'fname_th', 'fname_en', 'lname_th', 'lname_en', 'reward', 'image', 'division_id', 'position_division', 'group')
         ->where('status', true)->where('type', 'z')->where('group', 1)
         ->orderByRaw('convert(fname_th using tis620) asc')->with('division')->get();
 

@@ -2,7 +2,7 @@
 <!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
-                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">ที่ปรึกษาภาควิชา</h4>
+                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">{{ $t('ที่ปรึกษาภาควิชา') }}</h4>
 
             </div>
             <div class="mt-6 md:mt-0">
@@ -20,9 +20,9 @@
 
                     <img v-else class="object-fill w-32 h-32 rounded-full ring-4 ring-gray-300" :src="consultant.image_url" alt="">
 
-                    <h1 class="mt-4 text-center text-md font-semibold text-gray-700 capitalize ">{{ consultant.rname_short_th }}<br class="block md:hidden" />{{ consultant.fname_th }} {{ consultant.lname_th }}</h1>
+                    <h1 class="mt-4 text-center text-md font-semibold text-gray-700 capitalize ">{{ transDb(consultant, 'rname_short') }}<br class="block md:hidden" />{{ transDb(consultant, 'fname') }} {{ transDb(consultant, 'lname') }}</h1>
 
-                    <p class="mt-2 text-center text-gray-500 capitalize dark:text-gray-500 ">{{ consultant.division.division_type }}วิชา{{ consultant.division.name_th }}</p>
+                    <p class="mt-2 text-center text-gray-500 capitalize dark:text-gray-500 ">{{ $t(consultant.division.division_type) }} : {{ transDb(consultant.division, 'name') }}</p>
                 </div>
             </div>
         </div>
@@ -38,10 +38,14 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import { useTrans } from '@/Services/useTrans';
 
 const props = defineProps({
     listConsultant: { type: Array, required: true }
 })
+
+// 1. เรียกใช้ Helper
+const { transDb } = useTrans();
 
 // const consultants = ref(
 //             [

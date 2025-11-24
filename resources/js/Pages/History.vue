@@ -4,13 +4,13 @@
             <div class="2xl:container 2xl:mx-auto lg:py-16 lg:px-20 md:py-12 md:px-6 py-9 px-4">
                 <div class="flex flex-col lg:flex-row justify-between gap-8">
                     <div class="w-full lg:w-5/12 flex flex-col justify-center">
-                        <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">เกี่ยวกับเรา</h1>
+                        <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">{{ $t('เกี่ยวกับเรา') }}</h1>
                         <ul class="font-normal text-base leading-6 text-gray-600 list-disc">
-                            <div class="text-lg text-blue-500 font-bold">วิสัยทัศน์</div>
+                            <div class="text-lg text-blue-500 font-bold">{{ $t('วิสัยทัศน์') }}</div>
                             <li class="ml-4 mb-2">เป็นผู้นำทางอายุรศาสตร์ระดับสากล</li>
-                            <div class="text-lg text-blue-500 font-bold">พันธกิจ</div>
+                            <div class="text-lg text-blue-500 font-bold">{{ $t('พันธกิจ') }}</div>
                             <li class="ml-4 mb-2">องค์กรชั้นเลิศทางอายุรศาสตร์ ในการผลิตแพทย์ที่สมบูรณ์แบบ สร้างองค์ความรู้และบริการที่ได้มาตรฐานระดับนานาชาติ</li>
-                            <div class="text-lg text-blue-500 font-bold">คำขวัญ</div>
+                            <div class="text-lg text-blue-500 font-bold">{{ $t('คำขวัญ') }}</div>
                             <li class="ml-4">ภาคภูมิ ทุ่มเทให้ ร่วมแรงใจ ได้ผลงาน "Pride Passion Participation and Productivity"</li>
                         </ul>
                     </div>
@@ -21,7 +21,7 @@
 
                 <div class="flex flex-col justify-between gap-8 pt-12">
                     <div class="w-full flex flex-col justify-center">
-                        <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">ประวัติภาควิชา</h1>
+                        <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">{{ $t('ประวัติภาควิชา') }}</h1>
                         <div class="inline-block font-normal text-base leading-6 text-gray-600 mb-3 indent-8">
                             ภาควิชาอายุรศาสตร์ อาจนับได้ว่าเริ่มมีขึ้นตั้งแต่มีการเปิดสอนหลักสูตรแพทย์แผนปัจจุบันขึ้นในโรงพยาบาลศิริราชจากจุดเริ่มต้นของการสอน
                             ภาควิชาอายุรศาสตร์จึงได้เปิดการฝึกอบรมระดับหลังปริญญาให้แก่แพทยที่มีความต้องการเป็นแพทย์เฉพาะทางอายุรศาสตร์
