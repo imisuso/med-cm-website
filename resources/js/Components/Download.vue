@@ -13,7 +13,7 @@
                 </svg>
             </div>
             <div class="flex mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl px-2">
-                ดาวน์โหลด
+                {{ $t('ดาวน์โหลด') }}
             </div>
         </div>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">

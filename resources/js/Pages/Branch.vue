@@ -13,7 +13,9 @@
               <rect fill="url(#247432cb-6e6c-4bec-9766-564ed7c230dc)" width="52" height="24"></rect>
             </svg>
           </span>
-          <div class="mt-2">สาขาวิชา</div>
+            <span class="block mt-2">
+                {{ $t('สาขาวิชา') }}
+            </span>
         </h2>
       </div>
       <div class="grid gap-4 row-gap-8 mx-auto sm:row-gap-8 lg:max-w-(--breakpoint-lg) sm:grid-cols-2 lg:grid-cols-3 ">
@@ -23,7 +25,10 @@
           <Link class="shrink-0" :href="route('branch_details', branch.slug)"><img class="object-cover w-20 h-20 rounded-full shadow-sm shrink-0" :src="`${branch.image_url}`" /></Link>
           <div class="flex flex-col">
             <Link :href="route('branch_details', branch.slug)">
-              <p class="text-lg font-bold">{{branch.name_th}}</p>
+              <p class="text-lg font-bold">
+                  {{ transDb(branch, 'name') }}
+<!--                  {{branch.name_th}}-->
+              </p>
               <p class="text-sm text-gray-800">{{branch.name_en}}</p>
             </Link>
           </div>
@@ -44,12 +49,16 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 import { ref, onMounted, } from 'vue';
 import { Link } from '@inertiajs/vue3'
 import DivisionService from '@/Services/DivisionService';
+import { useTrans } from '@/Services/useTrans';
 
 onMounted(() => {
   divisionService.value.listBranchOnly().then(data => {
     branchs.value = data
   });
 })
+
+// 1. เรียกใช้ Helper
+const { transDb } = useTrans();
 
 const divisionService = ref(new DivisionService())
 const branchs = ref([])

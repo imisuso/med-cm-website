@@ -13,10 +13,6 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import SafeHtml from './Services/SafeHtml.js';
 
-import { Quill, QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.core.css';
-import '@vueup/vue-quill/dist/vue-quill.snow.prod.css';
-
 import '../css/app.css';
 
 import Datepicker from '@vuepic/vue-datepicker'
@@ -30,41 +26,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import AppLayout from '@/Layouts/AppLayout.vue'
 import AdminAppLayout from '@/Layouts/Admin/AdminAppLayout.vue'
 
-const globalOptions = {
-    // debug: 'info',
-    modules: {
-        toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'align': [] }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
-            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            ['link', 'video', 'image'],
-            ['clean']
-        ],
-        // blotFormatter: {
-        //     specs: [
-        //         CustomImageSpec,
-        //     ],
-        //     overlay: {
-        //         style: {
-        //             border: '2px solid red',
-        //         }
-        //     },
-        //     options: {/* options */}
-        // }
-    },
-    // placeholder: 'Compose an epic...',
-    readOnly: true,
-    theme: 'snow'
-}
-
-QuillEditor.props.globalOptions.default = () => globalOptions
+// Import Library
+import { i18nVue } from 'laravel-vue-i18n';
 
 createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -74,16 +37,24 @@ createInertiaApp({
     },
     setup({ el, App, props, plugin }) {
       createApp({ render: () => h(App, props) })
-        // .config.compilerOptions.isCustomElement = tag => tag.startsWith('trix-')
         .use(plugin)
         .use(VueSweetalert2)
         .directive('safe-html', SafeHtml)
         .component('Datepicker', Datepicker)
         .component('VuePdfEmbed', VuePdfEmbed)
-        .component('QuillEditor', QuillEditor)
         .component('AppLayout', AppLayout)
         .component('AdminAppLayout', AdminAppLayout)
         .mixin({ methods: { route: window.route } }) // enable route() on template
+        // 2. ลงทะเบียน i18nVue
+        .use(i18nVue, {
+            // 1. บอกให้มันใช้ภาษาตามที่ Laravel ส่งมา (สำคัญมาก!)
+            lang: props.initialPage.props.locale,
+            // 2. การโหลดไฟล์ภาษา
+          resolve: async lang => {
+              const langs = import.meta.glob('../../lang/*.json');
+              return await langs[`../../lang/${lang}.json`]();
+          }
+        })
         .mount(el)
     },
   })

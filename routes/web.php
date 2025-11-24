@@ -639,6 +639,18 @@ Route::get('/pdf-proxy', function (Illuminate\Http\Request $request) {
     ]);
 })->name('pdf.proxy');
 
+// ✅ Route สำหรับเปลี่ยนภาษา
+Route::get('lang/{locale}', function ($locale) {
+    // 1. ตรวจสอบว่าภาษาที่ส่งมาปลอดภัยไหม (กันคนมั่ว)
+    if (in_array($locale, ['en', 'th'])) {
+        // 2. จำค่าลง Session ของ Laravel
+        Session::put('locale', $locale);
+    }
+
+    // 3. ดีดกลับไปหน้าเดิม (User จะรู้สึกเหมือนแค่รีเฟรชหน้า)
+    return redirect()->back();
+})->name('change_lang');
+
 // Test Agreement Editor
 // Route::get('/admin/agreement-editor', function () {
 //     $agreement = Agreement::find(1);

@@ -50,6 +50,8 @@ class HandleInertiaRequests extends Middleware
                 'division_name_th' => $request->user()->person->division->name_th,
                 'division_type' => $request->user()->person->division->division_type,
             ] : null,
+            // ✅ แบบใหม่: ดึงจาก App ที่ถูก SetLocale แล้ว
+            'locale' => app()->getLocale(),
             // 'flash' => [
             //     'status' => fn () => $request->session()->pull('status'),
             //     'msg' => fn () => $request->session()->pull('msg'),

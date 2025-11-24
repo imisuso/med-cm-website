@@ -3,7 +3,7 @@
     <div class="flex flex-col mb-6 lg:justify-between lg:flex-row md:mb-8">
       <h2 class="max-w-lg mb-2 font-sans text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none md:mb-2 group">
         <span class="inline-block mb-1 sm:mb-4">
-          ภาพกิจกรรม.
+          {{ $t('ภาพกิจกรรม') }}
         </span>
         <div class="h-1 ml-auto duration-300 origin-left transform bg-blue-500 scale-x-30 group-hover:scale-x-100"></div>
       </h2>
