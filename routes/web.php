@@ -238,33 +238,38 @@ Route::get('/admin', function () {
     $end = Carbon::now()->endOfMonth();
     $start = Carbon::now()->subMonths(11)->startOfMonth();
 
-    $total_visitor_stat = Visitor::select(
-            DB::raw('count(id) as count'),
-            DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month_key")
+    $stats = Visitor::select(
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month_key"),
+            // ถ้ารูทชื่อ index ให้นับ 1, ถ้าไม่ใช่ให้เป็น 0 แล้วรวมกัน
+            DB::raw("SUM(CASE WHEN route_name = 'index' THEN 1 ELSE 0 END) as index_count"),
+            // ถ้ารูทชื่อ branch ให้นับ 1, ถ้าไม่ใช่ให้เป็น 0 แล้วรวมกัน
+            DB::raw("SUM(CASE WHEN route_name = 'branch' THEN 1 ELSE 0 END) as branch_count")
         )
-        ->where('route_name', 'index')
+        ->whereIn('route_name', ['index', 'branch']) // ดึงมาทั้ง 2 ชื่อ
         ->whereBetween('created_at', [$start, $end])
         ->groupBy('month_key')
         ->orderBy('month_key')
-        ->pluck('count', 'month_key'); // จะได้ Array แบบนี้: ['2024-12' => 5, '2025-02' => 10]
+        ->get()
+        ->keyBy('month_key'); // *** สำคัญ: ทำให้ month_key เป็น index ของ array เพื่อความไวในการค้นหา
 
-    // 2. แปลงข้อมูลให้อยู่ใน Format ที่ Chart ชอบ (Array ของตัวเลข)
-    // ผลลัพธ์ที่ต้องการ: categories=['Jan', 'Feb', ...], data=[10, 5, 20...]
-
+    // วนลูปสร้างข้อมูลให้ครบ 12 เดือน (Fill Zero)
     $categories = [];
-    $data = [];
-
+    $indexSeries = [];
+    $branchSeries = [];
     $current = $start->copy();
     while ($current <= $end) {
-        $key = $current->format('Y-m');     // Key สำหรับเช็คกับ Database (เช่น 2024-12)
-        $label = $current->format('M Y');   // ชื่อที่จะโชว์ในกราฟ (เช่น Dec 2024) ภาษาไทยใช้ format('M รป') ได้ถ้าตั้ง locale
+        $key = $current->format('Y-m');     // Key สำหรับเช็ค DB (2024-11)
+        $label = $current->format('M Y');   // Label แกน X (Nov 2024)
 
         $categories[] = $label;
 
-        // ถ้ามีข้อมูลใน DB ให้ใช้ค่านั้น ถ้าไม่มีให้ใส่ 0
-        $data[] = $total_visitor_stat[$key] ?? 0;
+        // ดึงข้อมูลจากผลลัพธ์ DB ถ้าไม่มีเดือนนี้ให้ใส่ 0
+        $row = $stats[$key] ?? null;
 
-        $current->addMonth(); // ขยับไปเดือนถัดไป
+        $indexSeries[] = $row ? (int)$row->index_count : 0;
+        $branchSeries[] = $row ? (int)$row->branch_count : 0;
+
+        $current->addMonth();
     }
 
     return Inertia::render('Admin/Index', [
@@ -272,10 +277,19 @@ Route::get('/admin', function () {
         'branch_visitor' => Visitor::query()->where('route_name', 'branch')->count(),
         'total_announce' => Announce::query()->count(),
         'total_poster' => Poster::query()->count(),
-        'total_visitor_stat' => [
+        'stat' => [
             'chartData' => [
                 'categories' => $categories, // แกน X
-                'series'     => $data        // แกน Y
+                'series'     => [
+                    [
+                        'name' => 'หน้าหลัก (Index)',
+                        'data' => $indexSeries
+                    ],
+                    [
+                        'name' => 'สาขา (Branch)',
+                        'data' => $branchSeries
+                    ]
+                ]
             ]
         ],
     ]);

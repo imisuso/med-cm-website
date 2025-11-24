@@ -139,35 +139,40 @@ const props = defineProps({
     branch_visitor: { type: Number, default: 0 },
     total_announce: { type: Number, default: 0 },
     total_poster: { type: Number, default: 0 },
-    total_visitor_stat: Object,
+    stat: Object,
 })
 
 // ลงทะเบียน Component
 const apexchart = VueApexCharts;
 
-// 1. ข้อมูล Series (แกน Y)
+// 1. Series: Laravel ส่งมาเป็น Array 2 ตัวแล้ว ใช้ได้เลย
 const series = computed(() => {
-    return [{
-        name: "จำนวนผู้เข้าชม",
-        data: props.total_visitor_stat.chartData.series // [10, 20, 5, ...]
-    }];
+    return props.stat.chartData?.series || [];
 });
 
-// 2. ตั้งค่ากราฟ (Options)
+// 2. Options: ปรับสีและ Legend
 const chartOptions = computed(() => {
     return {
         chart: {
-            id: "basic-bar",
-            toolbar: { show: false } // ซ่อนเมนู Download มุมขวา
+            id: "visitor-chart",
+            toolbar: { show: false }
         },
         xaxis: {
-            categories: props.total_visitor_stat.chartData.categories // ['Jan', 'Feb', ...]
+            categories: props.stat.chartData?.categories || []
         },
-        colors: ['#3b82f6'], // สีฟ้า Tailwind (blue-500)
-        dataLabels: { enabled: false }, // ไม่ต้องโชว์ตัวเลขบนเส้น
-        stroke: { curve: 'smooth' }, // เส้นโค้งสวยๆ
-        fill: {
-            type: 'gradient', // ไล่เฉดสีพื้นหลัง
+        // กำหนดสีให้แตกต่างกัน (Index=น้ำเงิน, Branch=เขียว)
+        colors: ['#3b82f6', '#10b981'],
+        stroke: {
+            curve: 'smooth',
+            width: 3
+        },
+        dataLabels: { enabled: false },
+        legend: {
+            position: 'top' // เอาป้ายบอกสีไว้ข้างบน
+        },
+        tooltip: {
+            shared: true, // เอาเมาส์จ่อแล้วขึ้นตัวเลขพร้อมกันทั้ง 2 เส้น
+            intersect: false
         }
     };
 });
