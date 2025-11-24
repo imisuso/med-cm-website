@@ -11,6 +11,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import SafeHtml from './Services/SafeHtml.js';
 
 import { Quill, QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.core.css';
@@ -76,6 +77,7 @@ createInertiaApp({
         // .config.compilerOptions.isCustomElement = tag => tag.startsWith('trix-')
         .use(plugin)
         .use(VueSweetalert2)
+        .directive('safe-html', SafeHtml)
         .component('Datepicker', Datepicker)
         .component('VuePdfEmbed', VuePdfEmbed)
         .component('QuillEditor', QuillEditor)

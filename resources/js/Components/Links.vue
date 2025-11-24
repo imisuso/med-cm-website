@@ -14,8 +14,8 @@
                     <a :href="item.link" target="_blank" class="space-y-2" >
                         <!-- <img class="object-none object-center w-full h-20 mx-auto rounded-lg shadow-md " :src="item.image" alt="avatar"/> -->
                         <!-- <img class=" object-cover w-full h-20 rounded-lg shadow-md " :src="item.image" alt="avatar"/> -->
-                        <div v-html="item.image" class="flex grow-0 items-center justify-center"></div>
-                        <div v-html="item.desc" class="font-bold"></div>
+                        <div v-safe-html="item.image" class="flex grow-0 items-center justify-center"></div>
+                        <div v-safe-html="item.desc" class="font-bold"></div>
                     </a>
                 </div>
             </div>
@@ -42,8 +42,8 @@
                     <a :href="item.link" target="_blank" class="space-y-2">
                         <!-- <img class="object-none object-center w-full h-20 mx-auto rounded-lg shadow-md " :src="item.image" alt="avatar"/> -->
                         <!-- <img class=" object-cover w-full h-20 rounded-lg shadow-md " :src="item.image" alt="avatar"/> -->
-                        <div v-html="item.image" class="flex grow-0 items-center justify-center"></div>
-                        <div v-html="item.desc" class="font-bold"></div>
+                        <div v-safe-html="item.image" class="flex grow-0 items-center justify-center"></div>
+                        <div v-safe-html="item.desc" class="font-bold"></div>
                     </a>
                 </div>
             </div>

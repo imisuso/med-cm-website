@@ -29,7 +29,7 @@
 
     {{ form.deltaContent }}
    <div class="ql-container ql-snow">
-        <div class="ql-editor" v-html="form.htmlContent"/>
+        <div class="ql-editor" v-safe-html="form.htmlContent"/>
    </div>
     {{ form.htmlContent }}
 

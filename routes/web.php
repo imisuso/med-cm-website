@@ -29,15 +29,11 @@ use App\Http\Controllers\RoleController;
 // API
 use App\Http\Controllers\API\FileUploadController;
 use App\Http\Controllers\API\TraceLogController;
-use App\Http\Controllers\InfomedMonitorController;
 
 // MODEL
 use App\Models\Announce;
-use App\Models\BranchMainMenu;
-use App\Models\BranchSubMenu;
 use App\Models\Division;
 use App\Models\Person;
-use App\Models\User;
 use App\Models\Agreement;
 use App\Models\Gallery;
 
@@ -570,6 +566,30 @@ Route::post('/admin/accept-agreement', function () {
 
 Route::post('/uploading_file_api', [FileUploadController::class, 'upload'])->name('uploading_file_api');
 Route::post('/delete_file_api', [FileUploadController::class, 'delete'])->name('delete_file_api');
+
+Route::get('/pdf-proxy', function (Illuminate\Http\Request $request) {
+    // 1. รับ URL ของไฟล์ PDF ที่ส่งมาจาก Vue
+    $targetUrl = $request->query('url');
+
+    if (!$targetUrl) {
+        abort(400, 'URL is required');
+    }
+
+    // 2. ให้ Laravel ไปโหลดไฟล์จาก URL นั้น (S3 -> Server)
+    // การใช้ Http::get จะไม่มีปัญหา CORS เพราะ Server คุยกับ Server
+    $response = Http::get($targetUrl);
+
+    if ($response->failed()) {
+        abort(404, 'File not found or not accessible');
+    }
+
+    // 3. ส่งไฟล์กลับไปให้ Browser (Server -> Client)
+    // พร้อมกำหนด Header ให้ถูกต้อง เพื่อแก้ปัญหา contentDispositionFilename
+    return response($response->body(), 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="document.pdf"',
+    ]);
+})->name('pdf.proxy');
 
 // Test Agreement Editor
 // Route::get('/admin/agreement-editor', function () {

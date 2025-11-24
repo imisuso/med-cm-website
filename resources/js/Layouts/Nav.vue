@@ -53,7 +53,7 @@
                 <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-xs ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
                     <div class="flex flex-row items-baseline text-menu-color sub-menu-background-color px-4 py-1">
-                      <div v-html="pic_heading_submenu"></div>
+                      <div v-safe-html="pic_heading_submenu"></div>
                       <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
                       <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</Link>
                     </div>
@@ -86,7 +86,7 @@
                 <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-xs ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
                     <div class="flex flex-row items-baseline text-menu-color sub-menu-background-color px-4 py-1">
-                      <div v-html="pic_heading_submenu"></div>
+                      <div v-safe-html="pic_heading_submenu"></div>
                       <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
                       <a v-else-if="sub_menu_item.sub_menu_link.startsWith('http')" :href="sub_menu_item.sub_menu_link" target="_blank" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
                       <a v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</a>
