@@ -177,8 +177,8 @@
                 <div class="col-span-6 border-b-2"></div>
 
                 <div class=" col-span-6 sm:col-span-1 mt-2 font-bold text-emerald-700 sm:justify-self-end">รายละเอียดข่าว :</div>
-                <div class="col-span-6 sm:col-span-5 ql-container ql-snow" style="border: 0;">
-                    <div class="border-0 ql-editor" v-html="announceDetails.detail_html"></div>
+                <div class="col-span-6 sm:col-span-5 border-0">
+                    <QuillRichTextEditor v-model="announceDetails.detail_delta" read-only />
                 </div>
 
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ส่วนงาน :</div>
@@ -194,7 +194,6 @@
                             @click="pdpa_protect = !pdpa_protect"
                             class=" col-span-6 sm:col-span-5 ml-3 font-bold cursor-pointer">**********
                 </div>
-                <!-- <div v-else class=" col-span-6 sm:col-span-5 ml-3 font-bold">**********</div> -->
 
                 <div class=" col-span-6 sm:col-span-1 font-bold text-emerald-700 sm:justify-self-end">ไฟล์แนบ :</div>
                 <div v-if="announceDetails.attach_files.length > 0" class=" col-span-6 sm:col-span-5 ml-3">
@@ -250,9 +249,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
-// import utc from 'dayjs/plugin/utc'
-// import timezone from 'dayjs/plugin/timezone'
-
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 import Modal from '@/Components/Modal.vue'
 import DownloadPdfFile from '@/Components/DownloadPdfFile.vue'
 
@@ -277,10 +274,6 @@ const props = defineProps({
 })
 
 dayjs.extend(buddhistEra)
-// dayjs.extend(utc)
-// dayjs.extend(timezone)
-//dayjs.tz.setDefault("Asia/Bangkok")
-
 
 const isDropDownOpen = ref(false)
 
@@ -329,32 +322,6 @@ const process_announce = () => {
         msgProcess = "ลบข่าวประกาศ";
         method = "post";
     }
-
-    // router.get(route(routeName, props.announceDetails.id), {
-    //     data: {
-    //         // publish_status: props.announceDetails.publish_status,
-    //         // pinned: props.announceDetails.pinned,
-    //         ftopic: props.filter.ftopic,
-    //         fexpire_type: props.filter.fexpire_type,
-    //         fdivision_selected: props.filter.fdivision_selected
-    //     },
-    //     preserveState: true,
-    //     onSuccess: () => {
-    //         toast('success', 'สำเร็จ', `ดำเนินการ${msgProcess}เรียบร้อย`)
-    //     },
-    //     onError: (errors) => {
-    //         let error_display = ''
-    //         for ( let p in errors ) {
-    //             error_display = error_display + `- ${errors[p]}<br/>`
-    //         }
-    //         toast('danger', 'พบข้อผิดพลาด', error_display);
-    //         //toast('danger', errors.msg, errors.sysmsg)
-    //     },
-    //     onFinish: () => {
-    //         confirmType.value = ''
-    //         confirmModal.value = false
-    //     }
-    // })
 
     router.visit(route(routeName, props.announceDetails.id),  {
         method: method,

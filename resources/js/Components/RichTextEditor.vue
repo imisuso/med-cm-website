@@ -488,4 +488,10 @@ watch(() => props.modelValue, (newValue) => {
 #unique-editor-wrapper .ql-editor ol ol {
     list-style-type: lower-alpha !important;
 }
+
+/* ซ่อนเฉพาะตัว Overlay ของ formatter แต่ยังคลิกรูปได้ */
+.ql-container.ql-disabled div[style*="position: absolute"] {
+    /* หมายเหตุ: selector นี้อาจต้องปรับตาม HTML จริงที่ render ออกมา */
+    display: none !important;
+}
 </style>
