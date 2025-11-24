@@ -34,10 +34,12 @@
         "@inertiajs/vue3": "^2.0.17",
         "@tailwindcss/vite": "^4.1.11",
         "@vueup/vue-quill": "1.0.0",
+        "apexcharts": "^5.3.6",
         "dompurify": "^3.3.0",
         "latest": "^0.2.0",
         "quill": "^2.0.3",
         "tailwindcss": "^4.1.11",
+        "vue3-apexcharts": "^1.10.0",
         "vue3-pdf-app": "^1.0.3"
     },
     "overrides": {

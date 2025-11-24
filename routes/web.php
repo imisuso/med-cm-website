@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbilityController;
 use App\Models\Poster;
 use App\Models\Visitor;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -229,21 +230,54 @@ Route::get('/image_preview', function () {
     return Inertia::render('ImagePreview');
 })->name('image_preview');
 
-//Route::get('/admin_first_page', function () {
-//    return Inertia::render('Admin/AdminFirstPage');
-//})->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
-
-// ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ
+// ส่วนของการจัดการเมื่อมีการ Login เข้ามาใช้งานระบบ (Dashboard)
 Route::get('/admin', function () {
+
+    // 1. กำหนดช่วงเวลา (12 เดือนย้อนหลัง รวมเดือนปัจจุบัน)
+    // เช่น ถ้าตอนนี้ Nov 2025 -> จะเริ่มดึงตั้งแต่ Dec 2024
+    $end = Carbon::now()->endOfMonth();
+    $start = Carbon::now()->subMonths(11)->startOfMonth();
+
+    $total_visitor_stat = Visitor::select(
+            DB::raw('count(id) as count'),
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month_key")
+        )
+        ->where('route_name', 'index')
+        ->whereBetween('created_at', [$start, $end])
+        ->groupBy('month_key')
+        ->orderBy('month_key')
+        ->pluck('count', 'month_key'); // จะได้ Array แบบนี้: ['2024-12' => 5, '2025-02' => 10]
+
+    // 2. แปลงข้อมูลให้อยู่ใน Format ที่ Chart ชอบ (Array ของตัวเลข)
+    // ผลลัพธ์ที่ต้องการ: categories=['Jan', 'Feb', ...], data=[10, 5, 20...]
+
+    $categories = [];
+    $data = [];
+
+    $current = $start->copy();
+    while ($current <= $end) {
+        $key = $current->format('Y-m');     // Key สำหรับเช็คกับ Database (เช่น 2024-12)
+        $label = $current->format('M Y');   // ชื่อที่จะโชว์ในกราฟ (เช่น Dec 2024) ภาษาไทยใช้ format('M รป') ได้ถ้าตั้ง locale
+
+        $categories[] = $label;
+
+        // ถ้ามีข้อมูลใน DB ให้ใช้ค่านั้น ถ้าไม่มีให้ใส่ 0
+        $data[] = $total_visitor_stat[$key] ?? 0;
+
+        $current->addMonth(); // ขยับไปเดือนถัดไป
+    }
+
     return Inertia::render('Admin/Index', [
         'total_visitor' => Visitor::query()->where('route_name', 'index')->count(),
         'branch_visitor' => Visitor::query()->where('route_name', 'branch')->count(),
         'total_announce' => Announce::query()->count(),
-        'total_poster' => Poster::query()->count()
-//        'total_visitor' => 999,
-//        'branch_visitor' => 888,
-//        'total_announce' => 777,
-//        'total_poster' => 666
+        'total_poster' => Poster::query()->count(),
+        'total_visitor_stat' => [
+            'chartData' => [
+                'categories' => $categories, // แกน X
+                'series'     => $data        // แกน Y
+            ]
+        ],
     ]);
 })->name('admin.index')->middleware('auth', 'can:goto_admin_panel');
 

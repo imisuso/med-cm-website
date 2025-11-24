@@ -16,9 +16,11 @@
     <!-- Modal Body -->
     <template v-slot:body>
         <div class="flex flex-row justify-start items-center">
-            <div class="ql-container ql-snow" style="border: 0;">
-                <div class="ql-editor" v-safe-html="agreement.detail_html"></div>
-            </div>
+            <QuillRichTextEditor
+                v-model="agreement.detail_delta"
+                read-only
+                class="mt-4 mb-4"
+            />
         </div>
     </template>
     <!-- Modal Footer -->
@@ -41,6 +43,7 @@
 import { ref } from 'vue';
 import { router, Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
+import QuillRichTextEditor from '@/Components/RichTextEditor.vue';
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
