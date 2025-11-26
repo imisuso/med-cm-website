@@ -1,0 +1,16 @@
+.git
+.env
+.env.docker
+node_modules
+vendor
+public/build
+storage/*.key
+tests
+#docker
+Dockerfile
+DockerfileProd
+docker-compose.yml
+phpunit.xml
+README.md
+bootstrap/cache/*.php
+storage/framework/views/*.php

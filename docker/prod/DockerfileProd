@@ -1,0 +1,97 @@
+# ------------------------------------------------------------------------------
+# Stage 1: Build Frontend (Vue + Tailwind)
+# ใช้ Node Image แยกเพื่อ Compile Assets แล้วทิ้ง Container นี้ไป
+# ------------------------------------------------------------------------------
+FROM node:22-alpine AS frontend
+WORKDIR /app
+COPY package*.json vite.config.js ./
+RUN npm ci
+COPY resources/ ./resources/
+COPY public/ ./public/
+# กรณี Laravel 10+ (folder lang อยู่ที่ root)
+COPY lang/ ./lang/
+# สั่ง Build (จะได้ไฟล์ output ใน public/build)
+RUN npm run build
+
+# ------------------------------------------------------------------------------
+# Stage 2: Build Backend (Composer Dependencies)
+# ใช้ Composer Image แยกเพื่อโหลด lib PHP โดยไม่เอา dev dependencies
+# ------------------------------------------------------------------------------
+FROM composer:2.8 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+# ติดตั้งเฉพาะของที่ใช้จริง (no-dev) และ Optimize Class map
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --ignore-platform-reqs \
+    --optimize-autoloader \
+    --no-scripts
+
+# ------------------------------------------------------------------------------
+# Stage 3: Production Image (Final)
+# Image จริงที่จะถูกนำไปรัน (รวม Nginx + PHP-FPM)
+# ------------------------------------------------------------------------------
+FROM ubuntu:24.04
+
+LABEL maintainer="Tossapon.nga"
+
+WORKDIR /var/www/html
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+# 1. ตั้งค่าพื้นฐานและติดตั้ง PHP + Nginx
+# หมายเหตุ: ตัด Xdebug, Playwright, Node.js ออก เพื่อลดขนาด
+RUN sed -i 's/archive.ubuntu.com/th.archive.ubuntu.com/g' /etc/apt/sources.list && \
+    apt-get update && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python3 dnsutils librsvg2-bin fswatch ffmpeg nano nginx \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -sS 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xb8dc7e53946656efbce4c1dd71daeaab4ad4cab6' | gpg --dearmor | tee /etc/apt/keyrings/ppa_ondrej_php.gpg > /dev/null \
+    && echo "deb [signed-by=/etc/apt/keyrings/ppa_ondrej_php.gpg] https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
+    && apt-get update \
+    && apt-get install -y php8.4-cli php8.4-fpm php8.4-dev \
+       php8.4-pgsql php8.4-sqlite3 php8.4-gd \
+       php8.4-curl php8.4-mongodb \
+       php8.4-imap php8.4-mysql php8.4-mbstring \
+       php8.4-xml php8.4-zip php8.4-bcmath php8.4-soap \
+       php8.4-intl php8.4-readline \
+       php8.4-ldap php8.4-msgpack php8.4-igbinary php8.4-redis php8.4-swoole \
+       php8.4-memcached php8.4-pcov php8.4-imagick \
+    # ลบ Cache เพื่อลดขนาด Image
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# 2. Config PHP-FPM และ Nginx
+# สร้าง Folder สำหรับ PHP Socket
+RUN mkdir -p /run/php
+
+# ลบ default config ของ Nginx ออก
+RUN rm /etc/nginx/sites-enabled/default
+
+# Copy Config ที่เตรียมไว้
+COPY docker/prod/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/prod/nginx.conf /etc/nginx/sites-enabled/default
+COPY docker/prod/php.ini /etc/php/8.4/cli/conf.d/99-prod.ini
+COPY docker/prod/php.ini /etc/php/8.4/fpm/conf.d/99-prod.ini
+COPY docker/prod/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# 3. Copy Code และ Assets เข้ามาใน Image
+# Copy Vendor (จาก Stage 2)
+COPY --from=vendor /app/vendor ./vendor
+
+# Copy Code ทั้งหมด (ยกเว้นที่ระบุใน .dockerignore)
+COPY . .
+
+# Copy Assets ที่ Build แล้ว (จาก Stage 1)
+COPY --from=frontend /app/public/build ./public/build
+
+# 4. ตั้งค่า Permission ให้ Web Server อ่านเขียนได้
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
+
+EXPOSE 80
+
+ENTRYPOINT ["entrypoint.sh"]

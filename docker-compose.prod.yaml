@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/prod/DockerfileProd
+    # ชื่อ Image ที่เราจะ Build (เปลี่ยน username เป็น Docker Hub ของคุณ)
+    image: mse4694/med-cm-website:latest
+    container_name: med-cm-website
+    restart: always
+    ports:
+      - "80:80"  # Map Port เครื่องจริงเข้า Container
+    environment:
+      # ใช้ Environment Variable แทนการแก้ไฟล์ .env ใน Image
+      APP_ENV: production
+      APP_DEBUG: false
+      APP_KEY: ${APP_KEY}
+      APP_URL: ${APP_URL}
+      DB_CONNECTION: mariadb
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      FILESYSTEM_DISK: ${FILESYSTEM_DISK}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+      AWS_BUCKET: ${AWS_BUCKET}
+      AWS_USE_PATH_STYLE_ENDPOINT: ${AWS_USE_PATH_STYLE_ENDPOINT}
+      LOG_SLACK_WEBHOOK_URL: ${LOG_SLACK_WEBHOOK_URL}
+      AUTH_USER_PROVIDER: ${AUTH_USER_PROVIDER}
+      PORTAL_API_SERVICE_TOKEN: ${PORTAL_API_SERVICE_TOKEN}
+      PORTAL_API_SERVICE_URL: ${PORTAL_API_SERVICE_URL}
+      INFOMED_API_SERVICE_SECRET: ${INFOMED_API_SERVICE_SECRET}
+      INFOMED_API_SERVICE_TOKEN: ${INFOMED_API_SERVICE_TOKEN}
+      POSTER_LIMIT: ${POSTER_LIMIT}
+      GALLERY_LIMIT: ${GALLERY_LIMIT}
+      PHOTO_LIMIT_PER_GALLERY: ${PHOTO_LIMIT_PER_GALLERY}
+      ANNOUNCE_SHOW_LIMIT: ${ANNOUNCE_SHOW_LIMIT}
+      MEDCON_CURRENT_YEAR: ${MEDCON_CURRENT_YEAR}
+      MEDCON_OTHER_YEAR: ${MEDCON_OTHER_YEAR}
+      APP_GRAYSCALE_MODE: ${APP_GRAYSCALE_MODE}
+      RESET_PASSWORD_URL: ${RESET_PASSWORD_URL}
+      # --- เพิ่ม 3 บรรทัดนี้ ---
+      HTTP_PROXY: '${HTTP_PROXY}'
+      HTTPS_PROXY: '${HTTPS_PROXY}'
+      NO_PROXY: '${NO_PROXY}'
+      # ----------------------
