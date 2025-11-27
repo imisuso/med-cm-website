@@ -1,28 +1,30 @@
 services:
-    laravel.test:
+    app:
         build:
             context: './docker/8.4'
             dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-                MYSQL_CLIENT: mariadb-client
+#            args:
+#                WWWGROUP: '${WWWGROUP}'
+#                MYSQL_CLIENT: mariadb-client
         image: 'sail-8.4/app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH:
-            # --- เพิ่ม 3 บรรทัดนี้ ---
-            HTTP_PROXY: '${HTTP_PROXY}'
-            HTTPS_PROXY: '${HTTPS_PROXY}'
-            NO_PROXY: '${NO_PROXY}'
-            # ----------------------
+        env_file:
+            - .env
+#        environment:
+#            WWWUSER: '${WWWUSER}'
+#            LARAVEL_SAIL: 1
+#            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+#            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+#            IGNITION_LOCAL_SITES_PATH:
+#            # --- เพิ่ม 3 บรรทัดนี้ ---
+#            HTTP_PROXY: '${HTTP_PROXY}'
+#            HTTPS_PROXY: '${HTTPS_PROXY}'
+#            NO_PROXY: '${NO_PROXY}'
+#            # ----------------------
         volumes:
             - '.:/var/www/html'
         networks:

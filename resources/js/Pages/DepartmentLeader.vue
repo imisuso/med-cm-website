@@ -95,7 +95,9 @@ const leaders = ref(
             ]
 )
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
+// ดึงค่ามาจาก Global Variable ที่เราประกาศไว้ใน Blade
+const baseUrl = window.baseUrl;
 
 </script>
 

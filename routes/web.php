@@ -651,6 +651,26 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('change_lang');
 
+// Route สำหรับ debug การเปลี่ยนภาษา
+Route::get('/debug-session', function () {
+    return [
+        'session_locale' => Session::get('locale'), // ค่าที่จำได้
+        'app_locale' => App::getLocale(),           // ค่าที่ใช้อยู่จริง
+        'config_locale' => config('app.locale'),    // ค่า Default
+    ];
+});
+
+Route::get('/debug-headers', function () {
+    $request = request();
+    return [
+        'L1_Host_Header' => $request->header('host'), // สิ่งที่ Laravel เห็นว่าเป็น Host
+        'L2_X_Forwarded_Host' => $request->header('x-forwarded-host'), // ค่าเดิมก่อนผ่าน Proxy
+        'L3_X_Forwarded_Port' => $request->header('x-forwarded-port'), // Port เดิม
+        'L4_Scheme' => $request->getScheme(), // http หรือ https
+        'L5_Laravel_Generated_Root' => $request->root(), // สิ่งที่ Laravel สรุปออกมา (ตัวปัญหา)
+    ];
+});
+
 // Test Agreement Editor
 // Route::get('/admin/agreement-editor', function () {
 //     $agreement = Agreement::find(1);

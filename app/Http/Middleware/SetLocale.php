@@ -19,12 +19,10 @@ class SetLocale
     {
         // เช็คว่าใน Session มีค่าภาษาที่เลือกไว้ไหม
         if (Session::has('locale')) {
-            $locale = Session::get('locale');
-            // ตั้งค่าภาษาให้ระบบ Laravel
-            App::setLocale($locale);
+            app()->setLocale(session()->get('locale'));
         } else {
             // ถ้าไม่มี ให้ใช้ภาษาหลักของแอพ
-            App::setLocale(config('app.locale'));
+            app()->setLocale(config('app.locale'));
         }
 
         return $next($request);

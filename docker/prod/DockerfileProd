@@ -42,7 +42,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
 # 1. ตั้งค่าพื้นฐานและติดตั้ง PHP + Nginx
-# หมายเหตุ: ตัด Xdebug, Playwright, Node.js ออก เพื่อลดขนาด
 RUN sed -i 's/archive.ubuntu.com/th.archive.ubuntu.com/g' /etc/apt/sources.list && \
     apt-get update && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python3 dnsutils librsvg2-bin fswatch ffmpeg nano nginx \
     && mkdir -p /etc/apt/keyrings \

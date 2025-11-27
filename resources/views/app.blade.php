@@ -11,7 +11,8 @@
 
     @vite('resources/js/app.js')
     <script>
-        const base_url = "{{ env('APP_URL') }}";
+        {{--const base_url = "{{ env('APP_URL') }}";--}}
+            window.baseUrl = "{{ url('') }}";
     </script>
 
     {{-- <style>

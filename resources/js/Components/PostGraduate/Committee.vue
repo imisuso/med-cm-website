@@ -63,7 +63,9 @@ const props = defineProps({
 //     { person_id: 10004417, position_id: 11, position_eng: 'xxxx', position_thai: 'ผู้ช่วยเลขานุการและกรรมการ', rname_full_th: 'รองศาสตราจารย์แพทย์หญิง', name: 'กนกวรรณ บุญญพิสิฎฐ์', image: 'images/post_graduate/committee/11.jpg', },
 // ]);
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
+// ดึงค่ามาจาก Global Variable ที่เราประกาศไว้ใน Blade
+const baseUrl = window.baseUrl;
 
 
 </script>
