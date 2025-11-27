@@ -50,7 +50,7 @@ onMounted(() => {
 
 const personService = ref(new PersonService());
 const doctorList = ref([])
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 
 const sortCertificate = ( cert ) => {
     return JSON.parse(cert).sort( (a, b) => { return b.cert_year - a.cert_year });

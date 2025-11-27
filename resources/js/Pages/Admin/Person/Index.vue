@@ -97,7 +97,9 @@ const section = "Person Management (ดูข้อมูลทั้งหม�
 const divisionService = ref(new DivisionService())
 const divisions = ref([])
 const url = ref(null)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
+// ดึงค่ามาจาก Global Variable ที่เราประกาศไว้ใน Blade
+const baseUrl = window.baseUrl;
 
 let fdivision_selected = props.filters.fdivision_selected ? ref(props.filters.fdivision_selected) : ref(usePage().props.auth.division_id)
 let search = ref(props.filters.search)

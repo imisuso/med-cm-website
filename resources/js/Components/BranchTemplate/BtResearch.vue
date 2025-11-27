@@ -74,7 +74,7 @@ const props = defineProps({
 // ใช้ content รับค่าจาก Prop Delta (ถ้าไม่มีให้เป็น object ว่าง)
 const content = ref(props.branchSubMenu.detail_delta ? JSON.parse(props.branchSubMenu.detail_delta) : { ops: [] });
 const readOnly = ref(true);
-const baseUrl = ref(base_url) // ถ้ามี global var
+// const baseUrl = ref(base_url) // ถ้ามี global var
 
 // เก็บ URL ของรูปใหม่ที่เพิ่ง Upload เข้ามาใน Session นี้
 const uploadedImages = ref([]);

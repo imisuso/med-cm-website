@@ -271,7 +271,7 @@ import {
             TemplateIcon, LogoutIcon, HandIcon, DesktopComputerIcon
         } from "@heroicons/vue/outline"
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 const navItems = [
     {href: "admin.index", active: true, label:"แดชบอร์ด", children: [], ability:[], icon: DesktopComputerIcon},
     {href: "admin.index", active: false, label:"จัดการระบบ", children: [

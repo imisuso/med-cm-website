@@ -342,7 +342,9 @@ const props = defineProps({
 
 const section = "Person Management (ดูข้อมูลทั้งหมดของบุคลากรเป็นรายคน)"
 const actionWord = ref(null)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
+// ดึงค่ามาจาก Global Variable ที่เราประกาศไว้ใน Blade
+const baseUrl = window.baseUrl;
 const url = props.person ? ref(props.person.image_url) : ref(null)
 const oldimage = props.person ? ref(props.person.image) : ref(null)
 const viewDataInfomation = ref(false)

@@ -79,7 +79,7 @@ const props = defineProps({
     secretary: { type: Object, default: {} }
 })
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 const unitDetail = ref(false)
 
 </script>

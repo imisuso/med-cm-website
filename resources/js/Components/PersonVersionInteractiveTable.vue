@@ -82,7 +82,7 @@ const props = defineProps({
     personHistory: { type: Object, default: {} },
 })
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 
 const isDoctor = (person) => {
     if( person.type === 'a' || person.type === 'b'  || (person.type === 'z' && person.group === 1) ) {

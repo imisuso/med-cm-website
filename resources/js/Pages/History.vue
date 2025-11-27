@@ -87,7 +87,7 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 import { ref } from 'vue';
 
 const readMore = ref(false)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 
 </script>
 

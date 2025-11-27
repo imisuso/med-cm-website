@@ -153,7 +153,7 @@ onUnmounted(() => {
 })
 
 //const traceLogService = ref(new TraceLogService())
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 const isDropDownOpen = ref(false)
 const section = "Person Management (จัดการบุคคลากร)"
 

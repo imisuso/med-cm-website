@@ -58,7 +58,7 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 </script>
 
 <style>

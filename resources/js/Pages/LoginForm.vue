@@ -129,7 +129,7 @@ import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css' // import the styling for the toast
 
 const showPass = ref(false)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 
 const props = defineProps({
     sso_url: { type: String },

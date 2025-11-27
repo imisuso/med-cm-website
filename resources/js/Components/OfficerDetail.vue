@@ -80,7 +80,7 @@ const props = defineProps({
 
 const personService = ref(new PersonService())
 
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 const unitDetail = ref(false)
 const officers = ref([])
 

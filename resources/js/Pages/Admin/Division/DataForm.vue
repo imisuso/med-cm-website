@@ -104,7 +104,9 @@ const props = defineProps({
 })
 
 const actionWord = ref(null)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
+// ดึงค่ามาจาก Global Variable ที่เราประกาศไว้ใน Blade
+const baseUrl = window.baseUrl;
 const url = props.division ? ref(props.division.image_url) : ref(null)
 const oldimage = props.division ? ref(props.division.image) : ref(null)
 

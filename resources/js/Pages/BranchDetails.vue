@@ -163,7 +163,7 @@ const branchMainMenu = ref([])
 const branchSubMenu = ref([])
 
 const openTab = ref()
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 
 const toggleTabs = (tabNumber, index) => {
     openTab.value = tabNumber

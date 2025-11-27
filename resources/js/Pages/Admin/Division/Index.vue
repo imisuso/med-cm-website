@@ -102,7 +102,9 @@ const props = defineProps({
 
 const blank_image = '/fallbackimage/default-blank-image.jpg'
 const url = ref(null)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
+// ดึงค่ามาจาก Global Variable ที่เราประกาศไว้ใน Blade
+const baseUrl = window.baseUrl;
 const deleteDivisionModal = ref(false)
 let search = ref(props.filters.search)
 
