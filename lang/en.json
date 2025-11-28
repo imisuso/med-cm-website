@@ -17,7 +17,7 @@
     "ทำเนียบหัวหน้าภาค": "Department Chiefs",
     "ที่ปรึกษาภาควิชา": "Advisors",
     "บุคลากรสำนักงาน": "Office Staff",
-    "ระดับแพทยศาสตรบัณฑิต": "Medical Student",
+    "ระดับแพทยศาสตรบัณฑิต": "Pre-Graduate",
     "ระดับหลังปริญญา": "Post Graduate",
     "คลินิกอายุรศาสตร์": "Internal Medicine Clinic",
     "คลินิกพิเศษ (นอกเวลาราชการ)": "Special Clinic (After Hours)",
@@ -28,5 +28,10 @@
     "ลิงก์อื่นๆ": "Other Links",
     "วิสัยทัศน์": "Vision",
     "พันธกิจ": "Mission",
-    "คำขวัญ": "Motto"
+    "คำขวัญ": "Motto",
+    "รูปกิจกรรม ทั้งหมด": "All Activities Photo",
+    "คลิกเพื่อดูอัลบั้ม": "Click to view album",
+    "แผนที่ภายในศิริราช": "Map of Siriraj Hospital",
+    "อ่านเพิ่มเติม": "Read more",
+    "ซ่อนเนื้อหา": "Conceal the content"
 }

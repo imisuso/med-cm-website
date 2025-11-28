@@ -50,7 +50,7 @@
                     :href="route(`show_gallery`, gl.id)"
                     class="inline-flex items-center font-semibold transition-colors duration-200 text-blue-500 hover:text-blue-700"
                 >
-                    คลิกเพื่อดูอัลบั้ม
+                    {{ $t('คลิกเพื่อดูอัลบั้ม') }}
                 </Link>
                 </div>
             </div>

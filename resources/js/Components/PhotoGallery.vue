@@ -36,7 +36,7 @@
             :href="route(`show_gallery`, gl.id)"
             class="inline-flex items-center font-semibold transition-colors duration-200 text-blue-500 hover:text-blue-700"
           >
-            คลิกเพื่อดูอัลบั้ม
+              {{ $t('คลิกเพื่อดูอัลบั้ม') }}
           </Link>
           <!-- <a :href="route(`show_gallery`, gl.id)" target="_blank" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-blue-500 hover:text-blue-700">คลิกเพื่อดูอัลบั้ม</a> -->
         </div>
@@ -49,7 +49,7 @@
       >
         <div>
           <Link :href="route(`gallery_all_publish`)">
-              รูปกิจกรรม ทั้งหมด
+              {{ $t('รูปกิจกรรม ทั้งหมด') }}
           </Link>
         </div>
       </div>
