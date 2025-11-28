@@ -128,7 +128,7 @@ const props = defineProps({
 })
 
 const actionWord = ref(null)
-const baseUrl = ref(base_url)
+// const baseUrl = ref(base_url)
 
 switch(props.action) {
     case 'insert':
