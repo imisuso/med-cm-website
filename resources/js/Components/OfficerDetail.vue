@@ -12,7 +12,8 @@
                             <path d="M4.16602 10H15.8327" stroke="#1F2937" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         <div class="flex font-semibold text-lg leading-5 text-gray-800 text-left">
-                            {{unit.division_type}}{{unit.name_th}}
+                            <span v-if="$page.props.locale === 'th'">{{unit.division_type}}{{unit.name_th}}</span>
+                            <span v-if="$page.props.locale === 'en'">{{ transDb(unit,'name') }} {{ transDb(unit, 'division_type') }}</span>
                         </div>
                     </div>
                 </button>
@@ -32,10 +33,13 @@
                         </div>
                         <div class="flex items-center">
                             <div class="flex flex-col">
-                                <div class="px-2">{{ officer.title_th }}{{ officer.fname_th }} {{ officer.lname_th }}</div>
-                                <div v-if="officer.position_division && officer.position_division !== 'NULL' " class="px-2 italic text-sm text-gray-600">{{ officer.position_division }}</div>
+                                <div class="px-2">
+                                    <span v-if="$page.props.locale === 'th'">{{ transDb(officer, 'title') }}{{ transDb(officer, 'fname') }} {{ transDb(officer, 'lname') }}</span>
+                                    <span v-if="$page.props.locale === 'en'">{{ transDb(officer, 'title') }} {{ transDb(officer, 'fname') }} {{ transDb(officer, 'lname') }}</span>
+                                </div>
+                                <div v-if="officer.position_division && officer.position_division !== 'NULL' " class="px-2 italic text-sm text-gray-600">{{ $t(officer.position_division) }}</div>
                                 <div v-else class="px-2 italic text-sm text-gray-600">ไม่พบข้อมูลตำแหน่งงาน</div>
-                                <div v-if="officer.profiles.leader" class="px-2 italic text-sm text-gray-600">(หัวหน้าหน่วยงาน)</div>
+                                <div v-if="officer.profiles.leader" class="px-2 italic text-sm text-gray-600">({{ $t('หัวหน้าหน่วยงาน') }})</div>
                             </div>
                         </div>
                     </div>
@@ -63,6 +67,10 @@ import { reactive, ref, onMounted } from 'vue';
 
 // API Service
 import PersonService from '@/Services/PersonService'
+import { useTrans } from '@/Services/useTrans';
+
+// 1. เรียกใช้ Helper
+const { transDb } = useTrans();
 
 onMounted(() => {
     //console.log(props.unit.division_id)

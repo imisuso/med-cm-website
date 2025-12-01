@@ -113,13 +113,13 @@ Route::get('/contact_us', function () {
 Route::get('/officer', function () {
     #$secretary_sap_id = env('SECRETARY_SAP_ID', '00000000');
 
-    $units = Division::select('slug', 'name_th', 'division_id', 'type')
+    $units = Division::select('slug', 'name_th', 'name_en', 'division_id', 'type')
                         ->where('type', 'u')->orderBy('display_order', 'asc')->orderBy('division_id', 'asc')->get();
 
     // $secretary = Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type')
     //                     ->where('sap_id', $secretary_sap_id)->where('status', true)->first();
 
-    $secretary = Person::select('slug', 'title_th', 'fname_th', 'lname_th', 'image', 'type')
+    $secretary = Person::select('slug', 'title_th', 'title_en', 'fname_th', 'fname_en', 'lname_th', 'lname_en', 'image', 'type')
                         ->where('division_id', 19)
                         ->where('profiles->leader', true)->where('status', true)->first();
 

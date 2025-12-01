@@ -658,7 +658,7 @@ class PersonController extends Controller
 //        $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'position_division', 'profiles')
 //                        ->where('division_id', $id)->where('status', true)->where('type', 'b')->where('position_academic', 0)
 //                        ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
-        $listPerson = Person::select('title_th', 'fname_th', 'lname_th', 'image', 'cert', 'group', 'profiles', 'position_division')
+        $listPerson = Person::select('title_th', 'title_en', 'fname_th', 'fname_en', 'lname_th', 'lname_en', 'image', 'cert', 'group', 'profiles', 'position_division')
             ->where('division_id', $id)->where('status', true)->whereIn('type', ['c','d', 'z'])->where('group', 2)
             ->orderBy('profiles->leader', 'desc')->orderBy('display_order', 'asc')->orderBy('fname_th', 'asc')->get();
         return $listPerson;
