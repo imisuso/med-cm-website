@@ -14,7 +14,7 @@
     "โครงสร้างภาควิชา": "Organization Chart",
     "กรรมการบริหาร": "Executive Board",
     "กรรมการบริหารภาควิชาอายุรศาสตร์": "Executive Board of Internal Medicine",
-    "ทำเนียบหัวหน้าภาค": "Department Chiefs",
+    "ทำเนียบหัวหน้าภาค": "Executive Directory",
     "ที่ปรึกษาภาควิชา": "Advisors",
     "บุคลากรสำนักงาน": "Office Staff",
     "ระดับแพทยศาสตรบัณฑิต": "Under-Graduate",
@@ -52,5 +52,7 @@
     "นักวิชาการศึกษา": "Educator",
     "ผู้ปฏิบัติงานวิทยาศาสตร์การแพทย์": "Medical Science Assistant",
     "พนักงานสถานที่": "Facility Staff",
-    "หัวหน้าหน่วยงาน": "Unit Head"
+    "หัวหน้าหน่วยงาน": "Unit Head",
+    "วาระการดำรงตำแหน่ง": "Period",
+    "ทำเนียบผู้บริหารในอดีต": "Former Executives"
 }
