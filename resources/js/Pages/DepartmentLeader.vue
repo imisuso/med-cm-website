@@ -10,7 +10,7 @@
 
             <div class="relative max-w-7xl mx-auto text-center">
                 <h2 class="text-[#D4AF37] font-semibold tracking-wide uppercase text-xs mb-2">Executive Directory</h2>
-                <h1 class="text-3xl font-bold mb-3">ทำเนียบหัวหน้าภาค</h1>
+                <h1 class="text-3xl font-bold mb-3">{{ $t('ทำเนียบหัวหน้าภาค') }}</h1>
                 <div class="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full"></div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="inline-flex items-center border border-gray-200 rounded px-3 py-1.5 bg-white shadow-sm">
                                 <span class="text-sm text-gray-500 mr-2">{{ $t('วาระการดำรงตำแหน่ง') }}:</span>
-                                <span class="text-[#005740] font-bold text-sm">{{ currentExecutive.period }}</span>
+                                <span class="text-[#005740] font-bold text-sm">{{ transDb(currentExecutive, 'period') }}</span>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                                     {{ transDb(exec, 'position') }}
                                 </p>
                                 <h4 class="text-sm font-bold text-gray-700 group-hover:text-[#005740] transition-colors mb-3 leading-snug">
-                                    {{ exec.name }}
+                                    {{ transDb(exec, 'name') }}
                                 </h4>
                             </div>
 
@@ -99,7 +99,7 @@
                                         {{ $t('วาระการดำรงตำแหน่ง') }}
                                     </p>
                                     <p class="text-xs font-bold text-[#005740] leading-tight break-words">
-                                        {{ exec.period }}
+                                        {{ transDb(exec, 'period') }}
                                     </p>
                                 </div>
                             </div>
@@ -134,25 +134,25 @@ const { transDb } = useTrans();
 
 const pastExecutives = reactive(
             [
-                {"id": 1, "position":"ศาสตราจารย์นายแพทย์ ", "position_en": "Professor", "name": "William Harvey Perkins", "name_en": "", "period": "25 สิงหาคม 2469 - 26 กุมภาพันธ์ 2473", "image_path":"images/department_leaders/01.gif", "order": 1, "is_current": false},
-                {"id": 2, "position":"ศาสตราจารย์", "position_en": "Professor", "name": "พระอัพภันตราพาธพิศาล", "name_en": "", "period": "27 พฤษภาคม 2473 - 31 พฤษภาคม 2488", "image_path":"images/department_leaders/02.gif", "order": 2, "is_current": false},
-                {"id": 3, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "ประเสริฐ กังสดาลย์", "name_en": "", "period": "1 มิถุนายน 2488 - 7 พฤษภาคม 2505", "image_path":"images/department_leaders/03.gif", "order": 3, "is_current": false},
-                {"id": 4, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "จิตต์ ตู้จินดา", "name_en": "", "period": "8 พฤษภาคม 2505 - 30 กันยายน 2513", "image_path":"images/department_leaders/04.gif", "order": 4, "is_current": false},
-                {"id": 5, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "วีกิจ วีรานุวัตติ์", "name_en": "", "period": "1 ตุลาคม 2513 - 30 กันยายน 2527", "image_path":"images/department_leaders/05.gif", "order": 5, "is_current": false},
-                {"id": 6, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "สุเอ็ด คชเสนี", "name_en": "", "period": "1 ตุลาคม 2527 - 30 กันยายน 2528", "image_path":"images/department_leaders/06.gif", "order": 6, "is_current": false},
-                {"id": 7, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "ประเวศ วะสี", "name_en": "", "period": "1 ตุลาคม 2528 - 30 พฤศจิกายน 2530", "image_path":"images/department_leaders/07.gif", "order": 7, "is_current": false},
-                {"id": 8, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "อุกฤษต์ เปล่งวาณิช", "name_en": "", "period": "1 ธันวาคม 2530 - 30 พฤษภาคม 2532", "image_path":"images/department_leaders/08.gif", "order": 8, "is_current": false},
-                {"id": 9, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "ประพาฬ ยงใจยุทธ", "name_en": "", "period": "1 มิถุนายน 2532 - 30 กันยายน 2536", "image_path":"images/department_leaders/09.gif", "order": 9, "is_current": false},
-                {"id": 10, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "ศุภชัย ไชยธีระพันธ์", "name_en": "", "period": "1 ตุลาคม 2536 - 19 กุมภาพันธ์ 2540", "image_path":"images/department_leaders/10.gif", "order": 10, "is_current": false},
-                {"id": 11, "position":"ศาสตราจารย์แพทย์หญิง", "position_en": "Professor", "name": "สุมาลี นิมมานนิตย์", "name_en": "", "period": "20 กุมภาพันธ์ 2540 - 19 กุมภาพันธ์ 2544", "image_path":"images/department_leaders/11.gif", "order": 11, "is_current": false},
-                {"id": 12, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "อมร ลีลารัศมี", "name_en": "", "period": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "image_path":"images/department_leaders/12.gif", "order": 12, "is_current": false},
-                {"id": 13, "position":"ศาสตราจารย์คลินิกนายแพทย์", "position_en": "Professor", "name": "อุดม คชินทร", "name_en": "", "period": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image_path":"images/department_leaders/13.gif", "order": 13, "is_current": false},
-                {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "วันชัย วนะชิวนาวิน", "name_en": "", "period": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image_path":"images/department_leaders/14.jpg", "order": 14, "is_current": false},
-                {"id": 15, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "ไชยรัตน์ เพิ่มพิกุล", "name_en": "", "period": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "image_path":"images/department_leaders/15.jpg", "order": 15, "is_current": false},
+                {"id": 1, "position":"ศาสตราจารย์ นายแพทย์ ", "position_en": "Professor", "name": "William Harvey Perkins", "name_en": "William Harvey Perkins", "period": "25 สิงหาคม 2469 - 26 กุมภาพันธ์ 2473", "period_en": "25/08/1926 - 26/02/1930", "image_path":"images/department_leaders/01.gif", "order": 1, "is_current": false},
+                {"id": 2, "position":"ศาสตราจารย์", "position_en": "Professor", "name": "พระอัพภันตราพาธพิศาล", "name_en": "Phra Aphantraphatphisan", "period": "27 พฤษภาคม 2473 - 31 พฤษภาคม 2488", "period_en": "27/05/1930 - 31/05/1945", "image_path":"images/department_leaders/02.gif", "order": 2, "is_current": false},
+                {"id": 3, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ประเสริฐ กังสดาลย์", "name_en": "Prasert Kangsadal", "period": "1 มิถุนายน 2488 - 7 พฤษภาคม 2505", "period_en": "01/06/1945 - 07/05/1962", "image_path":"images/department_leaders/03.gif", "order": 3, "is_current": false},
+                {"id": 4, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "จิตต์ ตู้จินดา", "name_en": "Chit Tuchinda", "period": "8 พฤษภาคม 2505 - 30 กันยายน 2513", "period_en": "08/05/1962 - 30/09/1970", "image_path":"images/department_leaders/04.gif", "order": 4, "is_current": false},
+                {"id": 5, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "วีกิจ วีรานุวัตติ์", "name_en": "Vikit Viranuvatti", "period": "1 ตุลาคม 2513 - 30 กันยายน 2527", "period_en": "01/10/1970 - 30/09/1984", "image_path":"images/department_leaders/05.gif", "order": 5, "is_current": false},
+                {"id": 6, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "สุเอ็ด คชเสนี", "name_en": "Su-ed Kochaseni", "period": "1 ตุลาคม 2527 - 30 กันยายน 2528", "period_en": "01/10/1984 - 30/09/1985", "image_path":"images/department_leaders/06.gif", "order": 6, "is_current": false},
+                {"id": 7, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ประเวศ วะสี", "name_en": "Prawase Wasi", "period": "1 ตุลาคม 2528 - 30 พฤศจิกายน 2530", "period_en": "01/10/1985 - 30/11/1987", "image_path":"images/department_leaders/07.gif", "order": 7, "is_current": false},
+                {"id": 8, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "อุกฤษต์ เปล่งวาณิช", "name_en": "Ukrist Plengvanit", "period": "1 ธันวาคม 2530 - 30 พฤษภาคม 2532", "period_en": "01/12/1987 - 30/05/1989", "image_path":"images/department_leaders/08.gif", "order": 8, "is_current": false},
+                {"id": 9, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ประพาฬ ยงใจยุทธ", "name_en": "Praparn Youngchaiyud", "period": "1 มิถุนายน 2532 - 30 กันยายน 2536", "period_en": "01/06/1989 - 30/09/1993", "image_path":"images/department_leaders/09.gif", "order": 9, "is_current": false},
+                {"id": 10, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ศุภชัย ไชยธีระพันธ์", "name_en": "Suphachai Chaithiraphan", "period": "1 ตุลาคม 2536 - 19 กุมภาพันธ์ 2540", "period_en": "01/10/1993 - 19/02/1997", "image_path":"images/department_leaders/10.gif", "order": 10, "is_current": false},
+                {"id": 11, "position":"ศาสตราจารย์ แพทย์หญิง", "position_en": "Professor", "name": "สุมาลี นิมมานนิตย์", "name_en": "Sumalee Nimmannit", "period": "20 กุมภาพันธ์ 2540 - 19 กุมภาพันธ์ 2544", "period_en": "20/02/1997 - 19/02/2001", "image_path":"images/department_leaders/11.gif", "order": 11, "is_current": false},
+                {"id": 12, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "อมร ลีลารัศมี", "name_en": "Amorn Leelarasamee", "period": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "period_en": "20/02/2001 - 19/02/2005", "image_path":"images/department_leaders/12.gif", "order": 12, "is_current": false},
+                {"id": 13, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "อุดม คชินทร", "name_en": "", "period": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "period_en": "20/02/2005 - 08/12/2011", "image_path":"images/department_leaders/13.gif", "order": 13, "is_current": false},
+                {"id": 14, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "วันชัย วนะชิวนาวิน", "name_en": "Wanchai Wanachiwanawin", "period": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "period_en": "16/12/2011 - 15/12/2015", "image_path":"images/department_leaders/14.jpg", "order": 14, "is_current": false},
+                {"id": 15, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ไชยรัตน์ เพิ่มพิกุล", "name_en": "Chairat Permpikul", "period": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "period_en": "16/12/2015 - 15/12/2023", "image_path":"images/department_leaders/15.jpg", "order": 15, "is_current": false},
             ]
 );
 
-const currentExecutive = reactive({"id": 16, "position":"ศาสตราจารย์นายแพทย์", "position_en": "Professor", "name": "สมชาย ลีลากุศลวงศ์", "name_en": "Somchai Leelakusolvong", "period": "16 ธันวาคม 2566 - ปัจจุบัน", "image_path":"images/department_leaders/16.jpg", "order": 16, "is_current": true});
+const currentExecutive = reactive({"id": 16, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "สมชาย ลีลากุศลวงศ์", "name_en": "Somchai Leelakusolvong", "period": "16 ธันวาคม 2566 - ปัจจุบัน", "period_en": "16/12/2023 - Now", "image_path":"images/department_leaders/16.jpg", "order": 16, "is_current": true});
 
 const baseUrl = ref(base_url)
 
