@@ -1,0 +1,1 @@
+import{q as t}from"./app-DLXqlaXy.js";function c(){return{transDb:(r,n)=>r?(t().props.locale||"th")==="en"&&r[`${n}_en`]&&r[`${n}_en`]!==""?r[`${n}_en`]:r[`${n}_th`]?r[`${n}_th`]:r[n]?r[n]:"":""}}export{c as u};
