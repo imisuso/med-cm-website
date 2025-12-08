@@ -6,7 +6,7 @@
                         <h1 class="text-3xl lg:text-4xl font-bold leading-9 text-gray-800 pb-4 underline">{{ $t('เกี่ยวกับเรา') }}</h1>
                         <ul class="font-normal text-base leading-6 text-gray-600 list-disc">
                             <div class="text-lg text-blue-500 font-bold">{{ $t('วิสัยทัศน์') }}</div>
-                            <li class="ml-4 mb-2">To be an international leader in internal medicine</li>
+                            <li class="ml-4 mb-2">To be an international leader in Department of Medicine</li>
                             <div class="text-lg text-blue-500 font-bold">{{ $t('พันธกิจ') }}</div>
                             <li class="ml-4 mb-2">An excellent organization in internal medicine for producing perfect physicians, creating knowledge, and providing services that meet international standards</li>
                             <div class="text-lg text-blue-500 font-bold">{{ $t('คำขวัญ') }}</div>

@@ -40,9 +40,10 @@
                             <h3 class="text-lg md:text-xl font-bold text-[#D4AF37] mb-1">
                                 {{ transDb(currentExecutive, 'position') }}
                             </h3>
-                            <h2 class="text-2xl md:text-3xl font-bold text-[#005740] mb-5">
+                            <h2 class="text-2xl md:text-3xl font-bold text-[#005740] mb-1">
                                 {{ transDb(currentExecutive, 'name') }}
                             </h2>
+                            <p class="mb-5">{{ $t('ลำดับการดำรงตำแหน่ง') }} {{ currentExecutive.id }}</p>
                             <div v-if="currentExecutive.vision" class="mb-6 bg-gray-50 p-4 rounded-lg border-l-4 border-[#D4AF37] relative">
                                 <p class="text-gray-700 italic text-sm md:text-base leading-relaxed">
                                     "{{ currentExecutive.vision }}"
@@ -65,7 +66,7 @@
                     </h3>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
                     <div
                         v-for="exec in pastExecutives"
                         :key="exec.id"
@@ -85,12 +86,13 @@
 
                         <div class="p-3 md:p-4 flex-grow flex flex-col justify-between">
                             <div>
-                                <p class="text-[10px] sm:text-lg font-bold text-[#D4AF37] tracking-wide mb-1 leading-tight min-h-[1.5em] line-clamp-2">
+                                <p class="text-md sm:text-lg font-bold text-[#D4AF37] tracking-wide mb-1 leading-tight min-h-[1.5em] line-clamp-2">
                                     {{ transDb(exec, 'position') }}
                                 </p>
-                                <h4 class="text-sm font-bold text-gray-700 group-hover:text-[#005740] transition-colors mb-3 leading-snug">
+                                <h4 class="text-sm font-bold text-gray-700 group-hover:text-[#005740] transition-colors mb-1 leading-snug">
                                     {{ transDb(exec, 'name') }}
                                 </h4>
+                                <span class="mb-3">{{ $t('ลำดับการดำรงตำแหน่ง') }} {{ exec.id }}</span>
                             </div>
 
                             <div class="mt-auto pt-2 border-t border-gray-50 w-full">
@@ -146,7 +148,7 @@ const pastExecutives = reactive(
                 {"id": 10, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ศุภชัย ไชยธีระพันธ์", "name_en": "Suphachai Chaithiraphan", "period": "1 ตุลาคม 2536 - 19 กุมภาพันธ์ 2540", "period_en": "01/10/1993 - 19/02/1997", "image_path":"images/department_leaders/10.gif", "order": 10, "is_current": false},
                 {"id": 11, "position":"ศาสตราจารย์ แพทย์หญิง", "position_en": "Professor", "name": "สุมาลี นิมมานนิตย์", "name_en": "Sumalee Nimmannit", "period": "20 กุมภาพันธ์ 2540 - 19 กุมภาพันธ์ 2544", "period_en": "20/02/1997 - 19/02/2001", "image_path":"images/department_leaders/11.gif", "order": 11, "is_current": false},
                 {"id": 12, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "อมร ลีลารัศมี", "name_en": "Amorn Leelarasamee", "period": "20 กุมภาพันธ์ 2544 - 19 กุมภาพันธ์ 2548", "period_en": "20/02/2001 - 19/02/2005", "image_path":"images/department_leaders/12.gif", "order": 12, "is_current": false},
-                {"id": 13, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "อุดม คชินทร", "name_en": "", "period": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "period_en": "20/02/2005 - 08/12/2011", "image_path":"images/department_leaders/13.gif", "order": 13, "is_current": false},
+                {"id": 13, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "อุดม คชินทร", "name_en": "Udom Kachintorn", "period": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "period_en": "20/02/2005 - 08/12/2011", "image_path":"images/department_leaders/13.gif", "order": 13, "is_current": false},
                 {"id": 14, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "วันชัย วนะชิวนาวิน", "name_en": "Wanchai Wanachiwanawin", "period": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "period_en": "16/12/2011 - 15/12/2015", "image_path":"images/department_leaders/14.jpg", "order": 14, "is_current": false},
                 {"id": 15, "position":"ศาสตราจารย์ นายแพทย์", "position_en": "Professor", "name": "ไชยรัตน์ เพิ่มพิกุล", "name_en": "Chairat Permpikul", "period": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "period_en": "16/12/2015 - 15/12/2023", "image_path":"images/department_leaders/15.jpg", "order": 15, "is_current": false},
             ]

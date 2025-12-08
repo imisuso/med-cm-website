@@ -10,16 +10,16 @@
     "ข่าวประชาสัมพันธ์": "Announcements",
     "ดาวน์โหลด": "Download",
     "ลิงก์ที่เกี่ยวข้อง": "Related Links",
-    "ประวัติภาควิชา": "Internal Medicine History",
+    "ประวัติภาควิชา": "Department of Medicine History",
     "โครงสร้างภาควิชา": "Organization Chart",
     "กรรมการบริหาร": "Executive Board",
-    "กรรมการบริหารภาควิชาอายุรศาสตร์": "Executive Board of Internal Medicine",
+    "กรรมการบริหารภาควิชาอายุรศาสตร์": "Executive Board of Department of Medicine",
     "ทำเนียบหัวหน้าภาค": "Executive Directory",
     "ที่ปรึกษาภาควิชา": "Advisors",
     "บุคลากรสำนักงาน": "Office Staff",
     "ระดับแพทยศาสตรบัณฑิต": "Under-Graduate",
-    "ระดับหลังปริญญา": "Post Graduate",
-    "คลินิกอายุรศาสตร์": "Internal Medicine Clinic",
+    "ระดับหลังปริญญา": "Post-Graduate",
+    "คลินิกอายุรศาสตร์": "Department of Medicine Clinic",
     "คลินิกพิเศษ (นอกเวลาราชการ)": "Special Clinic (After Hours)",
     "ผลงานที่ได้รับการตีพิมพ์": "Publications",
     "ประชุมวิชาการอายุรศาสตร์": "Conferences",
@@ -54,5 +54,6 @@
     "พนักงานสถานที่": "Facility Staff",
     "หัวหน้าหน่วยงาน": "Unit Head",
     "วาระการดำรงตำแหน่ง": "Period",
-    "ทำเนียบผู้บริหารในอดีต": "Former Executives"
+    "ทำเนียบผู้บริหารในอดีต": "Former Executives",
+    "ลำดับการดำรงตำแหน่ง": "Tenure No."
 }
