@@ -1,5 +1,11 @@
 <template>
   <div class="bg-green-800 w-full h-full">
+<!--      for Debug-->
+<!--      <div class="fixed bottom-0 left-0 bg-red-500 text-white p-4 z-50">-->
+<!--          Current Locale: {{ $page.props.locale }}-->
+<!--          <p>Test Translation: {{ $t('หน้าหลัก') }}</p>-->
+<!--      </div>-->
+
     <!-- Navigation starts -->
     <nav class="w-full mx-auto shadow">
       <div class="container px-6 justify-between h-16 flex items-center lg:items-stretch mx-auto">
@@ -48,14 +54,14 @@
                   :title="main_menu_item.main_menu_name"
                   class="font-medium cursor-pointer tracking-wide transition-colors duration-200"
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
-                  >{{ main_menu_item.main_menu_name }}
+                  >{{ $t(main_menu_item.main_menu_name) }}
                 </a>
                 <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-xs ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
                     <div class="flex flex-row items-baseline text-menu-color sub-menu-background-color px-4 py-1">
                       <div v-safe-html="pic_heading_submenu"></div>
-                      <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
-                      <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</Link>
+                      <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ $t(sub_menu_item.sub_menu_name) }}</a>
+                      <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ $t(sub_menu_item.sub_menu_name) }}</Link>
                     </div>
                   </template>
                 </div>
@@ -75,21 +81,21 @@
                   :title="main_menu_item.main_menu_name"
                   class="font-medium cursor-pointer tracking-wide transition-colors duration-200"
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
-                  >{{ main_menu_item.main_menu_name }}
+                  >{{ $t(main_menu_item.main_menu_name) }}
                 </a>
                 <Link v-else
                   :href="route(`${main_menu_item.main_menu_link}`)"
                   class="font-medium tracking-wide transition-colors duration-200"
                   :class="[isScroll ? 'change_text-menu-color' : 'text-menu-color']"
-                > {{ main_menu_item.main_menu_name }}
+                > {{ $t(main_menu_item.main_menu_name) }}
                 </Link>
                 <div v-if="main_menu_item.has_sub_menu" class="sub-menu z-20 w-56 py-7 rounded-md shadow-xs ">
                   <template v-for="sub_menu_item in filterSubMenuByID(sub_menu, main_menu_item.main_menu_id)" :key="sub_menu_item.sub_menu_id">
                     <div class="flex flex-row items-baseline text-menu-color sub-menu-background-color px-4 py-1">
                       <div v-safe-html="pic_heading_submenu"></div>
-                      <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
-                      <a v-else-if="sub_menu_item.sub_menu_link.startsWith('http')" :href="sub_menu_item.sub_menu_link" target="_blank" class="font-medium capitalize transition-colors duration-200 transform">{{ sub_menu_item.sub_menu_name }}</a>
-                      <a v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</a>
+                      <a v-if="sub_menu_item.sub_menu_link.startsWith('#')" :href="sub_menu_item.sub_menu_link" class="font-medium capitalize transition-colors duration-200 transform">{{ $t(sub_menu_item.sub_menu_name) }}</a>
+                      <a v-else-if="sub_menu_item.sub_menu_link.startsWith('http')" :href="sub_menu_item.sub_menu_link" target="_blank" class="font-medium capitalize transition-colors duration-200 transform">{{ $t(sub_menu_item.sub_menu_name) }}</a>
+                      <a v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ $t(sub_menu_item.sub_menu_name) }}</a>
                         <!--  <Link v-else :href="route(`${sub_menu_item.sub_menu_link}`)">{{ sub_menu_item.sub_menu_name }}</Link> -->
                     </div>
                   </template>
@@ -103,6 +109,9 @@
           <div class="w-full h-full flex items-center">
             <div class="w-full h-full flex">
               <div aria-haspopup="true" class="cursor-pointer w-full flex items-center justify-end relative">
+                  <div class="mr-4 bg-white/10 rounded px-2 py-1">
+                      <LanguageSwitcher />
+                  </div>
                 <Link
                   :href="route('login')"
                   class="text-white py-2 px-4 uppercase rounded-sm bg-emerald-500 hover:bg-emerald-600 flex items-center shadow-sm hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
@@ -315,6 +324,9 @@
                             <li class="mb-4">
                                 <hr class="border-b border-white w-full" />
                             </li>
+                            <li class="mb-4 flex justify-center bg-white/10 rounded py-2 mx-4">
+                                <LanguageSwitcher />
+                            </li>
                             <template v-for="main_menu_item in main_menu" :key="main_menu_item.main_menu_id">
                                 <li v-if="($page.url === '/' && main_menu_item.main_menu_id === 1) || ($page.url.startsWith('/#') && main_menu_item.main_menu_id === 1)" class="dropsidemenu">
                                     <MobileMainMenu
@@ -384,6 +396,7 @@ import {
 } from '@headlessui/vue'
 import {XIcon,} from '@heroicons/vue/solid';
 import MobileMainMenu from '@/Components/MobileMainMenu.vue'
+import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
 
 onMounted(() => {
     window.addEventListener("scroll", updateScroll);

@@ -3,7 +3,7 @@
     <div class="flex flex-wrap justify-center">
         <div class="w-full md:mx-5">
             <div class="flex items-center justify-between mt-5 ml-2 text-2xl text-orange-800 font-bold">
-                <div> สาขาวิชา{{ branch.name_th }} </div>
+                <div> สาขาวิชา{{ transDb(branch, 'name') }} </div>
                 <div class="flex space-x-4 mx-5">
                     <svg @click="allTabExpandOrCollapse(true)" class="h-6 w-6 text-emerald-500 cursor-pointer"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
@@ -141,11 +141,16 @@ import BtLink from '@/Components/BranchTemplate/BtLink.vue'
 import BtContact from '@/Components/BranchTemplate/BtContact.vue'
 // import BtEduEditor from '@/Components/BranchTemplate/BtEduEditor.vue'
 
+import { useTrans } from '@/Services/useTrans';
+
 const props = defineProps({
     branch: { type: Object, required: true },
     branch_main_menu: { type: Array, required: true },
     branch_sub_menu: { type: Array, required: true }
 })
+
+// 1. เรียกใช้ Helper
+const { transDb } = useTrans();
 
 onMounted(() => {
     branchMainMenu.value = props.branch_main_menu

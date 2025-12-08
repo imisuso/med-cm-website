@@ -12,7 +12,7 @@ class Division extends Model
     use HasFactory;
 
     protected $table = 'divisions';
-    protected $appends = ['division_type', 'image_url'];
+    protected $appends = ['division_type', 'division_type_en', 'image_url'];
     protected $fillable = [
         'division_id',
         'type',
@@ -43,6 +43,11 @@ class Division extends Model
     public function getDivisionTypeAttribute()
     {
         return $division_type = $this->type === "u" ? "หน่วย" : "สาขาวิชา";
+    }
+
+    public function getDivisionTypeENAttribute()
+    {
+        return $division_type_en = $this->type === "u" ? "Unit" : "Division";
     }
 
     public function getImageUrlAttribute()

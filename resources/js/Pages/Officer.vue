@@ -2,7 +2,7 @@
 <!--    <AppLayout>-->
         <div class="my-6 lg:my-12 container px-6 mx-auto flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-gray-300">
             <div>
-                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">บุคลากรสำนักงาน</h4>
+                <h4 class="text-2xl font-bold leading-tight text-gray-800 dark:text-gray-800">{{ $t('บุคลากรสำนักงาน') }}</h4>
 
             </div>
             <div class="mt-6 md:mt-0">
@@ -27,7 +27,7 @@
                                         <path d="M4.16602 10H15.8327" stroke="#1F2937" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                     <div class="flex font-semibold text-lg leading-5 text-gray-800 text-left">
-                                        หัวหน้าสำนักงานภาควิชาอายุรศาสตร์
+                                        {{ $t('หัวหน้าสำนักงานภาควิชาอายุรศาสตร์') }}
                                     </div>
                                 </div>
                             </button>
@@ -43,7 +43,7 @@
                                     <img v-else class="object-cover w-20 h-28 rounded-lg ring-1 ring-gray-300" :src="`${secretary.image_url}`" alt="">
                                 </div>
                                 <div>
-                                    <div class="mb-4 underline ">{{ secretary.title_th }}{{ secretary.fname_th }} {{ secretary.lname_th }}</div>
+                                    <div class="mb-4 underline ">{{ transDb(secretary, 'title') }} {{ transDb(secretary, 'fname') }} {{ transDb(secretary, 'lname') }}</div>
                                     <div class="italic text-sm text-gray-600">เลขานุการภาควิชาอายุรศาสตร์/หัวหน้าสำนักงานภาควิชาอายุรศาสตร์</div>
                                 </div>
                             </div>
@@ -73,6 +73,10 @@ import AppLayout from "@/Layouts/AppLayout.vue"
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
 import OfficerDetail from '@/Components/OfficerDetail.vue'
+import { useTrans } from '@/Services/useTrans';
+
+// 1. เรียกใช้ Helper
+const { transDb } = useTrans();
 
 const props = defineProps({
     units: { type: Array, default: [] },

@@ -13,19 +13,38 @@
               <rect x="14" y="1" width="7" height="6"></rect>
               <rect x="14" y="11" width="7" height="12"></rect>
             </svg>
-            <span class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">ภาควิชาอายุรศาสตร์</span>
+            <span v-if="$page.props.locale === 'th'" class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">ภาควิชาอายุรศาสตร์</span>
+            <span v-if="$page.props.locale === 'en'" class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">Department of Medicine</span>
           </a>
           <div class="mt-4 lg:max-w-sm">
-            <p class="text-sm text-white">
+            <p
+                v-if="$page.props.locale === 'th'"
+                class="text-sm text-white"
+            >
               ภาควิชาอายุรศาสตร์ รพ.ศิริราช ตึกอัษฎางค์ ชั้น4 แขวงศิริราช เขตบางกอกน้อย กรุงเทพมหานคร 10700
             </p>
-            <p class="mt-4 text-sm text-white">
-              โทร.02-419-7767-69
+            <p
+                v-if="$page.props.locale === 'en'"
+                class="text-sm text-white"
+            >
+                Department of Medicine, Siriraj Hospital, Asadang Building, 4th Floor, Siriraj Sub-district, Bangkok Noi District, Bangkok 10700
+            </p>
+            <p
+                v-if="$page.props.locale === 'th'"
+                class="mt-4 text-sm text-white"
+            >
+              โทร. 02-419-7767-69
+            </p>
+            <p
+              v-if="$page.props.locale === 'en'"
+              class="mt-4 text-sm text-white"
+            >
+                Tel. +66 2 419 7767 to 69
             </p>
           </div>
         </div>
         <div class="flex flex-col items-start justify-start">
-          <div class=" font-sans tracking-wide text-emerald-400">แผนที่ภายในศิริราช</div>
+          <div class=" font-sans tracking-wide text-white"> {{ $t('แผนที่ภายในศิริราช') }}</div>
           <div class="relative">
             <a :href="route('image_preview')" target="_blank">
               <img src="../../asset/images/map.jpg" alt="">
