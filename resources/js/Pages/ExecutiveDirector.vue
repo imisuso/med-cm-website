@@ -48,8 +48,17 @@
       </div>
 
       <div class="flex items-center justify-center mx-auto mt-10 lg:max-w-xl sm:text-center">
-        <p class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-green-900">
-          ปรับปรุงข้อมูล ณ วันที่ 1 ตุลาคม พ.ศ. 2568
+        <p
+            v-if="$page.props.locale === 'th'"
+            class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-green-900"
+        >
+            ปรับปรุงข้อมูล ณ วันที่ 1 ตุลาคม พ.ศ. 2568
+        </p>
+        <p
+          v-if="$page.props.locale === 'en'"
+          class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-green-900"
+        >
+            Last updated: October 1, 2025
         </p>
       </div>
     </div>
