@@ -43,7 +43,7 @@
                             <h2 class="text-2xl md:text-3xl font-bold text-[#005740] mb-1">
                                 {{ transDb(currentExecutive, 'name') }}
                             </h2>
-                            <p class="mb-5">{{ $t('ลำดับการดำรงตำแหน่ง') }} {{ currentExecutive.id }}</p>
+<!--                            <p class="mb-5">{{ $t('ลำดับการดำรงตำแหน่ง') }} {{ currentExecutive.id }}</p>-->
                             <div v-if="currentExecutive.vision" class="mb-6 bg-gray-50 p-4 rounded-lg border-l-4 border-[#D4AF37] relative">
                                 <p class="text-gray-700 italic text-sm md:text-base leading-relaxed">
                                     "{{ currentExecutive.vision }}"
@@ -92,7 +92,7 @@
                                 <h4 class="text-sm font-bold text-gray-700 group-hover:text-[#005740] transition-colors mb-1 leading-snug">
                                     {{ transDb(exec, 'name') }}
                                 </h4>
-                                <span class="mb-3">{{ $t('ลำดับการดำรงตำแหน่ง') }} {{ exec.id }}</span>
+<!--                                <span class="mb-3">{{ $t('ลำดับการดำรงตำแหน่ง') }} {{ exec.id }}</span>-->
                             </div>
 
                             <div class="mt-auto pt-2 border-t border-gray-50 w-full">
