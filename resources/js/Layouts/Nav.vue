@@ -109,9 +109,9 @@
           <div class="w-full h-full flex items-center">
             <div class="w-full h-full flex">
               <div aria-haspopup="true" class="cursor-pointer w-full flex items-center justify-end relative">
-                  <div class="mr-4 bg-white/10 rounded px-2 py-1">
-                      <LanguageSwitcher />
-                  </div>
+<!--                  <div class="mr-4 bg-white/10 rounded px-2 py-1">-->
+<!--                      <LanguageSwitcher />-->
+<!--                  </div>-->
                 <Link
                   :href="route('login')"
                   class="text-white py-2 px-4 uppercase rounded-sm bg-emerald-500 hover:bg-emerald-600 flex items-center shadow-sm hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
@@ -324,9 +324,9 @@
                             <li class="mb-4">
                                 <hr class="border-b border-white w-full" />
                             </li>
-                            <li class="mb-4 flex justify-center bg-white/10 rounded py-2 mx-4">
-                                <LanguageSwitcher />
-                            </li>
+<!--                            <li class="mb-4 flex justify-center bg-white/10 rounded py-2 mx-4">-->
+<!--                                <LanguageSwitcher />-->
+<!--                            </li>-->
                             <template v-for="main_menu_item in main_menu" :key="main_menu_item.main_menu_id">
                                 <li v-if="($page.url === '/' && main_menu_item.main_menu_id === 1) || ($page.url.startsWith('/#') && main_menu_item.main_menu_id === 1)" class="dropsidemenu">
                                     <MobileMainMenu
