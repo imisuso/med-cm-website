@@ -1,88 +1,128 @@
 <template>
     <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-(--breakpoint-xl) md:px-24 lg:px-8">
-        <div class="flex flex-col items-start">
-
-            <div class="text-2xl font-medium text-white title-font mb-2 p-2 bg-linear-to-r from-green-800 to-green-600 rounded-md shadow-md flex items-center w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                </svg>
-                <div class="flex items-center ml-2">{{ $t('ข่าวประชาสัมพันธ์') }}</div>
+        <div class="flex items-end justify-center mb-16">
+            <div class="flex mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl px-2">
+                {{ $t('ข่าวประชาสัมพันธ์') }}
             </div>
-
-            <div v-for="item in announcements" :key="item.id" class="flex flex-wrap md:flex-nowrap w-full">
-                <div v-if="item.publish_status" class="w-full mb-2 bg-white rounded-md border border-gray-400 border-l-4 border-l-teal-600">
-                    <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs(item.publish_date).locale('th').format('D MMMM BBBB เวลา H:mm') }}</a>
-                    <!-- <a class="text-gray-500 italic inline-flex items-center px-2 text-xs">{{ dayjs.tz(dayjs(item.publish_date), 'Asia/Bangkok').locale('th').format('D MMMM BBBB เวลา H:mm') }}</a> -->
-                    <div class="flex flex-col items-start shadow-md rounded-md">
-                        <svg v-if="item.pinned" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="h-5 w-5 text-red-500 shrink-0" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                            <g transform="translate(128 128) scale(0.72 0.72)" style="">
-                                <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
-                                <path d="M 89.011 87.739 c -0.599 -1.371 -1.294 -2.652 -1.968 -3.891 l -0.186 -0.343 l -15.853 -15.91 c -0.371 -0.375 -0.746 -0.748 -1.12 -1.12 c -0.671 -0.667 -1.342 -1.335 -1.997 -2.018 l -1.459 -1.437 l 23.316 -23.317 l -1.704 -1.704 c -9.111 -9.112 -22.925 -12.518 -35.353 -8.759 l -6.36 -6.359 c 0.769 -7.805 -2.017 -15.69 -7.503 -21.175 L 37.123 0 L 0 37.122 l 1.706 1.704 c 5.487 5.487 13.368 8.271 21.176 7.503 l 6.36 6.36 C 25.484 65.115 28.889 78.93 38 88.041 l 1.703 1.704 l 23.316 -23.316 l 1.438 1.458 c 0.679 0.653 1.344 1.321 2.009 1.989 c 0.373 0.374 0.745 0.748 1.117 1.116 l 15.699 15.7 l 0.566 0.352 c 1.239 0.673 2.52 1.369 3.891 1.968 L 90 90 L 89.011 87.739 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(175,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                </g>
-                            </g>
-                        </svg>
-                        <a :href="route(`announce_details`, item.slug)" target="_blank">
-                            <p class="leading-relaxed text-md text-black font-bold p-2  hover:text-indigo-700 cursor-pointer">{{ item.topic }}</p>
-                        </a>
-                    </div>
-
+        </div>
+        <div v-if="announcements.length === 0" class="space-y-4 animate-pulse">
+            <div v-for="n in 3" :key="n" class="flex items-center space-x-4 p-4 border-b border-slate-100">
+                <div class="h-12 w-12 bg-slate-200 rounded-lg"></div>
+                <div class="flex-1 space-y-2">
+                    <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+                    <div class="h-3 bg-slate-200 rounded w-1/4"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- <div v-show="announcement_all > limit" class="text-md mt-4 hover:text-indigo-700 cursor-pointer">
-                <a :href="route(`announce_all_publish`)" target="_blank">
-                    ดูทั้งหมด...
-                </a>
-            </div> -->
-            <div v-show="announcement_all > limit"
-                class="border rounded-xl shadow-sm bg-green-600 px-2 py-2 leading-none text-center text-sm text-gray-100 mt-4 hover:bg-green-500 hover:text-white cursor-pointer"
+        <div v-else class="space-y-4">
+            <div
+                v-for="item in announcements"
+                :key="item.id"
+                class="group relative flex items-start gap-4 p-4 rounded-2xl bg-white border border-transparent transition-all duration-300 hover:border-blue-100 hover:bg-blue-50/30 hover:shadow-sm"
             >
-                <Link :href="route(`announce_all_publish`)">
-                    ข่าวประชาสัมพันธ์ ทั้งหมด
-                </Link>
-                <!-- <a :href="route(`announce_all_publish`)" target="_blank">
-                    ข่าวประชาสัมพันธ์ ทั้งหมด
-                </a> -->
+                <div class="hidden sm:flex flex-col items-center justify-center w-16 h-16 shrink-0 rounded-xl bg-slate-100 text-slate-600 group-hover:bg-white group-hover:text-blue-600 group-hover:shadow-md transition-all duration-300 border border-slate-200">
+                    <span class="text-xl font-bold leading-none">
+                        {{ getDay(item.publish_date) }}
+                    </span>
+                    <span class="text-[14px] font-medium uppercase mt-1">
+                        {{ getMonth(item.publish_date) }}
+                    </span>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span v-if="item.pinned" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                            </svg>
+                            {{ $t('ปักหมุด') }}
+                        </span>
+
+                        <span class="sm:hidden text-xs text-slate-400">
+                             {{ formatDateFull(item.publish_date) }}
+                        </span>
+                    </div>
+
+                    <a :href="route(`announce_details`, item.slug)" target="_blank" class="block">
+                        <h3 class="text-base font-semibold text-slate-800 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+                            {{ item.topic }}
+                        </h3>
+                    </a>
+
+                    <p class="mt-1 text-xs text-slate-400 font-light flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {{ getTime(item.publish_date) }}
+                    </p>
+                </div>
+
+                <div class="hidden sm:block text-slate-300 group-hover:text-blue-400 transition-colors pt-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
             </div>
+        </div>
+
+        <div v-show="announcement_all > limit" class="mt-8 text-center">
+            <Link
+                :href="route(`announce_all_publish`)"
+                class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+            >
+                {{ $t('ดูข่าวประชาสัมพันธ์ทั้งหมด') }}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </Link>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
-//import * as utc from 'dayjs/plugin/utc'
-// import * as timezone from 'dayjs/plugin/timezone'
 
 // API Service
 import AnnounceService from '@/Services/AnnounceService'
+
+// Setup DayJS
+dayjs.extend(buddhistEra)
+dayjs.locale('th')
 
 const props = defineProps({
     limit: { type: Number },
     announcement_all: { type: Number, default: 0 }
 })
 
+const announceService = ref(new AnnounceService())
+const announcements = ref([])
+
+// --- Helper Functions for Date Formatting ---
+const getDay = (date) => dayjs(date).format('D')
+const getMonth = (date) => dayjs(date).format('MMM BB') // เดือนย่อ + ปีพ.ศ. ย่อ
+const getTime = (date) => dayjs(date).format('H:mm น.')
+const formatDateFull = (date) => dayjs(date).format('D MMM BB')
+
 onMounted(() => {
-    // เอามาจาก DB แค่ 10 records
+    // เรียกข้อมูลจาก API
     announceService.value.listShow(props.limit).then(data => {
         announcements.value = data
     });
 })
-
-dayjs.extend(buddhistEra)
-//dayjs.extend(utc)
-// dayjs.extend(timezone)
-// dayjs.tz.setDefault("Asia/Bangkok")
-
-const announceService = ref(new AnnounceService())
-const announcements = ref([])
-
 </script>
 
 <style scoped>
-
+/* CSS Line Clamp สำหรับตัดคำถ้าหัวข้อยาวเกิน 2 บรรทัด */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 </style>

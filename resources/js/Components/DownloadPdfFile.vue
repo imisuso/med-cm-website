@@ -1,5 +1,5 @@
 <template>
-  <button class=" border rounded-md shadow-md bg-emerald-400 px-2 py-1 my-1" @click="dlClick">Download</button>
+  <button class=" border rounded-md shadow-md bg-emerald-400 px-2 py-1 my-1 hover:cursor-pointer" @click="dlClick">Download</button>
 </template>
 
 <script setup>
@@ -14,7 +14,7 @@ const dlClick = () => {
             method: 'GET',
             params: {
                 pdf_file: props.pdfFile,
-                t: new Date().getTime()               
+                t: new Date().getTime()
             },
             responseType: 'arraybuffer',
         }).then((response) => {
@@ -26,7 +26,7 @@ const dlClick = () => {
             link.href = window.URL.createObjectURL(blob)
             link.download = props.origName
             link.click()
-        });   
+        });
 }
 
 </script>
