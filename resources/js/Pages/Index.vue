@@ -21,22 +21,20 @@
                     <br>
                 </div>
                     <img
-                        src="../../asset/images/queen_mother.jpg"
+                        src="../../asset/images/patcharagittiyapha.png"
                         alt="พระบรมฉายาลักษณ์"
                         class="h-96 m-auto rounded-lg"
                     >
                 <p class="text-xl text-white font-semibold mt-2 ">
-                    น้อมรำลึกในพระมหากรุณาธิคุณ
-                    <br class="block">
-                    ตราบนิรันดร์
+                    สถิตในดวงใจตราบนิรันดร์
                 </p>
                 <br />
                 <p class="text-xl text-white font-semibold">
-                    สมเด็จพระนางเจ้าสิริกิติ์
-                    <br class="block md:hidden">
-                    พระบรมราชินีนาถ
+                    สมเด็จพระเจ้าลูกเธอ เจ้าฟ้าพัชรกิติยาภา
                     <br>
-                    พระบรมราชชนนีพันปีหลวง
+                    นเรนทิราเทพยวดี
+                    <br>
+                    กรมหลวงราชสาริณีสิริพัชร มหาวัชรราชธิดา
                 </p>
                 <img
                     src="../../asset/images/line_thai.png"
