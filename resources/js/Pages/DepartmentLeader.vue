@@ -20,7 +20,7 @@
                         <div class="flex flex-col w-full sm:flex-row items-center bg-blue-500 col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                             <div class="h-20 w-20 mr-2 mb-1 sm:mb-0 shrink-0">
                                 <!-- <img src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="" class="rounded-full object-cover h-full w-full shadow-md" /> -->
-                                <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover h-full w-full shadow-md" />
+                                <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover object-top h-full w-full shadow-md" />
                             </div>
                             <div class="backdrop-opacity-10 backdrop-invert bg-white/20  p-2 rounded-md">
                                 <h3 class="font-semibold text-center text-md text-gray-800">{{ leader.position }}<br class="block lg:hidden" />{{ leader.name }}</h3>
@@ -46,7 +46,7 @@
                         <div class="flex flex-col w-full sm:flex-row items-center bg-blue-500 col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                             <div class="h-20 w-20 mr-2 mb-1 sm:mb-0 shrink-0">
                                 <!-- <img src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="" class="rounded-full object-cover h-full w-full shadow-md" /> -->
-                                <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover h-full w-full shadow-md" />
+                                <img :src="`${baseUrl}/${leader.image}`" alt="" class="rounded-full object-cover object-top h-full w-full shadow-md" />
                             </div>
                             <div class="backdrop-opacity-10 backdrop-invert bg-white/20  p-2 rounded-md">
                                 <h3 class="font-semibold text-center text-md text-gray-800">{{ leader.position }}<br class="block lg:hidden" />{{ leader.name }}</h3>
@@ -90,7 +90,8 @@ const leaders = ref(
                 {"id": 13, "position":"ศาสตราจารย์คลินิกนายแพทย์", "name": "อุดม คชินทร","time_tenure": "20 กุมภาพันธ์ 2548 - 8 ธันวาคม 2554", "image":"images/department_leaders/13.gif"},
                 {"id": 14, "position":"ศาสตราจารย์นายแพทย์", "name": "วันชัย วนะชิวนาวิน","time_tenure": "16 ธันวาคม 2554 - 15 ธันวาคม 2558", "image":"images/department_leaders/14.jpg"},
                 {"id": 15, "position":"ศาสตราจารย์นายแพทย์", "name": "ไชยรัตน์ เพิ่มพิกุล","time_tenure": "16 ธันวาคม 2558 - 15 ธันวาคม 2566", "image":"images/department_leaders/15.jpg"},
-                {"id": 16, "position":"ศาสตราจารย์นายแพทย์", "name": "สมชาย ลีลากุศลวงศ์","time_tenure": "16 ธันวาคม 2566 - ปัจจุบัน", "image":"images/department_leaders/16.jpg"},
+                {"id": 16, "position":"ศาสตราจารย์นายแพทย์", "name": "สมชาย ลีลากุศลวงศ์","time_tenure": "16 ธันวาคม 2566 - 30 กันยายน 2569", "image":"images/department_leaders/16.jpg"},
+                {"id": 17, "position":"รองศาสตราจารย์นายแพทย์", "name": "ยงชัย นิละนนท์","time_tenure": "1 ตุลาคม 2569 - ปัจจุบัน", "image":"images/department_leaders/17.jpg"},
 
             ]
 )
