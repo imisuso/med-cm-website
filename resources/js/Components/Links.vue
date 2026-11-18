@@ -103,10 +103,10 @@ const other_links = ref([
     </svg>', link:`https://med-cm-website.s3.ap-southeast-1.amazonaws.com/public/resource-files/pdf/Medical_Conference_Schedule_${props.medcon_other_year}.pdf`, desc:`กำหนดการประชุมวิชาการ Medical Conference ปี ${props.medcon_other_year}`},
     {id:6, image:'<svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 bg-orange-200 rounded-full shadow-lg p-2 text-gray-400 stroke-2 fill-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">\
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />\
-    </svg>', link:'https://simed.si.mahidol.ac.th/navamindrapobitr/84th-Navamindrapobitr.html', desc:'หนังสือเปิดอาคาร <p>นวมินทรบพิตร ๘๔ พรรษา</p>'},
+    </svg>', link:'https://simed.si.mahidol.ac.th/website-content/navamindrapobitr/84th-Navamindrapobitr.html', desc:'หนังสือเปิดอาคาร <p>นวมินทรบพิตร ๘๔ พรรษา</p>'},
     {id:7, image:'<svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 bg-orange-200 rounded-full shadow-lg p-2 text-gray-400 stroke-2 fill-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">\
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />\
-    </svg>', link:'https://simed.si.mahidol.ac.th/AryurVeda-Siriraj_AR2023/AryurVeda-Siriraj_AR2023.html', desc:'รายงานประจำปี <p>2559-2566</p>'},
+    </svg>', link:'https://simed.si.mahidol.ac.th/website-content/AryurVeda-Siriraj_AR2023/AryurVeda-Siriraj_AR2023.html', desc:'รายงานประจำปี <p>2559-2566</p>'},
 ])
 
 </script>
